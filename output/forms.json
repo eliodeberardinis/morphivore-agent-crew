@@ -1,0 +1,4131 @@
+{
+  "generated_by": "morphivore-agent-crew",
+  "count": 150,
+  "forms": [
+    {
+      "id": "yellow_pale_r1",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 1,
+      "name": "Sniffling Gut-Puncher",
+      "flavor": "Punches like a wet noodle, cries like a baby after.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.25,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Thin, chalky hide with faint scuff marks, like unpainted plaster still drying.",
+      "vfx": "A weak flinch-ripple and a soft 'thwip' puff of dust when it absorbs a match.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 112,
+        "damage": 45,
+        "speed": 11.55,
+        "reach": 15.6,
+        "dash": 10.97
+      }
+    },
+    {
+      "id": "yellow_pale_r2",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 2,
+      "name": "Sniffling Skull-Knocker",
+      "flavor": "Punches like a wet noodle, cries like a baby after.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.25,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Thin, chalky hide with faint scuff marks, like unpainted plaster still drying.",
+      "vfx": "A weak flinch-ripple and a soft 'thwip' puff of dust when it absorbs a match.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 169,
+        "damage": 62,
+        "speed": 12.51,
+        "reach": 18.52,
+        "dash": 11.88
+      }
+    },
+    {
+      "id": "yellow_pale_r3",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 3,
+      "name": "Sniffling Tooth-Spitter",
+      "flavor": "Punches like a wet noodle, cries like a baby after.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.25,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Thin, chalky hide with faint scuff marks, like unpainted plaster still drying.",
+      "vfx": "A weak flinch-ripple and a soft 'thwip' puff of dust when it absorbs a match.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 225,
+        "damage": 79,
+        "speed": 13.47,
+        "reach": 21.45,
+        "dash": 12.8
+      }
+    },
+    {
+      "id": "yellow_pale_r4",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 4,
+      "name": "Sniffling Bone-Cracker",
+      "flavor": "Punches like a wet noodle, cries like a baby after.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.25,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Thin, chalky hide with faint scuff marks, like unpainted plaster still drying.",
+      "vfx": "A weak flinch-ripple and a soft 'thwip' puff of dust when it absorbs a match.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 281,
+        "damage": 96,
+        "speed": 14.44,
+        "reach": 24.38,
+        "dash": 13.72
+      }
+    },
+    {
+      "id": "yellow_pale_r5",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 5,
+      "name": "Sniffling Ribcage-Wrecker",
+      "flavor": "Punches like a wet noodle, cries like a baby after.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.25,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Thin, chalky hide with faint scuff marks, like unpainted plaster still drying.",
+      "vfx": "A weak flinch-ripple and a soft 'thwip' puff of dust when it absorbs a match.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 338,
+        "damage": 112,
+        "speed": 15.4,
+        "reach": 27.3,
+        "dash": 14.63
+      }
+    },
+    {
+      "id": "yellow_pale_r6",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 6,
+      "name": "Sniffling Face-Unhinger",
+      "flavor": "Punches like a wet noodle, cries like a baby after.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.25,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Thin, chalky hide with faint scuff marks, like unpainted plaster still drying.",
+      "vfx": "A weak flinch-ripple and a soft 'thwip' puff of dust when it absorbs a match.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 394,
+        "damage": 129,
+        "speed": 16.36,
+        "reach": 30.22,
+        "dash": 15.54
+      }
+    },
+    {
+      "id": "yellow_dusk_r1",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 1,
+      "name": "Grumbling Gut-Puncher",
+      "flavor": "Throws hands first, asks questions never.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.5,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Coarse, sun-worn hide with visible knuckle calluses hardening across the front plates.",
+      "vfx": "A stiff-arm jolt with a dull thud and a short burst of chalky sparks on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 125,
+        "damage": 50,
+        "speed": 11.1,
+        "reach": 15.2,
+        "dash": 9.99
+      }
+    },
+    {
+      "id": "yellow_dusk_r2",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 2,
+      "name": "Grumbling Skull-Knocker",
+      "flavor": "Throws hands first, asks questions never.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.5,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Coarse, sun-worn hide with visible knuckle calluses hardening across the front plates.",
+      "vfx": "A stiff-arm jolt with a dull thud and a short burst of chalky sparks on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 188,
+        "damage": 69,
+        "speed": 12.03,
+        "reach": 18.05,
+        "dash": 10.83
+      }
+    },
+    {
+      "id": "yellow_dusk_r3",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 3,
+      "name": "Grumbling Tooth-Spitter",
+      "flavor": "Throws hands first, asks questions never.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.5,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Coarse, sun-worn hide with visible knuckle calluses hardening across the front plates.",
+      "vfx": "A stiff-arm jolt with a dull thud and a short burst of chalky sparks on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 250,
+        "damage": 88,
+        "speed": 12.95,
+        "reach": 20.9,
+        "dash": 11.65
+      }
+    },
+    {
+      "id": "yellow_dusk_r4",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 4,
+      "name": "Grumbling Bone-Cracker",
+      "flavor": "Throws hands first, asks questions never.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.5,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Coarse, sun-worn hide with visible knuckle calluses hardening across the front plates.",
+      "vfx": "A stiff-arm jolt with a dull thud and a short burst of chalky sparks on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 312,
+        "damage": 106,
+        "speed": 13.88,
+        "reach": 23.75,
+        "dash": 12.49
+      }
+    },
+    {
+      "id": "yellow_dusk_r5",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 5,
+      "name": "Grumbling Ribcage-Wrecker",
+      "flavor": "Throws hands first, asks questions never.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.5,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Coarse, sun-worn hide with visible knuckle calluses hardening across the front plates.",
+      "vfx": "A stiff-arm jolt with a dull thud and a short burst of chalky sparks on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 375,
+        "damage": 125,
+        "speed": 14.8,
+        "reach": 26.6,
+        "dash": 13.32
+      }
+    },
+    {
+      "id": "yellow_dusk_r6",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 6,
+      "name": "Grumbling Face-Unhinger",
+      "flavor": "Throws hands first, asks questions never.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.5,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Coarse, sun-worn hide with visible knuckle calluses hardening across the front plates.",
+      "vfx": "A stiff-arm jolt with a dull thud and a short burst of chalky sparks on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 438,
+        "damage": 144,
+        "speed": 15.73,
+        "reach": 29.45,
+        "dash": 14.16
+      }
+    },
+    {
+      "id": "yellow_deep_r1",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 1,
+      "name": "Snarling Gut-Puncher",
+      "flavor": "Breaks its own knuckles on purpose just to hear the crunch.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.75,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Cracked, leathery plating crisscrossed with scar-like seams along the joints.",
+      "vfx": "A body-wide flex-shudder with a crunching crack sound and jagged shard particles flung outward.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 138,
+        "damage": 55,
+        "speed": 10.65,
+        "reach": 14.8,
+        "dash": 9.05
+      }
+    },
+    {
+      "id": "yellow_deep_r2",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 2,
+      "name": "Snarling Skull-Knocker",
+      "flavor": "Breaks its own knuckles on purpose just to hear the crunch.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.75,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Cracked, leathery plating crisscrossed with scar-like seams along the joints.",
+      "vfx": "A body-wide flex-shudder with a crunching crack sound and jagged shard particles flung outward.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 206,
+        "damage": 76,
+        "speed": 11.54,
+        "reach": 17.57,
+        "dash": 9.81
+      }
+    },
+    {
+      "id": "yellow_deep_r3",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 3,
+      "name": "Snarling Tooth-Spitter",
+      "flavor": "Breaks its own knuckles on purpose just to hear the crunch.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.75,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Cracked, leathery plating crisscrossed with scar-like seams along the joints.",
+      "vfx": "A body-wide flex-shudder with a crunching crack sound and jagged shard particles flung outward.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 275,
+        "damage": 96,
+        "speed": 12.42,
+        "reach": 20.35,
+        "dash": 10.56
+      }
+    },
+    {
+      "id": "yellow_deep_r4",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 4,
+      "name": "Snarling Bone-Cracker",
+      "flavor": "Breaks its own knuckles on purpose just to hear the crunch.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.75,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Cracked, leathery plating crisscrossed with scar-like seams along the joints.",
+      "vfx": "A body-wide flex-shudder with a crunching crack sound and jagged shard particles flung outward.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 344,
+        "damage": 117,
+        "speed": 13.31,
+        "reach": 23.12,
+        "dash": 11.31
+      }
+    },
+    {
+      "id": "yellow_deep_r5",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 5,
+      "name": "Snarling Ribcage-Wrecker",
+      "flavor": "Breaks its own knuckles on purpose just to hear the crunch.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.75,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Cracked, leathery plating crisscrossed with scar-like seams along the joints.",
+      "vfx": "A body-wide flex-shudder with a crunching crack sound and jagged shard particles flung outward.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 412,
+        "damage": 138,
+        "speed": 14.2,
+        "reach": 25.9,
+        "dash": 12.07
+      }
+    },
+    {
+      "id": "yellow_deep_r6",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 6,
+      "name": "Snarling Face-Unhinger",
+      "flavor": "Breaks its own knuckles on purpose just to hear the crunch.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.75,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Cracked, leathery plating crisscrossed with scar-like seams along the joints.",
+      "vfx": "A body-wide flex-shudder with a crunching crack sound and jagged shard particles flung outward.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 481,
+        "damage": 158,
+        "speed": 15.09,
+        "reach": 28.68,
+        "dash": 12.83
+      }
+    },
+    {
+      "id": "yellow_clash_r1",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 1,
+      "name": "Frothing Gut-Puncher",
+      "flavor": "Foaming at the mouth, fists first, brain strictly optional.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Taut, vein-bulged hide stretched over swollen knuckle-blocks, faintly steaming.",
+      "vfx": "A violent double-flex with a bone-crunch snap and a spray of hot ember-like sparks.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 145,
+        "damage": 58,
+        "speed": 10.38,
+        "reach": 14.56,
+        "dash": 8.51
+      }
+    },
+    {
+      "id": "yellow_clash_r2",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 2,
+      "name": "Frothing Skull-Knocker",
+      "flavor": "Foaming at the mouth, fists first, brain strictly optional.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Taut, vein-bulged hide stretched over swollen knuckle-blocks, faintly steaming.",
+      "vfx": "A violent double-flex with a bone-crunch snap and a spray of hot ember-like sparks.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 218,
+        "damage": 80,
+        "speed": 11.24,
+        "reach": 17.29,
+        "dash": 9.22
+      }
+    },
+    {
+      "id": "yellow_clash_r3",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 3,
+      "name": "Frothing Tooth-Spitter",
+      "flavor": "Foaming at the mouth, fists first, brain strictly optional.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Taut, vein-bulged hide stretched over swollen knuckle-blocks, faintly steaming.",
+      "vfx": "A violent double-flex with a bone-crunch snap and a spray of hot ember-like sparks.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 290,
+        "damage": 102,
+        "speed": 12.11,
+        "reach": 20.02,
+        "dash": 9.93
+      }
+    },
+    {
+      "id": "yellow_clash_r4",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 4,
+      "name": "Frothing Bone-Cracker",
+      "flavor": "Foaming at the mouth, fists first, brain strictly optional.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Taut, vein-bulged hide stretched over swollen knuckle-blocks, faintly steaming.",
+      "vfx": "A violent double-flex with a bone-crunch snap and a spray of hot ember-like sparks.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 362,
+        "damage": 123,
+        "speed": 12.97,
+        "reach": 22.75,
+        "dash": 10.64
+      }
+    },
+    {
+      "id": "yellow_clash_r5",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 5,
+      "name": "Frothing Ribcage-Wrecker",
+      "flavor": "Foaming at the mouth, fists first, brain strictly optional.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Taut, vein-bulged hide stretched over swollen knuckle-blocks, faintly steaming.",
+      "vfx": "A violent double-flex with a bone-crunch snap and a spray of hot ember-like sparks.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 435,
+        "damage": 145,
+        "speed": 13.84,
+        "reach": 25.48,
+        "dash": 11.35
+      }
+    },
+    {
+      "id": "yellow_clash_r6",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 6,
+      "name": "Frothing Face-Unhinger",
+      "flavor": "Foaming at the mouth, fists first, brain strictly optional.",
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Taut, vein-bulged hide stretched over swollen knuckle-blocks, faintly steaming.",
+      "vfx": "A violent double-flex with a bone-crunch snap and a spray of hot ember-like sparks.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 508,
+        "damage": 167,
+        "speed": 14.71,
+        "reach": 28.21,
+        "dash": 12.06
+      }
+    },
+    {
+      "id": "yellow_rage_r1",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 1,
+      "name": "Berserking Gut-Puncher",
+      "flavor": "Turns bones to gravel and calls it a warm-up.",
+      "base_hex": "#F2C10E",
+      "saturation": 1.0,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Fully hardened, gravel-textured armor plating with glowing micro-fractures pulsing at the seams.",
+      "vfx": "A screen-shaking slam-pulse, shockwave rings, and a shower of molten-looking debris on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 150,
+        "damage": 60,
+        "speed": 10.2,
+        "reach": 14.4,
+        "dash": 8.16
+      }
+    },
+    {
+      "id": "yellow_rage_r2",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 2,
+      "name": "Berserking Skull-Knocker",
+      "flavor": "Turns bones to gravel and calls it a warm-up.",
+      "base_hex": "#F2C10E",
+      "saturation": 1.0,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Fully hardened, gravel-textured armor plating with glowing micro-fractures pulsing at the seams.",
+      "vfx": "A screen-shaking slam-pulse, shockwave rings, and a shower of molten-looking debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 225,
+        "damage": 82,
+        "speed": 11.05,
+        "reach": 17.1,
+        "dash": 8.84
+      }
+    },
+    {
+      "id": "yellow_rage_r3",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 3,
+      "name": "Berserking Tooth-Spitter",
+      "flavor": "Turns bones to gravel and calls it a warm-up.",
+      "base_hex": "#F2C10E",
+      "saturation": 1.0,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Fully hardened, gravel-textured armor plating with glowing micro-fractures pulsing at the seams.",
+      "vfx": "A screen-shaking slam-pulse, shockwave rings, and a shower of molten-looking debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 300,
+        "damage": 105,
+        "speed": 11.9,
+        "reach": 19.8,
+        "dash": 9.52
+      }
+    },
+    {
+      "id": "yellow_rage_r4",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 4,
+      "name": "Berserking Bone-Cracker",
+      "flavor": "Turns bones to gravel and calls it a warm-up.",
+      "base_hex": "#F2C10E",
+      "saturation": 1.0,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Fully hardened, gravel-textured armor plating with glowing micro-fractures pulsing at the seams.",
+      "vfx": "A screen-shaking slam-pulse, shockwave rings, and a shower of molten-looking debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 375,
+        "damage": 128,
+        "speed": 12.75,
+        "reach": 22.5,
+        "dash": 10.2
+      }
+    },
+    {
+      "id": "yellow_rage_r5",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 5,
+      "name": "Berserking Ribcage-Wrecker",
+      "flavor": "Turns bones to gravel and calls it a warm-up.",
+      "base_hex": "#F2C10E",
+      "saturation": 1.0,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Fully hardened, gravel-textured armor plating with glowing micro-fractures pulsing at the seams.",
+      "vfx": "A screen-shaking slam-pulse, shockwave rings, and a shower of molten-looking debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 450,
+        "damage": 150,
+        "speed": 13.6,
+        "reach": 25.2,
+        "dash": 10.88
+      }
+    },
+    {
+      "id": "yellow_rage_r6",
+      "family": "Yellow",
+      "class": "Brawler",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 6,
+      "name": "Berserking Face-Unhinger",
+      "flavor": "Turns bones to gravel and calls it a warm-up.",
+      "base_hex": "#F2C10E",
+      "saturation": 1.0,
+      "silhouette": "A squat, wide-shouldered cube with oversized knuckle-blocks jutting from its front face like a perpetual guard stance.",
+      "surface": "Fully hardened, gravel-textured armor plating with glowing micro-fractures pulsing at the seams.",
+      "vfx": "A screen-shaking slam-pulse, shockwave rings, and a shower of molten-looking debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 525,
+        "damage": 172,
+        "speed": 14.45,
+        "reach": 27.9,
+        "dash": 11.56
+      }
+    },
+    {
+      "id": "red_pale_r1",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 1,
+      "name": "Jittery Twitch-Hopper",
+      "flavor": "Hops like it just sat on a hornet's nest.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.25,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Smooth, taut skin with faint twitch-tremors rippling across the haunches.",
+      "vfx": "A tiny hop-bounce and a soft 'boing' squeak with a puff of light dust on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 95,
+        "damage": 37,
+        "speed": 12.9,
+        "reach": 16.0,
+        "dash": 14.83
+      }
+    },
+    {
+      "id": "red_pale_r2",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 2,
+      "name": "Jittery Puddle-Jumper",
+      "flavor": "Hops like it just sat on a hornet's nest.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.25,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Smooth, taut skin with faint twitch-tremors rippling across the haunches.",
+      "vfx": "A tiny hop-bounce and a soft 'boing' squeak with a puff of light dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 142,
+        "damage": 51,
+        "speed": 13.97,
+        "reach": 19.0,
+        "dash": 16.07
+      }
+    },
+    {
+      "id": "red_pale_r3",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 3,
+      "name": "Jittery Sky-Biter",
+      "flavor": "Hops like it just sat on a hornet's nest.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.25,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Smooth, taut skin with faint twitch-tremors rippling across the haunches.",
+      "vfx": "A tiny hop-bounce and a soft 'boing' squeak with a puff of light dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 190,
+        "damage": 65,
+        "speed": 15.05,
+        "reach": 22.0,
+        "dash": 17.31
+      }
+    },
+    {
+      "id": "red_pale_r4",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 4,
+      "name": "Jittery Cloud-Smasher",
+      "flavor": "Hops like it just sat on a hornet's nest.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.25,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Smooth, taut skin with faint twitch-tremors rippling across the haunches.",
+      "vfx": "A tiny hop-bounce and a soft 'boing' squeak with a puff of light dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 238,
+        "damage": 79,
+        "speed": 16.12,
+        "reach": 25.0,
+        "dash": 18.54
+      }
+    },
+    {
+      "id": "red_pale_r5",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 5,
+      "name": "Jittery Gravity-Spitter",
+      "flavor": "Hops like it just sat on a hornet's nest.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.25,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Smooth, taut skin with faint twitch-tremors rippling across the haunches.",
+      "vfx": "A tiny hop-bounce and a soft 'boing' squeak with a puff of light dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 285,
+        "damage": 92,
+        "speed": 17.2,
+        "reach": 28.0,
+        "dash": 19.78
+      }
+    },
+    {
+      "id": "red_pale_r6",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 6,
+      "name": "Jittery Moon-Stomper",
+      "flavor": "Hops like it just sat on a hornet's nest.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.25,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Smooth, taut skin with faint twitch-tremors rippling across the haunches.",
+      "vfx": "A tiny hop-bounce and a soft 'boing' squeak with a puff of light dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 332,
+        "damage": 106,
+        "speed": 18.27,
+        "reach": 31.0,
+        "dash": 21.01
+      }
+    },
+    {
+      "id": "red_dusk_r1",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 1,
+      "name": "Springy Twitch-Hopper",
+      "flavor": "Bounces off walls looking for a fight it definitely can't win.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.5,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Slightly ridged skin with visible tendon lines flexing along the rear legs.",
+      "vfx": "A springy compress-and-release bounce with a twang sound and a short trail of motion-blur streaks.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 90,
+        "damage": 34,
+        "speed": 13.8,
+        "reach": 16.0,
+        "dash": 17.94
+      }
+    },
+    {
+      "id": "red_dusk_r2",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 2,
+      "name": "Springy Puddle-Jumper",
+      "flavor": "Bounces off walls looking for a fight it definitely can't win.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.5,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Slightly ridged skin with visible tendon lines flexing along the rear legs.",
+      "vfx": "A springy compress-and-release bounce with a twang sound and a short trail of motion-blur streaks.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 135,
+        "damage": 47,
+        "speed": 14.95,
+        "reach": 19.0,
+        "dash": 19.43
+      }
+    },
+    {
+      "id": "red_dusk_r3",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 3,
+      "name": "Springy Sky-Biter",
+      "flavor": "Bounces off walls looking for a fight it definitely can't win.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.5,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Slightly ridged skin with visible tendon lines flexing along the rear legs.",
+      "vfx": "A springy compress-and-release bounce with a twang sound and a short trail of motion-blur streaks.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 180,
+        "damage": 60,
+        "speed": 16.1,
+        "reach": 22.0,
+        "dash": 20.93
+      }
+    },
+    {
+      "id": "red_dusk_r4",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 4,
+      "name": "Springy Cloud-Smasher",
+      "flavor": "Bounces off walls looking for a fight it definitely can't win.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.5,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Slightly ridged skin with visible tendon lines flexing along the rear legs.",
+      "vfx": "A springy compress-and-release bounce with a twang sound and a short trail of motion-blur streaks.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 225,
+        "damage": 72,
+        "speed": 17.25,
+        "reach": 25.0,
+        "dash": 22.43
+      }
+    },
+    {
+      "id": "red_dusk_r5",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 5,
+      "name": "Springy Gravity-Spitter",
+      "flavor": "Bounces off walls looking for a fight it definitely can't win.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.5,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Slightly ridged skin with visible tendon lines flexing along the rear legs.",
+      "vfx": "A springy compress-and-release bounce with a twang sound and a short trail of motion-blur streaks.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 270,
+        "damage": 85,
+        "speed": 18.4,
+        "reach": 28.0,
+        "dash": 23.92
+      }
+    },
+    {
+      "id": "red_dusk_r6",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 6,
+      "name": "Springy Moon-Stomper",
+      "flavor": "Bounces off walls looking for a fight it definitely can't win.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.5,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Slightly ridged skin with visible tendon lines flexing along the rear legs.",
+      "vfx": "A springy compress-and-release bounce with a twang sound and a short trail of motion-blur streaks.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 315,
+        "damage": 98,
+        "speed": 19.55,
+        "reach": 31.0,
+        "dash": 25.42
+      }
+    },
+    {
+      "id": "red_deep_r1",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 1,
+      "name": "Coiled Twitch-Hopper",
+      "flavor": "Legs like loaded shotguns, aimed square at your face.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.75,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Tight, coiled musculature visible beneath a sheen of kinetic-charged skin.",
+      "vfx": "A sharp coil-snap with a whip-crack sound and a burst of arc-shaped speed lines.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 85,
+        "damage": 31,
+        "speed": 14.7,
+        "reach": 16.0,
+        "dash": 21.32
+      }
+    },
+    {
+      "id": "red_deep_r2",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 2,
+      "name": "Coiled Puddle-Jumper",
+      "flavor": "Legs like loaded shotguns, aimed square at your face.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.75,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Tight, coiled musculature visible beneath a sheen of kinetic-charged skin.",
+      "vfx": "A sharp coil-snap with a whip-crack sound and a burst of arc-shaped speed lines.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 128,
+        "damage": 43,
+        "speed": 15.93,
+        "reach": 19.0,
+        "dash": 23.1
+      }
+    },
+    {
+      "id": "red_deep_r3",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 3,
+      "name": "Coiled Sky-Biter",
+      "flavor": "Legs like loaded shotguns, aimed square at your face.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.75,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Tight, coiled musculature visible beneath a sheen of kinetic-charged skin.",
+      "vfx": "A sharp coil-snap with a whip-crack sound and a burst of arc-shaped speed lines.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 170,
+        "damage": 54,
+        "speed": 17.15,
+        "reach": 22.0,
+        "dash": 24.87
+      }
+    },
+    {
+      "id": "red_deep_r4",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 4,
+      "name": "Coiled Cloud-Smasher",
+      "flavor": "Legs like loaded shotguns, aimed square at your face.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.75,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Tight, coiled musculature visible beneath a sheen of kinetic-charged skin.",
+      "vfx": "A sharp coil-snap with a whip-crack sound and a burst of arc-shaped speed lines.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 213,
+        "damage": 66,
+        "speed": 18.38,
+        "reach": 25.0,
+        "dash": 26.65
+      }
+    },
+    {
+      "id": "red_deep_r5",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 5,
+      "name": "Coiled Gravity-Spitter",
+      "flavor": "Legs like loaded shotguns, aimed square at your face.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.75,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Tight, coiled musculature visible beneath a sheen of kinetic-charged skin.",
+      "vfx": "A sharp coil-snap with a whip-crack sound and a burst of arc-shaped speed lines.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 255,
+        "damage": 77,
+        "speed": 19.6,
+        "reach": 28.0,
+        "dash": 28.42
+      }
+    },
+    {
+      "id": "red_deep_r6",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 6,
+      "name": "Coiled Moon-Stomper",
+      "flavor": "Legs like loaded shotguns, aimed square at your face.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.75,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Tight, coiled musculature visible beneath a sheen of kinetic-charged skin.",
+      "vfx": "A sharp coil-snap with a whip-crack sound and a burst of arc-shaped speed lines.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 298,
+        "damage": 89,
+        "speed": 20.83,
+        "reach": 31.0,
+        "dash": 30.2
+      }
+    },
+    {
+      "id": "red_clash_r1",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 1,
+      "name": "Rocketing Twitch-Hopper",
+      "flavor": "Breaks the sound barrier and several local noise ordinances.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Aerodynamic, wind-smoothed hide with faint heat-shimmer along the launch points.",
+      "vfx": "A sonic-boom launch pulse with a cracking shockwave ring and streaking afterimage trails.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 82,
+        "damage": 29,
+        "speed": 15.24,
+        "reach": 16.0,
+        "dash": 23.47
+      }
+    },
+    {
+      "id": "red_clash_r2",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 2,
+      "name": "Rocketing Puddle-Jumper",
+      "flavor": "Breaks the sound barrier and several local noise ordinances.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Aerodynamic, wind-smoothed hide with faint heat-shimmer along the launch points.",
+      "vfx": "A sonic-boom launch pulse with a cracking shockwave ring and streaking afterimage trails.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 123,
+        "damage": 40,
+        "speed": 16.51,
+        "reach": 19.0,
+        "dash": 25.43
+      }
+    },
+    {
+      "id": "red_clash_r3",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 3,
+      "name": "Rocketing Sky-Biter",
+      "flavor": "Breaks the sound barrier and several local noise ordinances.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Aerodynamic, wind-smoothed hide with faint heat-shimmer along the launch points.",
+      "vfx": "A sonic-boom launch pulse with a cracking shockwave ring and streaking afterimage trails.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 164,
+        "damage": 51,
+        "speed": 17.78,
+        "reach": 22.0,
+        "dash": 27.38
+      }
+    },
+    {
+      "id": "red_clash_r4",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 4,
+      "name": "Rocketing Cloud-Smasher",
+      "flavor": "Breaks the sound barrier and several local noise ordinances.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Aerodynamic, wind-smoothed hide with faint heat-shimmer along the launch points.",
+      "vfx": "A sonic-boom launch pulse with a cracking shockwave ring and streaking afterimage trails.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 205,
+        "damage": 62,
+        "speed": 19.05,
+        "reach": 25.0,
+        "dash": 29.34
+      }
+    },
+    {
+      "id": "red_clash_r5",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 5,
+      "name": "Rocketing Gravity-Spitter",
+      "flavor": "Breaks the sound barrier and several local noise ordinances.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Aerodynamic, wind-smoothed hide with faint heat-shimmer along the launch points.",
+      "vfx": "A sonic-boom launch pulse with a cracking shockwave ring and streaking afterimage trails.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 246,
+        "damage": 73,
+        "speed": 20.32,
+        "reach": 28.0,
+        "dash": 31.29
+      }
+    },
+    {
+      "id": "red_clash_r6",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 6,
+      "name": "Rocketing Moon-Stomper",
+      "flavor": "Breaks the sound barrier and several local noise ordinances.",
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Aerodynamic, wind-smoothed hide with faint heat-shimmer along the launch points.",
+      "vfx": "A sonic-boom launch pulse with a cracking shockwave ring and streaking afterimage trails.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 287,
+        "damage": 84,
+        "speed": 21.59,
+        "reach": 31.0,
+        "dash": 33.25
+      }
+    },
+    {
+      "id": "red_rage_r1",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 1,
+      "name": "Skybound Twitch-Hopper",
+      "flavor": "Leaves the ground and forgets to come back down, on purpose.",
+      "base_hex": "#E23A2E",
+      "saturation": 1.0,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Fully streamlined, glassy-smooth hide rippling with barely-contained kinetic energy.",
+      "vfx": "A screen-warping launch flash, a comet-tail trail, and a ground-shaking landing shockwave on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 80,
+        "damage": 28,
+        "speed": 15.6,
+        "reach": 16.0,
+        "dash": 24.96
+      }
+    },
+    {
+      "id": "red_rage_r2",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 2,
+      "name": "Skybound Puddle-Jumper",
+      "flavor": "Leaves the ground and forgets to come back down, on purpose.",
+      "base_hex": "#E23A2E",
+      "saturation": 1.0,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Fully streamlined, glassy-smooth hide rippling with barely-contained kinetic energy.",
+      "vfx": "A screen-warping launch flash, a comet-tail trail, and a ground-shaking landing shockwave on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 120,
+        "damage": 38,
+        "speed": 16.9,
+        "reach": 19.0,
+        "dash": 27.04
+      }
+    },
+    {
+      "id": "red_rage_r3",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 3,
+      "name": "Skybound Sky-Biter",
+      "flavor": "Leaves the ground and forgets to come back down, on purpose.",
+      "base_hex": "#E23A2E",
+      "saturation": 1.0,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Fully streamlined, glassy-smooth hide rippling with barely-contained kinetic energy.",
+      "vfx": "A screen-warping launch flash, a comet-tail trail, and a ground-shaking landing shockwave on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 160,
+        "damage": 49,
+        "speed": 18.2,
+        "reach": 22.0,
+        "dash": 29.12
+      }
+    },
+    {
+      "id": "red_rage_r4",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 4,
+      "name": "Skybound Cloud-Smasher",
+      "flavor": "Leaves the ground and forgets to come back down, on purpose.",
+      "base_hex": "#E23A2E",
+      "saturation": 1.0,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Fully streamlined, glassy-smooth hide rippling with barely-contained kinetic energy.",
+      "vfx": "A screen-warping launch flash, a comet-tail trail, and a ground-shaking landing shockwave on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 200,
+        "damage": 59,
+        "speed": 19.5,
+        "reach": 25.0,
+        "dash": 31.2
+      }
+    },
+    {
+      "id": "red_rage_r5",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 5,
+      "name": "Skybound Gravity-Spitter",
+      "flavor": "Leaves the ground and forgets to come back down, on purpose.",
+      "base_hex": "#E23A2E",
+      "saturation": 1.0,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Fully streamlined, glassy-smooth hide rippling with barely-contained kinetic energy.",
+      "vfx": "A screen-warping launch flash, a comet-tail trail, and a ground-shaking landing shockwave on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 240,
+        "damage": 70,
+        "speed": 20.8,
+        "reach": 28.0,
+        "dash": 33.28
+      }
+    },
+    {
+      "id": "red_rage_r6",
+      "family": "Red",
+      "class": "Leaper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 6,
+      "name": "Skybound Moon-Stomper",
+      "flavor": "Leaves the ground and forgets to come back down, on purpose.",
+      "base_hex": "#E23A2E",
+      "saturation": 1.0,
+      "silhouette": "A lean, forward-canted cube with rear haunches compressed like a loaded spring and angular vent-fins along the back.",
+      "surface": "Fully streamlined, glassy-smooth hide rippling with barely-contained kinetic energy.",
+      "vfx": "A screen-warping launch flash, a comet-tail trail, and a ground-shaking landing shockwave on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 280,
+        "damage": 80,
+        "speed": 22.1,
+        "reach": 31.0,
+        "dash": 35.36
+      }
+    },
+    {
+      "id": "blue_pale_r1",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 1,
+      "name": "Blinking Squint-Eye",
+      "flavor": "Couldn't hit a barn if it was standing inside the barn.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.25,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Smooth, glassy skin with a faint unsteady flicker across the scope-ridge.",
+      "vfx": "A brief unfocused blink-flash and a soft click sound on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 98,
+        "damage": 40,
+        "speed": 12.0,
+        "reach": 18.8,
+        "dash": 12.0
+      }
+    },
+    {
+      "id": "blue_pale_r2",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 2,
+      "name": "Blinking Dead-Shot",
+      "flavor": "Couldn't hit a barn if it was standing inside the barn.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.25,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Smooth, glassy skin with a faint unsteady flicker across the scope-ridge.",
+      "vfx": "A brief unfocused blink-flash and a soft click sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 146,
+        "damage": 55,
+        "speed": 13.0,
+        "reach": 22.32,
+        "dash": 13.0
+      }
+    },
+    {
+      "id": "blue_pale_r3",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 3,
+      "name": "Blinking Skull-Piercer",
+      "flavor": "Couldn't hit a barn if it was standing inside the barn.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.25,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Smooth, glassy skin with a faint unsteady flicker across the scope-ridge.",
+      "vfx": "A brief unfocused blink-flash and a soft click sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 195,
+        "damage": 70,
+        "speed": 14.0,
+        "reach": 25.85,
+        "dash": 14.0
+      }
+    },
+    {
+      "id": "blue_pale_r4",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 4,
+      "name": "Blinking Longshot Reaper",
+      "flavor": "Couldn't hit a barn if it was standing inside the barn.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.25,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Smooth, glassy skin with a faint unsteady flicker across the scope-ridge.",
+      "vfx": "A brief unfocused blink-flash and a soft click sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 244,
+        "damage": 85,
+        "speed": 15.0,
+        "reach": 29.38,
+        "dash": 15.0
+      }
+    },
+    {
+      "id": "blue_pale_r5",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 5,
+      "name": "Blinking Vein-Finder",
+      "flavor": "Couldn't hit a barn if it was standing inside the barn.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.25,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Smooth, glassy skin with a faint unsteady flicker across the scope-ridge.",
+      "vfx": "A brief unfocused blink-flash and a soft click sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 292,
+        "damage": 100,
+        "speed": 16.0,
+        "reach": 32.9,
+        "dash": 16.0
+      }
+    },
+    {
+      "id": "blue_pale_r6",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 6,
+      "name": "Blinking Eclipse Marksman",
+      "flavor": "Couldn't hit a barn if it was standing inside the barn.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.25,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Smooth, glassy skin with a faint unsteady flicker across the scope-ridge.",
+      "vfx": "A brief unfocused blink-flash and a soft click sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 341,
+        "damage": 115,
+        "speed": 17.0,
+        "reach": 36.43,
+        "dash": 17.0
+      }
+    },
+    {
+      "id": "blue_dusk_r1",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 1,
+      "name": "Steady Squint-Eye",
+      "flavor": "Holds its breath longer than your patience holds out.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.5,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Polished, matte skin with a steadier glow along the ridge line.",
+      "vfx": "A slow-building focus-glow with a soft chime and a thin beam-flicker on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 95,
+        "damage": 40,
+        "speed": 12.0,
+        "reach": 21.6,
+        "dash": 12.0
+      }
+    },
+    {
+      "id": "blue_dusk_r2",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 2,
+      "name": "Steady Dead-Shot",
+      "flavor": "Holds its breath longer than your patience holds out.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.5,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Polished, matte skin with a steadier glow along the ridge line.",
+      "vfx": "A slow-building focus-glow with a soft chime and a thin beam-flicker on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 142,
+        "damage": 55,
+        "speed": 13.0,
+        "reach": 25.65,
+        "dash": 13.0
+      }
+    },
+    {
+      "id": "blue_dusk_r3",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 3,
+      "name": "Steady Skull-Piercer",
+      "flavor": "Holds its breath longer than your patience holds out.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.5,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Polished, matte skin with a steadier glow along the ridge line.",
+      "vfx": "A slow-building focus-glow with a soft chime and a thin beam-flicker on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 190,
+        "damage": 70,
+        "speed": 14.0,
+        "reach": 29.7,
+        "dash": 14.0
+      }
+    },
+    {
+      "id": "blue_dusk_r4",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 4,
+      "name": "Steady Longshot Reaper",
+      "flavor": "Holds its breath longer than your patience holds out.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.5,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Polished, matte skin with a steadier glow along the ridge line.",
+      "vfx": "A slow-building focus-glow with a soft chime and a thin beam-flicker on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 238,
+        "damage": 85,
+        "speed": 15.0,
+        "reach": 33.75,
+        "dash": 15.0
+      }
+    },
+    {
+      "id": "blue_dusk_r5",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 5,
+      "name": "Steady Vein-Finder",
+      "flavor": "Holds its breath longer than your patience holds out.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.5,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Polished, matte skin with a steadier glow along the ridge line.",
+      "vfx": "A slow-building focus-glow with a soft chime and a thin beam-flicker on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 285,
+        "damage": 100,
+        "speed": 16.0,
+        "reach": 37.8,
+        "dash": 16.0
+      }
+    },
+    {
+      "id": "blue_dusk_r6",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 6,
+      "name": "Steady Eclipse Marksman",
+      "flavor": "Holds its breath longer than your patience holds out.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.5,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Polished, matte skin with a steadier glow along the ridge line.",
+      "vfx": "A slow-building focus-glow with a soft chime and a thin beam-flicker on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 332,
+        "damage": 115,
+        "speed": 17.0,
+        "reach": 41.85,
+        "dash": 17.0
+      }
+    },
+    {
+      "id": "blue_deep_r1",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 1,
+      "name": "Focused Squint-Eye",
+      "flavor": "Counts your heartbeats before it decides to stop them.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.75,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Sleek, mirror-like plating with a fixed, unblinking glow at the scope-ridge.",
+      "vfx": "A sharp lock-on pulse with a crosshair flash and a crisp snap sound on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 92,
+        "damage": 40,
+        "speed": 12.0,
+        "reach": 24.4,
+        "dash": 12.0
+      }
+    },
+    {
+      "id": "blue_deep_r2",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 2,
+      "name": "Focused Dead-Shot",
+      "flavor": "Counts your heartbeats before it decides to stop them.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.75,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Sleek, mirror-like plating with a fixed, unblinking glow at the scope-ridge.",
+      "vfx": "A sharp lock-on pulse with a crosshair flash and a crisp snap sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 139,
+        "damage": 55,
+        "speed": 13.0,
+        "reach": 28.97,
+        "dash": 13.0
+      }
+    },
+    {
+      "id": "blue_deep_r3",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 3,
+      "name": "Focused Skull-Piercer",
+      "flavor": "Counts your heartbeats before it decides to stop them.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.75,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Sleek, mirror-like plating with a fixed, unblinking glow at the scope-ridge.",
+      "vfx": "A sharp lock-on pulse with a crosshair flash and a crisp snap sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 185,
+        "damage": 70,
+        "speed": 14.0,
+        "reach": 33.55,
+        "dash": 14.0
+      }
+    },
+    {
+      "id": "blue_deep_r4",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 4,
+      "name": "Focused Longshot Reaper",
+      "flavor": "Counts your heartbeats before it decides to stop them.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.75,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Sleek, mirror-like plating with a fixed, unblinking glow at the scope-ridge.",
+      "vfx": "A sharp lock-on pulse with a crosshair flash and a crisp snap sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 231,
+        "damage": 85,
+        "speed": 15.0,
+        "reach": 38.12,
+        "dash": 15.0
+      }
+    },
+    {
+      "id": "blue_deep_r5",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 5,
+      "name": "Focused Vein-Finder",
+      "flavor": "Counts your heartbeats before it decides to stop them.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.75,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Sleek, mirror-like plating with a fixed, unblinking glow at the scope-ridge.",
+      "vfx": "A sharp lock-on pulse with a crosshair flash and a crisp snap sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 278,
+        "damage": 100,
+        "speed": 16.0,
+        "reach": 42.7,
+        "dash": 16.0
+      }
+    },
+    {
+      "id": "blue_deep_r6",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 6,
+      "name": "Focused Eclipse Marksman",
+      "flavor": "Counts your heartbeats before it decides to stop them.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.75,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Sleek, mirror-like plating with a fixed, unblinking glow at the scope-ridge.",
+      "vfx": "A sharp lock-on pulse with a crosshair flash and a crisp snap sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 324,
+        "damage": 115,
+        "speed": 17.0,
+        "reach": 47.27,
+        "dash": 17.0
+      }
+    },
+    {
+      "id": "blue_clash_r1",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 1,
+      "name": "Ice-Veined Squint-Eye",
+      "flavor": "Never misses, rarely blinks, always deeply unsettling.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Frost-veined, ice-smooth plating with a piercing cold light along the ridge.",
+      "vfx": "A precise piercing-beam flash with a resonant ping and a thin trailing light-line on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 91,
+        "damage": 40,
+        "speed": 12.0,
+        "reach": 26.08,
+        "dash": 12.0
+      }
+    },
+    {
+      "id": "blue_clash_r2",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 2,
+      "name": "Ice-Veined Dead-Shot",
+      "flavor": "Never misses, rarely blinks, always deeply unsettling.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Frost-veined, ice-smooth plating with a piercing cold light along the ridge.",
+      "vfx": "A precise piercing-beam flash with a resonant ping and a thin trailing light-line on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 136,
+        "damage": 55,
+        "speed": 13.0,
+        "reach": 30.97,
+        "dash": 13.0
+      }
+    },
+    {
+      "id": "blue_clash_r3",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 3,
+      "name": "Ice-Veined Skull-Piercer",
+      "flavor": "Never misses, rarely blinks, always deeply unsettling.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Frost-veined, ice-smooth plating with a piercing cold light along the ridge.",
+      "vfx": "A precise piercing-beam flash with a resonant ping and a thin trailing light-line on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 182,
+        "damage": 70,
+        "speed": 14.0,
+        "reach": 35.86,
+        "dash": 14.0
+      }
+    },
+    {
+      "id": "blue_clash_r4",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 4,
+      "name": "Ice-Veined Longshot Reaper",
+      "flavor": "Never misses, rarely blinks, always deeply unsettling.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Frost-veined, ice-smooth plating with a piercing cold light along the ridge.",
+      "vfx": "A precise piercing-beam flash with a resonant ping and a thin trailing light-line on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 228,
+        "damage": 85,
+        "speed": 15.0,
+        "reach": 40.75,
+        "dash": 15.0
+      }
+    },
+    {
+      "id": "blue_clash_r5",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 5,
+      "name": "Ice-Veined Vein-Finder",
+      "flavor": "Never misses, rarely blinks, always deeply unsettling.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Frost-veined, ice-smooth plating with a piercing cold light along the ridge.",
+      "vfx": "A precise piercing-beam flash with a resonant ping and a thin trailing light-line on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 273,
+        "damage": 100,
+        "speed": 16.0,
+        "reach": 45.64,
+        "dash": 16.0
+      }
+    },
+    {
+      "id": "blue_clash_r6",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 6,
+      "name": "Ice-Veined Eclipse Marksman",
+      "flavor": "Never misses, rarely blinks, always deeply unsettling.",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Frost-veined, ice-smooth plating with a piercing cold light along the ridge.",
+      "vfx": "A precise piercing-beam flash with a resonant ping and a thin trailing light-line on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 318,
+        "damage": 115,
+        "speed": 17.0,
+        "reach": 50.53,
+        "dash": 17.0
+      }
+    },
+    {
+      "id": "blue_rage_r1",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 1,
+      "name": "Omniscient Squint-Eye",
+      "flavor": "Sees the back of your skull from the front.",
+      "base_hex": "#2E6FE2",
+      "saturation": 1.0,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Fully crystalline, lens-like plating refracting light along every seam.",
+      "vfx": "A screen-flash lock-on burst, a piercing beam streak, and an echoing tone on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 90,
+        "damage": 40,
+        "speed": 12.0,
+        "reach": 27.2,
+        "dash": 12.0
+      }
+    },
+    {
+      "id": "blue_rage_r2",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 2,
+      "name": "Omniscient Dead-Shot",
+      "flavor": "Sees the back of your skull from the front.",
+      "base_hex": "#2E6FE2",
+      "saturation": 1.0,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Fully crystalline, lens-like plating refracting light along every seam.",
+      "vfx": "A screen-flash lock-on burst, a piercing beam streak, and an echoing tone on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 135,
+        "damage": 55,
+        "speed": 13.0,
+        "reach": 32.3,
+        "dash": 13.0
+      }
+    },
+    {
+      "id": "blue_rage_r3",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 3,
+      "name": "Omniscient Skull-Piercer",
+      "flavor": "Sees the back of your skull from the front.",
+      "base_hex": "#2E6FE2",
+      "saturation": 1.0,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Fully crystalline, lens-like plating refracting light along every seam.",
+      "vfx": "A screen-flash lock-on burst, a piercing beam streak, and an echoing tone on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 180,
+        "damage": 70,
+        "speed": 14.0,
+        "reach": 37.4,
+        "dash": 14.0
+      }
+    },
+    {
+      "id": "blue_rage_r4",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 4,
+      "name": "Omniscient Longshot Reaper",
+      "flavor": "Sees the back of your skull from the front.",
+      "base_hex": "#2E6FE2",
+      "saturation": 1.0,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Fully crystalline, lens-like plating refracting light along every seam.",
+      "vfx": "A screen-flash lock-on burst, a piercing beam streak, and an echoing tone on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 225,
+        "damage": 85,
+        "speed": 15.0,
+        "reach": 42.5,
+        "dash": 15.0
+      }
+    },
+    {
+      "id": "blue_rage_r5",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 5,
+      "name": "Omniscient Vein-Finder",
+      "flavor": "Sees the back of your skull from the front.",
+      "base_hex": "#2E6FE2",
+      "saturation": 1.0,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Fully crystalline, lens-like plating refracting light along every seam.",
+      "vfx": "A screen-flash lock-on burst, a piercing beam streak, and an echoing tone on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 270,
+        "damage": 100,
+        "speed": 16.0,
+        "reach": 47.6,
+        "dash": 16.0
+      }
+    },
+    {
+      "id": "blue_rage_r6",
+      "family": "Blue",
+      "class": "Sniper",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 6,
+      "name": "Omniscient Eclipse Marksman",
+      "flavor": "Sees the back of your skull from the front.",
+      "base_hex": "#2E6FE2",
+      "saturation": 1.0,
+      "silhouette": "A slender, elongated cube tapering to a narrow point at the front, with a single raised scope-like ridge along the top.",
+      "surface": "Fully crystalline, lens-like plating refracting light along every seam.",
+      "vfx": "A screen-flash lock-on burst, a piercing beam streak, and an echoing tone on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 315,
+        "damage": 115,
+        "speed": 17.0,
+        "reach": 52.7,
+        "dash": 17.0
+      }
+    },
+    {
+      "id": "purple_pale_r1",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 1,
+      "name": "Skittish Shadow-Sniffer",
+      "flavor": "Hides behind its own shadow, and still trips over it.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.25,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Thin, patchy hide that flickers faintly like a nervous shadow.",
+      "vfx": "A brief flicker-fade and a soft rustle sound on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 98,
+        "damage": 40,
+        "speed": 12.45,
+        "reach": 16.8,
+        "dash": 13.07
+      }
+    },
+    {
+      "id": "purple_pale_r2",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 2,
+      "name": "Skittish Bush-Lurker",
+      "flavor": "Hides behind its own shadow, and still trips over it.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.25,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Thin, patchy hide that flickers faintly like a nervous shadow.",
+      "vfx": "A brief flicker-fade and a soft rustle sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 146,
+        "damage": 54,
+        "speed": 13.49,
+        "reach": 19.95,
+        "dash": 14.16
+      }
+    },
+    {
+      "id": "purple_pale_r3",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 3,
+      "name": "Skittish Neck-Breather",
+      "flavor": "Hides behind its own shadow, and still trips over it.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.25,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Thin, patchy hide that flickers faintly like a nervous shadow.",
+      "vfx": "A brief flicker-fade and a soft rustle sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 195,
+        "damage": 69,
+        "speed": 14.53,
+        "reach": 23.1,
+        "dash": 15.26
+      }
+    },
+    {
+      "id": "purple_pale_r4",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 4,
+      "name": "Skittish Silent Gutter",
+      "flavor": "Hides behind its own shadow, and still trips over it.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.25,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Thin, patchy hide that flickers faintly like a nervous shadow.",
+      "vfx": "A brief flicker-fade and a soft rustle sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 244,
+        "damage": 84,
+        "speed": 15.56,
+        "reach": 26.25,
+        "dash": 16.34
+      }
+    },
+    {
+      "id": "purple_pale_r5",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 5,
+      "name": "Skittish Midnight Throat-Slitter",
+      "flavor": "Hides behind its own shadow, and still trips over it.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.25,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Thin, patchy hide that flickers faintly like a nervous shadow.",
+      "vfx": "A brief flicker-fade and a soft rustle sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 292,
+        "damage": 99,
+        "speed": 16.6,
+        "reach": 29.4,
+        "dash": 17.43
+      }
+    },
+    {
+      "id": "purple_pale_r6",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 6,
+      "name": "Skittish Nightmare Made Flesh",
+      "flavor": "Hides behind its own shadow, and still trips over it.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.25,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Thin, patchy hide that flickers faintly like a nervous shadow.",
+      "vfx": "A brief flicker-fade and a soft rustle sound on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 341,
+        "damage": 114,
+        "speed": 17.64,
+        "reach": 32.55,
+        "dash": 18.52
+      }
+    },
+    {
+      "id": "purple_dusk_r1",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 1,
+      "name": "Creeping Shadow-Sniffer",
+      "flavor": "Moves so quiet you'll hear your own scream first.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.5,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Smoky, semi-translucent hide that shifts subtly with ambient light.",
+      "vfx": "A silent creeping ripple with a faint hiss and a wisp of shadow-particles on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 95,
+        "damage": 39,
+        "speed": 12.9,
+        "reach": 17.6,
+        "dash": 14.19
+      }
+    },
+    {
+      "id": "purple_dusk_r2",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 2,
+      "name": "Creeping Bush-Lurker",
+      "flavor": "Moves so quiet you'll hear your own scream first.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.5,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Smoky, semi-translucent hide that shifts subtly with ambient light.",
+      "vfx": "A silent creeping ripple with a faint hiss and a wisp of shadow-particles on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 142,
+        "damage": 54,
+        "speed": 13.97,
+        "reach": 20.9,
+        "dash": 15.37
+      }
+    },
+    {
+      "id": "purple_dusk_r3",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 3,
+      "name": "Creeping Neck-Breather",
+      "flavor": "Moves so quiet you'll hear your own scream first.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.5,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Smoky, semi-translucent hide that shifts subtly with ambient light.",
+      "vfx": "A silent creeping ripple with a faint hiss and a wisp of shadow-particles on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 190,
+        "damage": 68,
+        "speed": 15.05,
+        "reach": 24.2,
+        "dash": 16.56
+      }
+    },
+    {
+      "id": "purple_dusk_r4",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 4,
+      "name": "Creeping Silent Gutter",
+      "flavor": "Moves so quiet you'll hear your own scream first.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.5,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Smoky, semi-translucent hide that shifts subtly with ambient light.",
+      "vfx": "A silent creeping ripple with a faint hiss and a wisp of shadow-particles on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 238,
+        "damage": 83,
+        "speed": 16.12,
+        "reach": 27.5,
+        "dash": 17.73
+      }
+    },
+    {
+      "id": "purple_dusk_r5",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 5,
+      "name": "Creeping Midnight Throat-Slitter",
+      "flavor": "Moves so quiet you'll hear your own scream first.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.5,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Smoky, semi-translucent hide that shifts subtly with ambient light.",
+      "vfx": "A silent creeping ripple with a faint hiss and a wisp of shadow-particles on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 285,
+        "damage": 98,
+        "speed": 17.2,
+        "reach": 30.8,
+        "dash": 18.92
+      }
+    },
+    {
+      "id": "purple_dusk_r6",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 6,
+      "name": "Creeping Nightmare Made Flesh",
+      "flavor": "Moves so quiet you'll hear your own scream first.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.5,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Smoky, semi-translucent hide that shifts subtly with ambient light.",
+      "vfx": "A silent creeping ripple with a faint hiss and a wisp of shadow-particles on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 332,
+        "damage": 112,
+        "speed": 18.27,
+        "reach": 34.1,
+        "dash": 20.1
+      }
+    },
+    {
+      "id": "purple_deep_r1",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 1,
+      "name": "Lurking Shadow-Sniffer",
+      "flavor": "Knows where you sleep, and when, and exactly why you shouldn't.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.75,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Dark, matte hide that seems to absorb nearby light into itself.",
+      "vfx": "A slow shadow-pull inward with a low whisper sound and drifting dark motes on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 92,
+        "damage": 38,
+        "speed": 13.35,
+        "reach": 18.4,
+        "dash": 15.35
+      }
+    },
+    {
+      "id": "purple_deep_r2",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 2,
+      "name": "Lurking Bush-Lurker",
+      "flavor": "Knows where you sleep, and when, and exactly why you shouldn't.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.75,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Dark, matte hide that seems to absorb nearby light into itself.",
+      "vfx": "A slow shadow-pull inward with a low whisper sound and drifting dark motes on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 139,
+        "damage": 53,
+        "speed": 14.46,
+        "reach": 21.85,
+        "dash": 16.63
+      }
+    },
+    {
+      "id": "purple_deep_r3",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 3,
+      "name": "Lurking Neck-Breather",
+      "flavor": "Knows where you sleep, and when, and exactly why you shouldn't.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.75,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Dark, matte hide that seems to absorb nearby light into itself.",
+      "vfx": "A slow shadow-pull inward with a low whisper sound and drifting dark motes on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 185,
+        "damage": 67,
+        "speed": 15.57,
+        "reach": 25.3,
+        "dash": 17.91
+      }
+    },
+    {
+      "id": "purple_deep_r4",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 4,
+      "name": "Lurking Silent Gutter",
+      "flavor": "Knows where you sleep, and when, and exactly why you shouldn't.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.75,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Dark, matte hide that seems to absorb nearby light into itself.",
+      "vfx": "A slow shadow-pull inward with a low whisper sound and drifting dark motes on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 231,
+        "damage": 82,
+        "speed": 16.69,
+        "reach": 28.75,
+        "dash": 19.19
+      }
+    },
+    {
+      "id": "purple_deep_r5",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 5,
+      "name": "Lurking Midnight Throat-Slitter",
+      "flavor": "Knows where you sleep, and when, and exactly why you shouldn't.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.75,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Dark, matte hide that seems to absorb nearby light into itself.",
+      "vfx": "A slow shadow-pull inward with a low whisper sound and drifting dark motes on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 278,
+        "damage": 96,
+        "speed": 17.8,
+        "reach": 32.2,
+        "dash": 20.47
+      }
+    },
+    {
+      "id": "purple_deep_r6",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 6,
+      "name": "Lurking Nightmare Made Flesh",
+      "flavor": "Knows where you sleep, and when, and exactly why you shouldn't.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.75,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Dark, matte hide that seems to absorb nearby light into itself.",
+      "vfx": "A slow shadow-pull inward with a low whisper sound and drifting dark motes on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 324,
+        "damage": 111,
+        "speed": 18.91,
+        "reach": 35.65,
+        "dash": 21.75
+      }
+    },
+    {
+      "id": "purple_clash_r1",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 1,
+      "name": "Vanishing Shadow-Sniffer",
+      "flavor": "Blinks and it's gone, blinks again and it's right behind you.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Near-invisible, light-bending hide with faint outline shimmer at the edges.",
+      "vfx": "A sudden vanish-blink with a sharp inhale sound and a burst of scattering shadow-wisps.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 91,
+        "damage": 38,
+        "speed": 13.62,
+        "reach": 18.88,
+        "dash": 16.07
+      }
+    },
+    {
+      "id": "purple_clash_r2",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 2,
+      "name": "Vanishing Bush-Lurker",
+      "flavor": "Blinks and it's gone, blinks again and it's right behind you.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Near-invisible, light-bending hide with faint outline shimmer at the edges.",
+      "vfx": "A sudden vanish-blink with a sharp inhale sound and a burst of scattering shadow-wisps.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 136,
+        "damage": 53,
+        "speed": 14.76,
+        "reach": 22.42,
+        "dash": 17.42
+      }
+    },
+    {
+      "id": "purple_clash_r3",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 3,
+      "name": "Vanishing Neck-Breather",
+      "flavor": "Blinks and it's gone, blinks again and it's right behind you.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Near-invisible, light-bending hide with faint outline shimmer at the edges.",
+      "vfx": "A sudden vanish-blink with a sharp inhale sound and a burst of scattering shadow-wisps.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 182,
+        "damage": 67,
+        "speed": 15.89,
+        "reach": 25.96,
+        "dash": 18.75
+      }
+    },
+    {
+      "id": "purple_clash_r4",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 4,
+      "name": "Vanishing Silent Gutter",
+      "flavor": "Blinks and it's gone, blinks again and it's right behind you.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Near-invisible, light-bending hide with faint outline shimmer at the edges.",
+      "vfx": "A sudden vanish-blink with a sharp inhale sound and a burst of scattering shadow-wisps.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 228,
+        "damage": 81,
+        "speed": 17.02,
+        "reach": 29.5,
+        "dash": 20.08
+      }
+    },
+    {
+      "id": "purple_clash_r5",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 5,
+      "name": "Vanishing Midnight Throat-Slitter",
+      "flavor": "Blinks and it's gone, blinks again and it's right behind you.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Near-invisible, light-bending hide with faint outline shimmer at the edges.",
+      "vfx": "A sudden vanish-blink with a sharp inhale sound and a burst of scattering shadow-wisps.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 273,
+        "damage": 96,
+        "speed": 18.16,
+        "reach": 33.04,
+        "dash": 21.43
+      }
+    },
+    {
+      "id": "purple_clash_r6",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 6,
+      "name": "Vanishing Nightmare Made Flesh",
+      "flavor": "Blinks and it's gone, blinks again and it's right behind you.",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Near-invisible, light-bending hide with faint outline shimmer at the edges.",
+      "vfx": "A sudden vanish-blink with a sharp inhale sound and a burst of scattering shadow-wisps.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 318,
+        "damage": 110,
+        "speed": 19.3,
+        "reach": 36.58,
+        "dash": 22.77
+      }
+    },
+    {
+      "id": "purple_rage_r1",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 1,
+      "name": "Unseen Shadow-Sniffer",
+      "flavor": "The last thing you feel is everything, all at once.",
+      "base_hex": "#8A2EE2",
+      "saturation": 1.0,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Fully void-black hide that swallows light entirely except for two faint glowing eye-points.",
+      "vfx": "A total blackout pulse, a silent shockwave of darkness, and a chilling whisper-echo on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 90,
+        "damage": 38,
+        "speed": 13.8,
+        "reach": 19.2,
+        "dash": 16.56
+      }
+    },
+    {
+      "id": "purple_rage_r2",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 2,
+      "name": "Unseen Bush-Lurker",
+      "flavor": "The last thing you feel is everything, all at once.",
+      "base_hex": "#8A2EE2",
+      "saturation": 1.0,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Fully void-black hide that swallows light entirely except for two faint glowing eye-points.",
+      "vfx": "A total blackout pulse, a silent shockwave of darkness, and a chilling whisper-echo on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 135,
+        "damage": 52,
+        "speed": 14.95,
+        "reach": 22.8,
+        "dash": 17.94
+      }
+    },
+    {
+      "id": "purple_rage_r3",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 3,
+      "name": "Unseen Neck-Breather",
+      "flavor": "The last thing you feel is everything, all at once.",
+      "base_hex": "#8A2EE2",
+      "saturation": 1.0,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Fully void-black hide that swallows light entirely except for two faint glowing eye-points.",
+      "vfx": "A total blackout pulse, a silent shockwave of darkness, and a chilling whisper-echo on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 180,
+        "damage": 66,
+        "speed": 16.1,
+        "reach": 26.4,
+        "dash": 19.32
+      }
+    },
+    {
+      "id": "purple_rage_r4",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 4,
+      "name": "Unseen Silent Gutter",
+      "flavor": "The last thing you feel is everything, all at once.",
+      "base_hex": "#8A2EE2",
+      "saturation": 1.0,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Fully void-black hide that swallows light entirely except for two faint glowing eye-points.",
+      "vfx": "A total blackout pulse, a silent shockwave of darkness, and a chilling whisper-echo on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 225,
+        "damage": 81,
+        "speed": 17.25,
+        "reach": 30.0,
+        "dash": 20.7
+      }
+    },
+    {
+      "id": "purple_rage_r5",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 5,
+      "name": "Unseen Midnight Throat-Slitter",
+      "flavor": "The last thing you feel is everything, all at once.",
+      "base_hex": "#8A2EE2",
+      "saturation": 1.0,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Fully void-black hide that swallows light entirely except for two faint glowing eye-points.",
+      "vfx": "A total blackout pulse, a silent shockwave of darkness, and a chilling whisper-echo on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 270,
+        "damage": 95,
+        "speed": 18.4,
+        "reach": 33.6,
+        "dash": 22.08
+      }
+    },
+    {
+      "id": "purple_rage_r6",
+      "family": "Purple",
+      "class": "Stalker",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 6,
+      "name": "Unseen Nightmare Made Flesh",
+      "flavor": "The last thing you feel is everything, all at once.",
+      "base_hex": "#8A2EE2",
+      "saturation": 1.0,
+      "silhouette": "A low, crouched cube with elongated limbs and a hood-like ridge that seems to melt into shadow at the edges.",
+      "surface": "Fully void-black hide that swallows light entirely except for two faint glowing eye-points.",
+      "vfx": "A total blackout pulse, a silent shockwave of darkness, and a chilling whisper-echo on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 315,
+        "damage": 109,
+        "speed": 19.55,
+        "reach": 37.2,
+        "dash": 23.46
+      }
+    },
+    {
+      "id": "grey_pale_r1",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 1,
+      "name": "Flickering Grey Runt",
+      "flavor": "Barely holds a shape, already smells like trouble.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.25,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thin, patchy stone-like skin that crumbles slightly at the edges.",
+      "vfx": "A weak tremor and a small puff of grey dust on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 108,
+        "damage": 43,
+        "speed": 12.6,
+        "reach": 16.6,
+        "dash": 13.54
+      }
+    },
+    {
+      "id": "grey_pale_r2",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 2,
+      "name": "Flickering Ashborn Brute",
+      "flavor": "Barely holds a shape, already smells like trouble.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.25,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thin, patchy stone-like skin that crumbles slightly at the edges.",
+      "vfx": "A weak tremor and a small puff of grey dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 161,
+        "damage": 59,
+        "speed": 13.65,
+        "reach": 19.71,
+        "dash": 14.67
+      }
+    },
+    {
+      "id": "grey_pale_r3",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 3,
+      "name": "Flickering Iron-Hide Titan",
+      "flavor": "Barely holds a shape, already smells like trouble.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.25,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thin, patchy stone-like skin that crumbles slightly at the edges.",
+      "vfx": "A weak tremor and a small puff of grey dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 215,
+        "damage": 75,
+        "speed": 14.7,
+        "reach": 22.83,
+        "dash": 15.8
+      }
+    },
+    {
+      "id": "grey_pale_r4",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 4,
+      "name": "Flickering Doom-Bringer",
+      "flavor": "Barely holds a shape, already smells like trouble.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.25,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thin, patchy stone-like skin that crumbles slightly at the edges.",
+      "vfx": "A weak tremor and a small puff of grey dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 269,
+        "damage": 91,
+        "speed": 15.75,
+        "reach": 25.94,
+        "dash": 16.93
+      }
+    },
+    {
+      "id": "grey_pale_r5",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 5,
+      "name": "Flickering World-Eater",
+      "flavor": "Barely holds a shape, already smells like trouble.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.25,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thin, patchy stone-like skin that crumbles slightly at the edges.",
+      "vfx": "A weak tremor and a small puff of grey dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 322,
+        "damage": 108,
+        "speed": 16.8,
+        "reach": 29.05,
+        "dash": 18.06
+      }
+    },
+    {
+      "id": "grey_pale_r6",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Pale",
+      "intensity_pct": 25,
+      "rank": 6,
+      "name": "Flickering The Last Thing You See",
+      "flavor": "Barely holds a shape, already smells like trouble.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.25,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thin, patchy stone-like skin that crumbles slightly at the edges.",
+      "vfx": "A weak tremor and a small puff of grey dust on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 376,
+        "damage": 124,
+        "speed": 17.85,
+        "reach": 32.16,
+        "dash": 19.19
+      }
+    },
+    {
+      "id": "grey_dusk_r1",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 1,
+      "name": "Hardening Grey Runt",
+      "flavor": "Skin like rust, attitude like a war crime.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.5,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Rough, rust-flecked hide hardening into uneven armor plates.",
+      "vfx": "A grinding shudder with a low rumble and a scatter of pebble-like debris on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 115,
+        "damage": 46,
+        "speed": 13.2,
+        "reach": 17.2,
+        "dash": 15.18
+      }
+    },
+    {
+      "id": "grey_dusk_r2",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 2,
+      "name": "Hardening Ashborn Brute",
+      "flavor": "Skin like rust, attitude like a war crime.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.5,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Rough, rust-flecked hide hardening into uneven armor plates.",
+      "vfx": "A grinding shudder with a low rumble and a scatter of pebble-like debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 172,
+        "damage": 63,
+        "speed": 14.3,
+        "reach": 20.43,
+        "dash": 16.45
+      }
+    },
+    {
+      "id": "grey_dusk_r3",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 3,
+      "name": "Hardening Iron-Hide Titan",
+      "flavor": "Skin like rust, attitude like a war crime.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.5,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Rough, rust-flecked hide hardening into uneven armor plates.",
+      "vfx": "A grinding shudder with a low rumble and a scatter of pebble-like debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 230,
+        "damage": 80,
+        "speed": 15.4,
+        "reach": 23.65,
+        "dash": 17.71
+      }
+    },
+    {
+      "id": "grey_dusk_r4",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 4,
+      "name": "Hardening Doom-Bringer",
+      "flavor": "Skin like rust, attitude like a war crime.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.5,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Rough, rust-flecked hide hardening into uneven armor plates.",
+      "vfx": "A grinding shudder with a low rumble and a scatter of pebble-like debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 288,
+        "damage": 98,
+        "speed": 16.5,
+        "reach": 26.88,
+        "dash": 18.97
+      }
+    },
+    {
+      "id": "grey_dusk_r5",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 5,
+      "name": "Hardening World-Eater",
+      "flavor": "Skin like rust, attitude like a war crime.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.5,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Rough, rust-flecked hide hardening into uneven armor plates.",
+      "vfx": "A grinding shudder with a low rumble and a scatter of pebble-like debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 345,
+        "damage": 115,
+        "speed": 17.6,
+        "reach": 30.1,
+        "dash": 20.24
+      }
+    },
+    {
+      "id": "grey_dusk_r6",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Dusk",
+      "intensity_pct": 50,
+      "rank": 6,
+      "name": "Hardening The Last Thing You See",
+      "flavor": "Skin like rust, attitude like a war crime.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.5,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Rough, rust-flecked hide hardening into uneven armor plates.",
+      "vfx": "A grinding shudder with a low rumble and a scatter of pebble-like debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 402,
+        "damage": 132,
+        "speed": 18.7,
+        "reach": 33.32,
+        "dash": 21.5
+      }
+    },
+    {
+      "id": "grey_deep_r1",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 1,
+      "name": "Looming Grey Runt",
+      "flavor": "Casts a shadow that files its own taxes.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.75,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thick, cracked stone armor casting a faint shadow over its own plating.",
+      "vfx": "A deep ground-thud with a rolling rumble and a burst of cracked-stone shards on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 123,
+        "damage": 49,
+        "speed": 13.8,
+        "reach": 17.8,
+        "dash": 16.91
+      }
+    },
+    {
+      "id": "grey_deep_r2",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 2,
+      "name": "Looming Ashborn Brute",
+      "flavor": "Casts a shadow that files its own taxes.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.75,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thick, cracked stone armor casting a faint shadow over its own plating.",
+      "vfx": "A deep ground-thud with a rolling rumble and a burst of cracked-stone shards on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 184,
+        "damage": 67,
+        "speed": 14.95,
+        "reach": 21.14,
+        "dash": 18.31
+      }
+    },
+    {
+      "id": "grey_deep_r3",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 3,
+      "name": "Looming Iron-Hide Titan",
+      "flavor": "Casts a shadow that files its own taxes.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.75,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thick, cracked stone armor casting a faint shadow over its own plating.",
+      "vfx": "A deep ground-thud with a rolling rumble and a burst of cracked-stone shards on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 245,
+        "damage": 86,
+        "speed": 16.1,
+        "reach": 24.47,
+        "dash": 19.72
+      }
+    },
+    {
+      "id": "grey_deep_r4",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 4,
+      "name": "Looming Doom-Bringer",
+      "flavor": "Casts a shadow that files its own taxes.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.75,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thick, cracked stone armor casting a faint shadow over its own plating.",
+      "vfx": "A deep ground-thud with a rolling rumble and a burst of cracked-stone shards on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 306,
+        "damage": 104,
+        "speed": 17.25,
+        "reach": 27.81,
+        "dash": 21.13
+      }
+    },
+    {
+      "id": "grey_deep_r5",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 5,
+      "name": "Looming World-Eater",
+      "flavor": "Casts a shadow that files its own taxes.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.75,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thick, cracked stone armor casting a faint shadow over its own plating.",
+      "vfx": "A deep ground-thud with a rolling rumble and a burst of cracked-stone shards on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 368,
+        "damage": 123,
+        "speed": 18.4,
+        "reach": 31.15,
+        "dash": 22.54
+      }
+    },
+    {
+      "id": "grey_deep_r6",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Deep",
+      "intensity_pct": 75,
+      "rank": 6,
+      "name": "Looming The Last Thing You See",
+      "flavor": "Casts a shadow that files its own taxes.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.75,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Thick, cracked stone armor casting a faint shadow over its own plating.",
+      "vfx": "A deep ground-thud with a rolling rumble and a burst of cracked-stone shards on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 429,
+        "damage": 141,
+        "speed": 19.55,
+        "reach": 34.49,
+        "dash": 23.95
+      }
+    },
+    {
+      "id": "grey_clash_r1",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 1,
+      "name": "Colossal Grey Runt",
+      "flavor": "Steps on mountains and calls it a light jog.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Colossal, boulder-like plating with visible fault-lines glowing faintly at the seams.",
+      "vfx": "A mountain-shaking stomp-pulse with a booming echo and a spray of rock fragments on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 127,
+        "damage": 51,
+        "speed": 14.16,
+        "reach": 18.16,
+        "dash": 17.98
+      }
+    },
+    {
+      "id": "grey_clash_r2",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 2,
+      "name": "Colossal Ashborn Brute",
+      "flavor": "Steps on mountains and calls it a light jog.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Colossal, boulder-like plating with visible fault-lines glowing faintly at the seams.",
+      "vfx": "A mountain-shaking stomp-pulse with a booming echo and a spray of rock fragments on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 190,
+        "damage": 70,
+        "speed": 15.34,
+        "reach": 21.57,
+        "dash": 19.48
+      }
+    },
+    {
+      "id": "grey_clash_r3",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 3,
+      "name": "Colossal Iron-Hide Titan",
+      "flavor": "Steps on mountains and calls it a light jog.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Colossal, boulder-like plating with visible fault-lines glowing faintly at the seams.",
+      "vfx": "A mountain-shaking stomp-pulse with a booming echo and a spray of rock fragments on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 254,
+        "damage": 89,
+        "speed": 16.52,
+        "reach": 24.97,
+        "dash": 20.98
+      }
+    },
+    {
+      "id": "grey_clash_r4",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 4,
+      "name": "Colossal Doom-Bringer",
+      "flavor": "Steps on mountains and calls it a light jog.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Colossal, boulder-like plating with visible fault-lines glowing faintly at the seams.",
+      "vfx": "A mountain-shaking stomp-pulse with a booming echo and a spray of rock fragments on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 318,
+        "damage": 108,
+        "speed": 17.7,
+        "reach": 28.38,
+        "dash": 22.48
+      }
+    },
+    {
+      "id": "grey_clash_r5",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 5,
+      "name": "Colossal World-Eater",
+      "flavor": "Steps on mountains and calls it a light jog.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Colossal, boulder-like plating with visible fault-lines glowing faintly at the seams.",
+      "vfx": "A mountain-shaking stomp-pulse with a booming echo and a spray of rock fragments on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 381,
+        "damage": 127,
+        "speed": 18.88,
+        "reach": 31.78,
+        "dash": 23.98
+      }
+    },
+    {
+      "id": "grey_clash_r6",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Clash",
+      "intensity_pct": 90,
+      "rank": 6,
+      "name": "Colossal The Last Thing You See",
+      "flavor": "Steps on mountains and calls it a light jog.",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Colossal, boulder-like plating with visible fault-lines glowing faintly at the seams.",
+      "vfx": "A mountain-shaking stomp-pulse with a booming echo and a spray of rock fragments on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 444,
+        "damage": 146,
+        "speed": 20.06,
+        "reach": 35.19,
+        "dash": 25.48
+      }
+    },
+    {
+      "id": "grey_rage_r1",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 1,
+      "name": "Godslaying Grey Runt",
+      "flavor": "Ended the food chain, then ate the chain.",
+      "base_hex": "#8C8C8C",
+      "saturation": 1.0,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Fully fused obsidian-stone armor, monolithic and seamless, radiating a faint heat-haze.",
+      "vfx": "A world-shaking impact flash, a cracking ground shockwave ring, and a rain of molten debris on absorb.",
+      "socket_layout": [
+        "+Y"
+      ],
+      "stats": {
+        "health": 130,
+        "damage": 52,
+        "speed": 14.4,
+        "reach": 18.4,
+        "dash": 18.72
+      }
+    },
+    {
+      "id": "grey_rage_r2",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 2,
+      "name": "Godslaying Ashborn Brute",
+      "flavor": "Ended the food chain, then ate the chain.",
+      "base_hex": "#8C8C8C",
+      "saturation": 1.0,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Fully fused obsidian-stone armor, monolithic and seamless, radiating a faint heat-haze.",
+      "vfx": "A world-shaking impact flash, a cracking ground shockwave ring, and a rain of molten debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X"
+      ],
+      "stats": {
+        "health": 195,
+        "damage": 72,
+        "speed": 15.6,
+        "reach": 21.85,
+        "dash": 20.28
+      }
+    },
+    {
+      "id": "grey_rage_r3",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 3,
+      "name": "Godslaying Iron-Hide Titan",
+      "flavor": "Ended the food chain, then ate the chain.",
+      "base_hex": "#8C8C8C",
+      "saturation": 1.0,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Fully fused obsidian-stone armor, monolithic and seamless, radiating a faint heat-haze.",
+      "vfx": "A world-shaking impact flash, a cracking ground shockwave ring, and a rain of molten debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X"
+      ],
+      "stats": {
+        "health": 260,
+        "damage": 91,
+        "speed": 16.8,
+        "reach": 25.3,
+        "dash": 21.84
+      }
+    },
+    {
+      "id": "grey_rage_r4",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 4,
+      "name": "Godslaying Doom-Bringer",
+      "flavor": "Ended the food chain, then ate the chain.",
+      "base_hex": "#8C8C8C",
+      "saturation": 1.0,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Fully fused obsidian-stone armor, monolithic and seamless, radiating a faint heat-haze.",
+      "vfx": "A world-shaking impact flash, a cracking ground shockwave ring, and a rain of molten debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z"
+      ],
+      "stats": {
+        "health": 325,
+        "damage": 110,
+        "speed": 18.0,
+        "reach": 28.75,
+        "dash": 23.4
+      }
+    },
+    {
+      "id": "grey_rage_r5",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 5,
+      "name": "Godslaying World-Eater",
+      "flavor": "Ended the food chain, then ate the chain.",
+      "base_hex": "#8C8C8C",
+      "saturation": 1.0,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Fully fused obsidian-stone armor, monolithic and seamless, radiating a faint heat-haze.",
+      "vfx": "A world-shaking impact flash, a cracking ground shockwave ring, and a rain of molten debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z"
+      ],
+      "stats": {
+        "health": 390,
+        "damage": 130,
+        "speed": 19.2,
+        "reach": 32.2,
+        "dash": 24.96
+      }
+    },
+    {
+      "id": "grey_rage_r6",
+      "family": "Grey",
+      "class": "Apex",
+      "intensity": "Rage",
+      "intensity_pct": 100,
+      "rank": 6,
+      "name": "Godslaying The Last Thing You See",
+      "flavor": "Ended the food chain, then ate the chain.",
+      "base_hex": "#8C8C8C",
+      "saturation": 1.0,
+      "silhouette": "A massive, monolithic cube with thick armored plating and blunt, mountain-like ridges along every edge.",
+      "surface": "Fully fused obsidian-stone armor, monolithic and seamless, radiating a faint heat-haze.",
+      "vfx": "A world-shaking impact flash, a cracking ground shockwave ring, and a rain of molten debris on absorb.",
+      "socket_layout": [
+        "+Y",
+        "+X",
+        "-X",
+        "+Z",
+        "-Z",
+        "-Y"
+      ],
+      "stats": {
+        "health": 455,
+        "damage": 150,
+        "speed": 20.4,
+        "reach": 35.65,
+        "dash": 26.52
+      }
+    }
+  ]
+}

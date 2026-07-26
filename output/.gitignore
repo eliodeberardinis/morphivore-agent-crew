@@ -1,0 +1,6 @@
+# Intermediate hand-off artifacts (regenerated every run) -- not committed.
+names.json
+art.json
+forms.sonnet.json
+
+# The final deliverables (forms.json + FormTable.cs) ARE committed as sample output.

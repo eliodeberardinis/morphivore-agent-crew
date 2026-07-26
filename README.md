@@ -128,14 +128,37 @@ to a file in `output/` (`names.json`, then `art.json`); the Gameplay Engineer's
 `FormTable.cs`; the Director's `validate_forms` reads `forms.json` and ratifies it.
 That disk hand-off is what keeps the run cheap and crash-free.
 
+## Prerequisites
+
+- **Python 3.10 or newer.** Check with `python3 --version` (macOS/Linux) or
+  `python --version` (Windows).
+  - **macOS** (Homebrew): `brew install python@3.12`
+  - **Windows**: install from [python.org](https://www.python.org/downloads/)
+    (tick *"Add Python to PATH"* in the installer) or `winget install Python.Python.3.12`
+- **An Anthropic API key with credits** — create one at
+  [console.anthropic.com](https://console.anthropic.com) (Billing → add a few
+  dollars of credits, then API Keys → Create Key). This is the pay-as-you-go
+  developer API, separate from any Claude.ai / Claude subscription.
+
 ## Run it
 
 From the repository root:
 
+**macOS / Linux:**
+
 ```bash
-python -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env          # then add your ANTHROPIC_API_KEY
+python crew.py
+```
+
+**Windows (PowerShell):**
+
+```powershell
+python -m venv .venv; .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+copy .env.example .env        # then add your ANTHROPIC_API_KEY
 python crew.py
 ```
 

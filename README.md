@@ -14,15 +14,19 @@ Stalker, Grey Apex). The game loads these forms from a data file at runtime
 
 ## What does the crew produce?
 
-A **game-ready `output/forms.json`** — 150 fully-populated form records the game
-consumes directly (schema-checked on load), plus a C# **`FormTable`** loader
-(`output/FormTable.cs`) that parses it into typed structs for Unity.
+Two game-ready files in `output/`:
 
-Each of the 150 records carries: family, playstyle class, intensity (+ its %),
-rank, an authored **name** and **flavour** line, the **socket layout** (which of a
-cube's six faces hold limbs — the authored silhouette), base colour + saturation,
-surface look, feedback **VFX** cue, and an exact **stat block** (health, damage,
-speed, reach, dash).
+**1. `forms.json`** — the 150 fully-populated form records the game loads directly
+(schema-checked on load). Each record carries: family, playstyle class, intensity
+(+ its %), rank, an authored **name** and **flavour** line, the **socket layout**
+(which of a cube's six faces hold limbs — the authored silhouette), base colour +
+saturation, surface look, feedback **VFX** cue, and an exact **stat block**
+(health, damage, speed, reach, dash).
+
+**2. `FormTable.cs`** — the Unity C# loader that ships alongside the data. It
+defines the `FormDef` / `StatBlock` structs mirroring the JSON schema and a
+`FormTable.Load(json)` method that parses `forms.json` into a typed `FormDef[]`, so
+the game consumes authored content type-safely instead of hand-parsing JSON.
 
 ## How it plugs into Morphivore
 

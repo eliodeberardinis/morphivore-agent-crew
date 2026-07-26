@@ -1,9 +1,8 @@
 # Morphivore — Bestiary Form-Authoring Crew
 
 A CrewAI multi-agent crew that authors **the 150 Bestiary forms** for **Morphivore**,
-my capstone game — a Cubivore-style "survival of the fittest" cube-creature game
-where you eat same-or-lower-tier enemies to mutate, evolve, and dominate an
-ecosystem.
+my capstone game — a cube-creature game where you eat same-or-lower-tier enemies
+to mutate, evolve, and dominate an ecosystem.
 
 ## What game is this for?
 

@@ -3,7 +3,8 @@ Morphivore -- Bestiary Form-Authoring Crew
 ==========================================
 
 A 4-agent CrewAI pipeline that authors the 150 Bestiary forms for MORPHIVORE
-(a Cubivore-style "survival of the fittest" cube-creature game). It emits a
+(a cube-creature game: eat same-or-lower-tier enemies to mutate, evolve, and
+dominate an ecosystem). It emits a
 game-ready `output/forms.json` (the file the game loads, GDD 3.3) plus a C#
 `FormTable` loader.
 
@@ -46,7 +47,7 @@ MODEL = os.getenv("MORPHIVORE_CREW_MODEL", "anthropic/claude-opus-5")
 # keeps every agent's output small (25-identity schemes, not 150 records).
 llm = LLM(model=MODEL, max_tokens=8192)
 
-TONE = "The voice is primal, crude, and comedic -- the Cubivore tone. With no dialogue, narrator, or item text in the game, the form names are the ENTIRE authorial voice."
+TONE = "The voice is primal, crude, and comedic. With no dialogue, narrator, or item text in the game, the form names are the ENTIRE authorial voice."
 
 # --------------------------------------------------------------------------- #
 #  Agents (roles from GDD 3.1)                                                 #

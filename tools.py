@@ -145,7 +145,7 @@ def save_naming_scheme(scheme_json: str) -> str:
       - "rank_epithets": array of EXACTLY 6 escalating epithets (rank 1 -> 6),
       - "strains": object keyed by the 5 intensities (Pale, Dusk, Deep, Clash,
         Rage); each intensity value is {"strain": <word>, "flavor": <one line>}.
-    Voice: primal, crude, comedic (the Cubivore tone). The final form name is
+    Voice: primal, crude, comedic. The final form name is
     built deterministically as "<strain> <rank_epithet>".
     Returns a validation summary; fix and re-call if it reports errors.
     """

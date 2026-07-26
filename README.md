@@ -30,10 +30,7 @@ the game consumes authored content type-safely instead of hand-parsing JSON.
 
 ## How it plugs into Morphivore
 
-The crew is Morphivore's **content pipeline**, run at development time — not
-something that runs inside the shipped game. This matches the game's architecture
-(GDD §3): the multi-agent system is *"the development studio, not the product."*
-Nothing in the finished game calls a language model while you play; the crew bakes
+The crew is Morphivore's **content pipeline**, run at development time: it bakes
 its work into a static JSON file the game reads offline, so the game stays
 latency-free and reproducible.
 

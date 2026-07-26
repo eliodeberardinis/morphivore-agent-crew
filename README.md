@@ -24,6 +24,38 @@ cube's six faces hold limbs — the authored silhouette), base colour + saturati
 surface look, feedback **VFX** cue, and an exact **stat block** (health, damage,
 speed, reach, dash).
 
+## How it plugs into Morphivore
+
+The crew is Morphivore's **content pipeline**, run at development time — not
+something that runs inside the shipped game. This matches the game's architecture
+(GDD §3): the multi-agent system is *"the development studio, not the product."*
+Nothing in the finished game calls a language model while you play; the crew bakes
+its work into a static JSON file the game reads offline, so the game stays
+latency-free and reproducible.
+
+**Load path.** `output/forms.json` is placed in the Unity project under
+`Assets/StreamingAssets/forms.json`, and `output/FormTable.cs` goes in
+`Assets/Scripts/`. At boot the game reads the file and calls `FormTable.Load(json)`,
+turning it into a typed `FormDef[]` — schema-checked, with a fallback to built-in
+defaults if the file is missing or malformed (GDD §3.3).
+
+**Where each field is used in-game:**
+
+| Form field | Game system it drives |
+|---|---|
+| `family` + `intensity` + `rank` | The mutation/evolution resolver — a creature's colour buffer resolves to **exactly one** of these 150 forms (GDD §2.4a/b) |
+| `stats` (health, damage, speed, reach, dash) | Per-creature instantiation; feeds the combat loop (lock-on → pounce → knock down → eat) and stat recompute on evolve |
+| `socket_layout` | Procedural morphology in `Creature.BuildVisuals()` — which of the cube's six faces grow limbs |
+| `base_hex` + `saturation` + `surface` | Creature rendering (colour = playstyle class, saturation = intensity tier) |
+| `vfx` | The two "absorb languages" — colour streaming into a limb (prey) vs. a body-dissolve cue (grazers) |
+| `name` + `flavor` | The **Bestiary** meta screen — the fossil record of every form the player has taken |
+
+**Status.** The playable prototype currently builds creatures procedurally from
+code-side tables; `forms.json` becomes the authored source of truth as the
+colour-buffer / mutation system (the next milestone on the combat-loop roadmap) is
+wired to resolve buffer states to these 150 forms. Re-running the crew re-authors
+the entire Bestiary without touching game code — content and code stay decoupled.
+
 ## The crew (4 agents, sequential)
 
 Each agent maps 1:1 onto a role defined in the game's own GDD (§3.1 Agent

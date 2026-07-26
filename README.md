@@ -36,7 +36,7 @@ flowchart LR
 
     A1["1. Content &amp; Tone Agent<br/>authors names + flavour<br/>(primal / crude / comedic voice)"]
     A2["2. Creature Art &amp; VFX Agent<br/>authors silhouette, surface, VFX cue"]
-    A3["3. Gameplay Engineer<br/>computes exact stats,<br/>expands + assembles 150 records"]
+    A3["3. Gameplay Engineer<br/>computes exact stats, assembles 150 records,<br/>emits forms.json + C# FormTable loader"]
     A4["4. Director<br/>validates against the data contract,<br/>ratifies or rejects"]
 
     grid -.-> A1
@@ -44,7 +44,7 @@ flowchart LR
     A1 -->|names.json| A2
     A2 -->|art.json| A3
     A3 -->|forms.json + FormTable.cs| A4
-    A4 --> OUT[("output/forms.json<br/>150 forms — game-ready")]
+    A4 --> OUT[("output/ — game-ready<br/>forms.json (150 forms)<br/>+ FormTable.cs (Unity loader)")]
 
     T3[["compute_stats tool<br/>(deterministic GDD math)"]] -.-> A3
     T4[["validate_forms tool<br/>(contract checks)"]] -.-> A4

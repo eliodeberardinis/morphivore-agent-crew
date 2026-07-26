@@ -101,17 +101,45 @@ exactly from the GDD's intensity-scaling rule (`stat = rank_baseline × [1 +
 records between each other — which is what keeps the run fast, cheap, and
 crash-free.
 
+## Repository layout
+
+| File | What it does |
+|---|---|
+| `crew.py` | **Entry point.** Defines the 4 agents and 4 tasks, wires them into a sequential CrewAI pipeline, configures the Claude LLM, and runs the crew (`python crew.py`). |
+| `tools.py` | **The deterministic engine.** Holds the data contract (families, intensity tiers, ranks, GDD stat tables) and the 5 custom tools the agents call — `get_form_grid`, `save_naming_scheme`, `save_art_scheme`, `assemble_forms`, `validate_forms`. No LLM logic here; it's pure Python, so all maths and validation are exact and reproducible. |
+| `requirements.txt` | Python dependencies (`crewai`, `python-dotenv`). |
+| `.env.example` | Template for your `ANTHROPIC_API_KEY` (+ optional model override). Copy to `.env`. |
+| `output/forms.json` | Sample output from a real run — the 150 authored forms. |
+| `output/FormTable.cs` | Sample output — the generated Unity C# loader. |
+
+**How the two code files interact.** `crew.py` imports the tools from `tools.py`
+and hands each agent only the tools its job needs:
+
+| Agent | Tools it holds |
+|---|---|
+| Content & Tone | `get_form_grid`, `save_naming_scheme` |
+| Creature Art & VFX | `get_form_grid`, `save_art_scheme` |
+| Gameplay Engineer | `assemble_forms` |
+| Director | `validate_forms` |
+
+The agents don't pass 150 records to each other directly — each writes its layer
+to a file in `output/` (`names.json`, then `art.json`); the Gameplay Engineer's
+`assemble_forms` reads both, computes stats, and writes `forms.json` +
+`FormTable.cs`; the Director's `validate_forms` reads `forms.json` and ratifies it.
+That disk hand-off is what keeps the run cheap and crash-free.
+
 ## Run it
 
+From the repository root:
+
 ```bash
-cd agent-crew
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env          # then add your ANTHROPIC_API_KEY
 python crew.py
 ```
 
-Output lands in `agent-crew/output/`:
+Output lands in `output/`:
 - `forms.json` — the 150 authored forms (the deliverable the game loads)
 - `FormTable.cs` — the Unity C# loader
 - `names.json`, `art.json` — the intermediate authored schemes (handoff artifacts)

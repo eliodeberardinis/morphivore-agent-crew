@@ -265,19 +265,52 @@ chunking to be retrievable.
 The grader's note on Assignment #3 was to add parallelism on top of the
 sequential crew. Here it is structural, on two axes:
 
-```
-                  get_world_contract  (deterministic ids, published up front)
-                                 |
-   +-------------+---------------+--------------+------------------+
- names       behaviour        biomes                 panels × 5 families
-(Content    (Creature AI    (World Gen        (Gameplay Engineer, 10 candidates
- & Tone)     Engineer)       Engineer)         each → keep the best 3)
-   +-------------+---------------+--------------+------------------+
-                                 |  assemble_world (deterministic)
-                    QA & Balance → Director → ratify or repair
+```mermaid
+flowchart TD
+    KB[("kb/ — the game's own GDD<br/>163 section-level chunks")]
+    RAG[["gdd_search tool<br/>BM25 + vector embeddings,<br/>every retrieval logged"]]
+    WC[["get_world_contract tool<br/>fixed ids + hard invariants,<br/>published before anyone authors"]]
+
+    KB -.-> RAG
+
+    A1["Content &amp; Tone Agent<br/>names the whole roster"]
+    A2["Creature AI Engineer<br/>authors observable behaviour"]
+    A3["World Generation Engineer<br/>authors the five biomes"]
+    A4["Gameplay Engineer x 5 families<br/>10 panel candidates each"]
+
+    WC --> A1
+    WC --> A2
+    WC --> A3
+    WC --> A4
+    RAG -.-> A1
+    RAG -.-> A2
+    RAG -.-> A3
+    RAG -.-> A4
+
+    A1 -->|world-names.json| ASM
+    A2 -->|world-behaviour.json| ASM
+    A3 -->|biome-draft.json| ASM
+    A4 -->|"panel-drafts.json — keep the best 3"| ASM
+
+    ASM[["assemble_world tool<br/>stats, ranks, tiers, thresholds<br/>(deterministic GDD math)"]]
+    QA[["qa_balance_check tool<br/>proves the numeric invariants"]]
+    DIR["Director<br/>judges lore &amp; tone,<br/>tags each finding blocking / nit"]
+    FIX[["apply_fixes tool<br/>patches one field in place;<br/>refuses a stale patch"]]
+
+    ASM --> QA
+    QA --> DIR
+    RAG -.-> DIR
+
+    DIR -->|zero blocking| OUT[("output/ — game-ready<br/>creatures.json (60) · panels.json (15)<br/>biomes.json (5) + WorldTables.cs")]
+    DIR -->|blocking findings| FIX
+    FIX -->|patched, re-judge| DIR
+    FIX -->|"no fix possible — re-author"| A1
+
+    OUT --> UNITY[/"deploy_to_unity.py — gated on ratification<br/>Assets/StreamingAssets/ + Assets/Scripts/Content/"/]
 ```
 
-**Measured: 8 concurrent crews, 336 s wall clock.**
+The four authoring nodes are **8 concurrent crews** — the panel node is five of
+them, one per elite family. **Measured: 336 s wall clock.**
 
 Parallelism is *justified*, not decorative. `biomes.json` names Alpha rosters and
 `panels.json` names the elites that drop each panel — so if IDs were invented by

@@ -935,6 +935,22 @@ def record_lore_verdict(verdict_json: str) -> str:
     and state the correction. Report every finding you have -- do NOT suppress
     small ones to make the content pass; that is what "nit" is for. Content is
     ratified when there are ZERO BLOCKING findings; nits do not block.
+
+    EVERY BLOCKING FINDING MUST CARRY A `fix`, whenever the problem is wrong
+    TEXT in one field. The fix is applied verbatim and deterministically -- no
+    agent re-writes the file -- so it must be exact:
+
+        "fix": {"file":  "creatures" | "panels" | "biomes",
+                "path":  "flavor" | "name" | "behaviour.opening" | "attach" | ...,
+                "old":   "<the current value, copied EXACTLY, character for character>",
+                "new":   "<the corrected value, complete and ready to ship>"}
+
+    `path` may be dotted to reach a nested field (e.g. "behaviour.opening").
+    `old` must match what is in the file exactly or the patch is refused --
+    copy it from what `load_generated` showed you, do not retype it from memory.
+    Omit `fix` only when no single field edit can solve it (the record is
+    structurally wrong, or the same error spans many records); say so in
+    `detail`, and that track will be re-authored instead.
     """
     try:
         verdict = _parse_json(verdict_json)
@@ -954,25 +970,126 @@ def record_lore_verdict(verdict_json: str) -> str:
             errors.append(f'finding {i}: severity must be "blocking" or "nit"')
         if not f.get("detail"):
             errors.append(f"finding {i}: 'detail' is required")
+        fix = f.get("fix")
+        if fix is not None:
+            if not isinstance(fix, dict):
+                errors.append(f"finding {i}: 'fix' must be an object")
+            else:
+                if fix.get("file") not in ("creatures", "panels", "biomes"):
+                    errors.append(
+                        f'finding {i}: fix.file must be "creatures", "panels" or "biomes"'
+                    )
+                for k in ("path", "old", "new"):
+                    if not isinstance(fix.get(k), str) or not fix.get(k):
+                        errors.append(f"finding {i}: fix.{k} must be a non-empty string")
+                if fix.get("old") == fix.get("new"):
+                    errors.append(f"finding {i}: fix.old and fix.new are identical")
     if errors:
         return "VALIDATION FAILED:\n- " + "\n- ".join(errors[:15])
 
     blocking = [f for f in findings if f["severity"] == "blocking"]
     nits = [f for f in findings if f["severity"] == "nit"]
+    patchable = [f for f in blocking if f.get("fix")]
 
     record = {
         "status": "fail" if blocking else "pass",
         "blocking_count": len(blocking),
         "nit_count": len(nits),
+        "patchable_count": len(patchable),
         "findings": findings,
         # Kept for the repair loop, which only ever acts on blocking findings.
         "reason": [f["detail"] for f in blocking],
     }
     (VERDICT_DIR / "director-verdict.json").write_text(json.dumps(record, indent=2))
     return (
-        f"OK: recorded {record['status']} -- {len(blocking)} blocking, {len(nits)} nit(s). "
+        f"OK: recorded {record['status']} -- {len(blocking)} blocking "
+        f"({len(patchable)} with an applicable fix), {len(nits)} nit(s). "
         "Content is ratified when blocking is zero; nits ship as recorded advisories."
     )
+
+
+# --------------------------------------------------------------------------- #
+#  Deterministic repair -- apply the critic's fixes in place                   #
+# --------------------------------------------------------------------------- #
+
+def _dig(obj: dict, path: str):
+    """Walk a dotted path, returning (container, last_key) or (None, None)."""
+    parts = path.split(".")
+    cur = obj
+    for p in parts[:-1]:
+        if not isinstance(cur, dict) or p not in cur:
+            return None, None
+        cur = cur[p]
+    if not isinstance(cur, dict) or parts[-1] not in cur:
+        return None, None
+    return cur, parts[-1]
+
+
+def apply_fixes(findings: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Apply every blocking finding that carries a `fix`, in place.
+
+    This is the repair mechanism. Re-authoring a whole track to correct one
+    field is lossy -- it regenerates the records that were already right, and
+    on a live run that traded 1 blocking finding for 7. A fix names one object,
+    one field, the exact text to replace and the text to replace it with, so the
+    edit touches nothing else.
+
+    A fix whose `old` does not match the file is REFUSED rather than forced:
+    a mismatch means the critic was describing different content from what is
+    on disk, and guessing would corrupt it.
+
+    Returns (applied, unpatched). `unpatched` is what still needs re-authoring.
+    """
+    files = {"creatures": (CREATURES_FILE, "creatures"),
+             "panels": (PANELS_FILE, "panels"),
+             "biomes": (BIOMES_FILE, "biomes")}
+    cache: dict[str, dict] = {}
+    applied, unpatched = [], []
+
+    for f in findings:
+        if f.get("severity") != "blocking":
+            continue
+        fix = f.get("fix")
+        if not fix:
+            unpatched.append({**f, "skip_reason": "no fix supplied"})
+            continue
+
+        path_obj, key = files.get(fix["file"], (None, None))
+        if path_obj is None or not path_obj.exists():
+            unpatched.append({**f, "skip_reason": f"unknown or missing file {fix['file']}"})
+            continue
+
+        if fix["file"] not in cache:
+            cache[fix["file"]] = json.loads(path_obj.read_text())
+        data = cache[fix["file"]]
+
+        target = next((o for o in data[key] if o.get("id") == f.get("id")), None)
+        if target is None:
+            unpatched.append({**f, "skip_reason": f"no record with id {f.get('id')!r}"})
+            continue
+
+        container, field = _dig(target, fix["path"])
+        if container is None:
+            unpatched.append({**f, "skip_reason": f"path {fix['path']!r} not present"})
+            continue
+        if container[field] != fix["old"]:
+            unpatched.append({**f, "skip_reason":
+                              f"`old` does not match the file at {fix['path']} -- refusing to guess"})
+            continue
+
+        container[field] = fix["new"]
+        applied.append(f)
+
+    for name, data in cache.items():
+        files[name][0].write_text(json.dumps(data, indent=2))
+
+    log = {"applied": [{"id": f.get("id"), "path": f["fix"]["path"],
+                        "old": f["fix"]["old"], "new": f["fix"]["new"],
+                        "detail": f["detail"]} for f in applied],
+           "unpatched": [{"id": f.get("id"), "reason": f["skip_reason"],
+                          "detail": f["detail"]} for f in unpatched]}
+    (VERDICT_DIR / "patches-applied.json").write_text(json.dumps(log, indent=2))
+    return applied, unpatched
 
 
 def stamp_lore_verified() -> str:

@@ -165,34 +165,58 @@ call. The same critic, on the same content, went from *"8 findings, all fatal"* 
 Twenty-two of those twenty-three findings were always style preferences; the old
 schema just had no way to say so.
 
-#### A second finding: repair rounds can regress
+#### A second finding: repair by re-authoring regresses — so the loop patches instead
 
-With the threshold in place, the loop sent that 1 blocking finding back for
-repair — and the re-authored draft came back with **7 blocking findings**. Asking
-an agent to re-author a whole track against feedback trades known-good content
-for new mistakes: the repair even took the Director's own prescribed replacement
-line for a *panel* and pasted it onto a *creature*.
+The first repair design re-authored an entire track from scratch with the
+findings appended. On a large corpus that is a lossy operation: to fix one bad
+line in `panels.json`, the agent regenerates all fifteen panels — the bad line
+gets fixed, and some of the other fourteen come back different. We watched it
+happen:
 
-The fix is in `finalize.py`. When a finding already carries an exact correction
-("Correction: rewrite as … e.g. `<text>`"), applying that text **deterministically**
-is cheaper and safer than a re-authoring round. The final artifact is therefore
-the best draft (1 blocking, 22 nits) with that one correction applied verbatim,
-re-checked by the arithmetic critic, and then stamped:
+| Round | Blocking | Nits |
+|---|---|---|
+| 0 | **1** | 22 |
+| 1 (after re-authoring) | **7** | 16 |
 
+It went *backwards*. The clearest symptom: the repair took the Director's
+replacement text for `panel_red_vigour` (a **panel**) and pasted it onto
+`elite_yellow` (a **creature**). Re-authoring lost track of which fix belonged
+where.
+
+**So the repair mechanism was rebuilt.** The Director no longer just describes a
+correction in prose — it emits a structured patch alongside every blocking
+finding:
+
+```json
+{"severity": "blocking", "id": "panel_red_vigour",
+ "detail": "written as an activated one-shot heal, which contradicts §2.3 ...",
+ "fix": {"file": "panels", "path": "flavor",
+         "old": "Squeeze it before you go down. Tastes like copper and a bad decision.",
+         "new": "Ripped off something that would not lie down. Bolted on, it keeps
+                 you upright a beat longer than you deserve."}}
 ```
-Best archived draft: round-0-rejected (1 blocking, 22 nits)
-  panel_red_vigour.flavor
-    before: Squeeze it before you go down. Tastes like copper and a bad decision.
-    after : Ripped off something that would not lie down. Bolted on, it keeps you
-            upright a beat longer than you deserve.
-QA & Balance re-check: PASS
-lore_verified=true stamped on creatures.json, panels.json, biomes.json
-```
 
-That break is a good one to end on: the panel had been written as an *activated
-one-shot heal*, which contradicts three separate rules at once — §2.3 (only
-grazers refill Health), §2.1 (there is no use-item input in the game) and §2.8
-(panels are standing powers, not consumables).
+`tools_world.apply_fixes()` applies that verbatim — one object, one field,
+nothing else touched. Three properties make it safe:
+
+- **A stale patch is refused, not forced.** If `old` doesn't match what is on
+  disk, the fix is skipped with *"refusing to guess"* — a mismatch means the
+  critic was describing different content, and applying it anyway would corrupt
+  the file.
+- **`path` may be dotted** (`behaviour.opening`), so nested fields are reachable.
+- **Re-authoring is the fallback, not the default.** Only findings with no
+  applicable fix — the record is structurally wrong, or the same error spans many
+  records — send a track back to be rewritten.
+
+The loop is careful about one thing that would otherwise silently undo the work:
+`assemble_world` regenerates the content files from the authoring drafts, so it
+runs **only** when a track is actually re-authored. After an in-place patch, the
+pipeline re-judges the patched files directly.
+
+The break this was demonstrated on is a good one to end on: the panel had been
+written as an *activated one-shot heal*, which contradicts three rules at once —
+§2.3 (only grazers refill Health), §2.1 (there is no use-item input in the game)
+and §2.8 (panels are standing powers, not consumables).
 
 ---
 
@@ -312,17 +336,26 @@ They ship here alongside the new files.
 ### 7. Honest status
 
 - ✅ Every stage built and run live: RAG, world contract, 8-way parallel
-  authoring, deterministic assembly, both critics, the repair loop, the severity
-  threshold, the deploy gate, and the Unity compile check.
+  authoring, deterministic assembly, both critics, the severity threshold, the
+  patch-in-place repair loop, the deploy gate, and the Unity compile check.
 - ✅ **Content is ratified**: QA & Balance passes, zero blocking findings,
   22 nits shipped as recorded advisories.
-- ⚠️ The ratified artifact is the best drafted round with **one correction
-  applied deterministically** (see `finalize.py`), not the output of a clean
-  end-to-end autonomous pass. A fully autonomous run would need the repair step
-  to patch rather than re-author — that is the next change I would make.
-- 📝 Two findings worth carrying forward: an LLM critic on a large corpus never
-  converges to zero, so ship on a severity threshold; and re-authoring for repair
-  can regress content, so prefer applying a prescribed correction in place.
+- 📌 **Provenance of the shipped artifact.** The repair loop was rebuilt to patch
+  in place *after* the live run had already been judged, so the ratified files
+  were produced by running that same `apply_fixes` mechanism over the best
+  archived draft via `finalize.py`, rather than by an uninterrupted single
+  invocation of `crew_world.py`. The mechanism is identical and the fix came
+  from the critic, not from me — but the run was resumed, not continuous, and
+  that is worth stating plainly.
+- ⚠️ **The generated content is not yet spawned by the game.** `WorldTables.cs`
+  compiles and the JSON sits in `StreamingAssets/`, but `EcosystemManager` still
+  spawns from the hardcoded tables in `GameConfig`. The honest claim is *the
+  engine ingests and compiles this content*, not *the game runs on it*. Wiring
+  the spawner to `creatures.json` is the next piece of work.
+- 📝 Two findings worth carrying forward, both now fixed in the pipeline: an LLM
+  critic on a large corpus never converges to zero findings, so ship on a
+  severity threshold; and repair by re-authoring regresses content, so the critic
+  emits a structured patch that is applied in place.
 
 ---
 
@@ -361,8 +394,9 @@ Re-author only the creature track against the recorded findings:
 .venv/bin/python repair_creatures.py
 ```
 
-Finalise: take the archived draft with the fewest blocking findings, apply the
-Director's prescribed corrections in place, re-check, and ratify:
+Recover an interrupted run: re-open the archived draft with the fewest blocking
+findings, apply that round's recorded fixes to it with the same `apply_fixes`
+the loop uses, re-check, and ratify:
 
 ```bash
 .venv/bin/python finalize.py --dry-run

@@ -1,18 +1,17 @@
 """
-Finalise a run: restore the best draft, apply the Director's prescribed
-corrections deterministically, re-check, and ratify.
+Recover an abandoned run: re-open the best archived draft and finish it.
 
-Why this exists. The repair loop re-authors a whole track from scratch against
-the critics' feedback, and on a large corpus that trades known-good content for
-new mistakes -- the live run went from 1 blocking finding to 7 that way. When a
-finding already carries an exact correction ("Correction: rewrite as ... e.g.
-<text>"), applying that text directly is both cheaper and safer than asking an
-agent to re-author around it.
+The repair loop in `crew_world.py` already patches in place -- `apply_fixes`
+applies each blocking finding's structured `fix` verbatim, and a track is only
+re-authored when no single field edit can solve the problem. This script is not
+a different mechanism; it calls the same `apply_fixes`.
 
-So this is the last mile: take the draft with the fewest blocking findings,
-apply each recorded correction, re-run the deterministic critic, and stamp
-`lore_verified` only if nothing blocking remains. Nits are kept as advisories in
-the verdict; they are not repaired and they do not block.
+What it adds is the ability to pick up a run that stopped part-way -- out of
+budget, interrupted, or ended on a round that was worse than an earlier one.
+It selects the archived draft with the fewest blocking findings, applies that
+round's recorded fixes to it, re-runs the deterministic critic, and stamps
+`lore_verified` only if nothing blocking remains. Nits are advisories: recorded,
+shipped, never repaired.
 
     python finalize.py --dry-run
     python finalize.py
@@ -25,19 +24,10 @@ from pathlib import Path
 
 import tools_world as tw
 
-# Corrections transcribed verbatim from the Director's recorded findings.
-# Each entry: (file, json-pointer-ish path, expected old text, new text, finding id)
-CORRECTIONS = [
-    (
-        "panels", "panel_red_vigour", "flavor",
-        "Squeeze it before you go down. Tastes like copper and a bad decision.",
-        "Ripped off something that would not lie down. Bolted on, it keeps you "
-        "upright a beat longer than you deserve.",
-        "panel_red_vigour: written as an activated one-shot heal, which "
-        "contradicts §2.3 (only grazers refill Health), §2.1 (no use-item input "
-        "exists) and §2.8 (panels are standing powers, not consumables).",
-    ),
-]
+# Fixes are no longer transcribed here. The Director emits each blocking finding
+# with a structured `fix` (file / path / old / new), and `tools_world.apply_fixes`
+# applies it verbatim -- the same mechanism the repair loop now uses in-flight.
+# This script only chooses which archived draft to apply them to.
 
 
 def best_round() -> Path:
@@ -69,47 +59,45 @@ def apply(dry_run: bool) -> None:
                         tw.VERDICT_DIR / "director-verdict.json")
         print(f"Restored the three content files from {src.name}")
 
-    applied, missed = [], []
-    for which, obj_id, field, old, new, finding in CORRECTIONS:
-        path = {"creatures": tw.CREATURES_FILE, "panels": tw.PANELS_FILE,
-                "biomes": tw.BIOMES_FILE}[which]
-        data = json.loads(path.read_text())
-        key = {"creatures": "creatures", "panels": "panels", "biomes": "biomes"}[which]
-        hit = next((o for o in data[key] if o["id"] == obj_id), None)
-        if hit is None or hit.get(field) != old:
-            missed.append(f"{obj_id}.{field}: expected text not found (already fixed?)")
-            continue
-        print(f"\n  {obj_id}.{field}")
-        print(f"    before: {old}")
-        print(f"    after : {new}")
-        print(f"    reason: {finding[:110]}...")
-        if not dry_run:
-            hit[field] = new
-            path.write_text(json.dumps(data, indent=2))
-        applied.append(obj_id)
-
-    print(f"\nApplied {len(applied)} correction(s); {len(missed)} skipped.")
-    for m in missed:
-        print(f"  - {m}")
+    verdict = json.loads((tw.VERDICT_DIR / "director-verdict.json").read_text())
+    findings = verdict.get("findings", [])
+    blocking = [f for f in findings if f["severity"] == "blocking"]
 
     if dry_run:
+        print(f"\nWould apply fixes for {sum(1 for f in blocking if f.get('fix'))} "
+              f"of {len(blocking)} blocking finding(s):")
+        for f in blocking:
+            fix = f.get("fix")
+            if fix:
+                print(f"\n  {f.get('id')}.{fix['path']}")
+                print(f"    - {fix['old']}")
+                print(f"    + {fix['new']}")
+            else:
+                print(f"\n  {f.get('id')}: no fix supplied -- needs re-authoring")
         print("\n(dry run -- nothing written)")
         return
+
+    applied, unpatched = tw.apply_fixes(findings)
+    print(f"\nApplied {len(applied)} fix(es) in place; {len(unpatched)} unpatched.")
+    for f in applied:
+        print(f"  ~ {f.get('id')}.{f['fix']['path']}")
+        print(f"      - {f['fix']['old'][:110]}")
+        print(f"      + {f['fix']['new'][:110]}")
+    for f in unpatched:
+        print(f"  ! {f.get('id')}: {f['skip_reason']}")
 
     qa = tw.run_qa_check()
     print(f"\nQA & Balance re-check: {qa['status'].upper()}")
     for r in qa.get("reason", []):
         print(f"  - {r}")
 
-    verdict = json.loads((tw.VERDICT_DIR / "director-verdict.json").read_text())
-    remaining = [f for f in verdict.get("findings", [])
-                 if f["severity"] == "blocking" and f.get("id") not in applied]
+    remaining = unpatched
 
     if qa["status"] == "pass" and not remaining:
         print("\n" + tw.stamp_lore_verified())
         summary = {
             "ratified": True,
-            "basis": f"{src.name} with {len(applied)} recorded correction(s) applied",
+            "basis": f"{src.name} with {len(applied)} critic-supplied fix(es) applied in place",
             "qa": qa["status"],
             "blocking_remaining": 0,
             "nits_shipped_as_advisories": verdict.get("nit_count", 0),

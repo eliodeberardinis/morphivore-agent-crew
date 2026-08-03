@@ -281,8 +281,19 @@ def director_crew() -> Crew:
         "  - tone drift out of primal/crude/comedic into epic fantasy or solemn "
         "high style.\n\n"
         "Then call `record_lore_verdict` exactly once, passing EVERY finding you "
-        "have with a severity:\n"
-        '  {"findings": [{"severity": "blocking"|"nit", "id": "...", "detail": "..."}]}\n\n'
+        "have with a severity and -- for blocking findings -- an exact fix:\n"
+        '  {"findings": [{"severity": "blocking"|"nit", "id": "...", "detail": "...",\n'
+        '                 "fix": {"file": "creatures"|"panels"|"biomes",\n'
+        '                         "path": "flavor" | "behaviour.opening" | "attach" | ...,\n'
+        '                         "old": "<current text, copied EXACTLY>",\n'
+        '                         "new": "<corrected text, ready to ship>"}}]}\n\n'
+        "The `fix` is not advice -- it is applied verbatim to the file, with no "
+        "agent re-writing anything. So copy `old` character-for-character from "
+        "what `load_generated` showed you (a mismatch is refused rather than "
+        "guessed at), and write `new` as the complete finished value. Supply a "
+        "fix for EVERY blocking finding that is wrong text in one field. Omit it "
+        "only when no single field edit can solve the problem, and say so in "
+        "`detail`.\n\n"
         "Severity is the judgement that matters here. Mark a finding **blocking** "
         "only when the content CONTRADICTS a stated rule in the GDD -- an invented "
         "family or tier, meat that may not wander, a grazer with colour or fight in "
@@ -385,13 +396,22 @@ async def main() -> None:
                              tw.PANEL_DRAFTS_FILE, tw.BIOME_DRAFT_FILE)
     )
 
+    # When every blocking finding carries a fix, the next round patches the
+    # assembled files in place and only re-judges. Re-authoring (and therefore
+    # re-assembling) happens only for findings no single edit can solve --
+    # assemble_world regenerates from the drafts, so running it after a patch
+    # would silently throw the patch away.
+    needs_authoring = True
+
     for rnd in range(MAX_REPAIR_ROUNDS + 1):
         if resume and rnd == 0:
             print(">>> --from-drafts: reusing the authoring already on disk\n")
-        else:
+            print(tw.assemble_world.run())
+        elif needs_authoring:
             await _run_authoring(tracks, feedback)
-
-        print(tw.assemble_world.run())
+            print(tw.assemble_world.run())
+        else:
+            print(">>> patched in place -- re-judging without re-authoring\n")
 
         qa = tw.run_qa_check()
         (tw.VERDICT_DIR / "qa-verdict.json").write_text(json.dumps(qa, indent=2))
@@ -422,9 +442,27 @@ async def main() -> None:
         if rnd == MAX_REPAIR_ROUNDS:
             print("Repair budget exhausted -- content is NOT ratified.")
             break
-        feedback = _feedback_block(qa, lore)
-        tracks = _route(qa.get("reason", []) + lore.get("reason", []))
-        print(f"Repair round {rnd + 1}: sending work back to {sorted(tracks)}")
+
+        # Deterministic repair first: apply every fix the critic supplied.
+        applied, unpatched = tw.apply_fixes(lore.get("findings", []))
+        print(f"\nRepair round {rnd + 1}: patched {len(applied)} finding(s) in place")
+        for f in applied:
+            print(f"  ~ {f.get('id')}.{f['fix']['path']}")
+            print(f"      - {f['fix']['old'][:110]}")
+            print(f"      + {f['fix']['new'][:110]}")
+        for f in unpatched:
+            print(f"  ! {f.get('id')}: {f['skip_reason']}")
+
+        # Re-author only what no single edit could fix.
+        if unpatched or qa["status"] != "pass":
+            needs_authoring = True
+            feedback = _feedback_block(qa, {"reason": [f["detail"] for f in unpatched]})
+            tracks = _route(qa.get("reason", []) + [f["detail"] for f in unpatched])
+            print(f"  -> re-authoring {sorted(tracks)} for the rest")
+        else:
+            needs_authoring = False
+            feedback = ""
+            print("  -> everything was patchable; re-judging the patched files")
 
     summary = {
         "finished_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),

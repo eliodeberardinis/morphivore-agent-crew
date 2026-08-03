@@ -208,10 +208,37 @@ nothing else touched. Three properties make it safe:
   applicable fix — the record is structurally wrong, or the same error spans many
   records — send a track back to be rewritten.
 
-The loop is careful about one thing that would otherwise silently undo the work:
-`assemble_world` regenerates the content files from the authoring drafts, so it
-runs **only** when a track is actually re-authored. After an in-place patch, the
-pipeline re-judges the patched files directly.
+#### What running it end-to-end found
+
+Rebuilding the mechanism is one thing; exercising it against a live critic is
+another. The first full run under the new schema was worth its cost — the
+Director returned:
+
+```
+OK: recorded fail -- 10 blocking (10 with an applicable fix), 11 nit(s)
+```
+
+**Every blocking finding carried a usable patch**, so nine applied cleanly in
+place with no re-authoring at all. It also surfaced two real bugs, both now
+fixed:
+
+**1. Paths could not index into lists.** One fix targeted `pockets.0` — biomes
+carry a `pockets` array — and the dict-only path walker refused it with *"path
+not present"*. A single line then sent an entire track back to be re-authored.
+`_dig` now treats a numeric segment as a list index, and an out-of-range index is
+still refused rather than appended.
+
+**2. Re-assembly silently discarded applied patches.** `assemble_world` rebuilds
+**all three** files from the authoring drafts. So when one unpatchable finding
+forced the biomes track to be re-authored, the rebuild wiped the nine patches
+already applied to the *other* files. The live run proved it: `elite_yellow` came
+back with neither its original nor its patched text.
+
+The fix is a **patch ledger**. Every applied patch is recorded durably; after any
+assembly the ledger is replayed onto files that were *not* re-authored, and
+entries for regenerated tracks are dropped as moot. Because an un-re-authored
+track rebuilds from the same drafts, its pre-patch text returns exactly — so each
+ledger entry's `old` still matches and the replay is safe rather than forced.
 
 The break this was demonstrated on is a good one to end on: the panel had been
 written as an *activated one-shot heal*, which contradicts three rules at once —
@@ -459,12 +486,18 @@ MORPHIVORE_CRITIC_MODEL=anthropic/claude-opus-5 MORPHIVORE_AUTHOR_MODEL=anthropi
 
 | Path | What it proves |
 |---|---|
-| `output/retrieval-log.jsonl` | every query, backend, chunk and score — the RAG audit trail |
-| `output/critic-log/round-0-rejected/` | the rejected draft **and** the verdict that rejected it |
-| `output/critic-log/director-verdict.json` | the Director's findings, each citing a GDD section |
+| `output/critic-log/accepted/` | **start here** — the ratified content, the verdict the patches came from, every field changed, and the arithmetic re-check |
+| `output/critic-log/round-*-rejected/` | earlier drafts that did not make it, kept with the verdicts that rejected them |
+| `output/critic-log/patches-applied.json` | each fix: id, field, old text, new text |
 | `output/critic-log/qa-verdict.json` | the arithmetic critic's proof list |
-| `output/creatures.json`, `panels.json`, `biomes.json` | the generated content |
+| `output/retrieval-log-sample.jsonl` | query, backend, chunks and scores — the RAG audit trail (full log gitignored, 2.9 MB) |
+| `output/creatures.json`, `panels.json`, `biomes.json` | the generated content, `lore_verified: true` |
 | `output/WorldTables.cs` | the typed Unity loader |
+
+Note on reading the log: the top-level `director-verdict.json` is the **most
+recent** verdict, which on a patched run is the pre-patch FAIL. That is not a
+contradiction — it is the input the patches were derived from. The post-patch
+state lives in `accepted/`.
 
 ---
 

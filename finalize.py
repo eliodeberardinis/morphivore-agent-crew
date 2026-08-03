@@ -95,12 +95,43 @@ def apply(dry_run: bool) -> None:
 
     if qa["status"] == "pass" and not remaining:
         print("\n" + tw.stamp_lore_verified())
+
+        # Archive the ACCEPTED state, not just the rejected rounds. Without this
+        # the critic-log reads as nothing but failures, and the top-level
+        # director-verdict.json is the pre-patch FAIL -- which contradicts
+        # run-summary.json saying the content was ratified.
+        acc = tw.VERDICT_DIR / "accepted"
+        acc.mkdir(parents=True, exist_ok=True)
+        for name in ("creatures.json", "panels.json", "biomes.json"):
+            shutil.copyfile(tw.OUT_DIR / name, acc / name)
+        (acc / "verdict-before-patch.json").write_text(json.dumps(verdict, indent=2))
+        (acc / "qa-after-patch.json").write_text(json.dumps(qa, indent=2))
+        patches = tw.VERDICT_DIR / "patches-applied.json"
+        if patches.exists():
+            shutil.copyfile(patches, acc / "patches-applied.json")
+        (acc / "README.md").write_text(
+            "# Accepted\n\n"
+            f"The ratified content, taken from `{src.name}` with "
+            f"{len(applied)} critic-supplied fix(es) applied in place.\n\n"
+            "- `verdict-before-patch.json` — the Director's verdict on this draft "
+            f"({verdict.get('blocking_count', '?')} blocking, "
+            f"{verdict.get('nit_count', '?')} nits). It is a FAIL, and that is the "
+            "point: it is what the patches were derived from.\n"
+            "- `patches-applied.json` — every field changed, with the old and new text.\n"
+            "- `qa-after-patch.json` — the arithmetic critic re-run on the patched files: PASS.\n"
+            "- `creatures.json` / `panels.json` / `biomes.json` — the result, `lore_verified: true`.\n\n"
+            "The sibling `round-*-rejected/` folders are earlier drafts that did not "
+            "make it, kept as evidence of what the critics caught.\n"
+        )
+        print(f"Accepted state archived to {acc}")
+
         summary = {
             "ratified": True,
             "basis": f"{src.name} with {len(applied)} critic-supplied fix(es) applied in place",
             "qa": qa["status"],
             "blocking_remaining": 0,
             "nits_shipped_as_advisories": verdict.get("nit_count", 0),
+            "evidence": "output/critic-log/accepted/",
         }
     else:
         print("\nNOT ratified.")

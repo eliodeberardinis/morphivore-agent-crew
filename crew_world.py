@@ -410,6 +410,15 @@ async def main() -> None:
         elif needs_authoring:
             await _run_authoring(tracks, feedback)
             print(tw.assemble_world.run())
+            # Assembly rebuilds ALL THREE files from the drafts, so it wipes
+            # patches applied to tracks that were not re-authored. Replay them;
+            # drop the ledger entries for tracks that were regenerated, since
+            # those records no longer exist in the form the patch described.
+            regenerated = {"creatures" if t == "creatures" else t for t in tracks}
+            replayed = tw.replay_patches(skip_files=regenerated)
+            if replayed:
+                print(f">>> replayed {len(replayed)} earlier patch(es) "
+                      f"onto the rebuilt files")
         else:
             print(">>> patched in place -- re-judging without re-authoring\n")
 

@@ -63,6 +63,8 @@ CSHARP_FILE = OUT_DIR / "WorldTables.cs"
 
 VERDICT_DIR = OUT_DIR / "critic-log"
 VERDICT_DIR.mkdir(exist_ok=True)
+# Durable record of every patch applied, so a later re-assembly can replay them.
+PATCH_LEDGER = VERDICT_DIR / "patch-ledger.json"
 
 # --------------------------------------------------------------------------- #
 #  Derived constants                                                           #
@@ -1012,17 +1014,37 @@ def record_lore_verdict(verdict_json: str) -> str:
 #  Deterministic repair -- apply the critic's fixes in place                   #
 # --------------------------------------------------------------------------- #
 
+def _step(cur, key: str):
+    """One hop along a path. Numeric keys index lists (e.g. "pockets.0")."""
+    if isinstance(cur, list):
+        return cur[int(key)] if key.isdigit() and int(key) < len(cur) else None
+    if isinstance(cur, dict):
+        return cur.get(key)
+    return None
+
+
 def _dig(obj: dict, path: str):
-    """Walk a dotted path, returning (container, last_key) or (None, None)."""
+    """Walk a dotted path, returning (container, key) or (None, None).
+
+    Handles list indices as well as object keys -- `biomes` carries a `pockets`
+    array, and a live run produced a fix targeting "pockets.0". A dict-only walk
+    silently refused it, so the whole track was sent back for re-authoring over
+    a single line.
+    """
     parts = path.split(".")
     cur = obj
     for p in parts[:-1]:
-        if not isinstance(cur, dict) or p not in cur:
+        cur = _step(cur, p)
+        if cur is None:
             return None, None
-        cur = cur[p]
-    if not isinstance(cur, dict) or parts[-1] not in cur:
+    last = parts[-1]
+    if isinstance(cur, list):
+        if last.isdigit() and int(last) < len(cur):
+            return cur, int(last)
         return None, None
-    return cur, parts[-1]
+    if isinstance(cur, dict) and last in cur:
+        return cur, last
+    return None, None
 
 
 def apply_fixes(findings: list[dict]) -> tuple[list[dict], list[dict]]:
@@ -1083,13 +1105,49 @@ def apply_fixes(findings: list[dict]) -> tuple[list[dict], list[dict]]:
     for name, data in cache.items():
         files[name][0].write_text(json.dumps(data, indent=2))
 
-    log = {"applied": [{"id": f.get("id"), "path": f["fix"]["path"],
+    log = {"applied": [{"id": f.get("id"), "file": f["fix"]["file"],
+                        "path": f["fix"]["path"],
                         "old": f["fix"]["old"], "new": f["fix"]["new"],
                         "detail": f["detail"]} for f in applied],
            "unpatched": [{"id": f.get("id"), "reason": f["skip_reason"],
                           "detail": f["detail"]} for f in unpatched]}
     (VERDICT_DIR / "patches-applied.json").write_text(json.dumps(log, indent=2))
+
+    # Record every applied patch in a durable ledger. `assemble_world` rebuilds
+    # ALL THREE files from the authoring drafts, so a later round that re-authors
+    # one track would otherwise silently throw away patches applied to the other
+    # two -- which is exactly what a live run did, discarding nine good fixes.
+    ledger = json.loads(PATCH_LEDGER.read_text()) if PATCH_LEDGER.exists() else []
+    for f in applied:
+        entry = {"id": f.get("id"), **f["fix"]}
+        if entry not in ledger:
+            ledger.append(entry)
+    PATCH_LEDGER.write_text(json.dumps(ledger, indent=2))
+
     return applied, unpatched
+
+
+def replay_patches(skip_files: set[str] | None = None) -> list[dict]:
+    """Re-apply the ledger after an assembly, for files that were NOT re-authored.
+
+    A track that was re-authored is regenerated wholesale and will be re-judged,
+    so its old patches are moot -- pass it in `skip_files` to drop them. A track
+    that was only patched is rebuilt from the SAME drafts, so it comes back with
+    the pre-patch text and every ledger entry's `old` still matches.
+    """
+    if not PATCH_LEDGER.exists():
+        return []
+    skip_files = skip_files or set()
+    ledger = json.loads(PATCH_LEDGER.read_text())
+    keep = [e for e in ledger if e["file"] not in skip_files]
+    PATCH_LEDGER.write_text(json.dumps(keep, indent=2))
+    if not keep:
+        return []
+    findings = [{"severity": "blocking", "id": e["id"], "detail": "ledger replay",
+                 "fix": {k: e[k] for k in ("file", "path", "old", "new")}}
+                for e in keep]
+    replayed, _ = apply_fixes(findings)
+    return replayed
 
 
 def stamp_lore_verified() -> str:

@@ -1,0 +1,110 @@
+{
+  "prey_family_stems": {
+    "Yellow": {
+      "stem": "Chugger",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back."
+    },
+    "Red": {
+      "stem": "Twitcher",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting."
+    },
+    "Blue": {
+      "stem": "Longshank",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds."
+    },
+    "Purple": {
+      "stem": "Sneakbite",
+      "flavor": "Nothing special about it, except that it's already behind you."
+    },
+    "Grey": {
+      "stem": "Greyhide",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu."
+    }
+  },
+  "tier_prefixes": {
+    "Pale": "Pale",
+    "Dusk": "Dusk",
+    "Deep": "Deep",
+    "Rage": "Rage"
+  },
+  "grazers": {
+    "prairies": {
+      "name": "Fieldloaf",
+      "flavor": "A pale lump that eats grass and screams if you look at it. Free lunch."
+    },
+    "wetlands": {
+      "name": "Mudpuff",
+      "flavor": "Bobs in the shallows like a fat pale cloud. Runs slower than guilt."
+    },
+    "mountains": {
+      "name": "Snowlump",
+      "flavor": "White as the rock it hides against. Not hiding well."
+    },
+    "beach": {
+      "name": "Tideblob",
+      "flavor": "Washes up, waddles off, gets eaten. The circle is short."
+    },
+    "volcanic": {
+      "name": "Ashgrub",
+      "flavor": "Pale meat that survives the heat by being too dumb to notice it."
+    }
+  },
+  "elites": {
+    "Yellow": {
+      "name": "Slabjaw",
+      "flavor": "Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve."
+    },
+    "Red": {
+      "name": "Bloodspur",
+      "flavor": "Faster than anything with this many teeth has any right to be. Bites first, never apologizes."
+    },
+    "Blue": {
+      "name": "Farshank",
+      "flavor": "Reaches you before you're ready to reach back. The distance was never yours to begin with."
+    },
+    "Purple": {
+      "name": "Backbiter",
+      "flavor": "You never see the one that gets you. Neither did this thing's last meal."
+    },
+    "Grey": {
+      "name": "Greybrute",
+      "flavor": "Good at every part of killing you. Rare, because most things this good don't share a biome with anything else for long."
+    }
+  },
+  "minibosses": {
+    "Fins": {
+      "name": "Gillbrute",
+      "flavor": "Owns the hollow like a landlord with teeth. Rip the gills off and wear the water yourself."
+    },
+    "Claws": {
+      "name": "Ridgeripper",
+      "flavor": "Holds the rocks like they're personal property. Pry the hooks loose and the cliffs are yours."
+    },
+    "Coat": {
+      "name": "Frostpelt",
+      "flavor": "Matted, mean, and unbothered by cold that kills everything else up here. Skin it and borrow the immunity."
+    },
+    "Heat": {
+      "name": "Cinderjaw",
+      "flavor": "Lives in the vents like they're a warm bath. Tear off the glowing seam and the lava stops being a wall."
+    }
+  },
+  "alpha_titles": {
+    "Yellow": "Slabking",
+    "Red": "Bloodstreak",
+    "Blue": "Longreach",
+    "Purple": "Shivbite",
+    "Grey": "Old Grey"
+  },
+  "biome_epithets": {
+    "prairies": "Tall Grass",
+    "wetlands": "Sunk Bog",
+    "mountains": "High Rock",
+    "beach": "Burnt Sand",
+    "volcanic": "Open Flame"
+  },
+  "apex": {
+    "name": "The Last Grey",
+    "flavor": "Woke up because you wouldn't stop eating. Doesn't run. Never has to."
+  }
+}

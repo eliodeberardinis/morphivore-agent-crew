@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "reason": [],
+  "checked": [
+    "grazer flee speed below the slowest dash",
+    "grazers colourless and outside the Alpha gate",
+    "Clash never wanders",
+    "prey/elite/alpha rank rules",
+    "Alphas cannot be outrun; emblems grant no power",
+    "panels dropped by elites only, no duplicate power per family",
+    "worst-roll slack, palette breadth, population supply",
+    "alpha roster + panel source referential integrity",
+    "trait carriers reachable without their own trait"
+  ]
+}

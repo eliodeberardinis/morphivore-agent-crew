@@ -1,0 +1,3070 @@
+{
+  "generated_by": "morphivore-world-crew",
+  "count": 60,
+  "lore_verified": false,
+  "creatures": [
+    {
+      "id": "grazer_prairies",
+      "role": "grazer",
+      "name": "Fieldloaf",
+      "flavor": "A pale lump that eats grass and screams if you look at it. Free lunch.",
+      "family": null,
+      "tier": null,
+      "rank": 0,
+      "limbs": 0,
+      "base_hex": "#FFFFFF",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "heals_player_pct": 0.25,
+      "behaviour": {
+        "idle": "Stands and grazes in place, calm and limbless, oblivious until something gets close -- no colour, no watchfulness, nothing to lose.",
+        "when_locked": "Freezes for a single beat the instant the ring locks on, then bolts in a panicked, erratic zig-zag away from the player -- never turning to fight, never slowing, just putting ground between itself and whatever just noticed it."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "flee_speed": 8.6,
+          "stats": {
+            "health": 30,
+            "damage": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "grazer_wetlands",
+      "role": "grazer",
+      "name": "Mudpuff",
+      "flavor": "Bobs in the shallows like a fat pale cloud. Runs slower than guilt.",
+      "family": null,
+      "tier": null,
+      "rank": 0,
+      "limbs": 0,
+      "base_hex": "#FFFFFF",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "heals_player_pct": 0.25,
+      "behaviour": {
+        "idle": "Stands and grazes in place, calm and limbless, oblivious until something gets close -- no colour, no watchfulness, nothing to lose.",
+        "when_locked": "Freezes for a single beat the instant the ring locks on, then bolts in a panicked, erratic zig-zag away from the player -- never turning to fight, never slowing, just putting ground between itself and whatever just noticed it."
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "flee_speed": 8.8,
+          "stats": {
+            "health": 30,
+            "damage": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "grazer_mountains",
+      "role": "grazer",
+      "name": "Snowlump",
+      "flavor": "White as the rock it hides against. Not hiding well.",
+      "family": null,
+      "tier": null,
+      "rank": 0,
+      "limbs": 0,
+      "base_hex": "#FFFFFF",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "heals_player_pct": 0.25,
+      "behaviour": {
+        "idle": "Stands and grazes in place, calm and limbless, oblivious until something gets close -- no colour, no watchfulness, nothing to lose.",
+        "when_locked": "Freezes for a single beat the instant the ring locks on, then bolts in a panicked, erratic zig-zag away from the player -- never turning to fight, never slowing, just putting ground between itself and whatever just noticed it."
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "flee_speed": 9.0,
+          "stats": {
+            "health": 30,
+            "damage": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "grazer_beach",
+      "role": "grazer",
+      "name": "Tideblob",
+      "flavor": "Washes up, waddles off, gets eaten. The circle is short.",
+      "family": null,
+      "tier": null,
+      "rank": 0,
+      "limbs": 0,
+      "base_hex": "#FFFFFF",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "heals_player_pct": 0.25,
+      "behaviour": {
+        "idle": "Stands and grazes in place, calm and limbless, oblivious until something gets close -- no colour, no watchfulness, nothing to lose.",
+        "when_locked": "Freezes for a single beat the instant the ring locks on, then bolts in a panicked, erratic zig-zag away from the player -- never turning to fight, never slowing, just putting ground between itself and whatever just noticed it."
+      },
+      "spawns": [
+        {
+          "biome": "beach",
+          "flee_speed": 9.2,
+          "stats": {
+            "health": 30,
+            "damage": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "grazer_volcanic",
+      "role": "grazer",
+      "name": "Ashgrub",
+      "flavor": "Pale meat that survives the heat by being too dumb to notice it.",
+      "family": null,
+      "tier": null,
+      "rank": 0,
+      "limbs": 0,
+      "base_hex": "#FFFFFF",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "heals_player_pct": 0.25,
+      "behaviour": {
+        "idle": "Stands and grazes in place, calm and limbless, oblivious until something gets close -- no colour, no watchfulness, nothing to lose.",
+        "when_locked": "Freezes for a single beat the instant the ring locks on, then bolts in a panicked, erratic zig-zag away from the player -- never turning to fight, never slowing, just putting ground between itself and whatever just noticed it."
+      },
+      "spawns": [
+        {
+          "biome": "volcanic",
+          "flee_speed": 9.4,
+          "stats": {
+            "health": 30,
+            "damage": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_yellow_pale",
+      "role": "prey",
+      "name": "Pale Chugger",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Pale",
+      "base_hex": "#F2C10E",
+      "saturation": 0.25,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Grazes and shoulders through brush at a slow, deliberate lumber, head down, in no hurry because nothing in the biome usually bothers it back.",
+        "when_locked": "Breaks into a heavy, clumsy gallop the instant the red ring snaps on -- no finesse, just bulk thrown in the opposite direction, veering in wide stumbling zig-zags that are slow to start and slow to correct.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 112,
+            "damage": 45,
+            "speed": 11.55,
+            "reach": 15.6,
+            "dash": 10.97
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 112,
+            "damage": 45,
+            "speed": 11.55,
+            "reach": 15.6,
+            "dash": 10.97
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 169,
+            "damage": 62,
+            "speed": 12.51,
+            "reach": 18.52,
+            "dash": 11.88
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 225,
+            "damage": 79,
+            "speed": 13.47,
+            "reach": 21.45,
+            "dash": 12.8
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 281,
+            "damage": 96,
+            "speed": 14.44,
+            "reach": 24.38,
+            "dash": 13.72
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_yellow_dusk",
+      "role": "prey",
+      "name": "Dusk Chugger",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Dusk",
+      "base_hex": "#F2C10E",
+      "saturation": 0.5,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Grazes and shoulders through brush at a slow, deliberate lumber, head down, in no hurry because nothing in the biome usually bothers it back.",
+        "when_locked": "Breaks into a heavy, clumsy gallop the instant the red ring snaps on -- no finesse, just bulk thrown in the opposite direction, veering in wide stumbling zig-zags that are slow to start and slow to correct.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 125,
+            "damage": 50,
+            "speed": 11.1,
+            "reach": 15.2,
+            "dash": 9.99
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 125,
+            "damage": 50,
+            "speed": 11.1,
+            "reach": 15.2,
+            "dash": 9.99
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 188,
+            "damage": 69,
+            "speed": 12.03,
+            "reach": 18.05,
+            "dash": 10.83
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 250,
+            "damage": 88,
+            "speed": 12.95,
+            "reach": 20.9,
+            "dash": 11.65
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 312,
+            "damage": 106,
+            "speed": 13.88,
+            "reach": 23.75,
+            "dash": 12.49
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_yellow_deep",
+      "role": "prey",
+      "name": "Deep Chugger",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Deep",
+      "base_hex": "#F2C10E",
+      "saturation": 0.75,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Grazes and shoulders through brush at a slow, deliberate lumber, head down, in no hurry because nothing in the biome usually bothers it back.",
+        "when_locked": "Breaks into a heavy, clumsy gallop the instant the red ring snaps on -- no finesse, just bulk thrown in the opposite direction, veering in wide stumbling zig-zags that are slow to start and slow to correct.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 138,
+            "damage": 55,
+            "speed": 10.65,
+            "reach": 14.8,
+            "dash": 9.05
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 206,
+            "damage": 76,
+            "speed": 11.54,
+            "reach": 17.57,
+            "dash": 9.81
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 275,
+            "damage": 96,
+            "speed": 12.42,
+            "reach": 20.35,
+            "dash": 10.56
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 344,
+            "damage": 117,
+            "speed": 13.31,
+            "reach": 23.12,
+            "dash": 11.31
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_yellow_rage",
+      "role": "prey",
+      "name": "Rage Chugger",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Rage",
+      "base_hex": "#F2C10E",
+      "saturation": 1.0,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Grazes and shoulders through brush at a slow, deliberate lumber, head down, in no hurry because nothing in the biome usually bothers it back.",
+        "when_locked": "Breaks into a heavy, clumsy gallop the instant the red ring snaps on -- no finesse, just bulk thrown in the opposite direction, veering in wide stumbling zig-zags that are slow to start and slow to correct.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 225,
+            "damage": 82,
+            "speed": 11.05,
+            "reach": 17.1,
+            "dash": 8.84
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 300,
+            "damage": 105,
+            "speed": 11.9,
+            "reach": 19.8,
+            "dash": 9.52
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 375,
+            "damage": 128,
+            "speed": 12.75,
+            "reach": 22.5,
+            "dash": 10.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_red_pale",
+      "role": "prey",
+      "name": "Pale Twitcher",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Pale",
+      "base_hex": "#E23A2E",
+      "saturation": 0.25,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Never fully still -- flicks between grazing spots in short, twitchy hops, head snapping up at the smallest motion.",
+        "when_locked": "Explodes away in a blur of frantic, tight zig-zags, changing direction almost faster than the eye can follow, using every bit of its speed just to panic in a smaller radius.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 95,
+            "damage": 37,
+            "speed": 12.9,
+            "reach": 16.0,
+            "dash": 14.83
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 95,
+            "damage": 37,
+            "speed": 12.9,
+            "reach": 16.0,
+            "dash": 14.83
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 142,
+            "damage": 51,
+            "speed": 13.97,
+            "reach": 19.0,
+            "dash": 16.07
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 190,
+            "damage": 65,
+            "speed": 15.05,
+            "reach": 22.0,
+            "dash": 17.31
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 238,
+            "damage": 79,
+            "speed": 16.12,
+            "reach": 25.0,
+            "dash": 18.54
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_red_dusk",
+      "role": "prey",
+      "name": "Dusk Twitcher",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Dusk",
+      "base_hex": "#E23A2E",
+      "saturation": 0.5,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Never fully still -- flicks between grazing spots in short, twitchy hops, head snapping up at the smallest motion.",
+        "when_locked": "Explodes away in a blur of frantic, tight zig-zags, changing direction almost faster than the eye can follow, using every bit of its speed just to panic in a smaller radius.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 90,
+            "damage": 34,
+            "speed": 13.8,
+            "reach": 16.0,
+            "dash": 17.94
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 90,
+            "damage": 34,
+            "speed": 13.8,
+            "reach": 16.0,
+            "dash": 17.94
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 135,
+            "damage": 47,
+            "speed": 14.95,
+            "reach": 19.0,
+            "dash": 19.43
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 180,
+            "damage": 60,
+            "speed": 16.1,
+            "reach": 22.0,
+            "dash": 20.93
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 225,
+            "damage": 72,
+            "speed": 17.25,
+            "reach": 25.0,
+            "dash": 22.43
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_red_deep",
+      "role": "prey",
+      "name": "Deep Twitcher",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Deep",
+      "base_hex": "#E23A2E",
+      "saturation": 0.75,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Never fully still -- flicks between grazing spots in short, twitchy hops, head snapping up at the smallest motion.",
+        "when_locked": "Explodes away in a blur of frantic, tight zig-zags, changing direction almost faster than the eye can follow, using every bit of its speed just to panic in a smaller radius.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 85,
+            "damage": 31,
+            "speed": 14.7,
+            "reach": 16.0,
+            "dash": 21.32
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 128,
+            "damage": 43,
+            "speed": 15.93,
+            "reach": 19.0,
+            "dash": 23.1
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 170,
+            "damage": 54,
+            "speed": 17.15,
+            "reach": 22.0,
+            "dash": 24.87
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 213,
+            "damage": 66,
+            "speed": 18.38,
+            "reach": 25.0,
+            "dash": 26.65
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_red_rage",
+      "role": "prey",
+      "name": "Rage Twitcher",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Rage",
+      "base_hex": "#E23A2E",
+      "saturation": 1.0,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Never fully still -- flicks between grazing spots in short, twitchy hops, head snapping up at the smallest motion.",
+        "when_locked": "Explodes away in a blur of frantic, tight zig-zags, changing direction almost faster than the eye can follow, using every bit of its speed just to panic in a smaller radius.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 120,
+            "damage": 38,
+            "speed": 16.9,
+            "reach": 19.0,
+            "dash": 27.04
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 160,
+            "damage": 49,
+            "speed": 18.2,
+            "reach": 22.0,
+            "dash": 29.12
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 200,
+            "damage": 59,
+            "speed": 19.5,
+            "reach": 25.0,
+            "dash": 31.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_blue_pale",
+      "role": "prey",
+      "name": "Pale Longshank",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Pale",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.25,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Keeps to open sightlines and high vantage rather than thick cover, drifting along the edges of clearings, watching more than grazing.",
+        "when_locked": "Flees in long, raking zig-zags that favour open ground over cover, putting distance ahead of concealment, as if it trusts its eyes more than its legs.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 98,
+            "damage": 40,
+            "speed": 12.0,
+            "reach": 18.8,
+            "dash": 12.0
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 98,
+            "damage": 40,
+            "speed": 12.0,
+            "reach": 18.8,
+            "dash": 12.0
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 146,
+            "damage": 55,
+            "speed": 13.0,
+            "reach": 22.32,
+            "dash": 13.0
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 195,
+            "damage": 70,
+            "speed": 14.0,
+            "reach": 25.85,
+            "dash": 14.0
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 244,
+            "damage": 85,
+            "speed": 15.0,
+            "reach": 29.38,
+            "dash": 15.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_blue_dusk",
+      "role": "prey",
+      "name": "Dusk Longshank",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Dusk",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.5,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Keeps to open sightlines and high vantage rather than thick cover, drifting along the edges of clearings, watching more than grazing.",
+        "when_locked": "Flees in long, raking zig-zags that favour open ground over cover, putting distance ahead of concealment, as if it trusts its eyes more than its legs.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 95,
+            "damage": 40,
+            "speed": 12.0,
+            "reach": 21.6,
+            "dash": 12.0
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 95,
+            "damage": 40,
+            "speed": 12.0,
+            "reach": 21.6,
+            "dash": 12.0
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 142,
+            "damage": 55,
+            "speed": 13.0,
+            "reach": 25.65,
+            "dash": 13.0
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 190,
+            "damage": 70,
+            "speed": 14.0,
+            "reach": 29.7,
+            "dash": 14.0
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 238,
+            "damage": 85,
+            "speed": 15.0,
+            "reach": 33.75,
+            "dash": 15.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_blue_deep",
+      "role": "prey",
+      "name": "Deep Longshank",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Deep",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.75,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Keeps to open sightlines and high vantage rather than thick cover, drifting along the edges of clearings, watching more than grazing.",
+        "when_locked": "Flees in long, raking zig-zags that favour open ground over cover, putting distance ahead of concealment, as if it trusts its eyes more than its legs.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 92,
+            "damage": 40,
+            "speed": 12.0,
+            "reach": 24.4,
+            "dash": 12.0
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 139,
+            "damage": 55,
+            "speed": 13.0,
+            "reach": 28.97,
+            "dash": 13.0
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 185,
+            "damage": 70,
+            "speed": 14.0,
+            "reach": 33.55,
+            "dash": 14.0
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 231,
+            "damage": 85,
+            "speed": 15.0,
+            "reach": 38.12,
+            "dash": 15.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_blue_rage",
+      "role": "prey",
+      "name": "Rage Longshank",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Rage",
+      "base_hex": "#2E6FE2",
+      "saturation": 1.0,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Keeps to open sightlines and high vantage rather than thick cover, drifting along the edges of clearings, watching more than grazing.",
+        "when_locked": "Flees in long, raking zig-zags that favour open ground over cover, putting distance ahead of concealment, as if it trusts its eyes more than its legs.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 135,
+            "damage": 55,
+            "speed": 13.0,
+            "reach": 32.3,
+            "dash": 13.0
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 180,
+            "damage": 70,
+            "speed": 14.0,
+            "reach": 37.4,
+            "dash": 14.0
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 225,
+            "damage": 85,
+            "speed": 15.0,
+            "reach": 42.5,
+            "dash": 15.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_purple_pale",
+      "role": "prey",
+      "name": "Pale Sneakbite",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Pale",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.25,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Lurks at the edge of rocks and foliage, ducking in and out of cover in short bursts rather than grazing in the open.",
+        "when_locked": "Weaves erratically between whatever cover is nearest, cutting sharp zig-zags from rock to bush to rock, evasive out of habit rather than commitment.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 98,
+            "damage": 40,
+            "speed": 12.45,
+            "reach": 16.8,
+            "dash": 13.07
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 98,
+            "damage": 40,
+            "speed": 12.45,
+            "reach": 16.8,
+            "dash": 13.07
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 146,
+            "damage": 54,
+            "speed": 13.49,
+            "reach": 19.95,
+            "dash": 14.16
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 195,
+            "damage": 69,
+            "speed": 14.53,
+            "reach": 23.1,
+            "dash": 15.26
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 244,
+            "damage": 84,
+            "speed": 15.56,
+            "reach": 26.25,
+            "dash": 16.34
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_purple_dusk",
+      "role": "prey",
+      "name": "Dusk Sneakbite",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Dusk",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.5,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Lurks at the edge of rocks and foliage, ducking in and out of cover in short bursts rather than grazing in the open.",
+        "when_locked": "Weaves erratically between whatever cover is nearest, cutting sharp zig-zags from rock to bush to rock, evasive out of habit rather than commitment.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 95,
+            "damage": 39,
+            "speed": 12.9,
+            "reach": 17.6,
+            "dash": 14.19
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 95,
+            "damage": 39,
+            "speed": 12.9,
+            "reach": 17.6,
+            "dash": 14.19
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 142,
+            "damage": 54,
+            "speed": 13.97,
+            "reach": 20.9,
+            "dash": 15.37
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 190,
+            "damage": 68,
+            "speed": 15.05,
+            "reach": 24.2,
+            "dash": 16.56
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 238,
+            "damage": 83,
+            "speed": 16.12,
+            "reach": 27.5,
+            "dash": 17.73
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_purple_deep",
+      "role": "prey",
+      "name": "Deep Sneakbite",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Deep",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.75,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Lurks at the edge of rocks and foliage, ducking in and out of cover in short bursts rather than grazing in the open.",
+        "when_locked": "Weaves erratically between whatever cover is nearest, cutting sharp zig-zags from rock to bush to rock, evasive out of habit rather than commitment.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 92,
+            "damage": 38,
+            "speed": 13.35,
+            "reach": 18.4,
+            "dash": 15.35
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 139,
+            "damage": 53,
+            "speed": 14.46,
+            "reach": 21.85,
+            "dash": 16.63
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 185,
+            "damage": 67,
+            "speed": 15.57,
+            "reach": 25.3,
+            "dash": 17.91
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 231,
+            "damage": 82,
+            "speed": 16.69,
+            "reach": 28.75,
+            "dash": 19.19
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_purple_rage",
+      "role": "prey",
+      "name": "Rage Sneakbite",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Rage",
+      "base_hex": "#8A2EE2",
+      "saturation": 1.0,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Lurks at the edge of rocks and foliage, ducking in and out of cover in short bursts rather than grazing in the open.",
+        "when_locked": "Weaves erratically between whatever cover is nearest, cutting sharp zig-zags from rock to bush to rock, evasive out of habit rather than commitment.",
+        "packs": true
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 135,
+            "damage": 52,
+            "speed": 14.95,
+            "reach": 22.8,
+            "dash": 17.94
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 180,
+            "damage": 66,
+            "speed": 16.1,
+            "reach": 26.4,
+            "dash": 19.32
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 225,
+            "damage": 81,
+            "speed": 17.25,
+            "reach": 30.0,
+            "dash": 20.7
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_grey_pale",
+      "role": "prey",
+      "name": "Pale Greyhide",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Pale",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.25,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Moves with an unhurried, almost bored confidence, grazing in the open without bothering to watch its back.",
+        "when_locked": "Breaks that calm instantly -- a surprising, powerful burst carries it away in loose zig-zags, betraying speed the lumbering idle pose never suggested.",
+        "packs": false
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 108,
+            "damage": 43,
+            "speed": 12.6,
+            "reach": 16.6,
+            "dash": 13.54
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 108,
+            "damage": 43,
+            "speed": 12.6,
+            "reach": 16.6,
+            "dash": 13.54
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 161,
+            "damage": 59,
+            "speed": 13.65,
+            "reach": 19.71,
+            "dash": 14.67
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 215,
+            "damage": 75,
+            "speed": 14.7,
+            "reach": 22.83,
+            "dash": 15.8
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 269,
+            "damage": 91,
+            "speed": 15.75,
+            "reach": 25.94,
+            "dash": 16.93
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_grey_dusk",
+      "role": "prey",
+      "name": "Dusk Greyhide",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Dusk",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.5,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Moves with an unhurried, almost bored confidence, grazing in the open without bothering to watch its back.",
+        "when_locked": "Breaks that calm instantly -- a surprising, powerful burst carries it away in loose zig-zags, betraying speed the lumbering idle pose never suggested.",
+        "packs": false
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 115,
+            "damage": 46,
+            "speed": 13.2,
+            "reach": 17.2,
+            "dash": 15.18
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 115,
+            "damage": 46,
+            "speed": 13.2,
+            "reach": 17.2,
+            "dash": 15.18
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 172,
+            "damage": 63,
+            "speed": 14.3,
+            "reach": 20.43,
+            "dash": 16.45
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 230,
+            "damage": 80,
+            "speed": 15.4,
+            "reach": 23.65,
+            "dash": 17.71
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 288,
+            "damage": 98,
+            "speed": 16.5,
+            "reach": 26.88,
+            "dash": 18.97
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_grey_deep",
+      "role": "prey",
+      "name": "Deep Greyhide",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Deep",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.75,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Moves with an unhurried, almost bored confidence, grazing in the open without bothering to watch its back.",
+        "when_locked": "Breaks that calm instantly -- a surprising, powerful burst carries it away in loose zig-zags, betraying speed the lumbering idle pose never suggested.",
+        "packs": false
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 123,
+            "damage": 49,
+            "speed": 13.8,
+            "reach": 17.8,
+            "dash": 16.91
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 184,
+            "damage": 67,
+            "speed": 14.95,
+            "reach": 21.14,
+            "dash": 18.31
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 245,
+            "damage": 86,
+            "speed": 16.1,
+            "reach": 24.47,
+            "dash": 19.72
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 306,
+            "damage": 104,
+            "speed": 17.25,
+            "reach": 27.81,
+            "dash": 21.13
+          }
+        }
+      ]
+    },
+    {
+      "id": "prey_grey_rage",
+      "role": "prey",
+      "name": "Rage Greyhide",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Rage",
+      "base_hex": "#8C8C8C",
+      "saturation": 1.0,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": false,
+      "behaviour": {
+        "idle": "Moves with an unhurried, almost bored confidence, grazing in the open without bothering to watch its back.",
+        "when_locked": "Breaks that calm instantly -- a surprising, powerful burst carries it away in loose zig-zags, betraying speed the lumbering idle pose never suggested.",
+        "packs": false
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 195,
+            "damage": 72,
+            "speed": 15.6,
+            "reach": 21.85,
+            "dash": 20.28
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 260,
+            "damage": 91,
+            "speed": 16.8,
+            "reach": 25.3,
+            "dash": 21.84
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 325,
+            "damage": 110,
+            "speed": 18.0,
+            "reach": 28.75,
+            "dash": 23.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "elite_yellow",
+      "role": "elite",
+      "name": "Slabjaw",
+      "flavor": "Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Clash",
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": true,
+      "behaviour": {
+        "territory": "Holds a fixed patch of ground and does not wander from it, planting itself between the player and whatever it is guarding.",
+        "pack_aggro": true,
+        "wind_up": "Plants all four limbs and visibly swells before lunging -- a slow, ground-shaking crouch that keeps closing distance the whole time it winds up, so standing still to admire it is a mistake."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 145,
+            "damage": 58,
+            "speed": 10.38,
+            "reach": 14.56,
+            "dash": 8.51
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 218,
+            "damage": 80,
+            "speed": 11.24,
+            "reach": 17.29,
+            "dash": 9.22
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 290,
+            "damage": 102,
+            "speed": 12.11,
+            "reach": 20.02,
+            "dash": 9.93
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 362,
+            "damage": 123,
+            "speed": 12.97,
+            "reach": 22.75,
+            "dash": 10.64
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": true,
+          "stats": {
+            "health": 435,
+            "damage": 145,
+            "speed": 13.84,
+            "reach": 25.48,
+            "dash": 11.35
+          }
+        }
+      ]
+    },
+    {
+      "id": "elite_red",
+      "role": "elite",
+      "name": "Bloodspur",
+      "flavor": "Faster than anything with this many teeth has any right to be. Bites first, never apologizes.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Clash",
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": true,
+      "behaviour": {
+        "territory": "Prowls a tight loop around its pocket rather than holding one spot, always somewhere close by when the player crosses in.",
+        "pack_aggro": false,
+        "wind_up": "Drops into a coiled crouch and then closes the gap in one explosive blur -- the crouch is the only warning, and it is brief.",
+        "note": null
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 82,
+            "damage": 29,
+            "speed": 15.24,
+            "reach": 16.0,
+            "dash": 23.47
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 123,
+            "damage": 40,
+            "speed": 16.51,
+            "reach": 19.0,
+            "dash": 25.43
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 164,
+            "damage": 51,
+            "speed": 17.78,
+            "reach": 22.0,
+            "dash": 27.38
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 205,
+            "damage": 62,
+            "speed": 19.05,
+            "reach": 25.0,
+            "dash": 29.34
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": true,
+          "stats": {
+            "health": 246,
+            "damage": 73,
+            "speed": 20.32,
+            "reach": 28.0,
+            "dash": 31.29
+          }
+        }
+      ]
+    },
+    {
+      "id": "elite_blue",
+      "role": "elite",
+      "name": "Farshank",
+      "flavor": "Reaches you before you're ready to reach back. The distance was never yours to begin with.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Clash",
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": true,
+      "behaviour": {
+        "territory": "Holds high or open ground at the edge of its pocket, keeping the player in sight from as far away as possible.",
+        "pack_aggro": false,
+        "wind_up": "Rears back and lines up a long lunge from well outside easy striking range, often staying at distance through the wind-up instead of closing, so the danger is reach, not proximity."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 91,
+            "damage": 40,
+            "speed": 12.0,
+            "reach": 26.08,
+            "dash": 12.0
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 136,
+            "damage": 55,
+            "speed": 13.0,
+            "reach": 30.97,
+            "dash": 13.0
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 182,
+            "damage": 70,
+            "speed": 14.0,
+            "reach": 35.86,
+            "dash": 14.0
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 228,
+            "damage": 85,
+            "speed": 15.0,
+            "reach": 40.75,
+            "dash": 15.0
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": true,
+          "stats": {
+            "health": 273,
+            "damage": 100,
+            "speed": 16.0,
+            "reach": 45.64,
+            "dash": 16.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "elite_purple",
+      "role": "elite",
+      "name": "Backbiter",
+      "flavor": "You never see the one that gets you. Neither did this thing's last meal.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Clash",
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": true,
+      "behaviour": {
+        "territory": "Never sits still in one place -- slips between nearby cover at the fringes of its pocket, hard to pin down before it attacks.",
+        "pack_aggro": true,
+        "wind_up": "A short, feinting crouch that shifts angle at the last instant, still closing the whole time but never on the line the player expects."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 91,
+            "damage": 38,
+            "speed": 13.62,
+            "reach": 18.88,
+            "dash": 16.07
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 136,
+            "damage": 53,
+            "speed": 14.76,
+            "reach": 22.42,
+            "dash": 17.42
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 182,
+            "damage": 67,
+            "speed": 15.89,
+            "reach": 25.96,
+            "dash": 18.75
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 228,
+            "damage": 81,
+            "speed": 17.02,
+            "reach": 29.5,
+            "dash": 20.08
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": true,
+          "stats": {
+            "health": 273,
+            "damage": 96,
+            "speed": 18.16,
+            "reach": 33.04,
+            "dash": 21.43
+          }
+        }
+      ]
+    },
+    {
+      "id": "elite_grey",
+      "role": "elite",
+      "name": "Greybrute",
+      "flavor": "Good at every part of killing you. Rare, because most things this good don't share a biome with anything else for long.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Clash",
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "counts_toward_alpha_gate": true,
+      "drops_panels": true,
+      "behaviour": {
+        "territory": "Patrols a broad stretch of ground with total confidence, in no rush because nothing in its pocket challenges it.",
+        "pack_aggro": true,
+        "wind_up": "A slow, full-body coil that telegraphs from a distance -- unmistakable, unhurried, and closing the entire time, backed by enough force that outlasting it is not an option."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": true,
+          "stats": {
+            "health": 127,
+            "damage": 51,
+            "speed": 14.16,
+            "reach": 18.16,
+            "dash": 17.98
+          }
+        },
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 190,
+            "damage": 70,
+            "speed": 15.34,
+            "reach": 21.57,
+            "dash": 19.48
+          }
+        },
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 254,
+            "damage": 89,
+            "speed": 16.52,
+            "reach": 24.97,
+            "dash": 20.98
+          }
+        },
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 318,
+            "damage": 108,
+            "speed": 17.7,
+            "reach": 28.38,
+            "dash": 22.48
+          }
+        },
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": true,
+          "stats": {
+            "health": 381,
+            "damage": 127,
+            "speed": 18.88,
+            "reach": 31.78,
+            "dash": 23.98
+          }
+        }
+      ]
+    },
+    {
+      "id": "miniboss_fins",
+      "role": "trait_miniboss",
+      "name": "Gillbrute",
+      "flavor": "Owns the hollow like a landlord with teeth. Rip the gills off and wear the water yourself.",
+      "family": null,
+      "tier": "Clash",
+      "grants_trait": "Fins",
+      "opens": "water",
+      "habitat": "deep marsh hollows",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "flees": false,
+      "behaviour": {
+        "arena": "A deep marsh hollow -- still water, reeds, a pocket that looks calm right up until it isn't.",
+        "opening": "The water's surface breaks as it comes up to meet the challenge, and the pocket's other occupants start converging on the noise before the fight is even a few seconds old.",
+        "wind_up": "Rears half out of the water and holds, gill slits flaring wide on its face, before driving forward -- it never breaks off, never flees, and keeps coming regardless of how the fight is going."
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": true,
+          "stats": {
+            "health": 190,
+            "damage": 70,
+            "speed": 15.34,
+            "reach": 21.57,
+            "dash": 19.48
+          }
+        }
+      ]
+    },
+    {
+      "id": "miniboss_claws",
+      "role": "trait_miniboss",
+      "name": "Ridgeripper",
+      "flavor": "Holds the rocks like they're personal property. Pry the hooks loose and the cliffs are yours.",
+      "family": null,
+      "tier": "Clash",
+      "grants_trait": "Claws",
+      "opens": "high ground",
+      "habitat": "rocky outcrops",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "flees": false,
+      "behaviour": {
+        "arena": "A rocky outcrop on high ground, exposed and cramped, with little room to circle wide.",
+        "opening": "It drops down from the rocks above to meet the player head-on, and nearby ridge-dwellers start closing in from the surrounding stone almost immediately.",
+        "wind_up": "Digs its hooked ridges into the rock and hauls itself into a braced crouch before launching -- a heavy, obvious tell that it never uses to run, only to close."
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 254,
+            "damage": 89,
+            "speed": 16.52,
+            "reach": 24.97,
+            "dash": 20.98
+          }
+        }
+      ]
+    },
+    {
+      "id": "miniboss_coat",
+      "role": "trait_miniboss",
+      "name": "Frostpelt",
+      "flavor": "Matted, mean, and unbothered by cold that kills everything else up here. Skin it and borrow the immunity.",
+      "family": null,
+      "tier": "Clash",
+      "grants_trait": "Coat",
+      "opens": "freezing peaks",
+      "habitat": "the foothills, below the lethal cold line",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "flees": false,
+      "behaviour": {
+        "arena": "The foothills below the lethal cold line -- open, wind-scoured ground just short of the peaks.",
+        "opening": "It breaks from a loose gathering of grazers it was hunting and turns square on the player instead, while whatever else is nearby starts drifting in to join.",
+        "wind_up": "Hunches low under its matted shell, gathering itself for a long, driving charge -- slow to start, impossible to miss, and never once aimed at the exits."
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": true,
+          "stats": {
+            "health": 254,
+            "damage": 89,
+            "speed": 16.52,
+            "reach": 24.97,
+            "dash": 20.98
+          }
+        }
+      ]
+    },
+    {
+      "id": "miniboss_heat",
+      "role": "trait_miniboss",
+      "name": "Cinderjaw",
+      "flavor": "Lives in the vents like they're a warm bath. Tear off the glowing seam and the lava stops being a wall.",
+      "family": null,
+      "tier": "Clash",
+      "grants_trait": "Heat",
+      "opens": "lava fields",
+      "habitat": "volcanic vents along the shore",
+      "carries_colour": false,
+      "counts_toward_alpha_gate": false,
+      "drops_panels": false,
+      "flees": false,
+      "behaviour": {
+        "arena": "Volcanic vents along the shore, heat-shimmer over cracked ground where the sand gives way to rock.",
+        "opening": "It rises out of the vent haze as the player nears, the scorched seam across its face glowing brighter, and the pocket's other residents start turning to converge.",
+        "wind_up": "The glowing seam flares hot before it commits to the lunge -- a bright, unmissable tell from a creature that has nowhere else it would rather be than in this fight."
+      },
+      "spawns": [
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": true,
+          "stats": {
+            "health": 318,
+            "damage": 108,
+            "speed": 17.7,
+            "reach": 28.38,
+            "dash": 22.48
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_prairies_yellow",
+      "role": "alpha",
+      "name": "Slabking of the Tall Grass",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Clash",
+      "rank": 1,
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The lair's ground stops merely trembling and the den itself opens; it comes out slow, heavy, and utterly unhurried, because it knows it does not need to rush.",
+        "hunt": "Closes distance like a landslide -- steady, flat-paced, never sprinting because it never has to, grinding down any gap the player tries to open.",
+        "tell": "Plants itself, swells, and holds a beat longer than any ordinary Yellow before its lunge -- bigger, slower to commit, and much harder to shrug off when it lands."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 145,
+            "damage": 58,
+            "speed": 16.38,
+            "reach": 14.56,
+            "dash": 16.38
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_prairies_red",
+      "role": "alpha",
+      "name": "Bloodstreak of the Tall Grass",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Clash",
+      "rank": 1,
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Bursts from the stirring den already moving, a streak of colour where a moment ago there was only bones and scorched ground.",
+        "hunt": "Strings together aggressive bursts rather than one long chase -- closing, breaking off, closing again -- so it is never quite where the player last tracked it.",
+        "tell": "A tight, explosive crouch, shorter and harder to read than an ordinary Red's, then it is already closing."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 82,
+            "damage": 29,
+            "speed": 16.38,
+            "reach": 16.0,
+            "dash": 16.38
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_prairies_blue",
+      "role": "alpha",
+      "name": "Longreach of the Tall Grass",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Clash",
+      "rank": 1,
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Rises into view from far across the stirring lair, already watching before the player has spotted it.",
+        "hunt": "Keeps its distance and forces the player to close the gap, lunging in long punishing arcs whenever they do.",
+        "tell": "A long, visible rear-back that starts well outside normal striking range -- easy to see coming, hard to actually escape once it commits."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 91,
+            "damage": 40,
+            "speed": 16.38,
+            "reach": 26.08,
+            "dash": 16.38
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_prairies_purple",
+      "role": "alpha",
+      "name": "Shivbite of the Tall Grass",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Clash",
+      "rank": 1,
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Slips out of the den almost without ceremony, there one moment, gone the next, already circling.",
+        "hunt": "Never commits to a straight chase -- ducks in for a hit, peels away, reappears from a different angle a moment later.",
+        "tell": "A brief, flickering crouch that is easy to miss once and impossible to unsee after the first time it costs the player Health."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 91,
+            "damage": 38,
+            "speed": 16.38,
+            "reach": 18.88,
+            "dash": 16.38
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_prairies_grey",
+      "role": "alpha",
+      "name": "Old Grey of the Tall Grass",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Clash",
+      "rank": 1,
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The den collapses open and it simply walks out, unbothered, because there was never any doubt it would win the wait.",
+        "hunt": "Presses every angle at once -- closes ground, punishes retreats, and gives no single obvious weak point to exploit.",
+        "tell": "A commanding, full-body coil, slower to read than the others but backed by enough force on the pounce that mistiming the dodge is expensive."
+      },
+      "spawns": [
+        {
+          "biome": "prairies",
+          "rank": 1,
+          "pocket_only": false,
+          "stats": {
+            "health": 127,
+            "damage": 51,
+            "speed": 16.38,
+            "reach": 18.16,
+            "dash": 16.38
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_wetlands_yellow",
+      "role": "alpha",
+      "name": "Slabking of the Sunk Bog",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Clash",
+      "rank": 2,
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The lair's ground stops merely trembling and the den itself opens; it comes out slow, heavy, and utterly unhurried, because it knows it does not need to rush.",
+        "hunt": "Closes distance like a landslide -- steady, flat-paced, never sprinting because it never has to, grinding down any gap the player tries to open.",
+        "tell": "Plants itself, swells, and holds a beat longer than any ordinary Yellow before its lunge -- bigger, slower to commit, and much harder to shrug off when it lands."
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 218,
+            "damage": 80,
+            "speed": 17.75,
+            "reach": 17.29,
+            "dash": 17.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_wetlands_red",
+      "role": "alpha",
+      "name": "Bloodstreak of the Sunk Bog",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Clash",
+      "rank": 2,
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Bursts from the stirring den already moving, a streak of colour where a moment ago there was only bones and scorched ground.",
+        "hunt": "Strings together aggressive bursts rather than one long chase -- closing, breaking off, closing again -- so it is never quite where the player last tracked it.",
+        "tell": "A tight, explosive crouch, shorter and harder to read than an ordinary Red's, then it is already closing."
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 123,
+            "damage": 40,
+            "speed": 17.75,
+            "reach": 19.0,
+            "dash": 17.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_wetlands_blue",
+      "role": "alpha",
+      "name": "Longreach of the Sunk Bog",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Clash",
+      "rank": 2,
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Rises into view from far across the stirring lair, already watching before the player has spotted it.",
+        "hunt": "Keeps its distance and forces the player to close the gap, lunging in long punishing arcs whenever they do.",
+        "tell": "A long, visible rear-back that starts well outside normal striking range -- easy to see coming, hard to actually escape once it commits."
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 136,
+            "damage": 55,
+            "speed": 17.75,
+            "reach": 30.97,
+            "dash": 17.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_wetlands_purple",
+      "role": "alpha",
+      "name": "Shivbite of the Sunk Bog",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Clash",
+      "rank": 2,
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Slips out of the den almost without ceremony, there one moment, gone the next, already circling.",
+        "hunt": "Never commits to a straight chase -- ducks in for a hit, peels away, reappears from a different angle a moment later.",
+        "tell": "A brief, flickering crouch that is easy to miss once and impossible to unsee after the first time it costs the player Health."
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 136,
+            "damage": 53,
+            "speed": 17.75,
+            "reach": 22.42,
+            "dash": 17.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_wetlands_grey",
+      "role": "alpha",
+      "name": "Old Grey of the Sunk Bog",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Clash",
+      "rank": 2,
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The den collapses open and it simply walks out, unbothered, because there was never any doubt it would win the wait.",
+        "hunt": "Presses every angle at once -- closes ground, punishes retreats, and gives no single obvious weak point to exploit.",
+        "tell": "A commanding, full-body coil, slower to read than the others but backed by enough force on the pounce that mistiming the dodge is expensive."
+      },
+      "spawns": [
+        {
+          "biome": "wetlands",
+          "rank": 2,
+          "pocket_only": false,
+          "stats": {
+            "health": 190,
+            "damage": 70,
+            "speed": 17.75,
+            "reach": 21.57,
+            "dash": 17.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_mountains_yellow",
+      "role": "alpha",
+      "name": "Slabking of the High Rock",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Clash",
+      "rank": 3,
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The lair's ground stops merely trembling and the den itself opens; it comes out slow, heavy, and utterly unhurried, because it knows it does not need to rush.",
+        "hunt": "Closes distance like a landslide -- steady, flat-paced, never sprinting because it never has to, grinding down any gap the player tries to open.",
+        "tell": "Plants itself, swells, and holds a beat longer than any ordinary Yellow before its lunge -- bigger, slower to commit, and much harder to shrug off when it lands."
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 290,
+            "damage": 102,
+            "speed": 19.11,
+            "reach": 20.02,
+            "dash": 19.11
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_mountains_red",
+      "role": "alpha",
+      "name": "Bloodstreak of the High Rock",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Clash",
+      "rank": 3,
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Bursts from the stirring den already moving, a streak of colour where a moment ago there was only bones and scorched ground.",
+        "hunt": "Strings together aggressive bursts rather than one long chase -- closing, breaking off, closing again -- so it is never quite where the player last tracked it.",
+        "tell": "A tight, explosive crouch, shorter and harder to read than an ordinary Red's, then it is already closing."
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 164,
+            "damage": 51,
+            "speed": 19.11,
+            "reach": 22.0,
+            "dash": 19.11
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_mountains_blue",
+      "role": "alpha",
+      "name": "Longreach of the High Rock",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Clash",
+      "rank": 3,
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Rises into view from far across the stirring lair, already watching before the player has spotted it.",
+        "hunt": "Keeps its distance and forces the player to close the gap, lunging in long punishing arcs whenever they do.",
+        "tell": "A long, visible rear-back that starts well outside normal striking range -- easy to see coming, hard to actually escape once it commits."
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 182,
+            "damage": 70,
+            "speed": 19.11,
+            "reach": 35.86,
+            "dash": 19.11
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_mountains_purple",
+      "role": "alpha",
+      "name": "Shivbite of the High Rock",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Clash",
+      "rank": 3,
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Slips out of the den almost without ceremony, there one moment, gone the next, already circling.",
+        "hunt": "Never commits to a straight chase -- ducks in for a hit, peels away, reappears from a different angle a moment later.",
+        "tell": "A brief, flickering crouch that is easy to miss once and impossible to unsee after the first time it costs the player Health."
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 182,
+            "damage": 67,
+            "speed": 19.11,
+            "reach": 25.96,
+            "dash": 19.11
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_mountains_grey",
+      "role": "alpha",
+      "name": "Old Grey of the High Rock",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Clash",
+      "rank": 3,
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The den collapses open and it simply walks out, unbothered, because there was never any doubt it would win the wait.",
+        "hunt": "Presses every angle at once -- closes ground, punishes retreats, and gives no single obvious weak point to exploit.",
+        "tell": "A commanding, full-body coil, slower to read than the others but backed by enough force on the pounce that mistiming the dodge is expensive."
+      },
+      "spawns": [
+        {
+          "biome": "mountains",
+          "rank": 3,
+          "pocket_only": false,
+          "stats": {
+            "health": 254,
+            "damage": 89,
+            "speed": 19.11,
+            "reach": 24.97,
+            "dash": 19.11
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_beach_yellow",
+      "role": "alpha",
+      "name": "Slabking of the Burnt Sand",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Clash",
+      "rank": 4,
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The lair's ground stops merely trembling and the den itself opens; it comes out slow, heavy, and utterly unhurried, because it knows it does not need to rush.",
+        "hunt": "Closes distance like a landslide -- steady, flat-paced, never sprinting because it never has to, grinding down any gap the player tries to open.",
+        "tell": "Plants itself, swells, and holds a beat longer than any ordinary Yellow before its lunge -- bigger, slower to commit, and much harder to shrug off when it lands."
+      },
+      "spawns": [
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 362,
+            "damage": 123,
+            "speed": 20.48,
+            "reach": 22.75,
+            "dash": 20.48
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_beach_red",
+      "role": "alpha",
+      "name": "Bloodstreak of the Burnt Sand",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Clash",
+      "rank": 4,
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Bursts from the stirring den already moving, a streak of colour where a moment ago there was only bones and scorched ground.",
+        "hunt": "Strings together aggressive bursts rather than one long chase -- closing, breaking off, closing again -- so it is never quite where the player last tracked it.",
+        "tell": "A tight, explosive crouch, shorter and harder to read than an ordinary Red's, then it is already closing."
+      },
+      "spawns": [
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 205,
+            "damage": 62,
+            "speed": 20.48,
+            "reach": 25.0,
+            "dash": 20.48
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_beach_blue",
+      "role": "alpha",
+      "name": "Longreach of the Burnt Sand",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Clash",
+      "rank": 4,
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Rises into view from far across the stirring lair, already watching before the player has spotted it.",
+        "hunt": "Keeps its distance and forces the player to close the gap, lunging in long punishing arcs whenever they do.",
+        "tell": "A long, visible rear-back that starts well outside normal striking range -- easy to see coming, hard to actually escape once it commits."
+      },
+      "spawns": [
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 228,
+            "damage": 85,
+            "speed": 20.48,
+            "reach": 40.75,
+            "dash": 20.48
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_beach_purple",
+      "role": "alpha",
+      "name": "Shivbite of the Burnt Sand",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Clash",
+      "rank": 4,
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Slips out of the den almost without ceremony, there one moment, gone the next, already circling.",
+        "hunt": "Never commits to a straight chase -- ducks in for a hit, peels away, reappears from a different angle a moment later.",
+        "tell": "A brief, flickering crouch that is easy to miss once and impossible to unsee after the first time it costs the player Health."
+      },
+      "spawns": [
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 228,
+            "damage": 81,
+            "speed": 20.48,
+            "reach": 29.5,
+            "dash": 20.48
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_beach_grey",
+      "role": "alpha",
+      "name": "Old Grey of the Burnt Sand",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Clash",
+      "rank": 4,
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The den collapses open and it simply walks out, unbothered, because there was never any doubt it would win the wait.",
+        "hunt": "Presses every angle at once -- closes ground, punishes retreats, and gives no single obvious weak point to exploit.",
+        "tell": "A commanding, full-body coil, slower to read than the others but backed by enough force on the pounce that mistiming the dodge is expensive."
+      },
+      "spawns": [
+        {
+          "biome": "beach",
+          "rank": 4,
+          "pocket_only": false,
+          "stats": {
+            "health": 318,
+            "damage": 108,
+            "speed": 20.48,
+            "reach": 28.38,
+            "dash": 20.48
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_volcanic_yellow",
+      "role": "alpha",
+      "name": "Slabking of the Open Flame",
+      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back.",
+      "family": "Yellow",
+      "class": "Brawler",
+      "tier": "Clash",
+      "rank": 5,
+      "base_hex": "#F2C10E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The lair's ground stops merely trembling and the den itself opens; it comes out slow, heavy, and utterly unhurried, because it knows it does not need to rush.",
+        "hunt": "Closes distance like a landslide -- steady, flat-paced, never sprinting because it never has to, grinding down any gap the player tries to open.",
+        "tell": "Plants itself, swells, and holds a beat longer than any ordinary Yellow before its lunge -- bigger, slower to commit, and much harder to shrug off when it lands."
+      },
+      "spawns": [
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": false,
+          "stats": {
+            "health": 435,
+            "damage": 145,
+            "speed": 21.84,
+            "reach": 25.48,
+            "dash": 21.84
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_volcanic_red",
+      "role": "alpha",
+      "name": "Bloodstreak of the Open Flame",
+      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting.",
+      "family": "Red",
+      "class": "Leaper",
+      "tier": "Clash",
+      "rank": 5,
+      "base_hex": "#E23A2E",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Bursts from the stirring den already moving, a streak of colour where a moment ago there was only bones and scorched ground.",
+        "hunt": "Strings together aggressive bursts rather than one long chase -- closing, breaking off, closing again -- so it is never quite where the player last tracked it.",
+        "tell": "A tight, explosive crouch, shorter and harder to read than an ordinary Red's, then it is already closing."
+      },
+      "spawns": [
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": false,
+          "stats": {
+            "health": 246,
+            "damage": 73,
+            "speed": 21.84,
+            "reach": 28.0,
+            "dash": 21.84
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_volcanic_blue",
+      "role": "alpha",
+      "name": "Longreach of the Open Flame",
+      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds.",
+      "family": "Blue",
+      "class": "Sniper",
+      "tier": "Clash",
+      "rank": 5,
+      "base_hex": "#2E6FE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Rises into view from far across the stirring lair, already watching before the player has spotted it.",
+        "hunt": "Keeps its distance and forces the player to close the gap, lunging in long punishing arcs whenever they do.",
+        "tell": "A long, visible rear-back that starts well outside normal striking range -- easy to see coming, hard to actually escape once it commits."
+      },
+      "spawns": [
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": false,
+          "stats": {
+            "health": 273,
+            "damage": 100,
+            "speed": 21.84,
+            "reach": 45.64,
+            "dash": 21.84
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_volcanic_purple",
+      "role": "alpha",
+      "name": "Shivbite of the Open Flame",
+      "flavor": "Nothing special about it, except that it's already behind you.",
+      "family": "Purple",
+      "class": "Stalker",
+      "tier": "Clash",
+      "rank": 5,
+      "base_hex": "#8A2EE2",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "Slips out of the den almost without ceremony, there one moment, gone the next, already circling.",
+        "hunt": "Never commits to a straight chase -- ducks in for a hit, peels away, reappears from a different angle a moment later.",
+        "tell": "A brief, flickering crouch that is easy to miss once and impossible to unsee after the first time it costs the player Health."
+      },
+      "spawns": [
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": false,
+          "stats": {
+            "health": 273,
+            "damage": 96,
+            "speed": 21.84,
+            "reach": 33.04,
+            "dash": 21.84
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha_volcanic_grey",
+      "role": "alpha",
+      "name": "Old Grey of the Open Flame",
+      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Clash",
+      "rank": 5,
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": true,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The den collapses open and it simply walks out, unbothered, because there was never any doubt it would win the wait.",
+        "hunt": "Presses every angle at once -- closes ground, punishes retreats, and gives no single obvious weak point to exploit.",
+        "tell": "A commanding, full-body coil, slower to read than the others but backed by enough force on the pounce that mistiming the dodge is expensive."
+      },
+      "spawns": [
+        {
+          "biome": "volcanic",
+          "rank": 5,
+          "pocket_only": false,
+          "stats": {
+            "health": 381,
+            "damage": 127,
+            "speed": 21.84,
+            "reach": 31.78,
+            "dash": 21.84
+          }
+        }
+      ]
+    },
+    {
+      "id": "apex",
+      "role": "apex",
+      "name": "The Last Grey",
+      "flavor": "Woke up because you wouldn't stop eating. Doesn't run. Never has to.",
+      "family": "Grey",
+      "class": "Apex",
+      "tier": "Clash",
+      "rank": 6,
+      "base_hex": "#8C8C8C",
+      "saturation": 0.9,
+      "carries_colour": true,
+      "drops_panels": false,
+      "drops_emblem": false,
+      "emblem_grants_power": false,
+      "can_be_outrun": false,
+      "behaviour": {
+        "emergence": "The den collapses open and it simply walks out, unbothered, because there was never any doubt it would win the wait.",
+        "hunt": "Presses every angle at once -- closes ground, punishes retreats, and gives no single obvious weak point to exploit.",
+        "tell": "A commanding, full-body coil, slower to read than the others but backed by enough force on the pounce that mistiming the dodge is expensive."
+      },
+      "spawns": [
+        {
+          "biome": "ascension",
+          "rank": 6,
+          "pocket_only": false,
+          "stats": {
+            "health": 444,
+            "damage": 146,
+            "speed": 23.21,
+            "reach": 35.19,
+            "dash": 23.21
+          }
+        }
+      ]
+    }
+  ]
+}

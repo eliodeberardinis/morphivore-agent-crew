@@ -1,0 +1,110 @@
+{
+  "prey": {
+    "Yellow": {
+      "idle": "Grazes and shoulders through brush at a slow, deliberate lumber, head down, in no hurry because nothing in the biome usually bothers it back.",
+      "when_locked": "Breaks into a heavy, clumsy gallop the instant the red ring snaps on -- no finesse, just bulk thrown in the opposite direction, veering in wide stumbling zig-zags that are slow to start and slow to correct.",
+      "packs": true
+    },
+    "Red": {
+      "idle": "Never fully still -- flicks between grazing spots in short, twitchy hops, head snapping up at the smallest motion.",
+      "when_locked": "Explodes away in a blur of frantic, tight zig-zags, changing direction almost faster than the eye can follow, using every bit of its speed just to panic in a smaller radius.",
+      "packs": true
+    },
+    "Blue": {
+      "idle": "Keeps to open sightlines and high vantage rather than thick cover, drifting along the edges of clearings, watching more than grazing.",
+      "when_locked": "Flees in long, raking zig-zags that favour open ground over cover, putting distance ahead of concealment, as if it trusts its eyes more than its legs.",
+      "packs": true
+    },
+    "Purple": {
+      "idle": "Lurks at the edge of rocks and foliage, ducking in and out of cover in short bursts rather than grazing in the open.",
+      "when_locked": "Weaves erratically between whatever cover is nearest, cutting sharp zig-zags from rock to bush to rock, evasive out of habit rather than commitment.",
+      "packs": true
+    },
+    "Grey": {
+      "idle": "Moves with an unhurried, almost bored confidence, grazing in the open without bothering to watch its back.",
+      "when_locked": "Breaks that calm instantly -- a surprising, powerful burst carries it away in loose zig-zags, betraying speed the lumbering idle pose never suggested.",
+      "packs": false
+    }
+  },
+  "grazers": {
+    "idle": "Stands and grazes in place, calm and limbless, oblivious until something gets close -- no colour, no watchfulness, nothing to lose.",
+    "when_locked": "Freezes for a single beat the instant the ring locks on, then bolts in a panicked, erratic zig-zag away from the player -- never turning to fight, never slowing, just putting ground between itself and whatever just noticed it."
+  },
+  "elites": {
+    "Yellow": {
+      "territory": "Holds a fixed patch of ground and does not wander from it, planting itself between the player and whatever it is guarding.",
+      "pack_aggro": true,
+      "wind_up": "Plants all four limbs and visibly swells before lunging -- a slow, ground-shaking crouch that keeps closing distance the whole time it winds up, so standing still to admire it is a mistake."
+    },
+    "Red": {
+      "territory": "Prowls a tight loop around its pocket rather than holding one spot, always somewhere close by when the player crosses in.",
+      "pack_aggro": false,
+      "wind_up": "Drops into a coiled crouch and then closes the gap in one explosive blur -- the crouch is the only warning, and it is brief.",
+      "note": null
+    },
+    "Blue": {
+      "territory": "Holds high or open ground at the edge of its pocket, keeping the player in sight from as far away as possible.",
+      "pack_aggro": false,
+      "wind_up": "Rears back and lines up a long lunge from well outside easy striking range, often staying at distance through the wind-up instead of closing, so the danger is reach, not proximity."
+    },
+    "Purple": {
+      "territory": "Never sits still in one place -- slips between nearby cover at the fringes of its pocket, hard to pin down before it attacks.",
+      "pack_aggro": true,
+      "wind_up": "A short, feinting crouch that shifts angle at the last instant, still closing the whole time but never on the line the player expects."
+    },
+    "Grey": {
+      "territory": "Patrols a broad stretch of ground with total confidence, in no rush because nothing in its pocket challenges it.",
+      "pack_aggro": true,
+      "wind_up": "A slow, full-body coil that telegraphs from a distance -- unmistakable, unhurried, and closing the entire time, backed by enough force that outlasting it is not an option."
+    }
+  },
+  "minibosses": {
+    "Fins": {
+      "arena": "A deep marsh hollow -- still water, reeds, a pocket that looks calm right up until it isn't.",
+      "opening": "The water's surface breaks as it comes up to meet the challenge, and the pocket's other occupants start converging on the noise before the fight is even a few seconds old.",
+      "wind_up": "Rears half out of the water and holds, gill slits flaring wide on its face, before driving forward -- it never breaks off, never flees, and keeps coming regardless of how the fight is going."
+    },
+    "Claws": {
+      "arena": "A rocky outcrop on high ground, exposed and cramped, with little room to circle wide.",
+      "opening": "It drops down from the rocks above to meet the player head-on, and nearby ridge-dwellers start closing in from the surrounding stone almost immediately.",
+      "wind_up": "Digs its hooked ridges into the rock and hauls itself into a braced crouch before launching -- a heavy, obvious tell that it never uses to run, only to close."
+    },
+    "Coat": {
+      "arena": "The foothills below the lethal cold line -- open, wind-scoured ground just short of the peaks.",
+      "opening": "It breaks from a loose gathering of grazers it was hunting and turns square on the player instead, while whatever else is nearby starts drifting in to join.",
+      "wind_up": "Hunches low under its matted shell, gathering itself for a long, driving charge -- slow to start, impossible to miss, and never once aimed at the exits."
+    },
+    "Heat": {
+      "arena": "Volcanic vents along the shore, heat-shimmer over cracked ground where the sand gives way to rock.",
+      "opening": "It rises out of the vent haze as the player nears, the scorched seam across its face glowing brighter, and the pocket's other residents start turning to converge.",
+      "wind_up": "The glowing seam flares hot before it commits to the lunge -- a bright, unmissable tell from a creature that has nowhere else it would rather be than in this fight."
+    }
+  },
+  "alphas": {
+    "Yellow": {
+      "emergence": "The lair's ground stops merely trembling and the den itself opens; it comes out slow, heavy, and utterly unhurried, because it knows it does not need to rush.",
+      "hunt": "Closes distance like a landslide -- steady, flat-paced, never sprinting because it never has to, grinding down any gap the player tries to open.",
+      "tell": "Plants itself, swells, and holds a beat longer than any ordinary Yellow before its lunge -- bigger, slower to commit, and much harder to shrug off when it lands."
+    },
+    "Red": {
+      "emergence": "Bursts from the stirring den already moving, a streak of colour where a moment ago there was only bones and scorched ground.",
+      "hunt": "Strings together aggressive bursts rather than one long chase -- closing, breaking off, closing again -- so it is never quite where the player last tracked it.",
+      "tell": "A tight, explosive crouch, shorter and harder to read than an ordinary Red's, then it is already closing."
+    },
+    "Blue": {
+      "emergence": "Rises into view from far across the stirring lair, already watching before the player has spotted it.",
+      "hunt": "Keeps its distance and forces the player to close the gap, lunging in long punishing arcs whenever they do.",
+      "tell": "A long, visible rear-back that starts well outside normal striking range -- easy to see coming, hard to actually escape once it commits."
+    },
+    "Purple": {
+      "emergence": "Slips out of the den almost without ceremony, there one moment, gone the next, already circling.",
+      "hunt": "Never commits to a straight chase -- ducks in for a hit, peels away, reappears from a different angle a moment later.",
+      "tell": "A brief, flickering crouch that is easy to miss once and impossible to unsee after the first time it costs the player Health."
+    },
+    "Grey": {
+      "emergence": "The den collapses open and it simply walks out, unbothered, because there was never any doubt it would win the wait.",
+      "hunt": "Presses every angle at once -- closes ground, punishes retreats, and gives no single obvious weak point to exploit.",
+      "tell": "A commanding, full-body coil, slower to read than the others but backed by enough force on the pounce that mistiming the dodge is expensive."
+    }
+  }
+}

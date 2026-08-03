@@ -1,0 +1,362 @@
+{
+  "Blue": [
+    {
+      "name": "Dead-Eye Socket",
+      "power": "lock_range",
+      "magnitude": 1.35,
+      "flavor": "Pulled it out of something that never blinked first. Screwed in backwards, it still finds the soft parts before you do.",
+      "attach": "bolted over one shoulder blade"
+    },
+    {
+      "name": "Borrowed Iris",
+      "power": "lock_range",
+      "magnitude": 1.2,
+      "flavor": "Stared at you from a dead thing's face. Now it stares at your dinner instead.",
+      "attach": "set into the outer edge of the brow ridge"
+    },
+    {
+      "name": "Twitch-Nerve Bundle",
+      "power": "dash_power",
+      "magnitude": 1.3,
+      "flavor": "Still firing after the rest of the leg gave up. Grafted on, it fires yours too.",
+      "attach": "wired into the haunch"
+    },
+    {
+      "name": "Coiled Tendon Strap",
+      "power": "dash_power",
+      "magnitude": 1.15,
+      "flavor": "Wound tight enough to snap a lesser spine. Yours holds. Barely.",
+      "attach": "strapped across the flank"
+    },
+    {
+      "name": "Stubborn Hide Chunk",
+      "power": "guard",
+      "magnitude": 1.25,
+      "flavor": "Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve.",
+      "attach": "riveted to the back plate"
+    },
+    {
+      "name": "Dead Skin Flap",
+      "power": "camouflage",
+      "magnitude": 1.4,
+      "flavor": "Smells like nothing because it used to be nobody. Drape it on and the world agrees.",
+      "attach": "draped over the spine ridge"
+    },
+    {
+      "name": "Moth-Eaten Pelt Swatch",
+      "power": "camouflage",
+      "magnitude": 1.1,
+      "flavor": "Full of holes and somehow still better than your own hide at not being seen.",
+      "attach": "patched onto a limb"
+    },
+    {
+      "name": "Cracked Jawbone Chip",
+      "power": "bite",
+      "magnitude": 1.2,
+      "flavor": "Snapped clean off a thing that bit too slow. Wear it and bite faster than it did.",
+      "attach": "bolted to the cheek plate"
+    },
+    {
+      "name": "Splintered Fang Cluster",
+      "power": "bite",
+      "magnitude": 1.5,
+      "flavor": "A whole mouthful somebody didn't need anymore. Screws in crooked, cuts straight.",
+      "attach": "jammed along the jaw hinge exterior"
+    },
+    {
+      "name": "Swollen Vein Sack",
+      "power": "vigour",
+      "magnitude": 1.3,
+      "flavor": "Still pumping when you tore it loose. Strap it under your skin and steal its stubbornness.",
+      "attach": "lashed to the throat exterior"
+    }
+  ],
+  "Purple": [
+    {
+      "name": "Something's Ear-Flap",
+      "power": "lock_range",
+      "magnitude": 1.15,
+      "flavor": "Ripped it off mid-scream. Still hears everything it shouldn't.",
+      "attach": "side of the head, above the jaw hinge"
+    },
+    {
+      "name": "Slit-Pupil Eye Patch",
+      "power": "lock_range",
+      "magnitude": 1.35,
+      "flavor": "Followed you in the dark before you knew it was there.",
+      "attach": "temple ridge, off the main face"
+    },
+    {
+      "name": "Nightcrawler's Hind Haunch",
+      "power": "dash_power",
+      "magnitude": 1.25,
+      "flavor": "Stole its getaway. Now it's yours to abuse.",
+      "attach": "rear haunch"
+    },
+    {
+      "name": "Second Set of Kneecaps",
+      "power": "dash_power",
+      "magnitude": 1.4,
+      "flavor": "Extra spring. Extra crunch when you land.",
+      "attach": "foreleg, bolted below the knee"
+    },
+    {
+      "name": "Dead Thing's Ribcage Flap",
+      "power": "guard",
+      "magnitude": 1.2,
+      "flavor": "Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve.",
+      "attach": "flank, over the ribs"
+    },
+    {
+      "name": "Puckered Throat-Skin",
+      "power": "guard",
+      "magnitude": 1.1,
+      "flavor": "Tough as old rope. Rope that used to scream.",
+      "attach": "underside of the neck"
+    },
+    {
+      "name": "Moth-Eaten Hide Patch",
+      "power": "camouflage",
+      "magnitude": 1.3,
+      "flavor": "Smells like nothing. Looks like less.",
+      "attach": "upper back, between the shoulders"
+    },
+    {
+      "name": "Stink Gland, Still Warm",
+      "power": "camouflage",
+      "magnitude": 1.5,
+      "flavor": "Wear its stench, walk through its territory unnoticed.",
+      "attach": "base of the tail"
+    },
+    {
+      "name": "Snapped-Off Jawbone",
+      "power": "bite",
+      "magnitude": 1.2,
+      "flavor": "Still has the grip reflex. Yours now.",
+      "attach": "shoulder, jaw wired to the socket"
+    },
+    {
+      "name": "Twitchy Tendon Bundle",
+      "power": "vigour",
+      "magnitude": 1.15,
+      "flavor": "Kept it twitching after the rest gave up.",
+      "attach": "flank, over the hind leg"
+    }
+  ],
+  "Grey": [
+    {
+      "name": "Iron-Hide Slab",
+      "power": "guard",
+      "magnitude": 1.35,
+      "flavor": "Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve.",
+      "attach": "back hump"
+    },
+    {
+      "name": "Old Bastard's Rib Plate",
+      "power": "guard",
+      "magnitude": 1.25,
+      "flavor": "Cracked off a thing twice your size that still lost. Wear the crack, keep the win.",
+      "attach": "rib cage strip"
+    },
+    {
+      "name": "Jaw of the Bigger Bastard",
+      "power": "bite",
+      "magnitude": 1.4,
+      "flavor": "Still has the bite in it. Screw it on and borrow the grudge.",
+      "attach": "left shoulder plate"
+    },
+    {
+      "name": "Fang-Studded Knuckle",
+      "power": "bite",
+      "magnitude": 1.2,
+      "flavor": "Every notch in it used to be someone's neck. Now it's yours to grind.",
+      "attach": "forearm plate"
+    },
+    {
+      "name": "Dead-Eye Socket",
+      "power": "lock_range",
+      "magnitude": 1.3,
+      "flavor": "Ripped it out still staring. Bolt it on and see everything it saw, right before it stopped.",
+      "attach": "tail stump"
+    },
+    {
+      "name": "Widow's Nose Slab",
+      "power": "lock_range",
+      "magnitude": 1.15,
+      "flavor": "Could smell fear from three ridgelines off. Smells like nothing now, but it still points true.",
+      "attach": "haunch guard"
+    },
+    {
+      "name": "Stampede Hock",
+      "power": "dash_power",
+      "magnitude": 1.45,
+      "flavor": "Tore it off something built to flatten smaller things running. Kick with it and flatten smaller things too.",
+      "attach": "hind leg plate"
+    },
+    {
+      "name": "Ash-Grey Hide Flap",
+      "power": "camouflage",
+      "magnitude": 1.1,
+      "flavor": "Matches everything and nothing. Stand still, disappear, feel smug about it.",
+      "attach": "flank slab"
+    },
+    {
+      "name": "Dust-Bitten Cape Scrap",
+      "power": "camouflage",
+      "magnitude": 1.2,
+      "flavor": "Peeled off something that was hiding when you found it anyway. Wear its bad luck.",
+      "attach": "spine ridge"
+    },
+    {
+      "name": "Old Grey's Second Wind Gland",
+      "power": "vigour",
+      "magnitude": 1.3,
+      "flavor": "Kept a bigger heart pumping longer than it had any right to. Bolted on, yours doesn't quit as fast.",
+      "attach": "throat wattle"
+    }
+  ],
+  "Red": [
+    {
+      "name": "Twitch-Haunch",
+      "power": "dash_power",
+      "magnitude": 1.35,
+      "flavor": "Ripped off a thing that never stopped running. Still twitching. Bolt it on and neither will you.",
+      "attach": "hind leg joint"
+    },
+    {
+      "name": "Rabbit's Last Kick",
+      "power": "dash_power",
+      "magnitude": 1.5,
+      "flavor": "Kicked like hell on the way down. Strap it to your leg and steal the kick.",
+      "attach": "rear haunch"
+    },
+    {
+      "name": "Panic Gland",
+      "power": "dash_power",
+      "magnitude": 1.2,
+      "flavor": "Squirts fear-juice when you flex. Makes you run like something's chasing you, because something is.",
+      "attach": "flank"
+    },
+    {
+      "name": "Lidless Eye",
+      "power": "lock_range",
+      "magnitude": 1.4,
+      "flavor": "Never blinked once, not even at the end. Bolt it on and neither do you.",
+      "attach": "shoulder"
+    },
+    {
+      "name": "Twitch-Ear Flap",
+      "power": "lock_range",
+      "magnitude": 1.15,
+      "flavor": "Heard you coming from a mile off. Didn't help it. Might help you.",
+      "attach": "skull ridge"
+    },
+    {
+      "name": "Gristle Plate",
+      "power": "guard",
+      "magnitude": 1.3,
+      "flavor": "Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve.",
+      "attach": "chest flank"
+    },
+    {
+      "name": "Scarred Hide Flap",
+      "power": "guard",
+      "magnitude": 1.1,
+      "flavor": "Chewed on for years and still standing. Wear it and borrow the stubbornness.",
+      "attach": "back"
+    },
+    {
+      "name": "Ditch-Colour Patch",
+      "power": "camouflage",
+      "magnitude": 1.25,
+      "flavor": "Blended into the dirt so well the last thing it saw was your teeth. Wear it and vanish just as well.",
+      "attach": "back ridge"
+    },
+    {
+      "name": "Cracked Fang",
+      "power": "bite",
+      "magnitude": 1.2,
+      "flavor": "Broke on something too tough to chew. Bolt it on anyway, it's still sharper than yours.",
+      "attach": "jaw hinge"
+    },
+    {
+      "name": "Overclocked Heart",
+      "power": "vigour",
+      "magnitude": 1.3,
+      "flavor": "Beat itself stupid trying to outrun everything. Strap it in and let it try again in you.",
+      "attach": "rib plate"
+    }
+  ],
+  "Yellow": [
+    {
+      "name": "Knucklebone Knuckle-Wrap",
+      "power": "bite",
+      "magnitude": 1.35,
+      "flavor": "Somebody's jawbone, still shaped like a jaw. Wear it on your fist and let it finish the sentence.",
+      "attach": "strapped across the forearm, over the knuckles"
+    },
+    {
+      "name": "Ripped Rib-Slab",
+      "power": "guard",
+      "magnitude": 1.3,
+      "flavor": "Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve.",
+      "attach": "riveted over the flank ribs"
+    },
+    {
+      "name": "Second Stomach Sack",
+      "power": "vigour",
+      "magnitude": 1.4,
+      "flavor": "Doesn't feed you -- just gives the first gut somewhere to hide when it's empty.",
+      "attach": "slung off the lower back like a saddlebag"
+    },
+    {
+      "name": "Old Tusk Bar",
+      "power": "dash_power",
+      "magnitude": 1.25,
+      "flavor": "Ripped from something that charged first and thought later. Now you do too.",
+      "attach": "jutting forward off the shoulder"
+    },
+    {
+      "name": "Dead Eye Socket",
+      "power": "lock_range",
+      "magnitude": 1.2,
+      "flavor": "Still points where it's looking. Useless to its old owner, useful to you.",
+      "attach": "bolted to the side of the brow, off the main face"
+    },
+    {
+      "name": "Molted Mudskin",
+      "power": "camouflage",
+      "magnitude": 1.15,
+      "flavor": "Doesn't help a Brawler sneak. Helps a Brawler get close enough to swing.",
+      "attach": "draped over the back like a shed hide"
+    },
+    {
+      "name": "Second Jaw Bolt",
+      "power": "bite",
+      "magnitude": 1.45,
+      "flavor": "Two jaws chew faster than one. Neither asks permission.",
+      "attach": "bolted to the side of the jaw"
+    },
+    {
+      "name": "Boulder Hide Patch",
+      "power": "guard",
+      "magnitude": 1.5,
+      "flavor": "Peeled off something built like a wall. Now you're a wall with worse manners.",
+      "attach": "riveted plate on the shoulder"
+    },
+    {
+      "name": "Thumping Heart Sac",
+      "power": "vigour",
+      "magnitude": 1.3,
+      "flavor": "Still thuds under your hide. Keeps you standing when everything else wants to quit.",
+      "attach": "strapped over the flank, beside the ribs"
+    },
+    {
+      "name": "Knock-Kneed Stomper",
+      "power": "dash_power",
+      "magnitude": 1.15,
+      "flavor": "Doesn't make you fast. Makes the one step you take land like a landslide.",
+      "attach": "braced onto the hind thigh"
+    }
+  ]
+}

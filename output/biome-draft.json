@@ -1,89 +1,53 @@
 {
   "prairies": {
-    "terrain": "Open rolling grassland cut by low rises and scattered treelines, the softest ground in the game and the first any player walks.",
-    "entrance": "The grass nearest the entrance grazes soft and Pale, wide sightlines and slow, dumb prey underfoot.",
-    "deep_end": "The far side of the plain runs harder: Pale wanders thicker and bolder the further you walk from the entrance, and every Dusk in the biome is penned in a guarded pocket.",
-    "lair": "A low earthen mound at the plain's far edge, scorched bare and ringed in old bone; whichever champion you raised, it dens here.",
+    "terrain": "Open grassland with no traversal gates at all - the generator lays down rolling fields, scattered treelines and shallow creek beds, and every part of the map is reachable from the moment you drop in. This is the biome that teaches lock, pounce, knockdown and eat.",
+    "entrance": "Soft, Pale-grazed turf right where you arrive - thin grass thick with wandering Pale prey and grazers, the easiest hunting ground in the game.",
+    "deep_end": "Toward the field's far edge the grass grows rough and tangled and the wandering mix leans Dusk; the ground gets a little more serious the closer you walk to the lair.",
+    "lair": "A ring of scorched, flattened grass and old bleached bones at the field's far edge - a den that sits open and quiet, visible across open ground from the moment you arrive.",
     "pockets": [
-      "A marsh hollow ringed by reeds, thick with Dusk prey and patrolled by a pack that aggroes together the moment one of them spots you.",
-      "A dense treeline thicket at the plain's edge, hiding a knot of Dusk stalkers that scatter and regroup rather than break."
+      "A sunken creek bed thick with Dusk prey, patrolled by a pack that aggros together the instant you commit to the water's edge.",
+      "A boulder ring on a low rise where Dusk stalkers den together, guarded by a territorial cluster that swarms on sight.",
+      "A dense hedge maze at the field's shoulder hiding a huddle of Dusk brawlers that regroup and press rather than scatter."
     ],
     "palette_weights": {
-      "Yellow": 30,
+      "Yellow": 25,
       "Red": 25,
-      "Blue": 20,
-      "Purple": 15,
-      "Grey": 10
+      "Blue": 25,
+      "Purple": 25,
+      "Grey": 0
     },
-    "standing_population": 20,
-    "respawn_per_min": 3
+    "standing_population": 18,
+    "respawn_per_min": 4
   },
   "wetlands": {
-    "terrain": "Marsh and standing water threaded through reed-choked channels, the first ground in the game that asks for Fins.",
-    "entrance": "The shallows nearest the entrance still graze soft, Pale wandering the mud in easy reach of dry ground.",
-    "deep_end": "Push past the reeds and the water gets deep and mean: Dusk wanders freely out here, and Deep hides in the hollows below the surface.",
-    "lair": "A drowned hummock deep in the marsh, black water lapping at a ring of picked-clean bones.",
+    "terrain": "Marsh broken up by ponds, reed channels and sunken hollows; roughly half the map sits across open water reachable only once Fins are taken.",
+    "entrance": "The dry fringe near the entrance grazes soft, mixing wandering Pale and Dusk prey on solid ground before the mud and channels start.",
+    "deep_end": "Deeper into the marsh the channels widen and the footing turns to bog; the wandering mix runs Deep out here, and the ground only gets soggier and stronger toward the lair.",
+    "lair": "A raised bog mound thick with bones and standing water at the marsh's deep end - visible across the channels long before you can actually reach it.",
     "pockets": [
-      "A deep marsh hollow where the water holds still and dark; Old Gillmaw holds the mudbank there, and it does not give the ground back once it has it.",
-      "A reed-choked backwater thick with Deep prey, guarded by a pack that closes in from every channel at once."
+      "A deep marsh hollow where the Fins miniboss, the pond-dweller, holds its ground and does not flee - taking Fins here is the only way across the open water.",
+      "A flooded reed thicket packed with Deep prey and a pack that swarms as a group the instant you're spotted.",
+      "A drowned stand of dead trees where Deep stalkers den in the shallows, guarded by a territorial elite holding its patch."
     ],
     "palette_weights": {
       "Yellow": 20,
       "Red": 20,
       "Blue": 30,
-      "Purple": 25,
-      "Grey": 5
+      "Purple": 30,
+      "Grey": 0
     },
-    "standing_population": 26,
-    "respawn_per_min": 4
-  },
-  "mountains": {
-    "terrain": "Rocky slopes rising toward bare stone and a cold, thin-aired summit, the first ground that asks for both Claws and Coat.",
-    "entrance": "The lower slopes near the entrance still graze soft and Pale, easy footing before the rock steepens.",
-    "deep_end": "Climb higher and the mountain runs harder: Dusk and Deep wander the mid-slopes freely, and Rage clusters only in the guarded ground above.",
-    "lair": "A wind-scoured cave mouth near the summit, bones scattered across the frost-cracked stone.",
-    "pockets": [
-      "A boulder-field at the foot of the rocky outcrop, where the crag-holder holds the approach; ground any player can walk into, no climbing required.",
-      "A stand of stunted trees in the foothills, below the lethal cold line, where the shaggy grazer-hunter dens among the roots.",
-      "A treeline thicket higher up hiding a knot of Rage prey, guarded by a pack that swarms from the underbrush."
-    ],
-    "palette_weights": {
-      "Yellow": 25,
-      "Red": 15,
-      "Blue": 15,
-      "Purple": 20,
-      "Grey": 25
-    },
-    "standing_population": 32,
+    "standing_population": 22,
     "respawn_per_min": 5
   },
-  "beach": {
-    "terrain": "Sun-bleached sand and tide pools running out to volcanic vents along the shore, the first ground to run the full wild ladder in the open.",
-    "entrance": "The dry sand near the entrance still grazes soft and Pale, gulls-and-crabs country before the vents start smoking.",
-    "deep_end": "Walk the tideline out and the sand runs mean: Deep and Rage wander freely out here, the full ladder loose on open ground.",
-    "lair": "A blackened dune scarred by old vent-fire, bones half-buried in the ash-grey sand.",
+  "mountains": {
+    "terrain": "Foothills rising into sheer, snow-capped peaks; the high ground demands Claws to climb and the altitude above the tree line is lethal without a Coat. The first biome that locks two traits at once.",
+    "entrance": "The lower foothills near the entrance graze soft across Pale and Dusk prey, solid footing before the rock turns steep.",
+    "deep_end": "Higher up past the outcrops the wandering mix runs the full Pale-Dusk-Deep ladder and the going gets a lot less forgiving; the lair dens above the last safe rise.",
+    "lair": "A cave mouth ringed with bleached bones and scorched stone near the summit, visible from the foothills below as a dark scar on the rock.",
     "pockets": [
-      "A cluster of volcanic vents smoking along the shore, where the vent-dweller holds its seam and does not back off from the heat or the fight.",
-      "A tide-pool basin cut off at high water, thick with Rage prey and a pack that swarms in from the surrounding dunes."
-    ],
-    "palette_weights": {
-      "Yellow": 20,
-      "Red": 25,
-      "Blue": 25,
-      "Purple": 15,
-      "Grey": 15
-    },
-    "standing_population": 38,
-    "respawn_per_min": 6
-  },
-  "volcanic": {
-    "terrain": "Cracked black rock and rivers of slow lava, the hardest ground in the game, and the only biome whose deep end runs Rage from edge to edge.",
-    "entrance": "The cooled black rock nearest the entrance still grazes soft and Pale, easy footing before the ground starts to glow.",
-    "deep_end": "Push toward the caldera and the rock runs murderous: Deep and Rage wander together out here, and the ground itself will kill you if the meat doesn't.",
-    "lair": "A cracked caldera rim glowing dull red at the edges, bones fused into the cooled black glass.",
-    "pockets": [
-      "A lava-rimmed shelf where an elite holds the ledge over the flow, a knot of Rage prey penned behind it.",
-      "An ash gully choked with heat-shimmer, hiding a pack of Rage prey that swarms out of the smoke together."
+      "A rocky outcrop where the Claws miniboss, the crag-holder, holds its range and fights rather than flees - the only way onto the high ground.",
+      "A foothill den, below the lethal cold line, where the Coat miniboss, the shaggy grazer-hunter, guards the shell that survives the peaks.",
+      "A treeline thicket clustering Rage prey, swarmed by a pack that closes ranks together the moment you're made."
     ],
     "palette_weights": {
       "Yellow": 25,
@@ -92,7 +56,47 @@
       "Purple": 15,
       "Grey": 30
     },
-    "standing_population": 44,
+    "standing_population": 26,
+    "respawn_per_min": 6
+  },
+  "beach": {
+    "terrain": "Tidal flats, sea channels and cliffs, with volcanic vents smoking along the shoreline; crossing it in full needs both Fins and Claws, and the vents are where Heat, the last new trait in the game, is won.",
+    "entrance": "The tideline near the entrance is soft, open sand grazing wandering Pale and Dusk prey at low tide.",
+    "deep_end": "Out past the tide pools the channels deepen and the cliffs rise; the wandering mix runs the full ladder up to Rage out here, and the lair sits on the highest spit of rock over the water.",
+    "lair": "A bone-strewn ledge above a sea cliff, scorched black at its mouth, looking straight down over the tidal flats below.",
+    "pockets": [
+      "A volcanic vent pocket along the shore where the Heat miniboss, the vent-dweller, holds its ground - the last trait fight in the game.",
+      "A sea-cut cave packed with Rage prey, reachable only by swimming in, guarded by a pack that swarms in the shallows.",
+      "A cliff-top hollow where Rage stalkers den, defended by a territorial elite that will not be talked down."
+    ],
+    "palette_weights": {
+      "Yellow": 20,
+      "Red": 25,
+      "Blue": 20,
+      "Purple": 15,
+      "Grey": 20
+    },
+    "standing_population": 30,
     "respawn_per_min": 7
+  },
+  "volcanic": {
+    "terrain": "Lava fields, sheer rock and flooded caves, demanding Fins, Claws, Coat and Heat all at once - nothing new is taught here, everything earned across the run gets used at the same time.",
+    "entrance": "The cooled rock near the entrance is relatively soft going, grazing wandering Pale and Dusk prey on solid, ash-grey ground.",
+    "deep_end": "Toward the open lava fields the ground runs hot and the wandering mix climbs to Rage; the lair sits past the last flooded cave, on the hottest, hardest ground in the game.",
+    "lair": "A bone-choked crater mouth glowing at its edges, ringed in ash and scorched rock, sitting past the deepest lava field.",
+    "pockets": [
+      "A flooded cave sealed off without Fins, packed with Rage prey and a pack that swarms in the dark.",
+      "A high rock spire reachable only with Claws, denning a cluster of Rage prey guarded by a territorial elite.",
+      "A lava-field hollow behind the heat shimmer, thick with Rage brawlers that hold their ground rather than flee."
+    ],
+    "palette_weights": {
+      "Yellow": 20,
+      "Red": 20,
+      "Blue": 15,
+      "Purple": 15,
+      "Grey": 30
+    },
+    "standing_population": 34,
+    "respawn_per_min": 8
   }
 }

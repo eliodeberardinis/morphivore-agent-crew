@@ -1,0 +1,51 @@
+[
+  {
+    "id": "biomes/prairies",
+    "file": "biomes",
+    "path": "deep_end",
+    "old": "Toward the field's far edge the grass grows rough and tangled and the wandering mix leans Dusk; the ground gets a little more serious the closer you walk to the lair.",
+    "new": "Toward the field's far edge the grass grows rough and tangled and the wandering Pale prey run harder and take more knocking down; the ground gets a little more serious the closer you walk to the lair, and any Dusk out here stays holed up in the defended pockets."
+  },
+  {
+    "id": "biomes/wetlands",
+    "file": "biomes",
+    "path": "deep_end",
+    "old": "Deeper into the marsh the channels widen and the footing turns to bog; the wandering mix runs Deep out here, and the ground only gets soggier and stronger toward the lair.",
+    "new": "Deeper into the marsh the channels widen and the footing turns to bog; the wandering mix leans Dusk out here and the Deep meat stays hidden in the defended hollows, and the ground only gets soggier and stronger toward the lair."
+  },
+  {
+    "id": "miniboss_fins",
+    "file": "creatures",
+    "path": "behaviour.arena",
+    "old": "Found in a deep marsh hollow, patrolling the open water at its centre rather than the banks.",
+    "new": "Found in a deep marsh hollow, holding the reedy shallows and mud banks at its edge rather than the open water - close enough to the shore that something with no fins can still pick the fight."
+  },
+  {
+    "id": "miniboss_claws",
+    "file": "creatures",
+    "path": "behaviour.arena",
+    "old": "Holds a rocky outcrop, perched above the surrounding slopes rather than patrolling at ground level.",
+    "new": "Holds a low rocky outcrop at the foot of the climb, squatting on bare rock anything can walk up to - it never retreats onto the high ground its own claws would open."
+  },
+  {
+    "id": "panel_blue_lock_range",
+    "file": "panels",
+    "path": "attach",
+    "old": "brow ridge",
+    "new": "rear skull plate, behind the main face"
+  },
+  {
+    "id": "panel_purple_lock_range",
+    "file": "panels",
+    "path": "attach",
+    "old": "brow ridge",
+    "new": "nape ridge, behind the main face"
+  },
+  {
+    "id": "panel_red_lock_range",
+    "file": "panels",
+    "path": "attach",
+    "old": "cheek nub",
+    "new": "neck nub, behind the main face"
+  }
+]

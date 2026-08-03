@@ -1,125 +1,131 @@
 {
   "status": "fail",
-  "blocking_count": 1,
-  "nit_count": 22,
+  "blocking_count": 6,
+  "nit_count": 11,
+  "patchable_count": 5,
   "findings": [
     {
       "severity": "blocking",
-      "id": "panel_red_vigour",
-      "detail": "Flavour: \"Squeeze it before you go down. Tastes like copper and a bad decision.\" This writes the panel as an activated one-shot heal, which contradicts three stated rules. \u00a72.3 makes grazers the ONLY refill of current Health -- \"Grazers refill it... Chase one down, eat it, and you recover a real chunk of current Health\" and \"Hunting does not heal\" -- so no carried object may top you up. \u00a72.1 gives the complete verb list (WASD/stick, lock on right-click/LT, pounce left-click/A, dash Space/RT, poop Q/B); there is no use-item or squeeze input in the game. \u00a72.8 defines panels as what you're \"carrying -- what you can do right now, this run, until you swap it\", i.e. a standing power, not a consumable. Correction: rewrite as a passive read on toughness with no player action implied -- e.g. \"Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve.\""
+      "id": "biomes/prairies",
+      "detail": "prairies.deep_end says \"the wandering mix leans Dusk\". GDD-Extended \u00a72.7 states each tier debuts in defended pockets one biome before it wanders free -- \"the Dusk you raided a marsh hollow for in the Prairies roams openly in the Wetlands\" -- and \u00a72.5's pounce table pins the Prairies wandering mix at Pale. Dusk meat is not allowed to wander in the Prairies; it is pocket-only there (and the biome's own pockets already carry it correctly). Corrected to keep the deep end harder while leaving Dusk in the defended pockets.",
+      "fix": {
+        "file": "biomes",
+        "path": "deep_end",
+        "old": "Toward the field's far edge the grass grows rough and tangled and the wandering mix leans Dusk; the ground gets a little more serious the closer you walk to the lair.",
+        "new": "Toward the field's far edge the grass grows rough and tangled and the wandering Pale prey run harder and take more knocking down; the ground gets a little more serious the closer you walk to the lair, and any Dusk out here stays holed up in the defended pockets."
+      }
+    },
+    {
+      "severity": "blocking",
+      "id": "biomes/wetlands",
+      "detail": "wetlands.deep_end says \"the wandering mix runs Deep out here\". GDD-Extended \u00a72.7: in the Wetlands the Dusk roams openly \"while Deep now hides in the hollows\", and \u00a72.5 pins the Wetlands wandering mix at Pale\u2013Dusk. Deep meat may not wander in the Wetlands -- it is defended-pocket meat there, which this biome's own pockets state correctly. Corrected to Dusk wanderers with Deep held in the hollows.",
+      "fix": {
+        "file": "biomes",
+        "path": "deep_end",
+        "old": "Deeper into the marsh the channels widen and the footing turns to bog; the wandering mix runs Deep out here, and the ground only gets soggier and stronger toward the lair.",
+        "new": "Deeper into the marsh the channels widen and the footing turns to bog; the wandering mix leans Dusk out here and the Deep meat stays hidden in the defended hollows, and the ground only gets soggier and stronger toward the lair."
+      }
+    },
+    {
+      "severity": "blocking",
+      "id": "panels/panel_red_bite",
+      "detail": "\"Chomped Jaw Hinge\" attaches to \"cheek, just below the jawline\" -- that is the main cubic face. GDD-Extended \u00a72.8 says panels attach \"Anywhere across the cube's faces ... never crowding the main-face traits (\u00a72.6a), which always keep their place\", and \u00a72.6a reserves the main face for Fins/Claws/Coat/Heat (gill slits cut into the face, hooked ridges along the face edge, a matted shell over the face, a scorched seam across the face). A panel bolted onto the cheek/jawline sits on trait real estate. Moved off the face onto the chest plate.",
+      "fix": {
+        "file": "panels",
+        "path": "attach",
+        "old": "cheek, just below the jawline",
+        "new": "front chest plate, below the neck"
+      }
+    },
+    {
+      "severity": "blocking",
+      "id": "panels/panel_purple_lock_range",
+      "detail": "\"Peeper-Stalk Eyelid\" attaches to \"brow ridge\" -- main cubic face, which \u00a72.6a reserves permanently for traits and \u00a72.8 forbids panels from crowding. Moved onto the shoulder as a jutting eye-stalk, which keeps the lock_range read and the crude register.",
+      "fix": {
+        "file": "panels",
+        "path": "attach",
+        "old": "brow ridge",
+        "new": "shoulder, on a jutting eye-stalk"
+      }
+    },
+    {
+      "severity": "blocking",
+      "id": "panels/panel_grey_lock_range",
+      "detail": "\"Colossal Sniff-Snout\" is \"grafted onto the nose ridge\" -- main cubic face, reserved for traits by \u00a72.6a and off-limits to panels by \u00a72.8 (\"never crowding the main-face traits\"). Moved onto the upper back, matching the sibling \"Periscope Pizzle\" which correctly juts off the spine.",
+      "fix": {
+        "file": "panels",
+        "path": "attach",
+        "old": "grafted onto the nose ridge",
+        "new": "grafted onto the upper back, snout-first over the shoulder"
+      }
+    },
+    {
+      "severity": "blocking",
+      "id": "creatures/apex",
+      "detail": "The Apex's behaviour.emergence reads \"The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it steps out.\", and behaviour.hunt reads \"...as it hunts you across the whole biome...\". Both apply the biome Alpha's machinery to the Apex. GDD-Extended \u00a72.5 and \u00a7The Ascension: the two gates (distinct forms + coloured prey eaten) are the biome Alpha trigger; the Apex \"sits dormant in the Ascension domain ... and wakes only when your Bestiary crosses \u2265100 of 150 forms across all runs\", possibly mid-hunt -- and \"Rank six is not a biome\", it is the Ascension domain. NO FIX SUPPLIED: both offending strings are byte-identical to the five Grey Alpha records (alpha_prairies_grey, alpha_wetlands_grey, alpha_mountains_grey, alpha_beach_grey, alpha_volcanic_grey), where the same wording is correct, so no single unambiguous field edit can repair this. The apex record's behaviour block (emergence, hunt, tell) must be re-authored: dormant until the record crosses 100 of 150 forms, then stirring mid-hunt and hunting you across the Ascension domain, not a biome."
     },
     {
       "severity": "nit",
-      "id": "grazer_wetlands / grazer_mountains / grazer_beach / grazer_volcanic",
-      "detail": "All five grazers share the identical idle string \"Hunches over the dirt in open ground, oblivious to everything but the ground in front of it, and never strays far.\", and it fights their own flavour: Bog Slug \"oozes across the mud\", Ash Slug \"Squats limbless on cooling rock\", Tide Grub \"chews the shoreline\" -- none of which is dirt in open ground. \u00a72.3 fixes the grazer's properties (no colour, never fights, bolts when locked) but not the prose. Correction: keep the rule, vary the habitat wording per biome."
+      "id": "creatures/alpha_*_yellow",
+      "detail": "\"Slow but utterly relentless -- it doesn't need to be fast because it can never be outrun\" (all five Yellow Alphas). \u00a72.5 fixes Alpha speed at \"a flat rate slightly above the fastest player form at that rank\", explicitly not inheriting the colour multiplier, precisely so no \"slow-colour Alpha\" exists. The line lands on the right outcome (cannot be outrun), so it is not a rules break, but \"Slow\" is the wrong word for a thing that outpaces you; \"Heavy but utterly relentless\" would read true."
     },
     {
       "severity": "nit",
-      "id": "grazer_prairies",
-      "detail": "when_locked \"Bolts instantly in a straight panicked line the moment it's locked -- no wind-up, no fight, it simply runs and keeps running.\" is correct against \u00a72.3 (\"never fight back, and bolt the instant you lock them\") but is pasted verbatim into all five grazers. Correction: same behaviour, five different sentences."
+      "id": "panels/panel_yellow_vigour",
+      "detail": "power \"vigour\" is outside the power set \u00a72.8 actually names (\"a longer lock range, a stronger dash, a tougher guard, brief camouflage\"). The flavour \"Chewed a fatty back. Now you don't quit.\" stays clear of \u00a72.3's rule that bar length is a property of form and only grazers refill it, so this is not a contradiction -- but the Gameplay Engineer should confirm vigour is a real power in panels.json before it ships."
     },
     {
       "severity": "nit",
-      "id": "grazer_beach",
-      "detail": "Grazer names double up on two nouns -- \"Sod Grub\" / \"Tide Grub\" and \"Bog Slug\" / \"Ash Slug\", with only \"Scree Maggot\" breaking the pattern. Register is right for \u00a73 (primal, crude, comedic); the set just reads thin. Correction: give at least one of the pair a different body-noun."
+      "id": "creatures/prey_* and alpha_*",
+      "detail": "Every prey family reuses one flavour line verbatim across all four tiers (e.g. \"All knuckles and no neck, it complains right up until it doesn't.\" on Scrawny/Mangy/Rabid/Frothing Thumper), and each Alpha then reuses the same line again across all five biomes. Legal and consistent, but on the Bestiary screen -- where \u00a73 says the player reads names comparatively, side by side -- twenty-five identical lines is a lot of flat. Tier-varied flavour would earn more."
     },
     {
       "severity": "nit",
-      "id": "alpha_prairies_yellow",
-      "detail": "Flavour \"All jaw and gut, built to eat first and think never.\" is the prey_yellow_* line verbatim, and the same copy-down happens for Red, Blue, Purple and Grey across all 25 Alphas (and the Apex reuses prey_grey_*'s \"Meat that's rarer on the ground and meaner in the mouth\"). \u00a72.5 makes the Alpha \"your equal in rank but fighting at Clash intensity... it hits harder and reads differently than anything you have hunted to get here\". Correction: the Alpha should not read as the same animal as the common meat -- give the champion line its own flavour."
+      "id": "creatures/prey_blue_*",
+      "detail": "\"One good eye and a better trigger\" -- \"trigger\" is firearm imagery in a world whose opening line refuses to put a sword in a chest (\u00a71). The Sniper read is right for Blue (\u00a72.4); the metaphor is borrowed from a game with guns in it. \"a better eye for range\" or similar would sit closer to the register."
     },
     {
       "severity": "nit",
-      "id": "prey_blue_pale",
-      "detail": "Flavour \"Watches you from way too far off, then makes you cross the whole gap to regret it.\" implies the prey punishes the player, while its own when_locked is pure flight (\"Skitters backward... before bolting for the nearest hard cover\") and \u00a72.2 has smaller creatures flee, \"panicking in zig-zags when you lock them\". Not blocking -- \u00a73.3 pins Prairies prey at the player's own rank, and \u00a72.2 lets same-size creatures hunt you -- but the line should read as a chase cost, not a threat. Correction: make the regret the walk, not the bite."
+      "id": "panels/panel_grey_dash_power",
+      "detail": "\"Doom-Bringer's Legstump\" -- \"Doom-Bringer\" is high-fantasy boss-title register, not the primal/crude/comedic brief of \u00a73, and it names a bringer of doom that exists nowhere in the roster (the drop source is \"The Ashmaw\"). \"Legstump\" carries the tone by itself; the possessive is the drift."
     },
     {
       "severity": "nit",
-      "id": "prey_purple_pale",
-      "detail": "Name \"Backbiter\" plus flavour \"Sits in the brush and waits for you to turn around.\" reads as an ambush predator, while the behaviour block is hide-and-flee only (\"Weaves into the nearest cover in tight zig-zags... break sightline\"), per \u00a72.2. Same-rank prey may hunt you (\u00a72.2, \u00a73.3), so this is not a contradiction -- but flavour and behaviour should agree. Correction: either let the flavour be about being hard to see, or let the behaviour own the ambush."
+      "id": "panels/panel_grey_bite",
+      "detail": "\"Iron Knuckle Slab\" -- \"Iron\" imports metallurgy into a body-horror meat panel. \u00a72.8 calls these \"decorated meat panels\"; \"bolted over\" is the GDD's own verb and is fine, but the iron is someone else's game. \"Bone Knuckle Slab\" would do the same work."
     },
     {
       "severity": "nit",
-      "id": "elite_yellow",
-      "detail": "Every elite and three of four minibosses carry two different names: \"The Meat Wall\" / behaviour.name \"Knuckle-Slab\"; elite_red \"The Quickblood\" / \"The Quickfang\"; elite_blue \"The Long Shot\" / \"The Longshot\"; elite_purple \"The Thicket-Walker\" / \"The Shiv\"; elite_grey \"The Iron-Hide\" / \"The Greyback\"; miniboss_claws \"Ridge-Back\" / \"Cragfang\"; miniboss_coat \"Old Frost-Shag\" / \"Frostback\"; miniboss_heat \"Cinderback\" / \"The Vent-Walker\". Only Old Gillmaw agrees with itself. \u00a73.3 has one authored name per creature in creatures.json. Correction: one name per creature."
+      "id": "panels/panel_blue_*",
+      "detail": "The three Blue panels are the only ones written in dialect -- \"yer soft sniper bits don't hafta\", \"juts up outta yer spine\", \"One second yer there, then you ain't\". Crude is on-brief, but no other panel or creature speaks this way, so the voice reads as a different author rather than a house style. Either spread it or drop it."
     },
     {
       "severity": "nit",
-      "id": "panel_yellow_bite",
-      "detail": "Panel name \"Knuckle-Slab\" is the identical string to elite_yellow's behaviour.name \"Knuckle-Slab\". \u00a72.8 keeps panels legible as a separate register from the creatures that drop them (\"The body reads as two registers\"). Correction: rename one of the two."
+      "id": "creatures/elite_blue",
+      "detail": "\"The Deadeye Warden\" -- \"Warden\" is a solemn duty-title, and \"Deadeye\" is already the fixed epithet of all five Blue Alphas (\"Deadeye of the Rotting Marsh\" etc.), so the elite and its Alpha read as the same animal. A distinct crude name would separate the two ranks on sight."
     },
     {
       "severity": "nit",
-      "id": "elite_purple",
-      "detail": "behaviour.name \"The Shiv\" -- a shiv is a human prison knife, in a world with no people and no tools; \u00a71 states \"The fiction *is* the food chain\" and \u00a73 sets the register as primal, crude, comedic. Correction: a body-part name (\"The Backstick\", \"The Rib-Splitter\") sits better beside the voice reference."
+      "id": "creatures/alpha_*_yellow and alpha_*_grey",
+      "detail": "\"Bonelord\" and \"Greytyrant\" lean on lord/tyrant titles. Nothing in \u00a7The world states a court or a throne -- the Alpha is a rival animal holding ground -- so the titles flirt with epic fantasy where \"Bonechewer\"-style names would stay in the food chain. Preference, not a break."
     },
     {
       "severity": "nit",
-      "id": "alpha_prairies_red",
-      "detail": "The Alpha naming pattern \"The Bloodstreak of the Open Plain\" / \"The Deadeye of the Broken Crags\" / \"The Gutslitter of the Ash Pit\" uses a grand \"X of the Y\" title formula that leans a step statelier than \u00a73's primal/crude/comedic brief, and all 25 Alphas share five behaviour blocks verbatim. No invented lore -- no faction, god or prophecy -- so this is preference only. Correction: keep the crude noun, loosen the epithet."
+      "id": "creatures/elite_grey + creatures/grazer_volcanic + biomes/volcanic",
+      "detail": "\"The Ashmaw\", \"Ashpup\" and volcanic's \"ash-grey ground\" put three ashes in close reading distance, and \"The Ashmaw\" also rhymes against miniboss \"The Cinderjaw\". Mild collision in an otherwise well-varied roster."
     },
     {
       "severity": "nit",
-      "id": "alpha_beach_yellow",
-      "detail": "Epithet \"of the Salt Flats\" for the Beach biome. \u00a72.7 describes Beach as \"tidal flats, sea channels and cliffs\" with \"volcanic vents along the shore\"; \"Salt Flats\" reads as inland desert. Correction: \"of the Tideline\" or \"of the Wrack\"."
-    },
-    {
-      "severity": "nit",
-      "id": "apex",
-      "detail": "Flavour \"Everything you've ever eaten, standing between you and being the only one left.\" -- \u00a71 states the motivation as \"you are trying to sit on top\" and to \"become the thing everything else avoids\", not to be the last creature alive; and the behaviour block is copied verbatim from the Grey Alpha though this is the rank-6 Clash final mirror (\u00a7The Ascension). No invented lore, so a nit. Correction: aim the line at sitting on top, and give the Apex its own tell."
-    },
-    {
-      "severity": "nit",
-      "id": "panel_yellow_guard",
-      "detail": "Flavour \"Soaks the first few hits like a fat kid soaks a dodgeball.\" -- a schoolyard simile importing humans, schools and sports equipment into a world that has none (\u00a71: \"The fiction *is* the food chain -- everything on screen is eating, fleeing, or deciding which\"). Crude is on-brief (\u00a73); the reference is off-world. Correction: keep the simile inside the ecosystem (\"soaks the first few hits like fat soaks a bite\")."
-    },
-    {
-      "severity": "nit",
-      "id": "panel_grey_dash_power",
-      "detail": "Flavour \"Chewed through a Rage-tier hamstring and kept sprinting.\" -- \"Rage-tier\" is data/UI vocabulary from \u00a72.4b's tier table leaking into authored prose; the fiction should say the word, not the schema. Correction: \"Chewed through a Rage hamstring and kept sprinting.\""
-    },
-    {
-      "severity": "nit",
-      "id": "panel_yellow_bite / panel_red_vigour / panel_purple_vigour / panel_grey_vigour / panel_blue_bite",
-      "detail": "Powers \"bite\" and \"vigour\" are not among the four \u00a72.8 names -- \"a longer lock range, a stronger dash, a tougher guard, brief camouflage\". That list reads illustrative rather than closed, and \u00a73.3 leaves the set to panels.json, so this is not a contradiction; note also that \u00a72.3 makes bar *length* a property of your form, so a \"vigour\" panel must not read as a longer bar. Correction: confirm the power vocabulary with the Gameplay Engineer against panels.json before ship."
-    },
-    {
-      "severity": "nit",
-      "id": "panel_grey_lock_range",
-      "detail": "Attach points sit on limbs: \"forearm plating\" here, \"forearm plate\" (panel_yellow_bite), \"hind haunch\" (panel_purple_dash_power), \"rear haunch\" (panel_grey_dash_power). \u00a72.8 has panels bolt \"anywhere across the cube's faces... never crowding the main-face traits\" -- correctly kept off the main face everywhere, including the careful \"jaw-side flank nub\" on panel_blue_bite -- but \u00a72.6a reserves limbs for colour, which mutation rewrites, while panels survive mutation. Correction: prefer torso/flank faces for these four."
-    },
-    {
-      "severity": "nit",
-      "id": "panel_red_camouflage",
-      "detail": "Flavour \"Rub it on and vanish.\" implies the player applies it by hand; \u00a72.8 has panels bolt visibly onto the body and grant \"brief camouflage\" as a carried power. Correction: \"Bolt it on and the dark takes you for a moment.\""
-    },
-    {
-      "severity": "nit",
-      "id": "panel_blue_camouflage",
-      "detail": "Flavour \"Smells like the swamp it died in.\" is flat next to the rest of the set, and it is the only panel that pins its source to one habitat although elite_blue spawns across biomes (\u00a72.7 palette roll). Correction: give it a second beat and keep the habitat generic."
-    },
-    {
-      "severity": "nit",
-      "id": "volcanic",
-      "detail": "terrain: \"the only biome whose deep end runs Rage from edge to edge\". \u00a72.4b puts Rage \"wanders the deep ends of Beach and Volcanic\", and this document's own beach entry says \"Deep and Rage wander freely out here, the full ladder loose on open ground\" -- while volcanic's own deep_end says \"Deep and Rage wander together out here\", undercutting \"edge to edge\". The qualifier keeps it a claim of degree rather than a false rule, so nit. Correction: drop the exclusivity -- \"the deep end where Rage is the rule, not the surprise\"."
-    },
-    {
-      "severity": "nit",
-      "id": "beach",
-      "detail": "entrance: \"gulls-and-crabs country before the vents start smoking\" invents off-roster fauna; the world's creature set is grazers, prey, elites, trait minibosses and Alphas (\u00a73.3 creatures.json, \u00a72.3, \u00a72.6). Also the terrain line omits the sea channels and cliffs \u00a72.7 gives Beach, and the Fins+Claws combination it demands. Correction: name the game's own animals, and mention the two traits the ground asks for."
-    },
-    {
-      "severity": "nit",
-      "id": "mountains",
-      "detail": "Pocket \"A stand of stunted trees in the foothills, below the lethal cold line, where the shaggy grazer-hunter dens among the roots\" describes the same fight as miniboss_coat's arena \"A windswept shelf in the foothills... matted drifts banked up against the rock\". Both correctly place the Coat carrier below the cold its own trait unlocks (\u00a72.6, \u00a73.3 invariant 1) -- they just describe two different places. Correction: reconcile the two arena descriptions."
-    },
-    {
-      "severity": "nit",
-      "id": "prairies",
-      "detail": "alpha_lair: \"whichever champion you raised, it dens here\" -- \"raised\" suggests the player reared it; \u00a72.5 has \"the champion of the colour you ate most\" come out hunting you. Also four of five biomes open with the same formula (\"still graze soft and Pale\") lifted from \u00a72.7's phrasing. Correction: \"whichever champion your eating calls out of it\", and vary the entrance lines."
+      "id": "biomes/beach",
+      "detail": "Pocket line \"defended by a territorial elite that will not be talked down\" -- funny, but \u00a73 notes the game has no dialogue and no narrator, and nothing in this world negotiates. \"that will not be walked past\" keeps the joke inside the fiction."
     }
   ],
   "reason": [
-    "Flavour: \"Squeeze it before you go down. Tastes like copper and a bad decision.\" This writes the panel as an activated one-shot heal, which contradicts three stated rules. \u00a72.3 makes grazers the ONLY refill of current Health -- \"Grazers refill it... Chase one down, eat it, and you recover a real chunk of current Health\" and \"Hunting does not heal\" -- so no carried object may top you up. \u00a72.1 gives the complete verb list (WASD/stick, lock on right-click/LT, pounce left-click/A, dash Space/RT, poop Q/B); there is no use-item or squeeze input in the game. \u00a72.8 defines panels as what you're \"carrying -- what you can do right now, this run, until you swap it\", i.e. a standing power, not a consumable. Correction: rewrite as a passive read on toughness with no player action implied -- e.g. \"Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve.\""
+    "prairies.deep_end says \"the wandering mix leans Dusk\". GDD-Extended \u00a72.7 states each tier debuts in defended pockets one biome before it wanders free -- \"the Dusk you raided a marsh hollow for in the Prairies roams openly in the Wetlands\" -- and \u00a72.5's pounce table pins the Prairies wandering mix at Pale. Dusk meat is not allowed to wander in the Prairies; it is pocket-only there (and the biome's own pockets already carry it correctly). Corrected to keep the deep end harder while leaving Dusk in the defended pockets.",
+    "wetlands.deep_end says \"the wandering mix runs Deep out here\". GDD-Extended \u00a72.7: in the Wetlands the Dusk roams openly \"while Deep now hides in the hollows\", and \u00a72.5 pins the Wetlands wandering mix at Pale\u2013Dusk. Deep meat may not wander in the Wetlands -- it is defended-pocket meat there, which this biome's own pockets state correctly. Corrected to Dusk wanderers with Deep held in the hollows.",
+    "\"Chomped Jaw Hinge\" attaches to \"cheek, just below the jawline\" -- that is the main cubic face. GDD-Extended \u00a72.8 says panels attach \"Anywhere across the cube's faces ... never crowding the main-face traits (\u00a72.6a), which always keep their place\", and \u00a72.6a reserves the main face for Fins/Claws/Coat/Heat (gill slits cut into the face, hooked ridges along the face edge, a matted shell over the face, a scorched seam across the face). A panel bolted onto the cheek/jawline sits on trait real estate. Moved off the face onto the chest plate.",
+    "\"Peeper-Stalk Eyelid\" attaches to \"brow ridge\" -- main cubic face, which \u00a72.6a reserves permanently for traits and \u00a72.8 forbids panels from crowding. Moved onto the shoulder as a jutting eye-stalk, which keeps the lock_range read and the crude register.",
+    "\"Colossal Sniff-Snout\" is \"grafted onto the nose ridge\" -- main cubic face, reserved for traits by \u00a72.6a and off-limits to panels by \u00a72.8 (\"never crowding the main-face traits\"). Moved onto the upper back, matching the sibling \"Periscope Pizzle\" which correctly juts off the spine.",
+    "The Apex's behaviour.emergence reads \"The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it steps out.\", and behaviour.hunt reads \"...as it hunts you across the whole biome...\". Both apply the biome Alpha's machinery to the Apex. GDD-Extended \u00a72.5 and \u00a7The Ascension: the two gates (distinct forms + coloured prey eaten) are the biome Alpha trigger; the Apex \"sits dormant in the Ascension domain ... and wakes only when your Bestiary crosses \u2265100 of 150 forms across all runs\", possibly mid-hunt -- and \"Rank six is not a biome\", it is the Ascension domain. NO FIX SUPPLIED: both offending strings are byte-identical to the five Grey Alpha records (alpha_prairies_grey, alpha_wetlands_grey, alpha_mountains_grey, alpha_beach_grey, alpha_volcanic_grey), where the same wording is correct, so no single unambiguous field edit can repair this. The apex record's behaviour block (emergence, hunt, tell) must be re-authored: dormant until the record crosses 100 of 150 forms, then stirring mid-hunt and hunting you across the Ascension domain, not a biome."
   ]
 }

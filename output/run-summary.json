@@ -1,7 +1,8 @@
 {
   "ratified": true,
-  "basis": "round-0-rejected with 1 recorded correction(s) applied",
   "qa": "pass",
-  "blocking_remaining": 0,
-  "nits_shipped_as_advisories": 22
+  "blocking": 0,
+  "nits_shipped_as_advisories": 16,
+  "basis": "clean judging pass after in-place repair",
+  "evidence": "output/critic-log/accepted/"
 }

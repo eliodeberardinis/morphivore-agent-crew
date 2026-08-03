@@ -1,0 +1,37 @@
+{
+  "applied": [
+    {
+      "id": "miniboss_claws",
+      "file": "creatures",
+      "path": "behaviour.arena",
+      "old": "Holds a rocky outcrop, perched above the surrounding slopes rather than patrolling at ground level.",
+      "new": "Holds a low rocky outcrop at the foot of the climb, squatting on bare rock anything can walk up to - it never retreats onto the high ground its own claws would open.",
+      "detail": "miniboss_claws (The Cragfather) is the Claws carrier, and its arena reads \"Holds a rocky outcrop, perched above the surrounding slopes rather than patrolling at ground level.\" Claws grant \"Climb high ground\" (GDD-Extended \u00a72.6), and \u00a73.3 generator invariant 1 requires \"Every trait gate in a biome has a reachable carrier for its trait, OUTSIDE the terrain that trait unlocks\" (see also \u00a72.6a). Placing the carrier above ground level, off the slopes, puts it behind the very gate its own meat opens - the other three carriers are all written correctly (Fins at the shallows' edge, Coat below the cold line, Heat on the shore). Correction: keep it on a low outcrop reachable on foot."
+    },
+    {
+      "id": "panel_blue_lock_range",
+      "file": "panels",
+      "path": "attach",
+      "old": "brow ridge",
+      "new": "rear skull plate, behind the main face",
+      "detail": "panel_blue_lock_range (Deadeye Socket Plate) has attach \"brow ridge\". The brow is on the main cubic face, which \u00a72.6a reserves for traits (\"Traits sit on the main cubic face\"; Fins/Claws/Coat/Heat all render there), and \u00a72.8 states panels attach \"Anywhere across the cube's faces... never crowding the main-face traits, which always keep their place\". A panel cannot occupy the main face. Correction: move it off the main face, as panel_grey_lock_range correctly does with \"rear skull knob\"."
+    },
+    {
+      "id": "panel_purple_lock_range",
+      "file": "panels",
+      "path": "attach",
+      "old": "brow ridge",
+      "new": "nape ridge, behind the main face",
+      "detail": "panel_purple_lock_range (Eyeshine Brow-Slat) has attach \"brow ridge\" - main-face real estate, which \u00a72.6a reserves permanently for traits and \u00a72.8 forbids panels from crowding (\"never crowding the main-face traits\"). Correction: relocate the panel behind the main face."
+    },
+    {
+      "id": "panel_red_lock_range",
+      "file": "panels",
+      "path": "attach",
+      "old": "cheek nub",
+      "new": "neck nub, behind the main face",
+      "detail": "panel_red_lock_range (Stalk-Wart) has attach \"cheek nub\". The cheek is part of the main cubic face - the head-and-torso block where \u00a72.6a puts traits and only traits (\"the main face holds traits and drives traversal\"), and \u00a72.8 requires panels to sit across the cube's other faces without crowding it. Correction: move the wart off the face proper."
+    }
+  ],
+  "unpatched": []
+}

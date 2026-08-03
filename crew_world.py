@@ -287,6 +287,9 @@ def director_crew() -> Crew:
         '                         "path": "flavor" | "behaviour.opening" | "attach" | ...,\n'
         '                         "old": "<current text, copied EXACTLY>",\n'
         '                         "new": "<corrected text, ready to ship>"}}]}\n\n'
+        "`id` must be the record's OWN id exactly as `load_generated` shows it "
+        '-- "prairies", "panel_red_bite", "alpha_beach_grey". Do NOT prefix it '
+        'with the file ("biomes/prairies" is wrong); the file goes in `fix.file`.\n\n'
         "The `fix` is not advice -- it is applied verbatim to the file, with no "
         "agent re-writing anything. So copy `old` character-for-character from "
         "what `load_generated` showed you (a mismatch is refused rather than "

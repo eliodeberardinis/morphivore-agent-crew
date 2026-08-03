@@ -1,110 +1,110 @@
 {
   "prey_family_stems": {
     "Yellow": {
-      "stem": "Chugger",
-      "flavor": "Thick-necked meat that will not fall over. Hits like a slammed door and shrugs off the ones you land back."
+      "stem": "Thumper",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't."
     },
     "Red": {
-      "stem": "Twitcher",
-      "flavor": "All legs and panic. Blink and it's already gone \u2014 or already biting."
+      "stem": "Bounder",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice."
     },
     "Blue": {
-      "stem": "Longshank",
-      "flavor": "Skinny thing with a reach like a fishing pole. Get inside that reach and it folds."
+      "stem": "Needler",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms."
     },
     "Purple": {
-      "stem": "Sneakbite",
-      "flavor": "Nothing special about it, except that it's already behind you."
+      "stem": "Skulker",
+      "flavor": "Slinks in, bites once, forgets to leave a body."
     },
     "Grey": {
-      "stem": "Greyhide",
-      "flavor": "Doesn't have a specialty because it doesn't need one. Toughest common meal on the menu."
+      "stem": "Greymaw",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one."
     }
   },
   "tier_prefixes": {
-    "Pale": "Pale",
-    "Dusk": "Dusk",
-    "Deep": "Deep",
-    "Rage": "Rage"
+    "Pale": "Scrawny",
+    "Dusk": "Mangy",
+    "Deep": "Rabid",
+    "Rage": "Frothing"
   },
   "grazers": {
     "prairies": {
-      "name": "Fieldloaf",
-      "flavor": "A pale lump that eats grass and screams if you look at it. Free lunch."
+      "name": "Puffgrub",
+      "flavor": "Rolls through the grass eating grass, offering nothing, fearing everything."
     },
     "wetlands": {
-      "name": "Mudpuff",
-      "flavor": "Bobs in the shallows like a fat pale cloud. Runs slower than guilt."
+      "name": "Slopnewt",
+      "flavor": "Half mud, half meat, all squeal."
     },
     "mountains": {
-      "name": "Snowlump",
-      "flavor": "White as the rock it hides against. Not hiding well."
+      "name": "Snowpudge",
+      "flavor": "Rolls downhill faster than it ever runs uphill, and it never runs uphill."
     },
     "beach": {
-      "name": "Tideblob",
-      "flavor": "Washes up, waddles off, gets eaten. The circle is short."
+      "name": "Tidewad",
+      "flavor": "Washes up, flops around, apparently thinks that's a plan."
     },
     "volcanic": {
-      "name": "Ashgrub",
-      "flavor": "Pale meat that survives the heat by being too dumb to notice it."
+      "name": "Ashpup",
+      "flavor": "Somehow still alive out here, mostly out of spite."
     }
   },
   "elites": {
     "Yellow": {
-      "name": "Slabjaw",
-      "flavor": "Ripped off something that would not lie down. Bolted on, it keeps you upright a beat longer than you deserve."
+      "name": "The Knucklebreaker",
+      "flavor": "Picks a fight with the ground first, just to prove it can lose and get up anyway."
     },
     "Red": {
-      "name": "Bloodspur",
-      "flavor": "Faster than anything with this many teeth has any right to be. Bites first, never apologizes."
+      "name": "The Redline Ripper",
+      "flavor": "Hits top speed somewhere between your first step back and your last."
     },
     "Blue": {
-      "name": "Farshank",
-      "flavor": "Reaches you before you're ready to reach back. The distance was never yours to begin with."
+      "name": "The Deadeye Warden",
+      "flavor": "Already locked onto you before you noticed the grass move."
     },
     "Purple": {
-      "name": "Backbiter",
-      "flavor": "You never see the one that gets you. Neither did this thing's last meal."
+      "name": "The Throatgrin",
+      "flavor": "You won't hear it coming. You'll just stop being able to breathe."
     },
     "Grey": {
-      "name": "Greybrute",
-      "flavor": "Good at every part of killing you. Rare, because most things this good don't share a biome with anything else for long."
+      "name": "The Ashmaw",
+      "flavor": "Doesn't have a specialty. Doesn't need one."
     }
   },
   "minibosses": {
     "Fins": {
-      "name": "Gillbrute",
-      "flavor": "Owns the hollow like a landlord with teeth. Rip the gills off and wear the water yourself."
+      "name": "The Mudking",
+      "flavor": "Rules a puddle like an ocean, and will drown you just to prove the point."
     },
     "Claws": {
-      "name": "Ridgeripper",
-      "flavor": "Holds the rocks like they're personal property. Pry the hooks loose and the cliffs are yours."
+      "name": "The Cragfather",
+      "flavor": "Older than the rocks it squats on, meaner than every single one of them."
     },
     "Coat": {
-      "name": "Frostpelt",
-      "flavor": "Matted, mean, and unbothered by cold that kills everything else up here. Skin it and borrow the immunity."
+      "name": "The Frostback",
+      "flavor": "Grew a second hide out of spite for the cold, then started collecting more."
     },
     "Heat": {
-      "name": "Cinderjaw",
-      "flavor": "Lives in the vents like they're a warm bath. Tear off the glowing seam and the lava stops being a wall."
+      "name": "The Cinderjaw",
+      "flavor": "Breathes the vent like air and looks at you like lunch."
     }
   },
   "alpha_titles": {
-    "Yellow": "Slabking",
-    "Red": "Bloodstreak",
-    "Blue": "Longreach",
-    "Purple": "Shivbite",
-    "Grey": "Old Grey"
+    "Yellow": "Bonelord",
+    "Red": "Quickfang",
+    "Blue": "Deadeye",
+    "Purple": "Nightthroat",
+    "Grey": "Greytyrant"
   },
   "biome_epithets": {
-    "prairies": "Tall Grass",
-    "wetlands": "Sunk Bog",
-    "mountains": "High Rock",
-    "beach": "Burnt Sand",
-    "volcanic": "Open Flame"
+    "prairies": "Trampled Fields",
+    "wetlands": "Rotting Marsh",
+    "mountains": "Shattered Crags",
+    "beach": "Scalded Shore",
+    "volcanic": "Molten Maw"
   },
   "apex": {
-    "name": "The Last Grey",
-    "flavor": "Woke up because you wouldn't stop eating. Doesn't run. Never has to."
+    "name": "The Main Course",
+    "flavor": "You spent five biomes learning how to eat. Nothing has ever eaten it back."
   }
 }

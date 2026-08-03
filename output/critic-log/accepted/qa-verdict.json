@@ -8,6 +8,8 @@
     "prey/elite/alpha rank rules",
     "Alphas cannot be outrun; emblems grant no power",
     "panels dropped by elites only, no duplicate power per family",
+    "no panel mounted on main-face real estate (trait territory)",
+    "panel names unique across the whole set",
     "worst-roll slack, palette breadth, population supply",
     "alpha roster + panel source referential integrity",
     "trait carriers reachable without their own trait"

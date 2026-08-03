@@ -6,8 +6,8 @@
     {
       "id": "grazer_prairies",
       "role": "grazer",
-      "name": "Sod Grub",
-      "flavor": "A limbless white lump that hunches in the grass, eating and eating, going nowhere.",
+      "name": "Puffgrub",
+      "flavor": "Rolls through the grass eating grass, offering nothing, fearing everything.",
       "family": null,
       "tier": null,
       "rank": 0,
@@ -18,8 +18,8 @@
       "drops_panels": false,
       "heals_player_pct": 0.25,
       "behaviour": {
-        "idle": "Hunches over the dirt in open ground, oblivious to everything but the ground in front of it, and never strays far.",
-        "when_locked": "Bolts instantly in a straight panicked line the moment it's locked \u2014 no wind-up, no fight, it simply runs and keeps running."
+        "idle": "Ambles peacefully between patches of ground, paying no attention to any other creature nearby, including the player.",
+        "when_locked": "Bolts instantly in a straight, dead-simple sprint the moment it's locked -- no zig-zag, no hesitation, and no fighting back, ever."
       },
       "spawns": [
         {
@@ -35,8 +35,8 @@
     {
       "id": "grazer_wetlands",
       "role": "grazer",
-      "name": "Bog Slug",
-      "flavor": "A pale sack of a thing that oozes across the mud, no legs, no worries, no idea you're there.",
+      "name": "Slopnewt",
+      "flavor": "Half mud, half meat, all squeal.",
       "family": null,
       "tier": null,
       "rank": 0,
@@ -47,8 +47,8 @@
       "drops_panels": false,
       "heals_player_pct": 0.25,
       "behaviour": {
-        "idle": "Hunches over the dirt in open ground, oblivious to everything but the ground in front of it, and never strays far.",
-        "when_locked": "Bolts instantly in a straight panicked line the moment it's locked \u2014 no wind-up, no fight, it simply runs and keeps running."
+        "idle": "Ambles peacefully between patches of ground, paying no attention to any other creature nearby, including the player.",
+        "when_locked": "Bolts instantly in a straight, dead-simple sprint the moment it's locked -- no zig-zag, no hesitation, and no fighting back, ever."
       },
       "spawns": [
         {
@@ -64,8 +64,8 @@
     {
       "id": "grazer_mountains",
       "role": "grazer",
-      "name": "Scree Maggot",
-      "flavor": "White, limbless, and dumb as the rocks it hunches on.",
+      "name": "Snowpudge",
+      "flavor": "Rolls downhill faster than it ever runs uphill, and it never runs uphill.",
       "family": null,
       "tier": null,
       "rank": 0,
@@ -76,8 +76,8 @@
       "drops_panels": false,
       "heals_player_pct": 0.25,
       "behaviour": {
-        "idle": "Hunches over the dirt in open ground, oblivious to everything but the ground in front of it, and never strays far.",
-        "when_locked": "Bolts instantly in a straight panicked line the moment it's locked \u2014 no wind-up, no fight, it simply runs and keeps running."
+        "idle": "Ambles peacefully between patches of ground, paying no attention to any other creature nearby, including the player.",
+        "when_locked": "Bolts instantly in a straight, dead-simple sprint the moment it's locked -- no zig-zag, no hesitation, and no fighting back, ever."
       },
       "spawns": [
         {
@@ -93,8 +93,8 @@
     {
       "id": "grazer_beach",
       "role": "grazer",
-      "name": "Tide Grub",
-      "flavor": "Washes up, hunches down, and chews the shoreline blind to everything.",
+      "name": "Tidewad",
+      "flavor": "Washes up, flops around, apparently thinks that's a plan.",
       "family": null,
       "tier": null,
       "rank": 0,
@@ -105,8 +105,8 @@
       "drops_panels": false,
       "heals_player_pct": 0.25,
       "behaviour": {
-        "idle": "Hunches over the dirt in open ground, oblivious to everything but the ground in front of it, and never strays far.",
-        "when_locked": "Bolts instantly in a straight panicked line the moment it's locked \u2014 no wind-up, no fight, it simply runs and keeps running."
+        "idle": "Ambles peacefully between patches of ground, paying no attention to any other creature nearby, including the player.",
+        "when_locked": "Bolts instantly in a straight, dead-simple sprint the moment it's locked -- no zig-zag, no hesitation, and no fighting back, ever."
       },
       "spawns": [
         {
@@ -122,8 +122,8 @@
     {
       "id": "grazer_volcanic",
       "role": "grazer",
-      "name": "Ash Slug",
-      "flavor": "Squats limbless on cooling rock, pale against the black, and never once looks up.",
+      "name": "Ashpup",
+      "flavor": "Somehow still alive out here, mostly out of spite.",
       "family": null,
       "tier": null,
       "rank": 0,
@@ -134,8 +134,8 @@
       "drops_panels": false,
       "heals_player_pct": 0.25,
       "behaviour": {
-        "idle": "Hunches over the dirt in open ground, oblivious to everything but the ground in front of it, and never strays far.",
-        "when_locked": "Bolts instantly in a straight panicked line the moment it's locked \u2014 no wind-up, no fight, it simply runs and keeps running."
+        "idle": "Ambles peacefully between patches of ground, paying no attention to any other creature nearby, including the player.",
+        "when_locked": "Bolts instantly in a straight, dead-simple sprint the moment it's locked -- no zig-zag, no hesitation, and no fighting back, ever."
       },
       "spawns": [
         {
@@ -151,8 +151,8 @@
     {
       "id": "prey_yellow_pale",
       "role": "prey",
-      "name": "Pale Knucklehog",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Scrawny Thumper",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Pale",
@@ -162,9 +162,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Lumbers across open ground in short heavy bursts, slow and untroubled, stopping often to graze on whatever's underfoot.",
-        "when_locked": "Panics in short, heavy zig-zags, bulling toward the nearest cover it can reach \u2014 too slow to outrun anything, so it just crashes forward.",
-        "packs": false
+        "idle": "Grazes and lumbers in a loose, unhurried huddle, sticking close to two or three others of its own kind rather than wandering alone.",
+        "when_locked": "Breaks into a heavy, slower panic-run than the others, zig-zagging in short lurches rather than sharp cuts -- easy to read, but its bulk means it takes longer to actually get away.",
+        "packs": true
       },
       "spawns": [
         {
@@ -232,8 +232,8 @@
     {
       "id": "prey_yellow_dusk",
       "role": "prey",
-      "name": "Dusk Knucklehog",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Mangy Thumper",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Dusk",
@@ -243,9 +243,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Lumbers across open ground in short heavy bursts, slow and untroubled, stopping often to graze on whatever's underfoot.",
-        "when_locked": "Panics in short, heavy zig-zags, bulling toward the nearest cover it can reach \u2014 too slow to outrun anything, so it just crashes forward.",
-        "packs": false
+        "idle": "Grazes and lumbers in a loose, unhurried huddle, sticking close to two or three others of its own kind rather than wandering alone.",
+        "when_locked": "Breaks into a heavy, slower panic-run than the others, zig-zagging in short lurches rather than sharp cuts -- easy to read, but its bulk means it takes longer to actually get away.",
+        "packs": true
       },
       "spawns": [
         {
@@ -313,8 +313,8 @@
     {
       "id": "prey_yellow_deep",
       "role": "prey",
-      "name": "Deep Knucklehog",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Rabid Thumper",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Deep",
@@ -324,9 +324,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Lumbers across open ground in short heavy bursts, slow and untroubled, stopping often to graze on whatever's underfoot.",
-        "when_locked": "Panics in short, heavy zig-zags, bulling toward the nearest cover it can reach \u2014 too slow to outrun anything, so it just crashes forward.",
-        "packs": false
+        "idle": "Grazes and lumbers in a loose, unhurried huddle, sticking close to two or three others of its own kind rather than wandering alone.",
+        "when_locked": "Breaks into a heavy, slower panic-run than the others, zig-zagging in short lurches rather than sharp cuts -- easy to read, but its bulk means it takes longer to actually get away.",
+        "packs": true
       },
       "spawns": [
         {
@@ -382,8 +382,8 @@
     {
       "id": "prey_yellow_rage",
       "role": "prey",
-      "name": "Rage Knucklehog",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Frothing Thumper",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Rage",
@@ -393,9 +393,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Lumbers across open ground in short heavy bursts, slow and untroubled, stopping often to graze on whatever's underfoot.",
-        "when_locked": "Panics in short, heavy zig-zags, bulling toward the nearest cover it can reach \u2014 too slow to outrun anything, so it just crashes forward.",
-        "packs": false
+        "idle": "Grazes and lumbers in a loose, unhurried huddle, sticking close to two or three others of its own kind rather than wandering alone.",
+        "when_locked": "Breaks into a heavy, slower panic-run than the others, zig-zagging in short lurches rather than sharp cuts -- easy to read, but its bulk means it takes longer to actually get away.",
+        "packs": true
       },
       "spawns": [
         {
@@ -439,8 +439,8 @@
     {
       "id": "prey_red_pale",
       "role": "prey",
-      "name": "Pale Twitchhare",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Scrawny Bounder",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Pale",
@@ -450,8 +450,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Darts and hops in short unpredictable bursts across open ground, never settling in one spot long enough to be an easy target.",
-        "when_locked": "Explodes into panicked leaps in every direction, changing line so fast that a straight chase never catches it \u2014 it has to be cut off, not chased down.",
+        "idle": "Never really stands still -- hops and shuffles on the spot even at rest, always half-ready to bolt.",
+        "when_locked": "Explodes into a full sprint with sudden, sharp zig-zags and direction reversals the instant it's locked -- the hardest of the prey to run down in a straight chase.",
         "packs": false
       },
       "spawns": [
@@ -520,8 +520,8 @@
     {
       "id": "prey_red_dusk",
       "role": "prey",
-      "name": "Dusk Twitchhare",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Mangy Bounder",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Dusk",
@@ -531,8 +531,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Darts and hops in short unpredictable bursts across open ground, never settling in one spot long enough to be an easy target.",
-        "when_locked": "Explodes into panicked leaps in every direction, changing line so fast that a straight chase never catches it \u2014 it has to be cut off, not chased down.",
+        "idle": "Never really stands still -- hops and shuffles on the spot even at rest, always half-ready to bolt.",
+        "when_locked": "Explodes into a full sprint with sudden, sharp zig-zags and direction reversals the instant it's locked -- the hardest of the prey to run down in a straight chase.",
         "packs": false
       },
       "spawns": [
@@ -601,8 +601,8 @@
     {
       "id": "prey_red_deep",
       "role": "prey",
-      "name": "Deep Twitchhare",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Rabid Bounder",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Deep",
@@ -612,8 +612,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Darts and hops in short unpredictable bursts across open ground, never settling in one spot long enough to be an easy target.",
-        "when_locked": "Explodes into panicked leaps in every direction, changing line so fast that a straight chase never catches it \u2014 it has to be cut off, not chased down.",
+        "idle": "Never really stands still -- hops and shuffles on the spot even at rest, always half-ready to bolt.",
+        "when_locked": "Explodes into a full sprint with sudden, sharp zig-zags and direction reversals the instant it's locked -- the hardest of the prey to run down in a straight chase.",
         "packs": false
       },
       "spawns": [
@@ -670,8 +670,8 @@
     {
       "id": "prey_red_rage",
       "role": "prey",
-      "name": "Rage Twitchhare",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Frothing Bounder",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Rage",
@@ -681,8 +681,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Darts and hops in short unpredictable bursts across open ground, never settling in one spot long enough to be an easy target.",
-        "when_locked": "Explodes into panicked leaps in every direction, changing line so fast that a straight chase never catches it \u2014 it has to be cut off, not chased down.",
+        "idle": "Never really stands still -- hops and shuffles on the spot even at rest, always half-ready to bolt.",
+        "when_locked": "Explodes into a full sprint with sudden, sharp zig-zags and direction reversals the instant it's locked -- the hardest of the prey to run down in a straight chase.",
         "packs": false
       },
       "spawns": [
@@ -727,8 +727,8 @@
     {
       "id": "prey_blue_pale",
       "role": "prey",
-      "name": "Pale Longeye",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Scrawny Needler",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Pale",
@@ -738,9 +738,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Keeps to open sightlines, watching from a wary distance and repositioning constantly rather than clustering in one spot.",
-        "when_locked": "Skitters backward in darting zig-zags, always trying to open the range back up before bolting for the nearest hard cover.",
-        "packs": true
+        "idle": "Keeps its distance from clumps of other creatures, drifting at the edges of open ground where it has room to see and run.",
+        "when_locked": "Flees in wide, looping zig-zags that favour open ground over cover, always trying to keep space between itself and the chaser.",
+        "packs": false
       },
       "spawns": [
         {
@@ -808,8 +808,8 @@
     {
       "id": "prey_blue_dusk",
       "role": "prey",
-      "name": "Dusk Longeye",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Mangy Needler",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Dusk",
@@ -819,9 +819,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Keeps to open sightlines, watching from a wary distance and repositioning constantly rather than clustering in one spot.",
-        "when_locked": "Skitters backward in darting zig-zags, always trying to open the range back up before bolting for the nearest hard cover.",
-        "packs": true
+        "idle": "Keeps its distance from clumps of other creatures, drifting at the edges of open ground where it has room to see and run.",
+        "when_locked": "Flees in wide, looping zig-zags that favour open ground over cover, always trying to keep space between itself and the chaser.",
+        "packs": false
       },
       "spawns": [
         {
@@ -889,8 +889,8 @@
     {
       "id": "prey_blue_deep",
       "role": "prey",
-      "name": "Deep Longeye",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Rabid Needler",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Deep",
@@ -900,9 +900,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Keeps to open sightlines, watching from a wary distance and repositioning constantly rather than clustering in one spot.",
-        "when_locked": "Skitters backward in darting zig-zags, always trying to open the range back up before bolting for the nearest hard cover.",
-        "packs": true
+        "idle": "Keeps its distance from clumps of other creatures, drifting at the edges of open ground where it has room to see and run.",
+        "when_locked": "Flees in wide, looping zig-zags that favour open ground over cover, always trying to keep space between itself and the chaser.",
+        "packs": false
       },
       "spawns": [
         {
@@ -958,8 +958,8 @@
     {
       "id": "prey_blue_rage",
       "role": "prey",
-      "name": "Rage Longeye",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Frothing Needler",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Rage",
@@ -969,9 +969,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Keeps to open sightlines, watching from a wary distance and repositioning constantly rather than clustering in one spot.",
-        "when_locked": "Skitters backward in darting zig-zags, always trying to open the range back up before bolting for the nearest hard cover.",
-        "packs": true
+        "idle": "Keeps its distance from clumps of other creatures, drifting at the edges of open ground where it has room to see and run.",
+        "when_locked": "Flees in wide, looping zig-zags that favour open ground over cover, always trying to keep space between itself and the chaser.",
+        "packs": false
       },
       "spawns": [
         {
@@ -1015,8 +1015,8 @@
     {
       "id": "prey_purple_pale",
       "role": "prey",
-      "name": "Pale Backbiter",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Scrawny Skulker",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Pale",
@@ -1026,8 +1026,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Slips between cover and shadow, drifting in and out of sight rather than holding one patch of ground.",
-        "when_locked": "Weaves into the nearest cover in tight zig-zags, using the terrain to break sightline the instant it can.",
+        "idle": "Shifts and skulks near terrain features -- rocks, reeds, treelines -- in a loose, watchful gaggle rather than a tight herd.",
+        "when_locked": "Panics into sharp, unpredictable zig-zags and doubles back behind whatever cover is nearest; when one is locked, the rest of its gaggle scatters in different directions instead of bunching up.",
         "packs": true
       },
       "spawns": [
@@ -1096,8 +1096,8 @@
     {
       "id": "prey_purple_dusk",
       "role": "prey",
-      "name": "Dusk Backbiter",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Mangy Skulker",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Dusk",
@@ -1107,8 +1107,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Slips between cover and shadow, drifting in and out of sight rather than holding one patch of ground.",
-        "when_locked": "Weaves into the nearest cover in tight zig-zags, using the terrain to break sightline the instant it can.",
+        "idle": "Shifts and skulks near terrain features -- rocks, reeds, treelines -- in a loose, watchful gaggle rather than a tight herd.",
+        "when_locked": "Panics into sharp, unpredictable zig-zags and doubles back behind whatever cover is nearest; when one is locked, the rest of its gaggle scatters in different directions instead of bunching up.",
         "packs": true
       },
       "spawns": [
@@ -1177,8 +1177,8 @@
     {
       "id": "prey_purple_deep",
       "role": "prey",
-      "name": "Deep Backbiter",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Rabid Skulker",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Deep",
@@ -1188,8 +1188,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Slips between cover and shadow, drifting in and out of sight rather than holding one patch of ground.",
-        "when_locked": "Weaves into the nearest cover in tight zig-zags, using the terrain to break sightline the instant it can.",
+        "idle": "Shifts and skulks near terrain features -- rocks, reeds, treelines -- in a loose, watchful gaggle rather than a tight herd.",
+        "when_locked": "Panics into sharp, unpredictable zig-zags and doubles back behind whatever cover is nearest; when one is locked, the rest of its gaggle scatters in different directions instead of bunching up.",
         "packs": true
       },
       "spawns": [
@@ -1246,8 +1246,8 @@
     {
       "id": "prey_purple_rage",
       "role": "prey",
-      "name": "Rage Backbiter",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Frothing Skulker",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Rage",
@@ -1257,8 +1257,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Slips between cover and shadow, drifting in and out of sight rather than holding one patch of ground.",
-        "when_locked": "Weaves into the nearest cover in tight zig-zags, using the terrain to break sightline the instant it can.",
+        "idle": "Shifts and skulks near terrain features -- rocks, reeds, treelines -- in a loose, watchful gaggle rather than a tight herd.",
+        "when_locked": "Panics into sharp, unpredictable zig-zags and doubles back behind whatever cover is nearest; when one is locked, the rest of its gaggle scatters in different directions instead of bunching up.",
         "packs": true
       },
       "spawns": [
@@ -1303,8 +1303,8 @@
     {
       "id": "prey_grey_pale",
       "role": "prey",
-      "name": "Pale Ironjaw",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Scrawny Greymaw",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Pale",
@@ -1314,8 +1314,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Holds open ground with an unhurried, confident gait, rarely bothering to move far from a good patch of graze.",
-        "when_locked": "Breaks into a heavy zig-zagging panic, slower to bolt than the others but committed once it does.",
+        "idle": "Moves with an unhurried confidence the other prey don't have -- it doesn't startle at nearby movement the way softer prey does.",
+        "when_locked": "Flees in a measured, testing retreat rather than blind panic -- still a zig-zag, but deliberate, probing for the gap that lets it break the lock.",
         "packs": false
       },
       "spawns": [
@@ -1384,8 +1384,8 @@
     {
       "id": "prey_grey_dusk",
       "role": "prey",
-      "name": "Dusk Ironjaw",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Mangy Greymaw",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Dusk",
@@ -1395,8 +1395,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Holds open ground with an unhurried, confident gait, rarely bothering to move far from a good patch of graze.",
-        "when_locked": "Breaks into a heavy zig-zagging panic, slower to bolt than the others but committed once it does.",
+        "idle": "Moves with an unhurried confidence the other prey don't have -- it doesn't startle at nearby movement the way softer prey does.",
+        "when_locked": "Flees in a measured, testing retreat rather than blind panic -- still a zig-zag, but deliberate, probing for the gap that lets it break the lock.",
         "packs": false
       },
       "spawns": [
@@ -1465,8 +1465,8 @@
     {
       "id": "prey_grey_deep",
       "role": "prey",
-      "name": "Deep Ironjaw",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Rabid Greymaw",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Deep",
@@ -1476,8 +1476,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Holds open ground with an unhurried, confident gait, rarely bothering to move far from a good patch of graze.",
-        "when_locked": "Breaks into a heavy zig-zagging panic, slower to bolt than the others but committed once it does.",
+        "idle": "Moves with an unhurried confidence the other prey don't have -- it doesn't startle at nearby movement the way softer prey does.",
+        "when_locked": "Flees in a measured, testing retreat rather than blind panic -- still a zig-zag, but deliberate, probing for the gap that lets it break the lock.",
         "packs": false
       },
       "spawns": [
@@ -1534,8 +1534,8 @@
     {
       "id": "prey_grey_rage",
       "role": "prey",
-      "name": "Rage Ironjaw",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Frothing Greymaw",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Rage",
@@ -1545,8 +1545,8 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": false,
       "behaviour": {
-        "idle": "Holds open ground with an unhurried, confident gait, rarely bothering to move far from a good patch of graze.",
-        "when_locked": "Breaks into a heavy zig-zagging panic, slower to bolt than the others but committed once it does.",
+        "idle": "Moves with an unhurried confidence the other prey don't have -- it doesn't startle at nearby movement the way softer prey does.",
+        "when_locked": "Flees in a measured, testing retreat rather than blind panic -- still a zig-zag, but deliberate, probing for the gap that lets it break the lock.",
         "packs": false
       },
       "spawns": [
@@ -1591,8 +1591,8 @@
     {
       "id": "elite_yellow",
       "role": "elite",
-      "name": "The Meat Wall",
-      "flavor": "Bigger than it needs to be and in no hurry to prove it isn't.",
+      "name": "The Knucklebreaker",
+      "flavor": "Picks a fight with the ground first, just to prove it can lose and get up anyway.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Clash",
@@ -1602,10 +1602,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": true,
       "behaviour": {
-        "name": "Knuckle-Slab",
-        "territory": "Holds a fixed patch of open ground in its pocket and does not chase far outside it, planting itself between the player and the rest of the huddle.",
+        "territory": "Plants itself over a fixed patch of ground inside its pocket and rarely leaves it; pursues intruders only within that patch and settles back onto the same spot once they're gone.",
         "pack_aggro": true,
-        "wind_up": "Squares up and plants its feet, going completely still for a long beat before it closes the last of the distance \u2014 a slow, heavy telegraph that rewards standing your ground."
+        "wind_up": "Digs in, braces its whole body, and keeps closing the distance steadily through the wind-up -- slow to commit but very hard to outrun once it does."
       },
       "spawns": [
         {
@@ -1673,8 +1672,8 @@
     {
       "id": "elite_red",
       "role": "elite",
-      "name": "The Quickblood",
-      "flavor": "Blurs past, bites once, and is gone before the pain catches up.",
+      "name": "The Redline Ripper",
+      "flavor": "Hits top speed somewhere between your first step back and your last.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Clash",
@@ -1684,10 +1683,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": true,
       "behaviour": {
-        "name": "The Quickfang",
-        "territory": "Prowls a wide loop around its pocket's edge, closing the moment the player crosses into it and cutting off retreat before it commits.",
-        "pack_aggro": true,
-        "wind_up": "Crouches low and coils for only an instant before it closes the rest of the way at a dead sprint \u2014 the shortest, hardest-to-punish wind-up of any elite."
+        "territory": "Patrols a wider loop around its pocket rather than holding one spot, the most mobile of the elites while on guard.",
+        "pack_aggro": false,
+        "wind_up": "Crouches low into a visible coil and then closes the gap almost immediately -- the shortest, hardest-to-react-to wind-up of any elite."
       },
       "spawns": [
         {
@@ -1755,8 +1753,8 @@
     {
       "id": "elite_blue",
       "role": "elite",
-      "name": "The Long Shot",
-      "flavor": "Locks on from further away than seems fair and makes you cross the whole gap to argue about it.",
+      "name": "The Deadeye Warden",
+      "flavor": "Already locked onto you before you noticed the grass move.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Clash",
@@ -1766,10 +1764,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": true,
       "behaviour": {
-        "name": "The Longshot",
-        "territory": "Holds the far edge of its pocket, at the outer limit of its own reach, and repositions to keep that distance rather than closing in.",
-        "pack_aggro": true,
-        "wind_up": "Goes rigid and sights the player from well outside pounce range, holding the aim for a long beat before it commits from a distance nothing else in the pocket can match."
+        "territory": "Perches at the edge of its pocket with clear sightlines across the open ground it guards, rather than lurking in the thick of it.",
+        "pack_aggro": false,
+        "wind_up": "Rears back and holds its reach out toward the locked target, closing only as much distance as it needs before its long-reach pounce connects."
       },
       "spawns": [
         {
@@ -1837,8 +1834,8 @@
     {
       "id": "elite_purple",
       "role": "elite",
-      "name": "The Thicket-Walker",
-      "flavor": "You don't see it coming. You see it leaving, with a chunk of you.",
+      "name": "The Throatgrin",
+      "flavor": "You won't hear it coming. You'll just stop being able to breathe.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Clash",
@@ -1848,10 +1845,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": true,
       "behaviour": {
-        "name": "The Shiv",
-        "territory": "Circles the pocket from cover, never holding one spot, and reappears from a different angle each time the player re-enters.",
+        "territory": "Shifts position among the pocket's cover instead of holding one spot, never staying in the open for long.",
         "pack_aggro": true,
-        "wind_up": "Freezes mid-step just before breaking cover, betraying its position for a moment before it darts in from the flank."
+        "wind_up": "Weaves in on an unpredictable line while closing, making the moment it commits to the pounce harder to time against than a straight approach."
       },
       "spawns": [
         {
@@ -1919,8 +1915,8 @@
     {
       "id": "elite_grey",
       "role": "elite",
-      "name": "The Iron-Hide",
-      "flavor": "Tough enough to shrug off the fight you thought you'd already won.",
+      "name": "The Ashmaw",
+      "flavor": "Doesn't have a specialty. Doesn't need one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Clash",
@@ -1930,10 +1926,9 @@
       "counts_toward_alpha_gate": true,
       "drops_panels": true,
       "behaviour": {
-        "name": "The Greyback",
-        "territory": "Holds open high ground at the heart of its pocket and does not give it up, forcing anything that wants the ground underneath it to come and take it.",
-        "pack_aggro": true,
-        "wind_up": "Plants all its weight and holds, visibly bracing, before it closes the ground at a pace nothing its size should manage."
+        "territory": "Holds the deepest, most central ground in its pocket -- the anchor point the rest of the pocket is built around.",
+        "pack_aggro": false,
+        "wind_up": "Closes steadily and evenly through the wind-up with no obvious tell to exploit, matching its all-round strength."
       },
       "spawns": [
         {
@@ -2001,8 +1996,8 @@
     {
       "id": "miniboss_fins",
       "role": "trait_miniboss",
-      "name": "Old Gillmaw",
-      "flavor": "Holds the mudbank and does not give it back, no matter how hard you push.",
+      "name": "The Mudking",
+      "flavor": "Rules a puddle like an ocean, and will drown you just to prove the point.",
       "family": null,
       "tier": "Clash",
       "grants_trait": "Fins",
@@ -2013,10 +2008,9 @@
       "drops_panels": false,
       "flees": false,
       "behaviour": {
-        "name": "Old Gillmaw",
-        "arena": "A reed-choked mudbank in the deep marsh hollow, water on one side and open mud on the other.",
-        "opening": "Slides up out of the reeds onto the open mud as the player closes in, and holds that bank; it does not give the ground back and it does not go under.",
-        "wind_up": "Rears up out of the mud and holds, jaws open, for a long beat before it slams forward across the bank."
+        "arena": "Holds the deep marsh hollow it dens in, staying close to open water it can use against you; it never abandons this ground, however the fight goes.",
+        "opening": "The fight usually starts while the hollow's other occupants are already closing in from around the pond.",
+        "wind_up": "Rears up out of the water or mud into a full brace before lunging -- unmistakable even through the murk, and it never flees the exchange."
       },
       "spawns": [
         {
@@ -2036,8 +2030,8 @@
     {
       "id": "miniboss_claws",
       "role": "trait_miniboss",
-      "name": "Ridge-Back",
-      "flavor": "Drops off a low rock, claws first, and dares you to climb over it.",
+      "name": "The Cragfather",
+      "flavor": "Older than the rocks it squats on, meaner than every single one of them.",
       "family": null,
       "tier": "Clash",
       "grants_trait": "Claws",
@@ -2048,10 +2042,9 @@
       "drops_panels": false,
       "flees": false,
       "behaviour": {
-        "name": "Cragfang",
-        "arena": "The boulder-field at the foot of the rocky outcrop, ground any player can walk into on foot, no climbing required.",
-        "opening": "Drops off a low rock onto the boulder-field as the player walks into view, landing on ground already reachable on foot.",
-        "wind_up": "Digs its hooked ridges into the nearest boulder and holds, braced, before it launches off the rock straight at the player."
+        "arena": "Holds its rocky outcrop and uses the height of it, sticking near ledges rather than open ground; it does not give up this crag no matter how the fight turns.",
+        "opening": "Usually engaged while other outcrop-dwellers are already closing in from the rocks around it.",
+        "wind_up": "Digs its claws into the stone and hunches low before an explosive lunge along or down the outcrop, and stands its ground through the whole exchange."
       },
       "spawns": [
         {
@@ -2071,8 +2064,8 @@
     {
       "id": "miniboss_coat",
       "role": "trait_miniboss",
-      "name": "Old Frost-Shag",
-      "flavor": "A wall of matted hide squatting in the foothills, daring the cold to try harder.",
+      "name": "The Frostback",
+      "flavor": "Grew a second hide out of spite for the cold, then started collecting more.",
       "family": null,
       "tier": "Clash",
       "grants_trait": "Coat",
@@ -2083,10 +2076,9 @@
       "drops_panels": false,
       "flees": false,
       "behaviour": {
-        "name": "Frostback",
-        "arena": "A windswept shelf in the foothills, below the line where the cold turns lethal, matted drifts banked up against the rock.",
-        "opening": "Rises out of a snowbank as the player nears, shaking the drift off its shell, and plants itself across the shelf.",
-        "wind_up": "Hunches down and holds dead still under its matted coat for a long beat before it charges the width of the shelf."
+        "arena": "Prowls the foothills below the snowline, patrolling the same ground the local grazers use; it never breaks off this territory.",
+        "opening": "Typically starts while nearby foothill occupants are already converging on you.",
+        "wind_up": "Plants its shaggy bulk, lowers its head, and holds a short, heavy pause before a full charge -- and it does not flee once committed."
       },
       "spawns": [
         {
@@ -2106,8 +2098,8 @@
     {
       "id": "miniboss_heat",
       "role": "trait_miniboss",
-      "name": "Cinderback",
-      "flavor": "Comes up glowing out of the vents and does not cool down for anyone.",
+      "name": "The Cinderjaw",
+      "flavor": "Breathes the vent like air and looks at you like lunch.",
       "family": null,
       "tier": "Clash",
       "grants_trait": "Heat",
@@ -2118,10 +2110,9 @@
       "drops_panels": false,
       "flees": false,
       "behaviour": {
-        "name": "The Vent-Walker",
-        "arena": "A blackened shelf of rock beside a volcanic vent, heat shimmering off the stone.",
-        "opening": "Climbs up out of the vent's glow as the player approaches, and plants itself between the vent and open ground.",
-        "wind_up": "The glowing seam across its face brightens and holds for a long beat before it lunges through the heat haze."
+        "arena": "Guards the volcanic vents along the shore, staying close to the heat and glow it lives on; it never abandons the vents, win or lose.",
+        "opening": "Usually engaged while other vent-dwellers are already closing in around you.",
+        "wind_up": "The scorched seam across its face flares brighter as it braces, then it lunges -- and it never breaks off the fight."
       },
       "spawns": [
         {
@@ -2141,8 +2132,8 @@
     {
       "id": "alpha_prairies_yellow",
       "role": "alpha",
-      "name": "The Bonecrusher of the Open Plain",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Bonelord of the Trampled Fields",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Clash",
@@ -2155,9 +2146,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "The lair's ground trembles and the entrance splits as it shoulders its way out, slow and enormous, already facing the player.",
-        "hunt": "Advances at a steady, unbroken walk across the whole biome, closing distance non-stop rather than sprinting in bursts, and cannot be shaken by speed alone.",
-        "tell": "Squares up and goes completely still before every pounce, the same long telegraph as its lesser kin, just far harder to survive."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises well before it appears; once both gates close, there is a short grace period before the lair erupts and it steps out.",
+        "hunt": "Slow but utterly relentless -- it doesn't need to be fast because it can never be outrun; it closes steadily across the whole biome, wherever you are, with heavy, clearly telegraphed pounces.",
+        "tell": "The stirring lair is the only warning: lights, tremor, rising sound, well before it emerges."
       },
       "spawns": [
         {
@@ -2177,8 +2168,8 @@
     {
       "id": "alpha_prairies_red",
       "role": "alpha",
-      "name": "The Bloodstreak of the Open Plain",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Quickfang of the Trampled Fields",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Clash",
@@ -2191,9 +2182,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Bursts out of the lair at a dead run, already closing, with no pause between waking and hunting.",
-        "hunt": "Closes in short, relentless bursts of speed that eat distance faster than anything else in the biome, never fully stopping to breathe.",
-        "tell": "Coils for only a moment before every leap \u2014 the shortest tell of any Alpha, punishing any player who isn't already watching for it."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts and it emerges.",
+        "hunt": "Blisteringly fast out of the gate -- it closes distance almost the moment it emerges, hunting you across the whole biome with no wasted movement.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it comes."
       },
       "spawns": [
         {
@@ -2213,8 +2204,8 @@
     {
       "id": "alpha_prairies_blue",
       "role": "alpha",
-      "name": "The Deadeye of the Open Plain",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Deadeye of the Trampled Fields",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Clash",
@@ -2227,9 +2218,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Rises onto the highest ground near the lair and settles there first, sighting the whole biome before it moves.",
-        "hunt": "Holds distance and repositions along high ground and sightlines, only closing in when it already has an angle nothing else can answer.",
-        "tell": "Goes rigid and holds its aim across the open ground for a long beat, visible from far outside pounce range, before it commits."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it emerges.",
+        "hunt": "Hangs at the edge of its own reach as it hunts you across the biome, stalking from outside your comfortable range and punishing any moment you let it line up.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning before it appears."
       },
       "spawns": [
         {
@@ -2249,8 +2240,8 @@
     {
       "id": "alpha_prairies_purple",
       "role": "alpha",
-      "name": "The Gutslitter of the Open Plain",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Nightthroat of the Trampled Fields",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Clash",
@@ -2263,9 +2254,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Slips out of the lair into the nearest cover and vanishes almost immediately, giving no clean first look at it.",
-        "hunt": "Stalks from cover to cover around the player's position, closing the distance from whichever angle is least watched.",
-        "tell": "Freezes for an instant just before breaking cover \u2014 the only warning before it closes the rest of the distance from the flank."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts.",
+        "hunt": "Takes an unpredictable path across the whole biome as it hunts, weaving in and out of your route so its approach is hard to call in advance.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it emerges."
       },
       "spawns": [
         {
@@ -2285,8 +2276,8 @@
     {
       "id": "alpha_prairies_grey",
       "role": "alpha",
-      "name": "The Meatking of the Open Plain",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Greytyrant of the Trampled Fields",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Clash",
@@ -2299,9 +2290,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Walks straight out of the lair into the open, making no effort to hide, and simply starts closing.",
-        "hunt": "Matches whatever the player does \u2014 closing when they close, cutting off ground when they run \u2014 without ever looking rushed.",
-        "tell": "Plants its full weight and braces for a long beat before closing the last of the ground at a pace nothing its size should manage."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it steps out.",
+        "hunt": "Dangerous on every axis as it hunts you across the whole biome -- no obvious weak angle to it, closing steadily and evenly wherever you run.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning you get before it appears."
       },
       "spawns": [
         {
@@ -2321,8 +2312,8 @@
     {
       "id": "alpha_wetlands_yellow",
       "role": "alpha",
-      "name": "The Bonecrusher of the Drowned Reeds",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Bonelord of the Rotting Marsh",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Clash",
@@ -2335,9 +2326,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "The lair's ground trembles and the entrance splits as it shoulders its way out, slow and enormous, already facing the player.",
-        "hunt": "Advances at a steady, unbroken walk across the whole biome, closing distance non-stop rather than sprinting in bursts, and cannot be shaken by speed alone.",
-        "tell": "Squares up and goes completely still before every pounce, the same long telegraph as its lesser kin, just far harder to survive."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises well before it appears; once both gates close, there is a short grace period before the lair erupts and it steps out.",
+        "hunt": "Slow but utterly relentless -- it doesn't need to be fast because it can never be outrun; it closes steadily across the whole biome, wherever you are, with heavy, clearly telegraphed pounces.",
+        "tell": "The stirring lair is the only warning: lights, tremor, rising sound, well before it emerges."
       },
       "spawns": [
         {
@@ -2357,8 +2348,8 @@
     {
       "id": "alpha_wetlands_red",
       "role": "alpha",
-      "name": "The Bloodstreak of the Drowned Reeds",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Quickfang of the Rotting Marsh",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Clash",
@@ -2371,9 +2362,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Bursts out of the lair at a dead run, already closing, with no pause between waking and hunting.",
-        "hunt": "Closes in short, relentless bursts of speed that eat distance faster than anything else in the biome, never fully stopping to breathe.",
-        "tell": "Coils for only a moment before every leap \u2014 the shortest tell of any Alpha, punishing any player who isn't already watching for it."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts and it emerges.",
+        "hunt": "Blisteringly fast out of the gate -- it closes distance almost the moment it emerges, hunting you across the whole biome with no wasted movement.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it comes."
       },
       "spawns": [
         {
@@ -2393,8 +2384,8 @@
     {
       "id": "alpha_wetlands_blue",
       "role": "alpha",
-      "name": "The Deadeye of the Drowned Reeds",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Deadeye of the Rotting Marsh",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Clash",
@@ -2407,9 +2398,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Rises onto the highest ground near the lair and settles there first, sighting the whole biome before it moves.",
-        "hunt": "Holds distance and repositions along high ground and sightlines, only closing in when it already has an angle nothing else can answer.",
-        "tell": "Goes rigid and holds its aim across the open ground for a long beat, visible from far outside pounce range, before it commits."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it emerges.",
+        "hunt": "Hangs at the edge of its own reach as it hunts you across the biome, stalking from outside your comfortable range and punishing any moment you let it line up.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning before it appears."
       },
       "spawns": [
         {
@@ -2429,8 +2420,8 @@
     {
       "id": "alpha_wetlands_purple",
       "role": "alpha",
-      "name": "The Gutslitter of the Drowned Reeds",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Nightthroat of the Rotting Marsh",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Clash",
@@ -2443,9 +2434,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Slips out of the lair into the nearest cover and vanishes almost immediately, giving no clean first look at it.",
-        "hunt": "Stalks from cover to cover around the player's position, closing the distance from whichever angle is least watched.",
-        "tell": "Freezes for an instant just before breaking cover \u2014 the only warning before it closes the rest of the distance from the flank."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts.",
+        "hunt": "Takes an unpredictable path across the whole biome as it hunts, weaving in and out of your route so its approach is hard to call in advance.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it emerges."
       },
       "spawns": [
         {
@@ -2465,8 +2456,8 @@
     {
       "id": "alpha_wetlands_grey",
       "role": "alpha",
-      "name": "The Meatking of the Drowned Reeds",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Greytyrant of the Rotting Marsh",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Clash",
@@ -2479,9 +2470,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Walks straight out of the lair into the open, making no effort to hide, and simply starts closing.",
-        "hunt": "Matches whatever the player does \u2014 closing when they close, cutting off ground when they run \u2014 without ever looking rushed.",
-        "tell": "Plants its full weight and braces for a long beat before closing the last of the ground at a pace nothing its size should manage."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it steps out.",
+        "hunt": "Dangerous on every axis as it hunts you across the whole biome -- no obvious weak angle to it, closing steadily and evenly wherever you run.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning you get before it appears."
       },
       "spawns": [
         {
@@ -2501,8 +2492,8 @@
     {
       "id": "alpha_mountains_yellow",
       "role": "alpha",
-      "name": "The Bonecrusher of the Broken Crags",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Bonelord of the Shattered Crags",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Clash",
@@ -2515,9 +2506,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "The lair's ground trembles and the entrance splits as it shoulders its way out, slow and enormous, already facing the player.",
-        "hunt": "Advances at a steady, unbroken walk across the whole biome, closing distance non-stop rather than sprinting in bursts, and cannot be shaken by speed alone.",
-        "tell": "Squares up and goes completely still before every pounce, the same long telegraph as its lesser kin, just far harder to survive."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises well before it appears; once both gates close, there is a short grace period before the lair erupts and it steps out.",
+        "hunt": "Slow but utterly relentless -- it doesn't need to be fast because it can never be outrun; it closes steadily across the whole biome, wherever you are, with heavy, clearly telegraphed pounces.",
+        "tell": "The stirring lair is the only warning: lights, tremor, rising sound, well before it emerges."
       },
       "spawns": [
         {
@@ -2537,8 +2528,8 @@
     {
       "id": "alpha_mountains_red",
       "role": "alpha",
-      "name": "The Bloodstreak of the Broken Crags",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Quickfang of the Shattered Crags",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Clash",
@@ -2551,9 +2542,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Bursts out of the lair at a dead run, already closing, with no pause between waking and hunting.",
-        "hunt": "Closes in short, relentless bursts of speed that eat distance faster than anything else in the biome, never fully stopping to breathe.",
-        "tell": "Coils for only a moment before every leap \u2014 the shortest tell of any Alpha, punishing any player who isn't already watching for it."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts and it emerges.",
+        "hunt": "Blisteringly fast out of the gate -- it closes distance almost the moment it emerges, hunting you across the whole biome with no wasted movement.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it comes."
       },
       "spawns": [
         {
@@ -2573,8 +2564,8 @@
     {
       "id": "alpha_mountains_blue",
       "role": "alpha",
-      "name": "The Deadeye of the Broken Crags",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Deadeye of the Shattered Crags",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Clash",
@@ -2587,9 +2578,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Rises onto the highest ground near the lair and settles there first, sighting the whole biome before it moves.",
-        "hunt": "Holds distance and repositions along high ground and sightlines, only closing in when it already has an angle nothing else can answer.",
-        "tell": "Goes rigid and holds its aim across the open ground for a long beat, visible from far outside pounce range, before it commits."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it emerges.",
+        "hunt": "Hangs at the edge of its own reach as it hunts you across the biome, stalking from outside your comfortable range and punishing any moment you let it line up.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning before it appears."
       },
       "spawns": [
         {
@@ -2609,8 +2600,8 @@
     {
       "id": "alpha_mountains_purple",
       "role": "alpha",
-      "name": "The Gutslitter of the Broken Crags",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Nightthroat of the Shattered Crags",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Clash",
@@ -2623,9 +2614,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Slips out of the lair into the nearest cover and vanishes almost immediately, giving no clean first look at it.",
-        "hunt": "Stalks from cover to cover around the player's position, closing the distance from whichever angle is least watched.",
-        "tell": "Freezes for an instant just before breaking cover \u2014 the only warning before it closes the rest of the distance from the flank."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts.",
+        "hunt": "Takes an unpredictable path across the whole biome as it hunts, weaving in and out of your route so its approach is hard to call in advance.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it emerges."
       },
       "spawns": [
         {
@@ -2645,8 +2636,8 @@
     {
       "id": "alpha_mountains_grey",
       "role": "alpha",
-      "name": "The Meatking of the Broken Crags",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Greytyrant of the Shattered Crags",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Clash",
@@ -2659,9 +2650,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Walks straight out of the lair into the open, making no effort to hide, and simply starts closing.",
-        "hunt": "Matches whatever the player does \u2014 closing when they close, cutting off ground when they run \u2014 without ever looking rushed.",
-        "tell": "Plants its full weight and braces for a long beat before closing the last of the ground at a pace nothing its size should manage."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it steps out.",
+        "hunt": "Dangerous on every axis as it hunts you across the whole biome -- no obvious weak angle to it, closing steadily and evenly wherever you run.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning you get before it appears."
       },
       "spawns": [
         {
@@ -2681,8 +2672,8 @@
     {
       "id": "alpha_beach_yellow",
       "role": "alpha",
-      "name": "The Bonecrusher of the Salt Flats",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Bonelord of the Scalded Shore",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Clash",
@@ -2695,9 +2686,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "The lair's ground trembles and the entrance splits as it shoulders its way out, slow and enormous, already facing the player.",
-        "hunt": "Advances at a steady, unbroken walk across the whole biome, closing distance non-stop rather than sprinting in bursts, and cannot be shaken by speed alone.",
-        "tell": "Squares up and goes completely still before every pounce, the same long telegraph as its lesser kin, just far harder to survive."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises well before it appears; once both gates close, there is a short grace period before the lair erupts and it steps out.",
+        "hunt": "Slow but utterly relentless -- it doesn't need to be fast because it can never be outrun; it closes steadily across the whole biome, wherever you are, with heavy, clearly telegraphed pounces.",
+        "tell": "The stirring lair is the only warning: lights, tremor, rising sound, well before it emerges."
       },
       "spawns": [
         {
@@ -2717,8 +2708,8 @@
     {
       "id": "alpha_beach_red",
       "role": "alpha",
-      "name": "The Bloodstreak of the Salt Flats",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Quickfang of the Scalded Shore",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Clash",
@@ -2731,9 +2722,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Bursts out of the lair at a dead run, already closing, with no pause between waking and hunting.",
-        "hunt": "Closes in short, relentless bursts of speed that eat distance faster than anything else in the biome, never fully stopping to breathe.",
-        "tell": "Coils for only a moment before every leap \u2014 the shortest tell of any Alpha, punishing any player who isn't already watching for it."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts and it emerges.",
+        "hunt": "Blisteringly fast out of the gate -- it closes distance almost the moment it emerges, hunting you across the whole biome with no wasted movement.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it comes."
       },
       "spawns": [
         {
@@ -2753,8 +2744,8 @@
     {
       "id": "alpha_beach_blue",
       "role": "alpha",
-      "name": "The Deadeye of the Salt Flats",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Deadeye of the Scalded Shore",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Clash",
@@ -2767,9 +2758,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Rises onto the highest ground near the lair and settles there first, sighting the whole biome before it moves.",
-        "hunt": "Holds distance and repositions along high ground and sightlines, only closing in when it already has an angle nothing else can answer.",
-        "tell": "Goes rigid and holds its aim across the open ground for a long beat, visible from far outside pounce range, before it commits."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it emerges.",
+        "hunt": "Hangs at the edge of its own reach as it hunts you across the biome, stalking from outside your comfortable range and punishing any moment you let it line up.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning before it appears."
       },
       "spawns": [
         {
@@ -2789,8 +2780,8 @@
     {
       "id": "alpha_beach_purple",
       "role": "alpha",
-      "name": "The Gutslitter of the Salt Flats",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Nightthroat of the Scalded Shore",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Clash",
@@ -2803,9 +2794,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Slips out of the lair into the nearest cover and vanishes almost immediately, giving no clean first look at it.",
-        "hunt": "Stalks from cover to cover around the player's position, closing the distance from whichever angle is least watched.",
-        "tell": "Freezes for an instant just before breaking cover \u2014 the only warning before it closes the rest of the distance from the flank."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts.",
+        "hunt": "Takes an unpredictable path across the whole biome as it hunts, weaving in and out of your route so its approach is hard to call in advance.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it emerges."
       },
       "spawns": [
         {
@@ -2825,8 +2816,8 @@
     {
       "id": "alpha_beach_grey",
       "role": "alpha",
-      "name": "The Meatking of the Salt Flats",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Greytyrant of the Scalded Shore",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Clash",
@@ -2839,9 +2830,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Walks straight out of the lair into the open, making no effort to hide, and simply starts closing.",
-        "hunt": "Matches whatever the player does \u2014 closing when they close, cutting off ground when they run \u2014 without ever looking rushed.",
-        "tell": "Plants its full weight and braces for a long beat before closing the last of the ground at a pace nothing its size should manage."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it steps out.",
+        "hunt": "Dangerous on every axis as it hunts you across the whole biome -- no obvious weak angle to it, closing steadily and evenly wherever you run.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning you get before it appears."
       },
       "spawns": [
         {
@@ -2861,8 +2852,8 @@
     {
       "id": "alpha_volcanic_yellow",
       "role": "alpha",
-      "name": "The Bonecrusher of the Ash Pit",
-      "flavor": "All jaw and gut, built to eat first and think never.",
+      "name": "Bonelord of the Molten Maw",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't.",
       "family": "Yellow",
       "class": "Brawler",
       "tier": "Clash",
@@ -2875,9 +2866,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "The lair's ground trembles and the entrance splits as it shoulders its way out, slow and enormous, already facing the player.",
-        "hunt": "Advances at a steady, unbroken walk across the whole biome, closing distance non-stop rather than sprinting in bursts, and cannot be shaken by speed alone.",
-        "tell": "Squares up and goes completely still before every pounce, the same long telegraph as its lesser kin, just far harder to survive."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises well before it appears; once both gates close, there is a short grace period before the lair erupts and it steps out.",
+        "hunt": "Slow but utterly relentless -- it doesn't need to be fast because it can never be outrun; it closes steadily across the whole biome, wherever you are, with heavy, clearly telegraphed pounces.",
+        "tell": "The stirring lair is the only warning: lights, tremor, rising sound, well before it emerges."
       },
       "spawns": [
         {
@@ -2897,8 +2888,8 @@
     {
       "id": "alpha_volcanic_red",
       "role": "alpha",
-      "name": "The Bloodstreak of the Ash Pit",
-      "flavor": "Legs faster than its sense of self-preservation.",
+      "name": "Quickfang of the Molten Maw",
+      "flavor": "Twitchy legs, empty head, gone before you blink twice.",
       "family": "Red",
       "class": "Leaper",
       "tier": "Clash",
@@ -2911,9 +2902,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Bursts out of the lair at a dead run, already closing, with no pause between waking and hunting.",
-        "hunt": "Closes in short, relentless bursts of speed that eat distance faster than anything else in the biome, never fully stopping to breathe.",
-        "tell": "Coils for only a moment before every leap \u2014 the shortest tell of any Alpha, punishing any player who isn't already watching for it."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts and it emerges.",
+        "hunt": "Blisteringly fast out of the gate -- it closes distance almost the moment it emerges, hunting you across the whole biome with no wasted movement.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it comes."
       },
       "spawns": [
         {
@@ -2933,8 +2924,8 @@
     {
       "id": "alpha_volcanic_blue",
       "role": "alpha",
-      "name": "The Deadeye of the Ash Pit",
-      "flavor": "Watches you from way too far off, then makes you cross the whole gap to regret it.",
+      "name": "Deadeye of the Molten Maw",
+      "flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
       "family": "Blue",
       "class": "Sniper",
       "tier": "Clash",
@@ -2947,9 +2938,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Rises onto the highest ground near the lair and settles there first, sighting the whole biome before it moves.",
-        "hunt": "Holds distance and repositions along high ground and sightlines, only closing in when it already has an angle nothing else can answer.",
-        "tell": "Goes rigid and holds its aim across the open ground for a long beat, visible from far outside pounce range, before it commits."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it emerges.",
+        "hunt": "Hangs at the edge of its own reach as it hunts you across the biome, stalking from outside your comfortable range and punishing any moment you let it line up.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning before it appears."
       },
       "spawns": [
         {
@@ -2969,8 +2960,8 @@
     {
       "id": "alpha_volcanic_purple",
       "role": "alpha",
-      "name": "The Gutslitter of the Ash Pit",
-      "flavor": "Sits in the brush and waits for you to turn around.",
+      "name": "Nightthroat of the Molten Maw",
+      "flavor": "Slinks in, bites once, forgets to leave a body.",
       "family": "Purple",
       "class": "Stalker",
       "tier": "Clash",
@@ -2983,9 +2974,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Slips out of the lair into the nearest cover and vanishes almost immediately, giving no clean first look at it.",
-        "hunt": "Stalks from cover to cover around the player's position, closing the distance from whichever angle is least watched.",
-        "tell": "Freezes for an instant just before breaking cover \u2014 the only warning before it closes the rest of the distance from the flank."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before the gates close; a short grace period follows, then the lair erupts.",
+        "hunt": "Takes an unpredictable path across the whole biome as it hunts, weaving in and out of your route so its approach is hard to call in advance.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is your only notice before it emerges."
       },
       "spawns": [
         {
@@ -3005,8 +2996,8 @@
     {
       "id": "alpha_volcanic_grey",
       "role": "alpha",
-      "name": "The Meatking of the Ash Pit",
-      "flavor": "Meat that's rarer on the ground and meaner in the mouth.",
+      "name": "Greytyrant of the Molten Maw",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Clash",
@@ -3019,9 +3010,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Walks straight out of the lair into the open, making no effort to hide, and simply starts closing.",
-        "hunt": "Matches whatever the player does \u2014 closing when they close, cutting off ground when they run \u2014 without ever looking rushed.",
-        "tell": "Plants its full weight and braces for a long beat before closing the last of the ground at a pace nothing its size should manage."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it steps out.",
+        "hunt": "Dangerous on every axis as it hunts you across the whole biome -- no obvious weak angle to it, closing steadily and evenly wherever you run.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning you get before it appears."
       },
       "spawns": [
         {
@@ -3041,8 +3032,8 @@
     {
       "id": "apex",
       "role": "apex",
-      "name": "The Last Mouth",
-      "flavor": "Everything you've ever eaten, standing between you and being the only one left.",
+      "name": "The Main Course",
+      "flavor": "You spent five biomes learning how to eat. Nothing has ever eaten it back.",
       "family": "Grey",
       "class": "Apex",
       "tier": "Clash",
@@ -3055,9 +3046,9 @@
       "emblem_grants_power": false,
       "can_be_outrun": false,
       "behaviour": {
-        "emergence": "Walks straight out of the lair into the open, making no effort to hide, and simply starts closing.",
-        "hunt": "Matches whatever the player does \u2014 closing when they close, cutting off ground when they run \u2014 without ever looking rushed.",
-        "tell": "Plants its full weight and braces for a long beat before closing the last of the ground at a pace nothing its size should manage."
+        "emergence": "The den lights, the ground trembles, and an audio cue rises before both gates close; then a short grace period, then the lair erupts and it steps out.",
+        "hunt": "Dangerous on every axis as it hunts you across the whole biome -- no obvious weak angle to it, closing steadily and evenly wherever you run.",
+        "tell": "The stirring lair -- lights, tremor, rising sound -- is the only warning you get before it appears."
       },
       "spawns": [
         {

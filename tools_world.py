@@ -70,15 +70,21 @@ PATCH_LEDGER = VERDICT_DIR / "patch-ledger.json"
 #  Derived constants                                                           #
 # --------------------------------------------------------------------------- #
 
-# Panels are the run's only power source; the vocabulary is closed so that the
-# no-stack rule (GDD 2.8) is checkable and every power maps to a real stat.
+# Panels are the run's only power source, and the vocabulary is EXACTLY the four
+# the GDD names -- 2.8: "Each grants a power: a longer lock range, a stronger
+# dash, a tougher guard, brief camouflage."
+#
+# An earlier version of this table added "bite" and "vigour", reasoning that
+# Damage and Health were stats a panel could plausibly touch. That was an
+# overreach by this contract, not by the agents: they authored faithfully into
+# the slots they were given, and the Director then -- correctly, repeatedly --
+# rejected the results for granting powers the game does not have. Damage and
+# Health belong to family and intensity (2.4); a bolt-on cannot change them.
 PANEL_POWERS = {
-    "lock_range": "extends the lock-on cone's reach",       # GDD 2.8, named
-    "dash_power": "a stronger dash",                        # GDD 2.8, named
-    "guard": "a tougher guard against incoming pounces",    # GDD 2.8, named
-    "camouflage": "brief camouflage, breaking enemy locks", # GDD 2.8, named
-    "bite": "harder pounce damage",                         # derived from Damage
-    "vigour": "a longer Health bar",                        # derived from Health
+    "lock_range": "extends the lock-on cone's reach",
+    "dash_power": "a stronger dash",
+    "guard": "a tougher guard against incoming pounces",
+    "camouflage": "brief camouflage, breaking enemy locks",
 }
 
 # "Capacity grows with the body" (GDD 2.8) -- the simplest honest curve.
@@ -206,6 +212,11 @@ def save_world_behaviour(scheme_json: str) -> str:
       - "minibosses": keyed by Fins, Claws, Coat, Heat; each
         {"arena", "opening", "wind_up"} -- these do NOT flee and do NOT drop panels.
       - "alphas": keyed by the 5 families; each {"emergence", "hunt", "tell"}.
+      - "apex": {"emergence", "hunt", "tell"} -- the rank-6 final boss, which is
+        NOT a biome Alpha and must not borrow its machinery. It is not summoned
+        by the two gates; it lies dormant in the Ascension domain and wakes only
+        when the Bestiary record crosses its threshold, possibly mid-hunt. Rank
+        six is not a biome, so it does not hunt you "across the biome".
     Describe observable behaviour only -- no stats, no numbers (the tools compute
     those), no lore.
     Returns a validation summary; fix and re-call until it returns OK.
@@ -236,6 +247,11 @@ def save_world_behaviour(scheme_json: str) -> str:
     grazers = scheme.get("grazers")
     if not isinstance(grazers, dict) or not grazers.get("idle") or not grazers.get("when_locked"):
         errors.append("grazers needs 'idle' and 'when_locked'")
+
+    apex = scheme.get("apex")
+    if not isinstance(apex, dict) or any(not apex.get(f) for f in ("emergence", "hunt", "tell")):
+        errors.append("apex needs 'emergence', 'hunt' and 'tell' -- it is NOT a biome Alpha "
+                      "and must not reuse their wording")
 
     if errors:
         return "VALIDATION FAILED:\n- " + "\n- ".join(errors)
@@ -501,7 +517,10 @@ def _assemble_creatures(names: dict, behaviour: dict) -> list[dict]:
             authored = names["apex"]
             name = authored["name"]
             flavour = authored["flavor"]
-            behave = behaviour["alphas"][fam]
+            # The Apex is not a biome Alpha: it has no gates, no lair in a
+            # biome, and hunts in the Ascension. Reusing the Grey Alpha's block
+            # gave it their machinery, which the Director correctly rejected.
+            behave = behaviour.get("apex") or behaviour["alphas"][fam]
         else:
             bid = cell["biomes"][0]
             name = f"{names['alpha_titles'][fam]} of the {names['biome_epithets'][bid]}"
@@ -813,6 +832,49 @@ def run_qa_check() -> dict:
         if len(fam_powers) != len(set(fam_powers)):
             problems.append(f"{fam}: two kept panels share a power; they would not stack (GDD 2.8)")
 
+    # Panels must never mount on the main cubic face -- that is trait real estate
+    # (GDD 2.6a), and 2.8 says panels never crowd it. This was an LLM-critic
+    # finding on three separate runs; it is a keyword test, so it belongs here
+    # where it costs nothing and cannot be missed.
+    # Deliberately conservative. A first version flagged any face word and
+    # produced false positives on "rear skull plate, behind the main face" --
+    # which is correctly OFF the face. A deterministic check that cries wolf is
+    # worse than none, so anything carrying an explicit off-face qualifier is
+    # left to the Director's judgement.
+    FACE_WORDS = ("brow", "cheek", "temple", "jaw", "forehead", "muzzle",
+                  "snout", "chin", "eye socket", "main face", "main cubic face")
+    OFF_FACE = ("off the main face", "behind the main face", "away from the main face",
+                "not the main face", "behind the face", "rear", "back of", "nape",
+                "behind the jaw", "below the jaw", "under the jaw")
+    for p in panels:
+        attach = str(p.get("attach", "")).lower()
+        if any(q in attach for q in OFF_FACE):
+            continue
+        hit = next((w for w in FACE_WORDS if w in attach), None)
+        if hit:
+            problems.append(
+                f"{p['id']}: attach {p['attach']!r} names main-face real estate "
+                f"({hit!r}); the main cubic face is reserved for traits (GDD 2.6a, 2.8)"
+            )
+
+    # Names must be unique across the whole panel set -- two panels sharing a
+    # name breaks the data contract. Also an LLM-critic finding; also arithmetic.
+    names = [p["name"] for p in panels]
+    for n in {x for x in names if names.count(x) > 1}:
+        problems.append(f"duplicate panel name {n!r} -- ids must map to distinct names")
+
+    # NOTE -- deliberately NOT checked here: whether a trait carrier's *prose*
+    # places the fight inside the terrain its own trait unlocks (GDD 3.3
+    # invariant 1). It was tried and removed. A keyword test flagged
+    # "holding the reedy shallows ... rather than the open water" as a circular
+    # gate, because the offending phrase is present and the negation is not
+    # visible to a substring match. `attach` is a short noun phrase and suits
+    # keyword matching; behaviour is prose, where "X rather than Y" is exactly
+    # how a corrected line reads. That distinction is the dividing line between
+    # the two critics: this one proves arithmetic and matches literals, the
+    # Director reads meaning. The structural half of the invariant -- that the
+    # carrier's biome is not itself gated by that trait -- is checked above.
+
     # -- biomes ------------------------------------------------------------ #
     for b in biomes:
         d = b["derived"]
@@ -861,6 +923,8 @@ def run_qa_check() -> dict:
             "prey/elite/alpha rank rules",
             "Alphas cannot be outrun; emblems grant no power",
             "panels dropped by elites only, no duplicate power per family",
+            "no panel mounted on main-face real estate (trait territory)",
+            "panel names unique across the whole set",
             "worst-roll slack, palette breadth, population supply",
             "alpha roster + panel source referential integrity",
             "trait carriers reachable without their own trait",
@@ -1085,9 +1149,20 @@ def apply_fixes(findings: list[dict]) -> tuple[list[dict], list[dict]]:
             cache[fix["file"]] = json.loads(path_obj.read_text())
         data = cache[fix["file"]]
 
-        target = next((o for o in data[key] if o.get("id") == f.get("id")), None)
+        # The critic writes `id` in free text and a live run namespaced it with
+        # the file ("biomes/prairies" instead of "prairies"), which refused every
+        # otherwise-valid patch. Normalise rather than insist: strip a leading
+        # "<file>/" and match case-insensitively on the bare id.
+        raw = str(f.get("id", ""))
+        candidates = {raw, raw.split("/")[-1]}
+        target = next(
+            (o for o in data[key]
+             if o.get("id") in candidates
+             or str(o.get("id", "")).lower() in {c.lower() for c in candidates}),
+            None,
+        )
         if target is None:
-            unpatched.append({**f, "skip_reason": f"no record with id {f.get('id')!r}"})
+            unpatched.append({**f, "skip_reason": f"no record with id {raw!r}"})
             continue
 
         container, field = _dig(target, fix["path"])

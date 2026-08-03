@@ -211,34 +211,70 @@ nothing else touched. Three properties make it safe:
 #### What running it end-to-end found
 
 Rebuilding the mechanism is one thing; exercising it against a live critic is
-another. The first full run under the new schema was worth its cost — the
-Director returned:
+another. Running it repeatedly found **three mechanism bugs and two content-contract
+bugs**, and ended in a genuine clean pass:
 
 ```
-OK: recorded fail -- 10 blocking (10 with an applicable fix), 11 nit(s)
+OK: recorded pass -- 0 blocking (0 with an applicable fix), 16 nit(s)
 ```
 
-**Every blocking finding carried a usable patch**, so nine applied cleanly in
-place with no re-authoring at all. It also surfaced two real bugs, both now
-fixed:
+**Mechanism bugs**
 
-**1. Paths could not index into lists.** One fix targeted `pockets.0` — biomes
-carry a `pockets` array — and the dict-only path walker refused it with *"path
-not present"*. A single line then sent an entire track back to be re-authored.
-`_dig` now treats a numeric segment as a list index, and an out-of-range index is
-still refused rather than appended.
+1. **Paths could not index into lists.** A fix targeted `pockets.0` — biomes carry
+   a `pockets` array — and the dict-only walker refused it with *"path not
+   present"*, sending an entire track back for re-authoring over one line. `_dig`
+   now treats a numeric segment as a list index; out-of-range is still refused.
 
-**2. Re-assembly silently discarded applied patches.** `assemble_world` rebuilds
-**all three** files from the authoring drafts. So when one unpatchable finding
-forced the biomes track to be re-authored, the rebuild wiped the nine patches
-already applied to the *other* files. The live run proved it: `elite_yellow` came
-back with neither its original nor its patched text.
+2. **Re-assembly silently discarded applied patches.** `assemble_world` rebuilds
+   **all three** files from the drafts, so when one unpatchable finding forced a
+   track to be re-authored, the rebuild wiped the patches already applied to the
+   *other* files. The run proved it: `elite_yellow` came back with neither its
+   original nor its patched text — nine good fixes lost.
+   Fixed with a **patch ledger**: every applied patch is recorded durably and
+   replayed after any assembly onto files that were not re-authored (entries for
+   regenerated tracks are dropped as moot). Because an un-re-authored track
+   rebuilds from the same drafts, its pre-patch text returns exactly, so each
+   entry's `old` still matches and the replay is safe rather than forced. Later
+   verified live: **5 patches survived a rebuild that previously destroyed them.**
 
-The fix is a **patch ledger**. Every applied patch is recorded durably; after any
-assembly the ledger is replayed onto files that were *not* re-authored, and
-entries for regenerated tracks are dropped as moot. Because an un-re-authored
-track rebuilds from the same drafts, its pre-patch text returns exactly — so each
-ledger entry's `old` still matches and the replay is safe rather than forced.
+3. **The critic namespaced its ids.** It wrote `"biomes/prairies"` where the
+   record's id is `prairies`, so *every* otherwise-valid patch was refused and the
+   pipeline fell back to re-authoring everything. Fixed on both sides — the prompt
+   now pins the format, and the lookup tolerates a `<file>/` prefix. Robustness
+   belongs on the consuming side when the producer is an LLM.
+
+**Content-contract bugs — mine, not the agents'**
+
+4. **I invented two panel powers.** `PANEL_POWERS` carried `bite` and `vigour`
+   alongside the GDD's four. §2.8 names exactly four — lock range, dash, guard,
+   camouflage — and Damage and Health come from family and intensity (§2.4), not
+   from a bolt-on. The agents authored faithfully into the slots they were given;
+   the Director then rejected the results across several rounds, correctly and
+   repeatedly, until the contract was fixed. A recurring critic finding is worth
+   reading as a bug report about the contract, not noise.
+
+5. **The Apex borrowed the Grey Alpha's behaviour.** Assembly handed the rank-6
+   Apex the same behaviour block as the Grey Alphas, so it inherited biome-Alpha
+   machinery — two gates, "hunts you across the biome" — when it should lie dormant
+   in the Ascension until the Bestiary crosses 100/150. The Apex now has its own
+   required behaviour block.
+
+#### Moving checks from the LLM critic to the arithmetic one — and where that stops
+
+Two findings recurred across runs and are pure literal matching, so they moved into
+the deterministic critic where they cost nothing: **panels mounted on main-face
+real estate** (trait territory, §2.6a) and **duplicate panel names**.
+
+A third was tried and **removed**: whether a trait carrier's prose places the fight
+inside the terrain its own trait unlocks. The keyword version flagged
+
+> *"holding the reedy shallows and mud banks at its edge **rather than the open water**"*
+
+as a circular gate — the offending phrase is present and the negation is invisible
+to a substring match. That is the dividing line between the two critics: `attach` is
+a short noun phrase and suits keyword matching, while behaviour is prose where
+*"X rather than Y"* is exactly how a corrected line reads. A deterministic check that
+cries wolf is worse than none.
 
 The break this was demonstrated on is a good one to end on: the panel had been
 written as an *activated one-shot heal*, which contradicts three rules at once —
@@ -398,15 +434,16 @@ They ship here alongside the new files.
 - ✅ Every stage built and run live: RAG, world contract, 8-way parallel
   authoring, deterministic assembly, both critics, the severity threshold, the
   patch-in-place repair loop, the deploy gate, and the Unity compile check.
-- ✅ **Content is ratified**: QA & Balance passes, zero blocking findings,
-  22 nits shipped as recorded advisories.
-- 📌 **Provenance of the shipped artifact.** The repair loop was rebuilt to patch
-  in place *after* the live run had already been judged, so the ratified files
-  were produced by running that same `apply_fixes` mechanism over the best
-  archived draft via `finalize.py`, rather than by an uninterrupted single
-  invocation of `crew_world.py`. The mechanism is identical and the fix came
-  from the critic, not from me — but the run was resumed, not continuous, and
-  that is worth stating plainly.
+- ✅ **Content is ratified by a genuine clean judging pass** — QA & Balance PASS,
+  Director PASS with **0 blocking** and 16 nits shipped as advisories. Not a
+  manual override: the critic was asked and said yes.
+- 📌 **Provenance.** Reaching that pass took several judging rounds and five bug
+  fixes (three in the repair mechanism, two in the content contract). Because
+  each Director pass is expensive, individual tracks were re-authored and
+  re-judged in targeted steps rather than by repeatedly re-running the whole
+  pipeline from cold. Every step used the pipeline's own code paths — the same
+  `apply_fixes`, `assemble_world`, `replay_patches` and Director crew — but the
+  run was **resumed rather than continuous**, and that is worth stating plainly.
 - ⚠️ **The generated content is not yet spawned by the game.** `WorldTables.cs`
   compiles and the JSON sits in `StreamingAssets/`, but `EcosystemManager` still
   spawns from the hardcoded tables in `GameConfig`. The honest claim is *the

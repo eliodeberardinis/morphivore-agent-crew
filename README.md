@@ -78,9 +78,17 @@ Then verified by hand, which is the gate no agent signs off:
 > Played it and verified it works. The transformation system is visibly at
 > play — I transform into the creature I eat, and their names show in the UI.
 
-Eat a creature and the buffer takes its family and intensity, resolution picks
-the form, stats recompute, the body recolours, and the HUD names what you have
-become — using the name the Assignment #3 crew authored for it.
+| Before eating | After eating |
+|---|---|
+| ![The hatchling: white cube, HUD reading RANK 1 · THE BLANK](coding-agent/screenshots/before-eating.png) | ![After mutating: red cube, HUD reading RANK 1 · PALE RED · JITTERY TWITCH-HOPPER](coding-agent/screenshots/after-eating-mutating.png) |
+| `RANK 1 \| THE BLANK` — white is the empty state, form zero | `RANK 1 \| PALE RED \| JITTERY TWITCH-HOPPER` |
+
+The right frame is the proof. `forms.json` holds `red_pale_r1` — family Red,
+intensity Pale, rank 1, *"Jittery Twitch-Hopper"* — authored by the Assignment
+#3 crew in July and read by nothing until now. The buffer state on screen
+resolves to exactly that record, so one frame shows the whole chain: **#3
+authored it → it sat unread → #5's reference graph flagged it UNCONSUMED →
+#5's agent wrote the loader → it's on screen.**
 
 That second line is the point. `forms.json` — 150 forms authored by the
 Assignment #3 crew — had been shipped and read by nothing. A twenty-line

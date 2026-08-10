@@ -268,11 +268,29 @@ The third is never delegated to an agent, and it has now been cleared by hand:
 > Played it and verified it works. The transformation system is visibly at play — I
 > transform into the creature I eat, and their names show in the UI.
 
-That is the design's core verb — "you are what you eat" — working end to end: eat a
-creature, the buffer takes its family and intensity, resolution picks the form, stats
-recompute, the body recolours, and the HUD names what you have become using the name the
-Assignment #3 crew authored for it. Balance was not assessed and is known to need a pass
-(see limitations).
+### The feature, in two frames
+
+| Before eating | After eating |
+|---|---|
+| ![Before: a white cube with one bare limb, HUD reading RANK 1 · THE BLANK](screenshots/before-eating.png) | ![After: a red cube, HUD reading RANK 1 · PALE RED · JITTERY TWITCH-HOPPER](screenshots/after-eating-mutating.png) |
+| `RANK 1  \|  THE BLANK` | `RANK 1  \|  PALE RED  \|  JITTERY TWITCH-HOPPER` |
+| The hatchling. White is the **empty state**, not a family — a bare limb and no trade, multiplier 1.0 on every axis. "The Blank" is form zero and is deliberately **not** one of the 150. Yellow, Blue and Purple wildlife graze in frame. | One Red meal later. The buffer's single slot now holds `{Red, Pale}`, resolution names the form, stats recompose, and the body takes the family's colour — desaturated, because Pale expresses only 25% of Red's distance from 1.0. |
+
+**Why the right-hand frame is the proof.** That HUD string is not a label the agent
+invented. `forms.json` contains, as authored by the Assignment #3 crew back in July:
+
+```json
+{ "id": "red_pale_r1", "family": "Red", "intensity": "Pale", "rank": 1,
+  "name": "Jittery Twitch-Hopper", "flavor": "Hops like it just sat on a hornet's nest." }
+```
+
+Family Red, intensity Pale, rank 1 — exactly the buffer state on screen, resolved to
+exactly that record. The whole chain is visible in one frame: **#3 authored the form →
+it sat in the project unread for weeks → #5's deterministic reference graph noticed
+nothing loaded it → #5's agent wrote the code that does → it is on screen.** The
+`UNCONSUMED` verdict, closed and legible.
+
+Balance was not assessed and is known to need a pass (see limitations).
 
 The two engineering gates were verified through the Unity MCP bridge:
 

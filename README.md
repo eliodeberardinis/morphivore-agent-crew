@@ -1,24 +1,87 @@
-# Morphivore — AI Content Pipelines
+# Morphivore — AI Pipelines
 
-Two CrewAI multi-agent pipelines that author content for **Morphivore**, my
-capstone game — a cube-creature action roguelite where you eat same-or-lower-tier
-creatures to mutate, evolve, and take over an ecosystem.
+Multi-agent pipelines that build **Morphivore**, my capstone game — a
+cube-creature action roguelite where you eat creatures to mutate, evolve, and
+take over an ecosystem.
 
 | | Pipeline | Produces |
 |---|---|---|
 | **Assignment #3** | Bestiary Form-Authoring Crew — 4 agents, sequential | `forms.json` (the 150 player forms) + `FormTable.cs` |
 | **Assignment #4** | Dynamic Content Pipeline — RAG + parallel fan-out + a two-stage critic | `creatures.json`, `panels.json`, `biomes.json` + `WorldTables.cs` |
+| **Assignment #5** | Goal-Oriented Coding Agent — reads the GDD, scans the codebase, ranks the gaps, writes C# | the game's identity system (`ColourBuffer.cs` + 7 rewritten files) |
 
-**#4 is built on top of #3, not in place of it.** `crew.py` and `tools.py` are
-untouched; `rag.py`, `world_contract.py`, `tools_world.py` and `crew_world.py`
-are additive, and #4 reuses #3's stat maths, its agent roster, and its authored
-form names as a voice reference.
+**Each builds on the last.** `crew.py` and `tools.py` are untouched by #4;
+`rag.py`, `world_contract.py`, `tools_world.py` and `crew_world.py` are
+additive, and #4 reuses #3's stat maths, agent roster, and authored form names
+as a voice reference. #5 reuses #4's `rag.py` unmodified — repointed at a
+scoped corpus — and its first shipped feature is the code that finally *reads*
+the `forms.json` #3 authored.
 
 > **This repository is extracted from the full Morphivore Unity project.** The
 > crew normally lives inside that project as `agent-crew/`, which is why
 > `deploy_to_unity.py` writes into `Assets/StreamingAssets/` and
 > `Assets/Scripts/Content/` one directory up. Cloned on its own, point
 > `MORPHIVORE_UNITY_ROOT` at a checkout of the game.
+
+---
+
+# Assignment #5 — Goal-Oriented Coding Agent
+
+**→ Full write-up: [`coding-agent/README.md`](coding-agent/README.md)**
+
+An agent that reads Morphivore's design document, scans Morphivore's codebase,
+finds where the code has drifted from the design, decides what to build first,
+and builds it. Source in [`coding-agent/`](coding-agent/); the game's C# — both
+what it scanned and what it wrote — is mirrored under
+[`Assets/Scripts/`](Assets/Scripts/) at its real project path.
+
+```bash
+cd coding-agent
+python goal_agent.py --discover   # find and rank gaps, write no code
+python goal_agent.py --build      # also implement the top-ranked chunk
+```
+
+**Five stages.** `gdd_reader` (design sections only) → `code_scanner`
+(deterministic; types, literals, and a reference graph over the data files) →
+`gap_detector` (PRESENT / PARTIAL / ABSENT / **CONTRADICTED** / **UNCONSUMED**)
+→ `prioritizer` (`score = (1 + blocks) × severity ÷ effort`) → `builder` (a
+four-tool loop over the repo).
+
+**Discovery runs blind.** The game repo contains a hand-written gap analysis and
+priority order for this exact codebase. Stages 1–4 never see it, so the agent's
+ranking can be *checked against* the human one instead of echoing it. Blind, it
+reconstructed that plan's next chunk at ranks 1, 2, 3 and 6 — and derived its
+sequencing rule unprompted:
+
+> Deleting `ClassProfile` to make room for the five families removes the only
+> functioning stat multiplier in the game, and its replacement is spread across
+> three lower-ranked items plus an unread asset. Ship them as one merge or not
+> at all.
+
+**It shipped a working feature.** Eight files, one 19-turn run, compiled clean
+on the first attempt and entered Play mode with no exceptions:
+
+```
+CompileScripts: 20.921ms
+[Content] loaded 60 creatures, 5 biomes, 150 forms from StreamingAssets.
+```
+
+That second line is the point. `forms.json` — 150 forms authored by the
+Assignment #3 crew — had been shipped and read by nothing. A twenty-line
+deterministic reference graph found it, and the agent wrote the code that loads
+it.
+
+**The blackboard.** Every run writes `runs/<ts>/blackboard.md` live: every gap
+with the arithmetic behind its score, all 47 prompts exactly as issued, and
+generated code logged *before* it touches the project. Two full runs are
+committed as evidence. `AGENT_STATE.md` carries BUILT / DECISIONS / NEXT /
+FAILED between sessions in plain markdown.
+
+**What the developer changed before accepting it:** nothing in the generated
+C#. The defect found in review was in the agent — its build loop ran without
+prompt caching, costing $17.19 against $3.09 for a properly-cached discovery
+run. Details, and the honest limits of what is observable in play, are in
+[`coding-agent/README.md`](coding-agent/README.md).
 
 ---
 

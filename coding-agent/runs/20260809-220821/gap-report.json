@@ -1,0 +1,1285 @@
+{
+  "findings": [
+    {
+      "id": "R001",
+      "name": "Dual input mapping (keyboard+mouse and gamepad)",
+      "gdd_section": "2.1, 4.1 (referenced)",
+      "statement": "The game must expose one action set \u2014 move, lock on, pounce, dash, poop \u2014 bound simultaneously to keyboard+mouse (WASD, right-click, left-click, Space, Q) and gamepad (left stick, left trigger, A, right trigger, B), both treated as first-class.",
+      "observable_behaviour": "A player can perform every listed action with either device without entering a settings menu, and can swap mid-run: pressing Q and pressing B both poop the oldest colour; left-click and A both pounce.",
+      "data_contract": "",
+      "depends_on": [],
+      "acceptance_test": "",
+      "verdict": "PARTIAL",
+      "confidence": "low",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs \u2014 `PlayerController` with moveSpeed, LockConeDot, OnLockTargetChanged, Update, string literal \"target then launch\"",
+        "Assets/Scripts/Game/GameManager.cs \u2014 `EnsureDesktopPointer`",
+        "Assets/Scripts/Game/EnemyAI.cs \u2014 WindupTime, PounceTime, isLockedByPlayer",
+        "No symbol anywhere referencing gamepad/joystick/Input System (no PlayerInput, InputAction, actions asset, no rebinding/device code)",
+        "No 'poop' / colour-buffer action symbol in PlayerController (no buffer, eject, or oldest-colour member); PlayerController literals are \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\""
+      ],
+      "reasoning": "Movement, lock-on and pounce clearly exist as gameplay (PlayerController.moveSpeed/LockConeDot/OnLockTargetChanged, EnemyAI.isLockedByPlayer/WindupTime/PounceTime), and GameManager.EnsureDesktopPointer plus the mouse-flavoured hint \"target then launch\" indicate the polling happens against keyboard+mouse in PlayerController.Update. However the inventory shows no Unity Input System artefacts at all \u2014 no InputAction/PlayerInput/actions-asset reference, no per-device abstraction, no gamepad/stick/trigger symbols \u2014 so there is no evidence any of the five actions is reachable from a controller, and nothing suggests a single shared action set exists as the design demands. Additionally one of the five listed actions, poop (Q / B), has no counterpart in the codebase: there is no colour-buffer or eject member on PlayerController, so that binding cannot exist on either device. Dash exists only as a stat multiplier (ClassProfile.dashMult, StatBlock.dash), not visibly as an input action. Note the inventory is declaration-only, so direct Input.GetKey/GetMouseButton calls inside Update bodies are invisible; the keyboard side is inferred, and the gamepad absence is inferred from the total lack of any device-abstraction declaration. Treat confidence as low on the exact keyboard coverage, higher on the gamepad gap.",
+      "what_exists_instead": "A single-device, hard-polled control path: PlayerController.Update reads keyboard/mouse directly (evidenced by EnsureDesktopPointer, LockConeDot, \"target then launch\"), with no action-set indirection and no controller path; the poop action does not exist on any device because the colour buffer is unimplemented.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "The gameplay verbs already exist as methods on PlayerController/EnemyAI, so the work is inserting an action-set layer (Input System asset or a small InputRouter returning move vector + five booleans) and repointing the existing Update polling at it \u2014 a localised refactor of one 521-line file rather than new systems. The medium rather than small rating is because the poop action has no underlying implementation (no colour-buffer member anywhere), so one of the five bindings has nothing to bind to until that system lands."
+    },
+    {
+      "id": "R002",
+      "name": "Top-down movement and facing",
+      "gdd_section": "2.1",
+      "statement": "The player beast moves in the top-down plane under WASD / left-stick input and always faces the direction it is moving.",
+      "observable_behaviour": "Holding a direction moves the cube-beast that way and rotates its front to match; releasing input stops it facing the last travel direction.",
+      "data_contract": "",
+      "depends_on": [
+        "R001"
+      ],
+      "acceptance_test": "",
+      "verdict": "PRESENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs \u2014 class PlayerController: moveSpeed, BaseSpeed, Awake, Update, gameStarted",
+        "Assets/Scripts/Game/GameManager.cs \u2014 creates \"Player\" GameObject, EnsureDesktopPointer",
+        "Assets/Scripts/Game/Creature.cs \u2014 GroundFollow, GroundY, StickY (keeps body on terrain plane)",
+        "Assets/Scripts/World/BiomeTerrain.cs \u2014 SampleHeight, HeightAt (ground plane for top-down traversal)"
+      ],
+      "reasoning": "The core locomotion requirement is the most basic thing a 521-line PlayerController with `moveSpeed`, `BaseSpeed` and an `Update` loop would do, and the surrounding systems assume a moving player in a top-down plane: GameManager spawns a \"Player\" and a \"Main Camera\"/\"MainCamera\" rig, Creature exposes GroundFollow/GroundY/StickY to pin bodies to the terrain surface, and BiomeTerrain.SampleHeight/HeightAt provides the height field the mover would sample. Nothing in the inventory suggests a competing locomotion mechanism (no navmesh agent, no click-to-move controller, no CharacterController wrapper class). The one part I cannot confirm from a declarations-only index is the facing rule \u2014 there is no named symbol such as `faceSpeed`, `turnRate`, `facing` or `Rotate` in PlayerController, and the lock-on cone (`LockConeDot`, `OnLockTargetChanged`) implies a forward vector exists and is derived from something, most plausibly travel direction. Because `LockConeDot` is a dot-product threshold against a facing direction, a facing vector must be maintained somewhere in the player, which supports the requirement rather than contradicting it. Also note gamepad left-stick support is indistinguishable here: if the code reads Unity's \"Horizontal\"/\"Vertical\" axes, stick input works for free; if it reads Input.GetKey directly, only WASD works. Neither can be told from the index.",
+      "what_exists_instead": "A single monolithic PlayerController with moveSpeed/BaseSpeed and an Update loop drives the beast over a heightmapped BiomeTerrain, with Creature.GroundFollow/StickY keeping it on the surface; the lock-on cone (LockConeDot) consumes a forward/facing direction that the controller must be producing.",
+      "must_be_removed": false,
+      "effort": "small",
+      "effort_reason": "If facing already tracks movement, zero work. If only the rotation half is missing, it is a few lines inside PlayerController.Update using the existing move vector, and no data or new type is needed; likewise, switching key reads to the \"Horizontal\"/\"Vertical\" axes would pick up left-stick support without any new code."
+    },
+    {
+      "id": "R003",
+      "name": "Solid bodies and obstacles",
+      "gdd_section": "2.1",
+      "statement": "Creatures and terrain obstacles are solid; neither the player nor creatures may pass through them.",
+      "observable_behaviour": "Walking into a standing creature or a rock stops the player rather than overlapping it; a pounce into a standing creature bounces the player back instead of passing through.",
+      "data_contract": "",
+      "depends_on": [
+        "R002"
+      ],
+      "acceptance_test": "",
+      "verdict": "PARTIAL",
+      "confidence": "low",
+      "evidence": [
+        "Assets/Scripts/Game/Obstacle.cs (6 lines, `class Obstacle` \u2014 no members parsed; bare marker component)",
+        "Assets/Scripts/Game/Creature.cs \u2014 `GroundFollow`, `GroundY`, `StickY`, `Update` (transform/height-driven placement via terrain sample, no rigidbody/collider symbols)",
+        "Assets/Scripts/World/BiomeTerrain.cs \u2014 `SampleHeight`, `HeightAt` (ground is queried analytically, not collided against)",
+        "Assets/Scripts/World/PropScatter.cs \u2014 `Scatter`, `MeasureHeight`, `class PropSet` (props instantiated from art-manifest.json; no collider setup symbol)",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 `moveSpeed`, `Update`, `LockConeDot` (movement/lock/pounce driven from Update; no bounce/push-out/collision member)",
+        "Assets/Scripts/Game/EnemyAI.cs \u2014 `PounceLungeFactor`, `WindupTime`, `PounceTime` (pounce timing exists, no rebound symbol)"
+      ],
+      "reasoning": "The design demands two solidity behaviours: (a) player and creatures cannot walk through creatures or obstacles, and (b) a pounce into a standing creature bounces the player back. The inventory shows the ingredients for the *topic* but no symbol that implements either rule. Movement looks kinematic and terrain-sampled (`Creature.GroundFollow`/`GroundY`/`StickY` plus `BiomeTerrain.SampleHeight`/`HeightAt`), which is a strong hint that positions are written directly to transforms rather than resolved against colliders \u2014 that style passes straight through other bodies unless explicit separation code exists, and none is named. There is an `Obstacle` marker class with zero members and a `Props` object created in GameManager, so obstacles are at least *tagged*, which is why this is not a clean ABSENT: some scaffolding for the concept exists. On the pounce side, `PounceLungeFactor`/`PounceTime` in EnemyAI and the lock/launch flow in PlayerController cover beats 1 and 2 of the three-beat rhythm, and `dizzy` knockdown is clearly present (`Creature`/`EnemyAI` string literals \"dizzy\", `DownedDuration`), but no rebound/knockback member appears anywhere. Caveat: this inventory indexes declarations only, so `gameObject.AddComponent<CapsuleCollider>()` or a `Physics.ComputePenetration` call inside `Creature.Awake`/`BuildVisuals`, `PropScatter.Scatter`, or `PlayerController.Update` would be invisible here. Hence low confidence \u2014 the honest reading is 'concept tagged, enforcement unverifiable and probably missing'.",
+      "what_exists_instead": "Transform/height-driven kinematic movement: creatures snap to terrain via `GroundFollow`/`StickY` against `BiomeTerrain.SampleHeight`, the player moves by `moveSpeed` in `Update`, and obstacles are only marked by an empty `Obstacle` component on props scattered by `PropScatter`. Pounce exists as timed lunge state (`PounceTime`, `PounceLungeFactor`) that ends in damage/knockdown (`TakeDamage`, `DownedDuration`, \"dizzy\") with no rebound.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "Mostly additive: colliders can be attached at the existing creation points (`Creature.BuildVisuals`, `PropScatter.Scatter`, which already computes `MeasureHeight` for sizing and so already knows prop extents), and the `Obstacle` marker is already in place to identify blockers. The real work is that movement is written straight to transforms alongside `GroundFollow`/`StickY` ground snapping, so `PlayerController.Update` and `Creature.Update` need a depenetration/blocked-move step (or a CharacterController) that must coexist with the terrain-height snap \u2014 modification of existing movement code, not deletion. The pounce bounce is a small add on top: the lunge already has a discrete `PounceTime` window and a hit path through `TakeDamage`, so reversing velocity on a standing-target hit is a few lines once collision is detected."
+    },
+    {
+      "id": "R004",
+      "name": "Lock-on targeting",
+      "gdd_section": "2.1",
+      "statement": "Holding right-click / left trigger locks the nearest creature inside the player's facing cone; lock range is a stat that grows as the player evolves, and the lock breaks if the target gets far enough away.",
+      "observable_behaviour": "A red ring snaps over the nearest creature ahead while the button is held; releasing or running away removes the ring. A higher-rank/longer-reach form locks targets that a one-limb blank could not.",
+      "data_contract": "",
+      "depends_on": [
+        "R001",
+        "R002"
+      ],
+      "acceptance_test": "",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs: `LockConeDot`, `OnLockTargetChanged`, string \"target then launch\"",
+        "Assets/Scripts/Game/EnemyAI.cs: `isLockedByPlayer`, string \"targeted\"",
+        "Assets/Scripts/Game/GameManager.cs: strings \"LockReticleWorld\", \"LockReticle\", \"ThreatHaloWorld\", \"ThreatHalo\", \"You are targeted\"",
+        "Assets/Scripts/Game/PlayerController.cs fields: `BaseSpeed`, `BaseDamage`, `BaseHealth`, `level`, `ClassName` \u2014 no lock-range field",
+        "Assets/Scripts/Game/GameConfig.cs: `Ecology.SightRadius`, `Ecology.ReachScale`, `ClassProfile` (speedMult, damageMult, healthMult, lungeMult, dashMult) \u2014 no lock/target range multiplier"
+      ],
+      "reasoning": "",
+      "what_exists_instead": "A working lock-on subsystem exists: PlayerController exposes `LockConeDot` (a facing-cone dot-product threshold) and an `OnLockTargetChanged` event; GameManager builds a world-space `LockReticle`/`LockReticleWorld` ring object and EnemyAI carries `isLockedByPlayer` plus a \"targeted\" state, and the reciprocal threat halo (`ThreatHalo`, \"You are targeted\") is present. What is missing is the range side of the rule: neither PlayerController nor GameConfig.ClassProfile/Tiers expose any lock-range or target-range stat, and the only radius-like constants are ecology-side (`Ecology.SightRadius`, `SightJitter`) used for AI perception rather than the player's lock. So lock distance appears to be a fixed constant rather than a stat that grows with evolution; `Evolve` in PlayerController scales speed/damage/health via ClassProfile multipliers only.",
+      "must_be_removed": false,
+      "effort": "small",
+      "effort_reason": "The cone test, reticle, target-changed event and enemy lock flag already exist, so the gap is one scalar: add a lockRange field to PlayerController (or a lockRangeMult to `GameConfig.ClassProfile`, alongside lungeMult/dashMult which already scale per class) and multiply it in `Evolve`, then use it in the existing distance/break check. No existing mechanism conflicts, so nothing must be removed.satisely additive.\nreasoning duplicated here for schema safety: lock-on cone targeting, red reticle and lock-broadcast are implemented, but the design's rule that lock range is a stat growing with evolution is not visible \u2014 no lock-range field on PlayerController and no lock/target-range multiplier in ClassProfile or TierData \u2014 hence partial rather than present."
+    },
+    {
+      "id": "R005",
+      "name": "Pounce attack",
+      "gdd_section": "2.1",
+      "statement": "Left-click / A launches the player at the locked creature with no charge meter; hitting a standing creature drains that creature's Health and bounces the player back.",
+      "observable_behaviour": "Pressing pounce while locked visibly leaps the beast at the target, the target's health drops, and the player recoils away from the impact.",
+      "data_contract": "",
+      "depends_on": [
+        "R004",
+        "R003"
+      ],
+      "acceptance_test": "",
+      "verdict": "PARTIAL",
+      "confidence": "low",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs: `LockConeDot`, `OnLockTargetChanged`, `biteDamage`, `moveSpeed`, string \"target then launch\"",
+        "Assets/Scripts/Game/GameConfig.cs: `struct ClassProfile` \u2014 speedMult, damageMult, healthMult, `lungeMult`, dashMult",
+        "Assets/Scripts/Game/EnemyAI.cs: `isLockedByPlayer`, `TakeDamage`, `GetEaten`, `DownedDuration`, `PounceLungeFactor`, `WindupTime`, `PounceTime`",
+        "Assets/Scripts/Game/Creature.cs: `TakeDamage`, `isDowned`, `isDead`"
+      ],
+      "reasoning": "The lock-then-launch loop clearly exists on the player side: `LockConeDot`/`OnLockTargetChanged` implement the facing-cone lock, the HUD hint string \"target then launch\" names the pounce action, `ClassProfile.lungeMult` is a per-class lunge scalar consumed by the player, and `biteDamage` plus `EnemyAI.TakeDamage` / `Creature.TakeDamage` supply the Health drain on a standing target. `EnemyAI.GetEaten` and `isDowned`/`DownedDuration` show the downed-then-eat follow-up also exists. There is no evidence of a charge meter anywhere (no charge/hold fields), which matches the design's \"no charge meter\". What I cannot see in a declarations-only index is the third clause: the player being **bounced back** off a solid body on impact. No recoil/knockback/impulse member appears on `PlayerController`, and the only lunge-physics-named symbol (`PounceLungeFactor`) sits on `EnemyAI`, i.e. the creature side. Recoil could plausibly be a few lines inside `PlayerController.Update` with no declaration of its own, so this is a genuine limit of the inventory rather than proof of absence. I therefore mark PARTIAL: the launch and damage beats are demonstrably implemented, the bounce-back is unverified.",
+      "what_exists_instead": "A player lock-and-lunge attack driven by `LockConeDot`/`OnLockTargetChanged` and `ClassProfile.lungeMult`, dealing `biteDamage` through `EnemyAI.TakeDamage`/`Creature.TakeDamage`, with a downed state (`isDowned`, `DownedDuration`) and a separate `GetEaten` path for eating a collapsed creature. No visible player-side recoil/knockback member.",
+      "must_be_removed": false,
+      "effort": "small",
+      "effort_reason": "The lock, launch, and damage paths already exist as named members, so at most a recoil impulse needs adding at the existing impact/collision point in `PlayerController.Update`; `EnemyAI.PounceLungeFactor` shows the project already has a lunge-magnitude convention to mirror for the player's bounce-back."
+    },
+    {
+      "id": "R006",
+      "name": "Knockdown / dizzy state",
+      "gdd_section": "2.1",
+      "statement": "At zero Health a creature does not die but collapses into a dizzy state (squashed, spinning); if left too long it rises again at half health.",
+      "observable_behaviour": "A creature reduced to zero health flattens and spins in place instead of vanishing; if the player ignores it, it stands back up with a half-full health bar.",
+      "data_contract": "",
+      "depends_on": [
+        "R005"
+      ],
+      "acceptance_test": "",
+      "verdict": "PRESENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/EnemyAI.cs: `class EnemyAI` \u2014 DownedDuration, isLockedByPlayer, WindupTime, PounceTime, TakeDamage, Die, GetEaten, Update",
+        "Assets/Scripts/Game/EnemyAI.cs: `enum State` declared, string literals \"dizzy\", \"dizzy / vulnerable\"",
+        "Assets/Scripts/Game/Creature.cs: `class Creature` \u2014 isDead, isDowned, health, maxHealth, TakeDamage, Die, string literal \"dizzy\"",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 pounce/lock flow (LockConeDot, OnLockTargetChanged) that would drive the eat-while-down beat"
+      ],
+      "reasoning": "The knockdown beat is clearly implemented rather than absent: EnemyAI carries an explicit State machine with a `DownedDuration` constant (a timer for how long the downed state lasts), a distinct `GetEaten` entry point separate from `Die`, and HUD/label strings \"dizzy\" and \"dizzy / vulnerable\". Creature mirrors this with an `isDowned` flag alongside `isDead`. That is exactly the design's mechanism: zero health -> downed/dizzy -> pounce again to eat, or the timer expires. The two details I cannot confirm from a declaration-only index are (a) that the recovery restores exactly half of maxHealth rather than full, and (b) that the visual is squash + spin \u2014 both would live inside EnemyAI.Update / Creature.Update bodies, which the inventory does not expose. There is no counter-evidence of a different mechanism (no instant-death-only path is implied; `Die` coexists with `GetEaten` as the post-eat cleanup). So this reads as PRESENT with the half-health constant unverified rather than PARTIAL.",
+      "what_exists_instead": "EnemyAI implements a downed/dizzy state with DownedDuration timeout and a separate GetEaten path; Creature tracks isDowned distinctly from isDead.",
+      "must_be_removed": false,
+      "effort": "small",
+      "effort_reason": "Nothing needs rewriting \u2014 the state machine, timer constant and eat-while-down path already exist. Any gap is a one-line check inside EnemyAI.Update (set health = maxHealth * 0.5f on recovery) and a squash/spin transform tween, both in code that already runs each frame."
+    },
+    {
+      "id": "R007",
+      "name": "Eating a downed creature",
+      "gdd_section": "2.1, 2.3",
+      "statement": "Pouncing a creature that is already dizzy eats it, consuming the creature and applying its meat effect (colour+tier to the buffer for coloured prey, healing for grazers), with distinct visuals per meal type.",
+      "observable_behaviour": "A second pounce on a downed creature removes it from the world; prey meat visibly streams into one of the player's limbs, grazer meat dissolves into the body.",
+      "data_contract": "",
+      "depends_on": [
+        "R006"
+      ],
+      "acceptance_test": "",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/EnemyAI.cs: `GetEaten`, `DownedDuration`, `enum State`, `enum Attack` members `carriesColour`, `healsPlayerPct`, `ApplyContent`, literals \"dizzy\", \"dizzy / vulnerable\"",
+        "Assets/Scripts/Game/Creature.cs: `isDowned`, `isDead`, `TakeDamage`, `Die`, literal \"dizzy\"",
+        "Assets/Scripts/Game/PlayerController.cs: `PounceTime`/lock symbols in EnemyAI (`WindupTime`, `PounceTime`, `isLockedByPlayer`), `RegisterKill`, `Evolve`, literals \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\"",
+        "Assets/Scripts/Content/ContentDatabase.cs: `GrazerWeight`, `TierIndex`, `ColorTypeFor`, tier literals \"Pale\",\"Dusk\",\"Deep\",\"Rage\",\"Clash\"",
+        "Assets/StreamingAssets/forms.json \u2014 read by NOTHING; `FormTable.Load`/`FormDef` exist but nothing invokes them per inventory"
+      ],
+      "reasoning": "The knock-down/eat loop itself clearly exists: `EnemyAI` carries a `State` machine with a `DownedDuration` (matching \"rises at half health if left too long\"), a `GetEaten` method distinct from `Die`, and `Creature.isDowned` plus \"dizzy\" strings. Meal typing is at least partially modelled on the enemy side: the content-applied fields `carriesColour` and `healsPlayerPct` distinguish coloured prey from grazers, and `ContentDatabase` already parses tier names (`TierIndex`, \"Pale\"/\"Dusk\"/\"Deep\"/\"Rage\"/\"Clash\") and `GrazerWeight`. What is missing is the consuming half: no symbol anywhere resembles a colour/limb buffer, meat queue, or tier-into-limb push. `PlayerController` exposes only `totalKills`, `level`, `score`, `Evolve`, and upgrade tokens (\"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\") \u2014 a kill-count/upgrade progression, not a buffer of eaten colours \u2014 and `forms.json` (132 KB, the 150 forms) is parsed by nobody, so the form resolution the meat is supposed to feed does not run. Likewise there is no evidence of the two distinct meal VFX (prey streaming into a limb vs grazer dissolving into the body); the only visual hooks are generic `BuildVisuals`, \"_EMISSION\"/\"_EmissionColor\" tinting in `Creature`/`GameManager`. So: eating a downed creature works, grazer healing is plumbed (`healsPlayerPct`), colour+tier-to-buffer and per-meal visuals are not.",
+      "what_exists_instead": "A downed/eat state machine in `EnemyAI` (`DownedDuration`, `GetEaten`, `carriesColour`, `healsPlayerPct`) feeding a kill-count progression on the player (`RegisterKill`, `totalKills`, `level`, `Evolve`, \"gene_points\"/\"upgrade_*\") rather than a colour+tier limb buffer; tier data is parsed in `ContentDatabase` but `forms.json` is unread, and no meal-specific VFX exist.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "The hard parts are already there and correctly named: the second-pounce/downed path (`GetEaten`, `DownedDuration`), the grazer-vs-prey discriminators (`healsPlayerPct`, `carriesColour`), and tier parsing (`TierIndex`, tier literals) \u2014 data already extracted but discarded at the player end. Remaining work is a limb colour buffer on `PlayerController` for `GetEaten` to push tier+colour into, wiring `FormTable.Load`/`forms.json` so the buffer resolves, and two small VFX branches; no existing system needs deleting for this requirement alone, though the gene_points/upgrade progression will collide with the buffer once forms drive stats."
+    },
+    {
+      "id": "R008",
+      "name": "Dash",
+      "gdd_section": "2.1, 2.3",
+      "statement": "Space / right trigger performs a dash whose speed is the form's Speed multiplied by its family Dash multiplier.",
+      "observable_behaviour": "Pressing dash produces a burst of movement; a Red Leaper's dash visibly covers far more ground than a Yellow Brawler's.",
+      "data_contract": "",
+      "depends_on": [
+        "R001",
+        "R002",
+        "R016"
+      ],
+      "acceptance_test": "Red family Dash multiplier 1.6 vs Yellow 0.8 \u2014 the Red form's dash is measurably twice the Yellow form's at equal rank.",
+      "verdict": "ABSENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs: class PlayerController \u2014 moveSpeed, biteDamage, BaseSpeed, BaseDamage, BaseHealth, LockConeDot, Awake, Update (no dash field, dash timer, dash cooldown, or dash-related literal anywhere)",
+        "Assets/Scripts/Game/GameConfig.cs: struct ClassProfile \u2014 name, speedMult, damageMult, healthMult, lungeMult, dashMult",
+        "Assets/Scripts/Game/GameConfig.cs class names: \"Brawler\", \"Bruiser\", \"Leaper\", \"Sniper\", \"Skirmisher\", \"Stalker\", \"Apex\", \"Forager\"",
+        "Assets/Scripts/Content/FormTable.cs: class StatBlock \u2014 health, damage, speed, reach, dash",
+        "Data contract: forms.json (132,668 bytes) \u2014 read by: NOTHING READS THIS FILE",
+        "Assets/Scripts/Game/EnemyAI.cs: PounceLungeFactor (lunge, not dash)"
+      ],
+      "reasoning": "The dash action itself has no visible implementation. PlayerController exposes movement and pounce/lock members (moveSpeed, LockConeDot, BaseSpeed, OnLockTargetChanged) but no dash state at all \u2014 a dash needs cross-frame state (duration/cooldown/velocity) which would surface as fields in the index, and none appear; nor is there any dash-related string literal or method. What does exist is the *multiplier data* in two places, neither wired to a dash move: GameConfig.ClassProfile.dashMult sits in a hardcoded 8-entry class table (Brawler/Bruiser/Leaper/Sniper/Skirmisher/Stalker/Apex/Forager) rather than the GDD's five colour families, and FormTable.StatBlock.dash parses a per-form dash value from forms.json, which the inventory marks as read by nothing. So the design's formula input (Speed \u00d7 family Dash) is half-present as dormant data while the verb it feeds is missing. Note the dependent rule in \u00a72.3 \u2014 grazer flee speed pinned below every form's dash speed \u2014 is likewise unreachable since no dash speed is ever computed (EcosystemManager/ContentDatabase expose GrazerWeight/Wandering but nothing comparing flee speed to dash).",
+      "what_exists_instead": "Movement is plain steering via PlayerController.moveSpeed/BaseSpeed, and the burst-of-motion concept exists only as pounce/lunge (ClassProfile.lungeMult, EnemyAI.PounceLungeFactor). Dash multipliers exist as unused numbers in GameConfig.ClassProfile.dashMult and as an unread field FormTable.StatBlock.dash backed by the unconsumed forms.json.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "Purely additive: add input binding plus a short-duration velocity burst with cooldown in PlayerController.Update, then multiply BaseSpeed by a dash factor. Smaller than it looks because both data paths already exist \u2014 StatBlock.dash is already parsed by FormTable (only forms.json is unloaded), and ClassProfile already carries a dashMult field, so mostly the values need retabling to the five families (Yellow 0.8, Red 1.6, Blue 1.0, Purple 1.2, Grey 1.3) rather than new plumbing. Extra work comes from the \u00a72.3 coupling: grazer flee speeds in creatures.json must be validated below the minimum dash speed, which currently has no comparison code."
+    },
+    {
+      "id": "R009",
+      "name": "Single Health meter and permadeath",
+      "gdd_section": "1, 2.3",
+      "statement": "The player has exactly one meter, Health; when it reaches zero the bloodline ends and the run is over permanently.",
+      "observable_behaviour": "One bar is shown on the HUD and no second resource exists; taking lethal damage ends the run outright with no continue.",
+      "data_contract": "",
+      "depends_on": [],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "high",
+      "evidence": [
+        "Assets/Scripts/Game/GameManager.cs: string literals \"HudBars\", \"HealthBar\", \"HEALTH\", \"EvolutionBar\", \"EVOLUTION\", \"GenTierLabel\"",
+        "Assets/Scripts/Game/PlayerController.cs: fields totalKills, level, score; methods RegisterKill, Evolve, Die; literals \"LEVEL UP! RANK {level}\", \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\", \"gene_points\", \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\"",
+        "Assets/Scripts/Game/GameConfig.cs: EvoRequirement, LevelUpRequirement, Tiers, TierData(name, scale, limbs)",
+        "Assets/Scripts/Game/Creature.cs: maxHealth, health, isDead, isDowned, TakeDamage, Die, Evolve",
+        "Assets/Scripts/Game/GameManager.cs: \"DeathPanel\", \"EXTINCT\", \"Score\", \"RestartButton\", \"NEW EVOLUTION\""
+      ],
+      "reasoning": "The death half of the requirement is broadly satisfied: PlayerController.Die / Creature.Die lead to a DeathPanel (\"EXTINCT\") with only a restart path (\"NEW EVOLUTION\"), i.e. no continue. But the HUD explicitly builds a second resource meter alongside health: GameManager creates both a \"HealthBar\"/\"HEALTH\" and an \"EvolutionBar\"/\"EVOLUTION\" bar, backed by a genuine second progression currency \u2014 GameConfig.EvoRequirement and LevelUpRequirement, PlayerController.level/score/totalKills, RegisterKill feeding Evolve, plus \"LEVEL UP! RANK {level}\", \"gene_points\" and upgrade_damage/speed/health choices. That is an XP/levelling mechanism where the design mandates exactly one meter with rank changed only by breeding and eating changing form rather than granting levels. Code exists in this area but on different rules, so it must be reworked rather than merely extended.",
+      "what_exists_instead": "A two-bar HUD (HealthBar + EvolutionBar) driven by a kill-count XP system: RegisterKill accumulates toward GameConfig.EvoRequirement/LevelUpRequirement, triggering Evolve, tier/limb growth from GameConfig.Tiers, \"LEVEL UP! RANK\" notifications and gene_points upgrade_damage/speed/health picks. Permadeath itself is effectively in place via Die -> DeathPanel \"EXTINCT\" with only a restart button.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "Deleting the EvolutionBar HUD object in GameManager is small, but the second resource is wired through PlayerController (level, score, totalKills, RegisterKill, Evolve, gene_points/upgrade_* branches) and GameConfig (EvoRequirement, LevelUpRequirement, Tiers) and mirrored in Creature.Evolve, so rank progression has to be re-routed to breeding rather than simply removing a bar. Health plumbing itself (Creature.maxHealth/health/TakeDamage/Die) and the death panel already exist and are reusable."
+    },
+    {
+      "id": "R010",
+      "name": "Grazers as the healing supply",
+      "gdd_section": "2.3",
+      "statement": "Grazers are harmless, no-colour, limbless white herbivores scattered thinly in every biome; they never fight, bolt the instant they are locked, and eating one restores a chunk of current-maximum Health without changing the player's form. Their flee speed is authored below every form's dash speed, and they never count toward an Alpha's eat-count.",
+      "observable_behaviour": "Locking a grazer makes it run immediately; the player can always catch it by dashing regardless of current form; eating it refills part of the Health bar while the body and limb colours stay unchanged, and the Alpha prey counter does not increase.",
+      "data_contract": "creatures.json: role=grazer entries with no colour family, no meat tier, grazer flee speed, home biomes",
+      "depends_on": [
+        "R007",
+        "R009",
+        "R008"
+      ],
+      "acceptance_test": "Grazer flee speed in creatures.json must be lower than Speed \u00d7 family Dash multiplier for every one of the 150 forms.",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/EnemyAI.cs: string literal \"grazer\", fields `role`, `carriesColour`, `healsPlayerPct`, `isLockedByPlayer`, `GetEaten`, `ApplyContent`",
+        "Assets/Scripts/Content/ContentDatabase.cs: `GrazerWeight`, `RollSpawn`, `ColorTypeFor`, literals \"Grey\"/\"WHITE\"",
+        "Assets/Scripts/Editor/ContentCheck.cs: `HasSpawn`, `RollSamples`, literal \"(grazer)\"",
+        "Assets/Scripts/Content/FormTable.cs: `StatBlock.dash`, `FormDef.family`, `FormTable.Load` \u2014 but StreamingAssets/forms.json is marked read by NOTHING",
+        "Assets/Scripts/Game/GameConfig.cs: `RegenRate`, `Ecology.WanderPace`, `Ecology.SightRadius`, `EvoRequirement`",
+        "Assets/Scripts/Game/PlayerController.cs: `RegisterKill`, `totalKills`, `Evolve`, `BaseHealth`",
+        "Assets/Scripts/Game/Creature.cs: `colorType`, `hasBodyColor`, `maxHealth`, `health`"
+      ],
+      "reasoning": "The grazer concept exists as data-driven content and is partly wired: EnemyAI parses a `role` (literal \"grazer\"), carries `carriesColour` and `healsPlayerPct`, and has `GetEaten`, so eating a grazer plausibly heals the player and marks it as colourless. ContentDatabase exposes `GrazerWeight` inside `RollSpawn`, which matches 'scattered thinly in every biome', and the editor `ContentCheck` even samples spawns and prints \"(grazer)\", so per-biome grazer presence is verifiable. What I cannot find is any of the stated rules beyond that: (a) no flee-on-lock behaviour is visible \u2014 EnemyAI has `isLockedByPlayer`, `WindupTime`, `PounceTime`, `PounceLungeFactor`, `hunters`, `ClaimHunterSlot`, i.e. aggression plumbing, and the `State` enum members did not parse, so a dedicated bolt/flee state is unconfirmed; (b) nothing pins grazer flee speed below every form's dash \u2014 the dash multipliers live in `FormTable.StatBlock.dash`/`FormDef.family`, and forms.json is explicitly unconsumed, so the worked-example invariant cannot be enforced or even checked (ContentCheck verifies spawns, not speed vs dash); (c) no exclusion from an Alpha eat-count is visible \u2014 the only progress counters are `PlayerController.totalKills`/`RegisterKill`/`EvoRequirement`, which are generic kill counters with no role filter in sight. Separately, `GameConfig.RegenRate` implies passive health regeneration, which is a different healing mechanism than 'Grazers refill it'; and healing 'a chunk of current-maximum' with form preserved sits on top of a level/class evolution model (`upgrade_health`, `Evolve`, `ClassProfile.healthMult`) rather than the limb/colour form model, so the 'without changing your form' clause is trivially true today only because no colour buffer exists.",
+      "what_exists_instead": "A content-driven enemy role system where a 'grazer' entry sets `healsPlayerPct` and `carriesColour=false` on EnemyAI, spawn-weighted per biome via `ContentDatabase.GrazerWeight`/`RollSpawn`, but with the same hunter/pounce AI as other creatures, generic `RegisterKill`/`totalKills` progression with no grazer exclusion, passive `GameConfig.RegenRate` healing, and forms.json dash data left unread so the flee-speed-below-dash guarantee is unenforced.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "The healing hook (`healsPlayerPct`, `GetEaten`) and thin per-biome scatter (`GrazerWeight`, `RollSpawn`) already exist, so the remaining work is localized: add a flee-on-lock branch in EnemyAI's `State` machine keyed off `isLockedByPlayer` for role==grazer, filter grazers out of `PlayerController.RegisterKill`/Alpha eat-count, and wire `FormTable.Load` (forms.json is parsed-but-discarded \u2014 `StatBlock.dash` and `FormDef.family` are already modelled) into a ContentCheck assertion that grazer flee speed < min(Speed \u00d7 family dash). Removal is limited to the passive `GameConfig.RegenRate` path so grazers are the only heal source."
+    },
+    {
+      "id": "R011",
+      "name": "Predator AI: hunting the player",
+      "gdd_section": "2.2",
+      "statement": "Creatures of the player's size or larger hunt the player with the same lock/pounce rules: a pulsing orange halo warns the player of a lock, smaller attackers stand still to wind up while bigger ones keep closing, the pounce direction commits only at the end of the wind-up, and running far enough breaks the lock.",
+      "observable_behaviour": "When an enemy locks the player an orange halo pulses; sidestepping during a small enemy's stationary wind-up makes its pounce miss, hitting it during the wind-up cancels it, and sprinting away drops the halo. Larger enemies close distance while the halo is up.",
+      "data_contract": "",
+      "depends_on": [
+        "R004",
+        "R005"
+      ],
+      "acceptance_test": "",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/EnemyAI.cs: WindupTime, PounceTime, PounceLungeFactor, enum State, enum Attack, isLockedByPlayer",
+        "Assets/Scripts/Game/EnemyAI.cs string literals: \"targeted\", \"Player\", \"dizzy / vulnerable\", \"EnemyHealthBar\"",
+        "Assets/Scripts/Game/EnemyAI.cs: hunters, BeginHunterFrame, CountHunter, ClaimHunterSlot",
+        "Assets/Scripts/Game/GameConfig.cs Ecology: SightRadius, SightJitter, MaxHunters, TerritorialPreyShare",
+        "Assets/Scripts/Game/PlayerController.cs: IsThreatened, FlagThreat, \"I'm targeted\"",
+        "Assets/Scripts/Game/GameManager.cs: \"ThreatHaloWorld\", \"ThreatHalo\", \"You are targeted\""
+      ],
+      "reasoning": "The enemy-side attack pipeline exists and is built on the same vocabulary the design uses: EnemyAI declares WindupTime, PounceTime, a State enum and an Attack enum, plus PounceLungeFactor, and it flags the player via PlayerController.FlagThreat/IsThreatened, which GameManager renders as a ThreatHalo/ThreatHaloWorld object. So 'a halo warns you when locked', 'wind-up then pounce', and a hunter-limiting sight system (Ecology.SightRadius/SightJitter/MaxHunters, ClaimHunterSlot) are all present in some form. What I cannot see in the inventory is the size-conditional branch the design makes central: no symbol suggests a comparison of enemy scale/tier against the player to decide 'smaller attackers stand still to wind up' vs 'bigger ones keep closing while locked' \u2014 Creature exposes tier and GameConfig.TierData.scale, but nothing in EnemyAI names a size or tier comparison. Likewise there is no explicit lock-break-on-distance symbol (only SightRadius, which may serve that role inline) and no evidence the halo is orange/pulsing rather than reusing the red lock reticle styling. Whether the pounce direction commits only at the end of the wind-up, and whether damage during wind-up cancels it (TakeDamage exists but its interaction with State is invisible here), is also undeterminable from declarations alone. Given that the machinery is clearly there and only specific rules are unverifiable/likely missing, this reads as partial rather than present or contradicted.",
+      "what_exists_instead": "A single EnemyAI state machine with WindupTime/PounceTime/PounceLungeFactor driving a wind-up-then-pounce attack, a hunter-slot budget (MaxHunters, ClaimHunterSlot) gating how many creatures pursue at once, and a threat notification path (FlagThreat -> IsThreatened -> GameManager ThreatHalo) that warns the player. The size-dependent split of wind-up behaviour and an explicit lock-break distance are not visible as named logic.",
+      "must_be_removed": false,
+      "effort": "small",
+      "effort_reason": "Nothing needs deleting: the wind-up/pounce timers, the threat-halo plumbing, and the tier/scale data the branch needs (Creature.tier, GameConfig.TierData.scale) all already exist. Closing the gap is adding a size comparison around the existing wind-up state (hold position vs keep closing), latching the pounce direction at wind-up end, cancelling on TakeDamage, and dropping the lock past SightRadius, plus tinting the existing ThreatHalo orange and pulsing it."
+    },
+    {
+      "id": "R012",
+      "name": "Prey reactions: fleeing and floating health bars",
+      "gdd_section": "2.2",
+      "statement": "Creatures smaller than the player flee from it, and any damaged creature displays a floating health bar.",
+      "observable_behaviour": "Approaching a smaller creature makes it run away; once a creature has taken any damage a small bar floats above it showing the remainder.",
+      "data_contract": "",
+      "depends_on": [
+        "R005"
+      ],
+      "acceptance_test": "",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/EnemyAI.cs: string literals \"EnemyHealthBar\", \"BG\", \"Fill\" and member `BarWidth`",
+        "Assets/Scripts/Game/EnemyAI.cs: `enum State` (members not recovered by the index), `enum Attack`, `TakeDamage`, `GetEaten`, `isLockedByPlayer`, `hunters`, `BeginHunterFrame`, `CountHunter`, `ClaimHunterSlot`",
+        "Assets/Scripts/Game/EnemyAI.cs role literals: \"prey\", \"grazer\", \"elite\", \"trait_miniboss\", \"alpha\", \"apex\"; fields `role`, `carriesColour`, `healsPlayerPct`, `ApplyContent`",
+        "Assets/Scripts/Game/GameConfig.cs `class Ecology` \u2014 WanderPace, SightRadius, SightJitter, TerritorialPreyShare, MaxHunters",
+        "Assets/Scripts/Game/Creature.cs \u2014 `tier`, `maxHealth`, `health`, `isDowned`, `TakeDamage`",
+        "Assets/Scripts/Game/GameManager.cs \u2014 \"ThreatHaloWorld\"/\"ThreatHalo\", \"LockReticleWorld\", \"You are targeted\""
+      ],
+      "reasoning": "Both halves of the requirement have code behind them, but only one is clearly complete. The floating bar is unambiguous: EnemyAI builds a child object literally named \"EnemyHealthBar\" with \"BG\"/\"Fill\" children and computes `BarWidth`, alongside `TakeDamage`; that is a per-creature world-space bar driven by damage. Whether it appears only after damage is not recoverable from the index, but the machinery is there.\n\nThe flee half is where the gap sits. EnemyAI clearly has multiple behaviour states (`enum State`, members not recovered) plus a hunting-pressure system (`hunters`, `BeginHunterFrame`, `CountHunter`, `ClaimHunterSlot`, `Ecology.MaxHunters`) and role tags parsed from creatures.json (\"prey\", \"grazer\", \"elite\", \"alpha\", \"apex\") with `Ecology.TerritorialPreyShare`. That shape says avoidance/aggression is decided by authored role and by a territorial-prey fraction, not by comparing the creature's size to the player's. The GDD rule is relational \u2014 anything *smaller than the player* flees, anything its size or larger hunts \u2014 and the data to evaluate it exists (`Creature.tier`, `GameConfig.TierData.scale`, `PlayerController` level/evolution) but there is no visible symbol that performs that comparison to select flee vs. hunt. \u00a72.3's narrower rule (grazers bolt the instant you lock them) does look served by the \"grazer\" role plus `isLockedByPlayer`.\n\nSo: bars present, grazer/role-based flight present, size-relative flee gating not evidenced. PARTIAL rather than CONTRADICTED because a role-tagged ecology is compatible with the design elsewhere and the existing state machine is the right place to add the comparison \u2014 nothing here has to be torn out.",
+      "what_exists_instead": "A role- and hunter-slot-driven AI: creatures carry an authored `role` (\"prey\", \"grazer\", \"elite\", \"alpha\", \"apex\") from creatures.json, a `TerritorialPreyShare` fraction decides which prey stand their ground, and `MaxHunters`/`ClaimHunterSlot` throttles how many pursue at once. Floating bars are fully built in EnemyAI (\"EnemyHealthBar\" with \"BG\"/\"Fill\" and `BarWidth`). Missing is an explicit size/tier comparison against the player that forces smaller creatures into a flee state.",
+      "must_be_removed": false,
+      "effort": "small",
+      "effort_reason": "The flee state almost certainly already exists inside EnemyAI's `enum State` (grazers must flee on lock per \u00a72.3), and both operands of the missing comparison are already in memory \u2014 `Creature.tier` / `GameConfig.TierData.scale` on the enemy and the player's evolved size via PlayerController. The work is adding a size-vs-player predicate to the existing state selection in EnemyAI.Update and letting it override the role/territorial default; the health-bar half needs at most a guard so the bar stays hidden at full health."
+    },
+    {
+      "id": "R013",
+      "name": "Five colour families and their stat multipliers",
+      "gdd_section": "2.4",
+      "statement": "Coloured creatures and player forms belong to one of five families \u2014 Yellow Brawler, Red Leaper, Blue Sniper, Purple Stalker, Grey Apex \u2014 each defined by multipliers on Health, Speed, Damage, Reach and Dash representing its full (Rage) expression.",
+      "observable_behaviour": "Switching family visibly changes how the beast plays: a Yellow form carries the longest bar and hits hardest but is slowest; a Blue form strikes from far outside a Yellow's reach.",
+      "data_contract": "forms.json / creatures.json: family field; per-family multiplier set (Health, Speed, Damage, Reach, Dash)",
+      "depends_on": [],
+      "acceptance_test": "Yellow 1.5/0.85/1.5/0.9/0.8; Red 0.8/1.3/0.7/1.0/1.6; Blue 0.9/1.0/1.0/1.7/1.0; Purple 0.9/1.15/0.95/1.2/1.2; Grey 1.3/1.2/1.3/1.15/1.3 (Health/Speed/Damage/Reach/Dash).",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/GameConfig.cs: `struct ClassProfile` \u2014 name, speedMult, damageMult, healthMult, lungeMult, dashMult",
+        "Assets/Scripts/Game/GameConfig.cs: `GameConfig.ClassFor`, string literals \"Brawler\", \"Bruiser\", \"Leaper\", \"Sniper\", \"Skirmisher\", \"Stalker\", \"Apex\", \"Forager\" (eight classes, not five)",
+        "Assets/Scripts/Game/GameConfig.cs: `class Colors` \u2014 Red, Blue, Green, Yellow, Purple, Orange, Cyan, White, Pink, FromName (nine colours, not five)",
+        "Assets/Scripts/Game/PlayerController.cs: ClassName, BaseSpeed, BaseDamage, BaseHealth, \"Forager\" \u2014 runtime stats driven by the class profile, no reach axis",
+        "Assets/Scripts/Content/FormTable.cs: `class StatBlock` \u2014 health, damage, speed, reach, dash; `class FormDef` \u2014 family, intensity, intensity_pct, stats; `FormTable.Load`",
+        "Assets/StreamingAssets/forms.json (132,668 bytes) \u2014 read by: NOTHING READS THIS FILE",
+        "Assets/Scripts/Content/WorldTables.cs \u2014 only literals \"Yellow\",\"Red\",\"Blue\",\"Purple\",\"Grey\", no declarations recovered",
+        "Assets/Scripts/Content/ContentDatabase.cs: ColorTypeFor with \"Yellow\",\"Red\",\"Blue\",\"Purple\",\"Grey\" alongside \"WHITE\",\"GREEN\"",
+        "Assets/Scripts/Game/Creature.cs: colorType, hasContentStats; string literals \"GREEN\",\"RED\",\"BLUE\",\"CYAN\""
+      ],
+      "reasoning": "The colour\u2192playstyle\u2192multiplier area is definitely implemented, but on different rules than GDD 2.4. The live system is GameConfig.ClassFor / ClassProfile, which carries eight class names (Brawler, Bruiser, Leaper, Sniper, Skirmisher, Stalker, Apex, Forager) rather than the five families, and its axes are speedMult/damageMult/healthMult/lungeMult/dashMult \u2014 a `lungeMult` where the design demands `Reach`, so the Blue Sniper's defining long-reach trade cannot be expressed. GameConfig.Colors additionally enumerates nine colours (Green, Orange, Cyan, Pink, White) and Creature/EnemyAI still branch on \"GREEN\"/\"CYAN\", so colour identity is broader than the five families. Meanwhile the correct schema already exists but is dead: FormDef/StatBlock carry family, intensity, intensity_pct and exactly the five axes (health, damage, speed, reach, dash), and forms.json (132 KB) is explicitly unread by any code. ContentDatabase.ColorTypeFor does recognise the five family names, and WorldTables.cs mentions exactly those five (its body is unparsed, so it may already hold a family table \u2014 the inventory cannot confirm). Net: a parallel, differently-shaped class-multiplier system is in charge of gameplay stats, so this is a contradicted mechanism rather than a missing one.",
+      "what_exists_instead": "An eight-class GameConfig.ClassProfile table (speed/damage/health/lunge/dash multipliers) selected by GameConfig.ClassFor from a nine-colour Colors palette, consumed by PlayerController (BaseSpeed/BaseDamage/BaseHealth/ClassName) and EnemyAI/Creature. The design-shaped five-axis family data (FormDef.family + StatBlock health/damage/speed/reach/dash in forms.json) is parsed-capable via FormTable.Load but nothing reads forms.json.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "Smaller than it looks on the data side: StatBlock already has the exact five axes and FormDef already has family/intensity, and forms.json is present \u2014 the table may effectively exist already and only needs to be loaded. The real work is rewriting GameConfig.ClassFor/ClassProfile down to the five families with the GDD's numbers, renaming/replacing lungeMult with a genuine Reach multiplier and threading Reach through EnemyAI/PlayerController attack range, and deleting the extra classes (Bruiser, Skirmisher, Forager) and the non-family colour branches in Creature/EnemyAI/Colors."
+    },
+    {
+      "id": "R014",
+      "name": "Intensity scaling of family multipliers",
+      "gdd_section": "2.4, 2.4b",
+      "statement": "An intensity tier scales each family multiplier's distance from 1.0: Pale 25%, Dusk 50%, Deep 75%, Clash ~90% plus a minor second-tone gift, Rage 100%. The Clash gift is authored per form.",
+      "observable_behaviour": "A Pale Yellow form plays only slightly tougher and slower than the blank, while a Rage Yellow form expresses the full 1.5/0.85/1.5 trade; a Clash form shows near-full expression plus its authored second-tone bonus.",
+      "data_contract": "forms.json: intensity field, stat profile derived from the scaling rule (hand-tuned), per-form Clash gift",
+      "depends_on": [
+        "R013"
+      ],
+      "acceptance_test": "Pale Yellow Health multiplier = 1 + 0.25\u00d7(1.5\u22121) = 1.125; Deep Yellow = 1.375; Rage Yellow = 1.5.",
+      "verdict": "UNCONSUMED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Content/FormTable.cs: `class FormDef` \u2014 id, family, intensity, intensity_pct, rank, ..., stats",
+        "Assets/Scripts/Content/FormTable.cs: `class StatBlock` \u2014 health, damage, speed, reach, dash",
+        "Assets/Scripts/Content/FormTable.cs: `class FormTable` \u2014 generated_by, count, forms, Load",
+        "StreamingAssets/forms.json (132,668 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "Assets/Scripts/Game/GameConfig.cs: `struct ClassProfile` \u2014 name, speedMult, damageMult, healthMult, lungeMult, dashMult; `ClassFor`",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 BaseSpeed, BaseDamage, BaseHealth, ClassName, \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\"",
+        "Assets/Scripts/Content/ContentDatabase.cs string literals: \"Pale\", \"Dusk\", \"Deep\", \"Rage\", \"Clash\"; TierIndex"
+      ],
+      "reasoning": "The data side of this requirement is fully present and already parsed in principle: FormDef carries `intensity` and `intensity_pct` plus a `StatBlock` (health, damage, speed, reach, dash) \u2014 exactly the hand-tuned, intensity-scaled profile the design calls for \u2014 and FormTable.Load exists to deserialise it. But the inventory states plainly that forms.json is read by nothing, so no runtime path resolves a form, reads its intensity_pct, or applies the scaled multipliers. Nothing in the inventory references a per-form Clash gift / second-tone bonus field at all (FormDef's field list has no such member), so even the data for the Clash exception looks unauthored in the schema. The only live multiplier mechanism is GameConfig.ClassProfile (speedMult/damageMult/healthMult/lungeMult/dashMult selected via ClassFor and applied in PlayerController), which is a flat per-class multiplier with no intensity dimension \u2014 it would have to be superseded or rewritten for form-driven stats. The tier words Pale/Dusk/Deep/Rage/Clash appear only in ContentDatabase's creature/spawn tier handling (TierIndex, ColorTypeFor), not in any stat computation. I cannot see method bodies, so I cannot rule out that some multiplication happens inside PlayerController.Evolve, but with forms.json unread there is no source of intensity_pct at runtime.",
+      "what_exists_instead": "A flat class-profile multiplier system: GameConfig.ClassFor returns a ClassProfile (healthMult/speedMult/damageMult/dashMult/lungeMult) keyed by class name (Brawler, Leaper, Sniper, Stalker, Apex, ...), applied to PlayerController's BaseHealth/BaseSpeed/BaseDamage. Intensity tiers exist only as spawn-tier strings in ContentDatabase (TierIndex over Pale/Dusk/Deep/Rage/Clash). FormTable/FormDef/StatBlock model the intensity-scaled stats but are never loaded.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "Most of the work is already done and merely disconnected: forms.json already contains the hand-tuned per-intensity stat profiles and FormDef/StatBlock/FormTable.Load already model them, so no scaling maths needs authoring \u2014 only a load call and a lookup from resolved (family, intensity, rank) to FormDef.stats. The medium rating comes from the replacement work: PlayerController's ClassProfile-multiplier path (and GameConfig.ClassProfile's role) must be rewritten to consume form stats instead, and a per-form Clash gift field must be added to FormDef and to the JSON schema, since no such member appears in the inventory."
+    },
+    {
+      "id": "R015",
+      "name": "Limb baseline stat table",
+      "gdd_section": "2.4",
+      "statement": "Limb count (1\u20136) sets baseline Health, Damage, Speed and Reach before family and intensity multipliers apply.",
+      "observable_behaviour": "Gaining a limb raises the raw bar most noticeably as durability, with speed creeping up only slightly.",
+      "data_contract": "Rank baseline table (limbs \u2192 Health/Damage/Speed/Reach)",
+      "depends_on": [],
+      "acceptance_test": "Health 100/150/200/250/300/350; Damage 40/55/70/85/100/115; Speed 12/13/14/15/16/17; Reach 16/19/22/25/28/31 for limbs 1\u21926.",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/GameConfig.cs: `struct TierData` \u2014 name, scale, limbs",
+        "Assets/Scripts/Game/GameConfig.cs: `GameConfig.Tiers`, `EvoRequirement`, `LevelUpRequirement`, tier names \"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Omega\"",
+        "Assets/Scripts/Game/GameConfig.cs: `struct ClassProfile` \u2014 name, speedMult, damageMult, healthMult, lungeMult, dashMult (\"Brawler\",\"Leaper\",\"Sniper\",\"Stalker\",\"Apex\")",
+        "Assets/Scripts/Game/PlayerController.cs: `BaseSpeed`, `BaseDamage`, `BaseHealth`, `level`, `Evolve`",
+        "Assets/Scripts/Game/Creature.cs: `tier`, `maxHealth`, `Evolve`, `limbs`",
+        "Assets/Scripts/Content/FormTable.cs: `class StatBlock` \u2014 health, damage, speed, reach, dash; `class FormDef` \u2014 rank, ...; `FormTable.Load`",
+        "Data contract: `forms.json` \u2014 read by: NOTHING READS THIS FILE",
+        "Assets/Scripts/Game/GameConfig.cs: `class Ecology` \u2014 ReachScale, SpeedScale, ContactDamageScale"
+      ],
+      "reasoning": "The codebase clearly implements a baseline-stats-then-multiplier pipeline, but on a different axis than the design. Baselines come from single scalar constants (`PlayerController.BaseSpeed/BaseDamage/BaseHealth`) combined with a five-row tier progression (`GameConfig.Tiers` / `TierData{name, scale, limbs}` named Alpha\u2026Omega, driven by `EvoRequirement`/`LevelUpRequirement` and `Creature.tier`), with `ClassProfile` mults applied on top. That is a rank/level ladder of 5 tiers where `limbs` is a cosmetic/derived field of the tier, not a 1\u20136 limb-count table that sets Health/Damage/Speed/Reach (100/150/200/250/300/350, 40/55/70/85/100/115, 12/13/14/15/16/17, 16/19/22/25/28/31). Nothing in the inventory shows a four-column, six-row baseline array, and Reach has no baseline at all \u2014 only `Ecology.ReachScale` as a global scalar. Notably, `FormTable.StatBlock{health,damage,speed,reach,dash}` and `FormDef.rank` are the right shape and `forms.json` (132 KB) exists, but the inventory marks forms.json as read by nothing, so the correct-shaped stat data is inert while the tier ladder drives play. Because the existing tier/level baseline would have to be replaced (not merely extended) to make limb count the baseline source, this is CONTRADICTED rather than ABSENT/UNCONSUMED, though the unconsumed forms.json is the second half of the story.",
+      "what_exists_instead": "A 5-tier evolution ladder: `GameConfig.Tiers` of `TierData{name, scale, limbs}` (Alpha/Beta/Gamma/Delta/Omega) scaling a single set of flat constants (`PlayerController.BaseHealth/BaseDamage/BaseSpeed`) with no Reach baseline, then multiplied by `ClassProfile{healthMult, speedMult, damageMult, lungeMult, dashMult}`. A correctly-shaped `StatBlock{health,damage,speed,reach,dash}` and `FormDef.rank` exist in FormTable.cs but forms.json is never loaded.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "The four baseline arrays are trivial to author (24 numbers), and `StatBlock` already declares exactly health/damage/speed/reach/dash plus `FormDef.rank`, so the data structures are half-built. The cost is rewiring: `GameConfig.Tiers`/`TierData` and the tier-scale path used by `PlayerController.Evolve`, `Creature.Evolve`, `maxHealth`, and `EnemyAI.ApplyContent` must be re-keyed off limb count (1\u20136) instead of tier index, and Reach must become a per-rank baseline rather than the global `Ecology.ReachScale`. That touches several files but no new subsystem."
+    },
+    {
+      "id": "R016",
+      "name": "Final stat composition (rank baseline \u00d7 family \u00d7 intensity)",
+      "gdd_section": "2.4",
+      "statement": "A form's live stats are the limb baseline multiplied by the family multiplier scaled by intensity, producing the player's current Health max, Damage, Speed, Reach and Dash.",
+      "observable_behaviour": "The HUD bar length and observable damage/speed change immediately and consistently when either rank or form changes; no colour is strictly best because Health is one of the multiplied axes.",
+      "data_contract": "forms.json stat profile per form",
+      "depends_on": [
+        "R013",
+        "R014",
+        "R015"
+      ],
+      "acceptance_test": "A 2-limb Rage Brawler and a 5-limb Pale Brawler are both Yellow and must produce clearly different stat lines from the same tables.",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Content/FormTable.cs: `class StatBlock` \u2014 health, damage, speed, reach, dash",
+        "Assets/Scripts/Content/FormTable.cs: `class FormDef` \u2014 family, intensity, intensity_pct, rank, socket_layout, stats; `class FormTable` \u2014 forms, Load",
+        "Assets/StreamingAssets/forms.json (132,668 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "Assets/Scripts/Game/GameConfig.cs: `struct ClassProfile` \u2014 name, speedMult, damageMult, healthMult, lungeMult, dashMult; `ClassFor`, `Tiers`, `struct TierData` \u2014 name, scale, limbs",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 BaseSpeed, BaseDamage, BaseHealth, ClassName, moveSpeed, biteDamage, level, Evolve",
+        "Assets/Scripts/Game/Creature.cs \u2014 hasContentStats, maxHealth, health, Evolve",
+        "Assets/Scripts/Game/EnemyAI.cs \u2014 `ApplyContent`, contentId, role"
+      ],
+      "reasoning": "The codebase does compose live stats, but by a different rule set than the design's rank-baseline \u00d7 family \u00d7 intensity formula. Player stats come from GameConfig.ClassProfile (speedMult/damageMult/healthMult/lungeMult/dashMult) selected by ClassFor plus GameConfig.Tiers (TierData with name/scale/limbs), and PlayerController exposes BaseSpeed/BaseDamage/BaseHealth/ClassName which it scales on Evolve/level-up. Nothing in the inventory holds the authoritative limb baseline table (Health 100/150/200/250/300/350, Damage 40..115, Speed 12..17, Reach 16..31), nor any intensity fraction (Pale 25% \u2026 Rage 100%) or Clash second-tone gift, nor a Dash axis on the player side. The form-side data model that the design implies does exist \u2014 FormDef carries family, intensity, intensity_pct, rank, socket_layout and a StatBlock with exactly health/damage/speed/reach/dash \u2014 but forms.json is explicitly unread, so FormTable is dead code and the eight named classes (Brawler, Bruiser, Leaper, Sniper, Skirmisher, Stalker, Apex, Forager) drive stats instead of family+intensity. The worked example (2-limb Rage Brawler vs 5-limb Pale Brawler) cannot be reproduced: 'Brawler' here is a class profile, not a Yellow family, and intensity has no effect anywhere. Because a competing stat pipeline occupies this area and would have to be replaced, this is CONTRADICTED rather than merely UNCONSUMED, though the unread forms.json is the accompanying symptom.",
+      "what_exists_instead": "Stats are class-profile multipliers \u00d7 tier: GameConfig.ClassProfile (speedMult/damageMult/healthMult/lungeMult/dashMult) chosen by ClassFor from eight archetype names, combined with GameConfig.Tiers/TierData (scale, limbs) and PlayerController's BaseSpeed/BaseDamage/BaseHealth adjusted on Evolve and upgrade_* picks. Enemies get stats via EnemyAI.ApplyContent / Creature.hasContentStats from creatures.json. FormTable/FormDef/StatBlock model the designed data but are never loaded.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "Much of the work is already paid for: FormDef/StatBlock already declare exactly the five axes plus family, intensity, intensity_pct and rank, and FormTable.Load exists \u2014 it just needs to be pointed at StreamingAssets/forms.json like ContentDatabase does for creatures.json. Remaining work is the limb baseline table (a 6-column constant), the intensity fraction scaling with the Clash gift, and rewiring PlayerController's BaseSpeed/BaseDamage/BaseHealth (plus a Reach and Dash axis) and the HUD health bar off GameConfig.ClassProfile/ClassFor, which must be retired or reduced to cosmetic naming. Enemy stat pathing (ApplyContent, Creature.hasContentStats) also needs to consume the same table for consistency."
+    },
+    {
+      "id": "R017",
+      "name": "The blank (form zero)",
+      "gdd_section": "2.4, 2.5",
+      "statement": "The hatchling is a white cube with one bare limb and multiplier 1.0 on every axis; it is the empty state and is not one of the 150 forms.",
+      "observable_behaviour": "A new run starts as a plain white one-limb cube whose stats equal the rank-1 baseline exactly, and the Bestiary count does not include it.",
+      "data_contract": "",
+      "depends_on": [
+        "R015"
+      ],
+      "acceptance_test": "Blank stats = Health 100, Damage 40, Speed 12, Reach 16.",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/GameManager.cs string literals \"Player\", \"GREEN\" (player spawned green, not white)",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 BaseSpeed, BaseDamage, BaseHealth, ClassName, \"Forager\", upgrade_damage/upgrade_speed/upgrade_health, level, LevelUpRequirement",
+        "Assets/Scripts/Game/GameConfig.cs \u2014 struct TierData(name, scale, limbs) with \"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Omega\"; ClassProfile(speedMult, damageMult, healthMult, lungeMult, dashMult); Colors.White exists but player literal is \"GREEN\"",
+        "Assets/Scripts/Game/Creature.cs \u2014 tier, colorType, limbs, BuildVisuals, hasBodyColor, \"GREEN\"",
+        "Assets/Scripts/Content/FormTable.cs \u2014 FormDef(intensity, intensity_pct, rank, socket_layout), StatBlock(health,damage,speed,reach,dash), FormTable.Load",
+        "StreamingAssets/forms.json \u2014 read by NOTHING"
+      ],
+      "reasoning": "A defined starting state for the player clearly exists, but it is built on a different mechanism than the design's form-zero blank. GameManager spawns the \"Player\" with the literal \"GREEN\" (GameConfig.Colors.GREEN), not white, so the run does not begin in the empty/white state. Progression from that start is a class/tier/upgrade system (ClassProfile with speedMult/damageMult/healthMult, TierData with name+scale+limbs named Alpha..Omega, PlayerController.level/LevelUpRequirement and upgrade_damage/upgrade_speed/upgrade_health choices), not the colour-family multiplier applied on top of a limb baseline table (Health 100/150/200..., Damage 40/55/70..., Speed 12/13/14..., Reach 16/19/22...). The form/intensity data that would define the 150 forms and their distance-from-1.0 multipliers exists as FormDef/StatBlock/FormTable plus StreamingAssets/forms.json, but the inventory marks forms.json as read by nothing, so there is no 'not in the 150' bookkeeping and no baseline of multiplier 1.0 to be the empty state against. PlayerController.BaseSpeed/BaseDamage/BaseHealth are the closest analogue to the blank's baseline, but there is no Reach baseline named there and no limb-count-driven table; the values are unverifiable from the inventory. Because working code exists in this area under different rules (green starting colour, tier scale/limb table, class multipliers, level-up upgrades), this is contradiction rather than mere absence.",
+      "what_exists_instead": "The run starts with a GREEN player cube whose stats come from PlayerController.BaseSpeed/BaseDamage/BaseHealth modified by a ClassProfile (\"Forager\" initially) and GameConfig.Tiers (TierData name/scale/limbs, Alpha..Omega). Growth is via Evolve/level-ups with explicit upgrade_damage/upgrade_speed/upgrade_health picks, not via eating a form and inheriting a colour-family multiplier. FormTable/FormDef/StatBlock and forms.json contain the form and intensity data but no code reads forms.json.",
+      "must_be_removed": true,
+      "effort": "small",
+      "effort_reason": "The visible change is narrow: swap the \"GREEN\" player literal for the existing GameConfig.Colors.White, force limbs=1 at spawn (Creature already carries a limbs field and GameConfig.TierData already stores limbs), and set the blank baseline to 100/40/12/16 \u2014 PlayerController already has BaseHealth/BaseDamage/BaseSpeed placeholders, only a Reach baseline is missing. The larger surrounding work (parsing forms.json via the already-written FormTable/FormDef/StatBlock and excluding the blank from the 150-form count) belongs to the mutation/bestiary requirements, and the parser plus data already exist unused, so it is cheaper than it looks. Removing/bypassing the class+level-up upgrade path in PlayerController is the only genuine rewrite."
+    },
+    {
+      "id": "R018",
+      "name": "The colour buffer (FIFO limb slots)",
+      "gdd_section": "2.4a",
+      "statement": "Each limb holds exactly one colour unit (family + tier) or white; eating fills a white limb first, and if no limb is white the meal evicts the oldest colour, strictly FIFO.",
+      "observable_behaviour": "With a white limb free, a meal loads that limb; with all limbs coloured, the next meal replaces the colour that has been held longest, never a newer one.",
+      "data_contract": "Persisted run state: ordered list of limb slots, each {family, tier} or white, with insertion order",
+      "depends_on": [
+        "R007"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs: Evolve, RegisterKill, level, totalKills, ClassName, \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\", \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\", \"LEVEL UP! RANK {level}\"",
+        "Assets/Scripts/Game/GameConfig.cs: ClassFor, Tiers, EvoRequirement, LevelUpRequirement, struct ClassProfile (speedMult, damageMult, healthMult, lungeMult, dashMult), struct TierData (name, scale, limbs)",
+        "Assets/Scripts/Game/Creature.cs: tier, colorType, hasBodyColor, bodyColor, limbs, BuildVisuals, Evolve",
+        "Assets/Scripts/Game/EnemyAI.cs: carriesColour, healsPlayerPct, contentId, role",
+        "Assets/Scripts/Content/FormTable.cs: FormDef (family, intensity, intensity_pct, rank, socket_layout), StatBlock",
+        "Assets/StreamingAssets/forms.json \u2014 read by NOTHING"
+      ],
+      "reasoning": "There is no per-limb colour slot collection anywhere in the inventory: no queue/buffer/slot/socket members, no white-slot or eviction logic, no 'oldest colour' concept, and no pulsing next-slot indicator (GameManager's UI strings cover health/evolution bars, lock reticle, threat halo, notifications only). Instead, the same design area \u2014 what eating does to your form \u2014 is implemented by a completely different mechanism: kills accumulate (RegisterKill, totalKills) against GameConfig.EvoRequirement/LevelUpRequirement to drive PlayerController.Evolve, which assigns a GameConfig.ClassProfile (Brawler/Leaper/Sniper/Apex/Forager, with speedMult/damageMult/healthMult multipliers) and a TierData (Alpha..Omega) whose 'limbs' field is a cosmetic count derived from tier, not a set of colour-bearing slots. Progression is further steered by discrete upgrade picks (\"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\") \u2014 hidden-stat levelling rather than the visible, world-forced colour buffer. Colour is stored as a single scalar per creature (Creature.colorType / bodyColor / ContentDatabase.ColorTypeFor with Yellow/Red/Blue/Purple/Grey names) and EnemyAI.carriesColour is a flag, so prey colour has nowhere to be stored per limb. The data the requirement needs partly exists: FormTable/FormDef already models family + intensity + rank + socket_layout and forms.json (132 KB) is in StreamingAssets but nothing reads it \u2014 the table is present and unconsumed, so the family/tier vocabulary need not be authored from scratch.",
+      "what_exists_instead": "A kills-threshold class/tier levelling system: RegisterKill -> EvoRequirement/LevelUpRequirement -> Evolve assigns a ClassProfile (stat multipliers) and TierData (scale + limb count), plus discrete gene_points upgrade picks (upgrade_damage/speed/health). Colour is one scalar per creature (colorType/bodyColor) used for tinting and enemy identity, not a per-limb buffer, and forms.json (family/intensity/rank/socket_layout) is present but unread.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "Requires new persisted ordered slot state plus rewriting PlayerController.Evolve/RegisterKill and the gene_points/upgrade_* path, replacing GameConfig.ClassFor/Tiers/ClassProfile stat multipliers with limb-count baselines x colour multipliers, changing Creature.limbs/BuildVisuals to render per-limb colour and a pulsing next-eviction slot, and wiring EnemyAI.carriesColour to deposit a {family,tier} unit. Mitigating: FormTable/FormDef and the unread forms.json already supply family/intensity/rank data, so the multiplier table itself is largely authored."
+    },
+    {
+      "id": "R019",
+      "name": "Poop the oldest colour",
+      "gdd_section": "2.1, 2.4a",
+      "statement": "Q / B ejects the oldest colour in the buffer, turning that limb white, so the player can clear a slot before hunting a chosen colour into it.",
+      "observable_behaviour": "Pressing poop makes the oldest-coloured limb visibly go white and no new colour is added; repeating it strips colours in eating order.",
+      "data_contract": "",
+      "depends_on": [
+        "R018",
+        "R001"
+      ],
+      "acceptance_test": "",
+      "verdict": "ABSENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs \u2014 members: moveSpeed, biteDamage, totalKills, level, score, LockConeDot, BaseSpeed, BaseDamage, BaseHealth, ClassName, OnLockTargetChanged, IsThreatened, FlagThreat, RegisterKill, Evolve, Die (no colour buffer, no eject/poop member)",
+        "Assets/Scripts/Game/PlayerController.cs string literals: \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\", \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\" (progression is class/level based)",
+        "Assets/Scripts/Game/Creature.cs \u2014 limbs, colorType, hasBodyColor, bodyColor, BodyColor, BuildVisuals (a single body colour, not a per-limb colour list)",
+        "Assets/Scripts/Game/EnemyAI.cs \u2014 carriesColour, healsPlayerPct (prey tags a colour but nothing stores it in a player-side buffer)",
+        "Assets/Scripts/Game/GameConfig.cs \u2014 TierData { name, scale, limbs }, Colors.White / FromName"
+      ],
+      "reasoning": "Nothing in the inventory implements a per-limb colour buffer, let alone an eject/poop action on it. PlayerController exposes no colour list, no FIFO index, no 'oldest colour' or 'poop'/'eject' member, and no Q/B binding is visible anywhere. Creature carries a single `bodyColor`/`colorType` for the whole body plus a `limbs` collection built in `BuildVisuals`, so limbs exist as visual objects but are not individually coloured slots. EnemyAI.carriesColour shows prey do advertise a colour, and PlayerController.RegisterKill/Evolve consume kills, but the consumption path is class/level upgrades (\"upgrade_damage\", \"upgrade_speed\", \"gene_points\"), not a colour buffer. That progression system is adjacent, not a rival implementation of the poop rule, so this is a straight gap rather than a contradiction \u2014 the eviction half of \u00a72.4a is equally missing, meaning the buffer this requirement operates on does not exist yet. Inventory is declarations-only, so a poop branch hidden inside PlayerController.Update cannot be fully excluded, but no supporting field or string hints at one.",
+      "what_exists_instead": "A class/level progression path: prey carry a colour flag (EnemyAI.carriesColour), kills feed PlayerController.RegisterKill/Evolve, which applies a GameConfig.ClassProfile and stat upgrades (\"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\"). The player's body has one aggregate colour (Creature.bodyColor/colorType) and a limbs list used only for tier-scaled visuals.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "The visual substrate is already there and cheap to reuse: Creature.limbs plus GameConfig.TierData.limbs give per-limb GameObjects to tint, Creature.BodyColor/_EmissionColor handling shows the material path, GameConfig.Colors.White/FromName supplies the bare-slot colour, and EnemyAI.carriesColour already names the colour prey deliver. Work is a new FIFO colour-slot list on PlayerController (needed for \u00a72.4a rule 1 as well), a Q/B input branch in Update, per-limb tinting, and the next-to-overwrite pulse \u2014 additive, no deletions, but it spans player state, input and visuals rather than one file."
+    },
+    {
+      "id": "R020",
+      "name": "Next-slot-to-be-overwritten indicator",
+      "gdd_section": "2.4a",
+      "statement": "The limb that the next meal will overwrite (the oldest colour) pulses on the player's body at all times.",
+      "observable_behaviour": "One limb visibly pulses; after eating or pooping the pulse moves to the new oldest colour, so a colour is never lost unannounced.",
+      "data_contract": "",
+      "depends_on": [
+        "R018"
+      ],
+      "acceptance_test": "",
+      "verdict": "ABSENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/Creature.cs: `class Creature` \u2014 limbs, bodyColor, BodyColor, BuildVisuals, Evolve (single body colour, no per-limb colour slots)",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 fields/members are moveSpeed, biteDamage, totalKills, level, score, ClassName, Evolve, RegisterKill; no colour buffer, no slot list, no poop/eject action, no pulse or indicator member",
+        "Assets/Scripts/Game/GameConfig.cs: `struct TierData` \u2014 name, scale, limbs (limb count is a tier scalar, not addressable colour slots)",
+        "Assets/Scripts/Game/EnemyAI.cs: `enum Attack` \u2014 contentId, role, carriesColour (prey carry a colour, but no consumer stores it into a player buffer)",
+        "Assets/StreamingAssets/forms.json \u2014 read by NOTHING; Assets/Scripts/Content/FormTable.cs (`FormDef` with socket_layout, saturation) is never referenced by gameplay code"
+      ],
+      "reasoning": "The indicator presupposes a per-limb colour buffer with FIFO eviction order, and neither the buffer nor any highlight exists. `Creature` carries a single `bodyColor`/`hasBodyColor` plus a `limbs` count used for visual scaling in `BuildVisuals`; `GameConfig.TierData.limbs` is likewise just a number per tier. There is no collection of limb slots, no notion of oldest colour, no eject/poop input (the literals in PlayerController are upgrade_damage/upgrade_speed/upgrade_health/gene_points, i.e. an upgrade-and-level progression rather than a colour buffer), and no pulsing/emissive-highlight member targeting a specific limb. The only emission manipulation visible (`_EMISSION`, `_EmissionColor` in Creature.cs and GameManager.cs) is used for whole-body/prop tinting and lock/threat reticles (`LockReticleWorld`, `ThreatHaloWorld`), not for marking a limb slot. `EnemyAI.carriesColour` shows the source side of the meal-colour data exists but nothing consumes it into player state. Nothing in this area would have to be removed \u2014 the feature simply has no foothold yet, so ABSENT rather than CONTRADICTED. Note the inventory is declaration-only, so a pulse implemented inline inside `Creature.Update` or `BuildVisuals` without a named member could be invisible here; hence medium confidence.",
+      "what_exists_instead": "A single-colour creature model: `Creature.bodyColor`/`BodyColor` with `limbs` as a count driving `BuildVisuals`, and progression via `PlayerController.Evolve`/`RegisterKill`/level/score with upgrade_* choices. Player feedback highlighting exists only for targeting (`LockReticle`, `ThreatHalo`, \"You are targeted\") and HUD bars, not for limb slots.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "The pulse itself is a few lines once a buffer exists, but there is no buffer to point at: per-limb colour slots, FIFO order tracking, and the eject action must be added to `Creature`/`PlayerController` first, and `BuildVisuals` must create addressable limb renderers instead of a count-driven mesh. Mitigating factors already in the project: `EnemyAI.carriesColour` supplies the meal colour, `Creature` already drives `_EmissionColor`, and `FormTable`/`forms.json` (currently unread) already carry `socket_layout` and `saturation` for authored limb layouts."
+    },
+    {
+      "id": "R021",
+      "name": "Form resolution from buffer state",
+      "gdd_section": "2.4b",
+      "statement": "Every buffer state resolves deterministically to exactly one form: family = the colour holding the most limbs with ties broken toward the most recently eaten (at birth by fixed precedence Yellow\u2192Red\u2192Blue\u2192Purple\u2192Grey); intensity = the lowest tier among the family-colour units, stepped down one rung per limb not carrying the family, floored at Pale, along the wild ladder Pale\u2192Dusk\u2192Deep\u2192Rage; Clash sits beside Rage as a parallel summit that any held Clash unit wins the tie for, and diluting Clash or Rage slides to Deep; all-white resolves to the blank.",
+      "observable_behaviour": "Any combination of limb colours names one form on screen and never an invalid state; adding a weak unit to a strong monochrome body visibly drops the displayed intensity.",
+      "data_contract": "",
+      "depends_on": [
+        "R018",
+        "R023"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Content/FormTable.cs: `class FormDef` \u2014 family, intensity, intensity_pct, rank, silhouette, socket_layout; `class FormTable` \u2014 forms, Load",
+        "StreamingAssets/forms.json (132,668 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 totalKills, level, RegisterKill, Evolve, ClassName, \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\", \"LEVEL UP! RANK {level}\", \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\"",
+        "Assets/Scripts/Game/GameConfig.cs \u2014 ClassFor, Tiers, `struct TierData` (name, scale, limbs), \"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Omega\", `struct ClassProfile` (speedMult, damageMult, healthMult...)",
+        "Assets/Scripts/Game/Creature.cs \u2014 tier, colorType, limbs, BuildVisuals, Evolve (single bodyColor, no per-limb colour array)",
+        "Assets/Scripts/Game/EnemyAI.cs \u2014 carriesColour, ApplyContent (colour is carried by prey but nothing accumulates a buffer)",
+        "Assets/Scripts/Content/ContentDatabase.cs \u2014 TierIndex, ColorTypeFor, \"Pale\",\"Dusk\",\"Deep\",\"Rage\",\"Clash\""
+      ],
+      "reasoning": "No symbol in the inventory represents a buffer state (a per-limb colour/tier list) or a resolution function over it: there is no majority-colour family computation, no recency tiebreak, no birth precedence Yellow\u2192Red\u2192Blue\u2192Purple\u2192Grey, no lowest-link intensity step-down, no Pale floor, no Clash-beside-Rage summit rule, and no all-white blank. Creature stores a single scalar `colorType`/`bodyColor` plus an int `tier`, not six coloured sockets. What does exist in this area is a wholly different identity mechanism: the player's displayed identity is a class profile chosen by `GameConfig.ClassFor` plus a rank/tier advanced by kill count (`RegisterKill`, `totalKills`, `level`, `Evolve`, `GameConfig.Tiers` Alpha\u2026Omega with scale/limbs, and stat upgrade strings `upgrade_damage`/`upgrade_speed`/`upgrade_health`, `gene_points`). That progression-by-kills model must be replaced by resolution-from-buffer, so this is a contradiction rather than a mere absence. The authored 150-form table is already modelled and parseable (`FormDef` carries family, intensity, intensity_pct, rank, silhouette, socket_layout; `FormTable.Load` exists), but forms.json is explicitly unread, so the lookup half is dead code awaiting the resolver. The inventory cannot show whether `ContentDatabase.TierIndex` orders the wild ladder correctly, so that part is low-confidence \u2014 but it is used for content spawn tiers, not for player form resolution.",
+      "what_exists_instead": "Identity is derived from kill-count progression and a colour\u2192class table: `PlayerController.RegisterKill`/`Evolve`/`level` with `GameConfig.ClassFor`, `ClassProfile` multipliers and `Tiers` (Alpha\u2026Omega, each with scale and limb count), while `Creature` holds one `colorType`/`bodyColor` and an int `tier`. Prey merely expose `carriesColour` (EnemyAI) with no buffer to accumulate into. The 150 authored forms exist as data (`forms.json`) and a matching `FormDef`/`FormTable` parser, but nothing reads the file, so no form is ever named on screen.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "Requires a new limb-colour buffer with per-limb tier and eat-recency, the full resolution rule (majority family, recency/precedence tiebreak, lowest-link step-down floored at Pale, Clash parallel summit, dilution to Deep, all-white blank), re-resolution on every change, and rewiring visuals/stats to the resolved form \u2014 while deleting or repurposing the kill-count Evolve/level/Tiers/ClassFor progression in PlayerController, Creature and GameConfig. Smaller than it looks on the data side only: `FormDef` already carries family/intensity/rank/silhouette/socket_layout and `FormTable.Load` exists, so the 150-form lookup needs only to be pointed at the already-shipped forms.json rather than authored anew."
+    },
+    {
+      "id": "R022",
+      "name": "Instant mutation with wound preserved",
+      "gdd_section": "2.3, 2.4b",
+      "statement": "The player mutates the instant the resolved form changes; the Health bar is re-cut to the new form's maximum and the player's wound fraction is preserved rather than its absolute number \u2014 mutation never heals nor costs Health.",
+      "observable_behaviour": "Eating a meal that changes the resolution immediately swaps the body and stats; if the player was at 50% Health before, they are at 50% of the new bar afterward, whether that bar grew or shrank.",
+      "data_contract": "",
+      "depends_on": [
+        "R021",
+        "R009",
+        "R016"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs: `Evolve`, `level`, `totalKills`, `RegisterKill`, `BaseHealth`, string literals \"upgrade_health\", \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\", \"LEVEL UP! RANK {level}\"",
+        "Assets/Scripts/Game/GameConfig.cs: `EvoRequirement`, `LevelUpRequirement`, `Tiers`, `struct TierData` (name, scale, limbs), `struct ClassProfile` (healthMult, damageMult, speedMult), tier names \"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Omega\"",
+        "Assets/Scripts/Game/Creature.cs: `tier`, `colorType`, `maxHealth`, `health`, `kills`, `Evolve`, `hasContentStats`",
+        "Assets/Scripts/Content/FormTable.cs: `class FormDef` (family, intensity, intensity_pct, rank, stats), `class StatBlock` (health, damage, speed, reach, dash), `FormTable.Load`",
+        "Assets/StreamingAssets/forms.json \u2014 read by: NOTHING READS THIS FILE",
+        "Assets/Scripts/Game/GameManager.cs: \"HealthBar\", \"EvolutionBar\", \"GenTierLabel\", `GetHudBarSprite`"
+      ],
+      "reasoning": "The code does implement a body/stat change on progression, but by a threshold-based evolution/level-up mechanism rather than instant re-resolution of a form from diet. GameConfig exposes `EvoRequirement`/`LevelUpRequirement` and a fixed `Tiers` ladder (Alpha\u2026Omega with scale and limbs), PlayerController tracks `totalKills`, `level`, `RegisterKill`, and fires \"EVOLVED\"/\"LEVEL UP! RANK {level}\" notifications, plus discrete \"upgrade_health\" choices \u2014 i.e. health maximum changes at kill milestones and via upgrades, not the instant a resolved form (colour \u00d7 intensity \u00d7 limbs) changes. There is a HUD \"EvolutionBar\" alongside \"HealthBar\", which is the second meter the two-meter-free design removes. FormTable/FormDef/StatBlock exist and can express per-form health, but forms.json is never read, so no resolved-form maximum exists to re-cut the bar to. Nothing in the inventory suggests a wound-fraction carry: `Creature.Evolve`, `maxHealth`, `health` are present but the inventory cannot show whether the ratio is preserved; given the mechanism is kill-threshold evolution with healthMult applied through ClassProfile/TierData, the recut rule of the design is not the rule in force. I cannot see the body of Evolve, so the precise health handling is unverified \u2014 hence medium confidence \u2014 but the surrounding mechanism is clearly a different one.",
+      "what_exists_instead": "A kill-count evolution/level ladder: `EvoRequirement`/`LevelUpRequirement` thresholds trigger `PlayerController.Evolve` and `Creature.Evolve`, moving the player through fixed `Tiers` (Alpha\u2192Omega, each with scale and limbs) and `ClassProfile` multipliers (healthMult, damageMult, speedMult), with separate discrete \"upgrade_health\"/\"upgrade_speed\"/\"upgrade_damage\" picks and an on-screen \"EvolutionBar\" second meter. Health maxima come from `BaseHealth` \u00d7 profile/tier multipliers, not from a resolved form's `StatBlock.health` in forms.json.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "The scaffolding is closer than it looks: `FormDef`/`StatBlock` already model per-form health and forms.json (132 KB) is already on disk with the numbers, so the new maximum only needs a `FormTable.Load` call plus a limbs\u00d7colour resolution step. The actual recut is a few lines (cache health/maxHealth ratio, set new maxHealth, reapply ratio). The cost is removal: the `EvoRequirement`/`LevelUpRequirement`/`Tiers`/`ClassProfile` progression path, `PlayerController.Evolve` upgrade choices and the HUD \"EvolutionBar\" all drive maxHealth today and must be dismantled so mutation is the only thing that re-cuts the bar."
+    },
+    {
+      "id": "R023",
+      "name": "forms.json \u2014 the 150 authored forms",
+      "gdd_section": "2.4b, 3.3",
+      "statement": "Exactly 150 forms are authored as family \u00d7 intensity \u00d7 rank (5 \u00d7 5 \u00d7 6), each with an authored name, socket layout and stat profile.",
+      "observable_behaviour": "The Bestiary total reads 150, each rank opens a fresh 25-form column, and every reached form displays an authored name.",
+      "data_contract": "forms.json: family, intensity, rank, authored name, socket layout, stat profile",
+      "depends_on": [
+        "R013",
+        "R014",
+        "R015"
+      ],
+      "acceptance_test": "5 families \u00d7 5 intensities \u00d7 6 ranks = 150 entries; 150 authored, 150 reachable.",
+      "verdict": "UNCONSUMED",
+      "confidence": "high",
+      "evidence": [
+        "Assets/StreamingAssets/forms.json (132,668 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "Assets/Scripts/Content/FormTable.cs: `class FormDef` \u2014 id, family, intensity, intensity_pct, rank, name, flavor, base_hex, saturation, silhouette, surface, vfx, socket_layout, stats",
+        "Assets/Scripts/Content/FormTable.cs: `class FormTable` \u2014 generated_by, count, forms, Load",
+        "Assets/Scripts/Content/FormTable.cs: `class StatBlock` \u2014 health, damage, speed, reach, dash",
+        "Assets/Scripts/Content/ContentDatabase.cs \u2014 Load, ReadStreamingAsset, string literals \"creatures.json\", \"biomes.json\" (no \"forms.json\")",
+        "Assets/Scripts/Game/GameConfig.cs \u2014 Tiers, ClassFor, `struct TierData` (name, scale, limbs), `struct ClassProfile`, tier names \"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Omega\"",
+        "Assets/Scripts/Game/Creature.cs \u2014 tier, colorType, hasContentStats, displayName",
+        "No Bestiary/BestiaryScreen/discovery type anywhere in the inventory"
+      ],
+      "reasoning": "The authored asset exists at full size (forms.json, 132 KB) and a matching deserialisation schema exists in FormTable.cs whose FormDef fields line up almost exactly with the design's required columns (family, intensity, rank, name, socket_layout, stats, plus saturation/silhouette used by \u00a72.4b's rendering rule) and FormTable even carries a `count` field for the 150 assertion. But the inventory's data-contract section states nothing reads forms.json: ContentDatabase.Load only pulls creatures.json and biomes.json, and no call site for FormTable.Load appears anywhere (no reference from ContentDatabase, GameManager, Creature, or EnemyAI). Runtime identity is instead driven by GameConfig.Tiers (five tier names Alpha..Omega with scale/limbs) and GameConfig.ClassFor/Colors, with Creature.tier/colorType/displayName and EnemyAI.contentId/role coming from creatures.json \u2014 a 5-tier \u00d7 colour scheme, not a family \u00d7 intensity \u00d7 rank lattice of 150. There is also no Bestiary code at all (no 30-cell grid, no discovered/total header, no rank column), so the in-game observable cannot be checked. Because the inventory explicitly flags the asset as unread and a ready-made parser sits idle, UNCONSUMED is the precise verdict rather than ABSENT; the parallel tier system is a separate legacy path that this requirement would supersede rather than something already claiming to implement forms.",
+      "what_exists_instead": "A complete, unused schema (FormTable/FormDef/StatBlock with family, intensity, rank, name, socket_layout, stats) alongside a live but different identity system: GameConfig.Tiers (5 named tiers with scale/limb counts), GameConfig.ClassFor/Colors profiles, and Creature/EnemyAI fields (tier, colorType, contentId, role) fed from creatures.json. No Bestiary UI of any kind.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "The parsing half is nearly free: FormDef already names every field the design demands, so wiring is a ReadStreamingAsset(\"forms.json\") call in ContentDatabase plus a count==150 and 5\u00d75\u00d76 completeness check \u2014 small. The cost is downstream: nothing consumes forms yet, so Creature.BuildVisuals/Init and EnemyAI.ApplyContent must resolve a FormDef (socket_layout \u2192 limb segments, stats \u2192 StatBlock) instead of GameConfig.Tiers/ClassFor, and the Bestiary screen (30 cells, intensity ladder, discovered/total, persistent discovery) does not exist anywhere and must be built from scratch in the same hand-rolled UI style as GameManager's Canvas construction."
+    },
+    {
+      "id": "R024",
+      "name": "Meat tiers and their world distribution",
+      "gdd_section": "2.4b, 2.7",
+      "statement": "Each coloured creature is a tier of a colour and its meat carries that tier into the player's limb. Pale wanders in every biome; Dusk debuts in Prairies pockets and wanders from the Wetlands on; Deep debuts in Wetlands pockets and wanders from the Mountains on; Rage debuts in Mountains pockets and wanders the deep ends of Beach and Volcanic; Clash never wanders and appears only on elites, trait minibosses and Alphas.",
+      "observable_behaviour": "In the Prairies, Dusk meat is only found inside a defended pocket while Pale roams the open; by the Wetlands Dusk wanders freely; two-toned Clash creatures are only ever elites, minibosses or Alphas.",
+      "data_contract": "creatures.json: meat tier, colour family, role, rank, home biomes; biomes.json: which tiers wander vs pocket-only per biome",
+      "depends_on": [
+        "R013",
+        "R014"
+      ],
+      "acceptance_test": "Tier debut/roam schedule: Dusk pockets in Prairies \u2192 roams Wetlands+; Deep pockets in Wetlands \u2192 roams Mountains+; Rage pockets in Mountains \u2192 roams deep Beach and Volcanic.",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Content/ContentDatabase.cs: `Wandering`, `Pocket`, `RollSpawn`, `TierIndex`, `ColorTypeFor`, `GrazerWeight`, `Weight`, `struct SpawnEntry { def, spawn }`",
+        "ContentDatabase string literals: \"Pale\", \"Dusk\", \"Deep\", \"Rage\", \"Clash\", \"alpha\", \"apex\"",
+        "biomes.json (10,919 bytes) \u2014 read by ContentDatabase.cs; creatures.json (93,959 bytes) \u2014 read by ContentDatabase.cs",
+        "Assets/Scripts/Game/EcosystemManager.cs: `PocketLeakChance`, `FindSpawn`, `LegacyBiomes`",
+        "Assets/Scripts/Game/EnemyAI.cs: `contentId`, `role`, `carriesColour`, `ApplyContent`; literals \"prey\", \"grazer\", \"elite\", \"trait_miniboss\", \"alpha\", \"apex\"",
+        "Assets/Scripts/Game/Creature.cs: `tier`, `colorType`, `hasContentStats`, `isBoss`",
+        "Assets/Scripts/Game/PlayerController.cs: `totalKills`, `level`, `score`, `RegisterKill`, `Evolve`, literals \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\"",
+        "forms.json (132,668 bytes) \u2014 read by NOTHING; Assets/Scripts/Content/FormTable.cs `FormTable.Load` present but unused"
+      ],
+      "reasoning": "The distribution half of this requirement is clearly built. ContentDatabase parses biomes.json and exposes exactly the two spawn channels the design names \u2014 `Wandering` and `Pocket` \u2014 plus `RollSpawn`/`SpawnEntry`/`TierIndex`/`Weight`, and it carries the exact tier vocabulary as literals (\"Pale\", \"Dusk\", \"Deep\", \"Rage\", \"Clash\"). EcosystemManager consumes it via `FindSpawn`, and EnemyAI knows the roles the design gates Clash behind (\"elite\", \"trait_miniboss\", \"alpha\", \"apex\") and stores `carriesColour` per creature, with Creature holding `tier` and `colorType`. So the per-biome wander-vs-pocket schedule and the Clash-only-on-elites rule are almost certainly data-driven and enforced (the inventory cannot confirm the exact biome-by-biome debut table, only that the mechanism for it exists).\n\nWhat is missing is the second clause: 'its meat carries that tier into the player's limb.' There is no limb buffer, no colour-unit inventory, and no per-limb tier state anywhere on the player. PlayerController instead tracks `totalKills`, `level`, `score`, `gene_points` and \"upgrade_damage\"/\"upgrade_speed\"/\"upgrade_health\", i.e. eating feeds a linear stat-upgrade/level ladder rather than depositing a tiered colour unit into one of six limbs. Creature.`limbs` and GameConfig.TierData.`limbs` are purely visual/scale data driven by rank tiers (\"Alpha\"..\"Omega\"), not meat tiers. Correspondingly FormTable/forms.json \u2014 the table that would resolve family x intensity \u2014 is parsed-capable but read by nothing.\n\nOne detail worth flagging: `EcosystemManager.PocketLeakChance` lets pocket stock appear outside pockets, which would soften or break the absolute rule 'Clash never wanders' unless Clash is excluded from the leak. That is a small conditional, not a rewrite.",
+      "what_exists_instead": "A working biome spawn table (ContentDatabase.Wandering/Pocket/RollSpawn/TierIndex over biomes.json + creatures.json) with tier names and role tags, consumed by EcosystemManager.FindSpawn and EnemyAI.ApplyContent/carriesColour \u2014 but on the player side, eating grants kills/score/gene_points and upgrade_* stat boosts (PlayerController.RegisterKill/Evolve) instead of writing a meat tier into a limb buffer; forms.json/FormTable are dead.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "The distribution side needs at most verification of the debut table and a Clash exclusion in `PocketLeakChance` \u2014 trivial. The remaining work is the per-limb tier buffer that meat feeds, which does not exist at all; however tier is already parsed and already stored on Creature (`tier`, `colorType`) and carried on EnemyAI (`carriesColour`), so the value is present and only needs a consumer on the player, and FormTable already models the intensity fields it would resolve against."
+    },
+    {
+      "id": "R025",
+      "name": "Procedural body rendering of forms",
+      "gdd_section": "2.4b, 2.6a",
+      "statement": "One procedural system renders all 150 bodies from the cube: the authored socket layout gives the silhouette (reading family), the number of limb-segments reads rank, and saturation reads tier; traits render on the cube's main face so limbs stay free for colour.",
+      "observable_behaviour": "Two forms of the same family at different ranks share a silhouette but differ in segment count; the same form at Pale vs Rage differs in saturation; a trait appears on the cube face, never on a limb.",
+      "data_contract": "forms.json socket layout per form",
+      "depends_on": [
+        "R023",
+        "R021"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/Creature.cs: `class Creature` \u2014 tier, colorType, hasBodyColor, bodyColor, BodyColor, body, limbs, BuildVisuals, Evolve",
+        "Assets/Scripts/Game/GameConfig.cs: `struct TierData` \u2014 name, scale, limbs; `GameConfig.Tiers`, `ClassFor`, `EvoRequirement`",
+        "Assets/Scripts/Content/FormTable.cs: `class FormDef` \u2014 id, family, intensity, intensity_pct, rank, base_hex, saturation, silhouette, surface, vfx, socket_layout, stats; `FormTable.Load`",
+        "Assets/StreamingAssets/forms.json (132,668 bytes) \u2014 read by: NOTHING READS THIS FILE",
+        "Assets/Scripts/Game/GameConfig.cs `class Colors` \u2014 Red/Blue/Green/... FromName (flat named colours, no saturation ramp)",
+        "No Trait/TraitFace/socket symbols anywhere outside FormDef field names"
+      ],
+      "reasoning": "There *is* a procedural body renderer: `Creature.BuildVisuals` builds a `body` plus a `limbs` collection and tints it from `bodyColor`/`colorType`, and the number of limbs and body scale come from `GameConfig.Tiers` (`struct TierData` \u2014 name, scale, limbs) driven by `Creature.tier`/`Evolve`. That is a different mechanism from the design: the design says limb-segment count reads *rank* (1\u21926, gained only by breeding), silhouette comes from the authored `socket_layout` per form, and *saturation* reads tier/intensity (Pale\u2192Rage). In the code, tier is a Greek-letter progression tier (`Alpha/Beta/Gamma/Delta/Omega` in GameConfig) that drives both scale and limb count, so tier and rank are conflated and intensity/saturation is not represented at all \u2014 colours come from a fixed named palette (`Colors.FromName`, \"RED\"/\"BLUE\"/\"GREEN\") with no Pale/Dusk/Deep/Rage/Clash saturation ramp applied to bodies (ContentDatabase merely recognises those intensity strings for spawn/tier indexing). The authored data the requirement needs is parsed structurally \u2014 `FormDef.socket_layout`, `silhouette`, `saturation`, `family`, `rank` all exist as fields and `FormTable.Load` exists \u2014 but the inventory shows forms.json is read by nothing, so no form's socket layout ever reaches a renderer. Trait-on-main-face rendering (\u00a72.6a) has no representation at all: no trait type, no face/decal symbols. So the area is implemented, but on tier-table rules rather than form/rank/intensity rules, and the existing tier\u2192limbs path would have to be rewritten rather than extended.",
+      "what_exists_instead": "`Creature.BuildVisuals` builds a cube body plus limbs whose count and scale come from `GameConfig.Tiers` (`TierData.limbs`, `TierData.scale`) indexed by `Creature.tier` (Alpha\u2026Omega), with a flat named-colour tint from `GameConfig.Colors.FromName`/`ContentDatabase.ColorTypeFor`. `FormDef` declares `socket_layout`, `silhouette`, `saturation`, `family` and `rank`, and `FormTable.Load` exists, but forms.json is unconsumed so none of it drives rendering. No trait-face rendering exists.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "Smaller than it looks on the data side: `FormDef` already declares socket_layout, silhouette, saturation, family and rank, and `FormTable.Load` exists \u2014 the parse is written and only the wiring (forms.json actually being read, and a form assigned to `Creature`) is missing. The real work is rewriting `Creature.BuildVisuals` to build limb segments from rank/socket_layout instead of `GameConfig.TierData.limbs`, adding a saturation ramp alongside `Colors.FromName`, and separating tier-scale from rank-limbs across `Creature.tier`/`Evolve` and callers. Trait-on-face rendering is genuinely new (no trait symbols exist), but is a single decal/material slot on the body mesh."
+    },
+    {
+      "id": "R026",
+      "name": "Biome generation, terrain gates and per-run palette roll",
+      "gdd_section": "2.7, 3.3",
+      "statement": "Five procedurally generated biomes run Prairies \u2192 Wetlands \u2192 Mountains \u2192 Beach \u2192 Volcanic with escalating traversal gates (none; Fins over roughly half the map; Claws and Coat; Fins+Claws plus Heat vents; Fins+Claws+Coat+Heat), each holding one Alpha lair, and each biome's creature palette rolled per run from weights.",
+      "observable_behaviour": "Without Fins the player is stopped at Wetlands water and can see the land beyond it; two consecutive runs of the same biome contain different colour populations; the Volcanic biome cannot be traversed until all four traits are held.",
+      "data_contract": "biomes.json: terrain, gating traits, palette weights, min distinct colours, population/respawn, pocket count, Alpha roster, both gate thresholds",
+      "depends_on": [],
+      "acceptance_test": "Trait-introduction count per biome is 0 \u2192 1 \u2192 2 \u2192 1 \u2192 0 across Prairies, Wetlands, Mountains, Beach, Volcanic.",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/GameConfig.cs: `BiomeNeon`, `BiomeMagma`, `BiomeCrystal`, `VisualsForBiome`, `struct BiomeData` (name, groundColor, accentColor, fogColor, enemyColors), literals \"Neon Grid\", \"Magma Wastes\", \"Crystal Forest\" alongside \"prairies\",\"wetlands\",\"mountains\",\"beach\",\"volcanic\"",
+        "Assets/Scripts/Game/EcosystemManager.cs: `LegacyBiomes`, `OnBiomeChanged`, `PocketLeakChance`, `FindSpawn`",
+        "Assets/Scripts/Game/PlayerController.cs: `OnBiomeRequest`; Assets/Scripts/Game/GameManager.cs: \"ENTERING {biome.name}\", \"prairies\", \"Prairies\"",
+        "Assets/Scripts/World/BiomeTerrain.cs: `struct TerrainProfile` with only `Prairies`, `Build`, `BuildHeightCurve`, `SampleHeight`, `SetGroundColor`",
+        "Assets/Scripts/Content/ContentDatabase.cs: `Biomes`, `RollSpawn`, `GrazerWeight`, `Weight`, `Wandering`, `Pocket`, `TierIndex`, `ColorTypeFor`; reads biomes.json (10,919 bytes)",
+        "Assets/Scripts/Editor/ContentCheck.cs: `RollSamples`, `HasSpawn`, \"Yellow\",\"Red\",\"Blue\",\"Purple\",\"Grey\"",
+        "Assets/Scripts/Game/EnemyAI.cs: role literals \"trait_miniboss\", \"alpha\", \"apex\", field `carriesColour` \u2014 but no Fins/Claws/Coat/Heat trait state anywhere",
+        "Assets/Scripts/Game/GameConfig.cs: `class Boss` \u2014 `SpawnIntervalKills`, `ScaleMultiplier`, `HealthMultiplier`; EcosystemManager `OnBossSpawned`"
+      ],
+      "reasoning": "Two of the requirement's three pillars are handled by a different mechanism than the design specifies, and the third is missing outright. (1) Per-run palette roll: this part looks genuinely implemented \u2014 ContentDatabase parses biomes.json and exposes RollSpawn/Weight/GrazerWeight/Wandering/Pocket, and the editor ContentCheck.RollSamples samples rolls across the five colour names, so weight-driven palette rolling exists. (2) The five-biome progression, however, is layered on top of a surviving legacy three-biome system: GameConfig still defines BiomeNeon/BiomeMagma/BiomeCrystal with BiomeData.enemyColors and EcosystemManager exposes LegacyBiomes, while biome change is an event/notification (OnBiomeRequest \u2192 OnBiomeChanged \u2192 \"ENTERING {biome.name}\") rather than the player physically traversing generated terrain. That legacy palette/visual-swap path must be deleted or rewritten, not extended. (3) Traversal gates are absent: BiomeTerrain has a single TerrainProfile.Prairies and only a height field (SampleHeight/HeightAt/Radius) \u2014 no water bodies, lava fields, cliff climbing, or cold zones, and no trait inventory (nothing named Fins/Claws/Coat/Heat; EnemyAI only knows a \"trait_miniboss\" role string and a carriesColour field, so eating a miniboss cannot grant a key). Consequently nothing can stop the player at Wetlands water or block Volcanic until four traits are held, and the 0\u21921\u21922\u21921\u21920 introduction count is unrepresented. Alpha lairs are also replaced by a kill-interval boss spawner (GameConfig.Boss.SpawnIntervalKills, OnBossSpawned) rather than one landmark lair per biome.",
+      "what_exists_instead": "A single Prairies-only procedural terrain (BiomeTerrain) plus an event-driven biome swap that recolours the world from a legacy three-biome table (Neon Grid / Magma Wastes / Crystal Forest via GameConfig.BiomeNeon/Magma/Crystal and VisualsForBiome, EcosystemManager.LegacyBiomes). Palette weight rolling from biomes.json genuinely exists (ContentDatabase.RollSpawn/Weight/GrazerWeight, verified by Editor ContentCheck.RollSamples). Alphas arrive as a kill-count boss spawn instead of a per-biome lair. No trait or gate concept exists at all beyond the \"trait_miniboss\" role tag in EnemyAI.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "Requires four new terrain profiles with gate geometry (water depth, climbable rock, cold band, lava/vents) in BiomeTerrain, a player trait inventory wired to EnemyAI's existing \"trait_miniboss\" role, gate-aware movement blocking, per-biome Alpha lair placement replacing GameConfig.Boss.SpawnIntervalKills, and deletion of the legacy three-biome visual table (BiomeNeon/BiomeMagma/BiomeCrystal, LegacyBiomes). Two things reduce the cost: biomes.json is already parsed and the palette-weight roll (RollSpawn/Weight/GrazerWeight, plus Wandering/Pocket split and PocketLeakChance) already satisfies the per-run roll clause, and the five biome ids already appear as literals in GameConfig \u2014 so gating fields likely already sit in biomes.json unread rather than needing new data authoring."
+    },
+    {
+      "id": "R027",
+      "name": "Pockets, distance-based difficulty and lair placement",
+      "gdd_section": "2.7, 2.4b",
+      "statement": "Ordinary creatures wander everywhere so a meal is always findable, but the population mix darkens with distance from the player's entrance; top-tier meat clusters in defended pockets that bite back with swarming packs and elites; the Alpha lair sits at the strong end; and the per-run roll can place an over-tier pocket (e.g. a Rage hollow in the Prairies).",
+      "observable_behaviour": "Walking away from the entrance meets progressively stronger creatures; the strongest meat is only inside pockets guarded by packs and elites; some runs contain a pocket holding meat above the biome's normal ceiling.",
+      "data_contract": "biomes.json: pocket count, palette weights, population/respawn",
+      "depends_on": [
+        "R026",
+        "R024"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "ContentDatabase.Wandering",
+        "ContentDatabase.Pocket",
+        "ContentDatabase.RollSpawn",
+        "ContentDatabase.TierIndex",
+        "ContentDatabase tier literals \"Pale\",\"Dusk\",\"Deep\",\"Rage\",\"Clash\"",
+        "EcosystemManager.PocketLeakChance",
+        "EcosystemManager.FindSpawn",
+        "EcosystemManager.OnBossSpawned",
+        "GameConfig.Boss.SpawnIntervalKills / ScaleMultiplier / HealthMultiplier",
+        "EnemyAI role literals \"prey\",\"grazer\",\"elite\",\"trait_miniboss\",\"alpha\",\"apex\"",
+        "GameConfig.Ecology.SightRadius / MaxHunters / TerritorialPreyShare",
+        "BiomeTerrain.Radius / SampleHeight",
+        "GameManager \"[Run] seed {runSeed}\", \"!! APEX PREDATOR DETECTED !!\""
+      ],
+      "reasoning": "The pocket concept exists in code, but as a *probability of a spawn table*, not as a place. ContentDatabase splits each biome's roster into `Wandering` and `Pocket` lists and rolls from them via `RollSpawn`/`Weight`/`TierIndex`; EcosystemManager then mixes pocket stock into ordinary spawns through a single scalar, `PocketLeakChance`. That means top-tier meat can appear anywhere at some odds, which is the inverse of the design's rule that Clash/top tiers *never wander* and exist only inside guarded locations. Nothing in the inventory represents a pocket as a world region: no pocket-placement, pocket-count, pocket-radius, guard-pack or occupant-converge symbols; `FindSpawn` and `BiomeTerrain.Radius`/`SampleHeight` are the only positional hooks and there is no distance-from-entrance term, no entrance/spawn-point concept, and no per-distance tier or weight scaling anywhere (Ecology exposes only global ContactDamageScale/SpeedScale/SightRadius). Alpha placement is likewise implemented by a different mechanism: `GameConfig.Boss.SpawnIntervalKills` plus `EcosystemManager.OnBossSpawned` spawn the apex on a kill counter with stat multipliers, rather than seating one Alpha lair at the strong end of the map. Elites and trait minibosses exist as role tags on EnemyAI (`elite`, `trait_miniboss`, `alpha`), and hunter-claim logic (`ClaimHunterSlot`, `MaxHunters`) gives swarm-ish pressure, but these are per-creature behaviours, not pocket garrisons. A per-run seed exists (`runSeed`) and biomes.json is parsed, but no symbol suggests a rolled over-tier pocket (Rage hollow in Prairies) \u2014 `PocketLeakChance` is the closest thing and it leaks individuals, not a pocket above the biome ceiling.",
+      "what_exists_instead": "A non-spatial spawn-table model: creatures.json/biomes.json rosters split into Wandering vs Pocket pools, rolled by ContentDatabase.RollSpawn with weights and a TierIndex, and pocket stock bled into ordinary spawns by EcosystemManager.PocketLeakChance. Difficulty scaling is global (GameConfig.Ecology.*Scale, Tiers) rather than distance-based, and the Alpha/apex arrives on a kill-count timer (GameConfig.Boss.SpawnIntervalKills \u2192 OnBossSpawned) instead of occupying a lair placed at the strong end of the biome.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "The parsed data is largely reusable \u2014 ContentDatabase already separates Wandering/Pocket rosters, knows tier order via TierIndex, and biomes.json is loaded, so the tables need labelling into places rather than re-authoring. But the runtime model must be rewritten, not extended: PocketLeakChance-based mixing has to be replaced by spatial pocket sites (count, centre, radius) placed on BiomeTerrain, spawn selection in EcosystemManager.FindSpawn must become a function of distance from the run entrance, guard garrisons of elites/trait_miniboss must be attached to pocket sites, and the kill-count boss trigger (Boss.SpawnIntervalKills \u2192 OnBossSpawned) must be replaced by lair placement at the far/strong end plus a per-run over-tier pocket roll."
+    },
+    {
+      "id": "R028",
+      "name": "Ambient rank rules",
+      "gdd_section": "3.3",
+      "statement": "Spawned creature rank is stated data: prey spawn at the player's rank minus one (floored at 1), elites at the player's rank, Alphas at the player's rank always at Clash, and the Apex at rank 6 Clash.",
+      "observable_behaviour": "A three-limb player meets two-limb prey, three-limb elites and a three-limb Clash Alpha; a one-limb player still meets rank-1 prey rather than rank-0.",
+      "data_contract": "creatures.json rank field; biomes.json Alpha roster",
+      "depends_on": [
+        "R026",
+        "R024"
+      ],
+      "acceptance_test": "Player rank 1 \u2192 prey rank 1 (floored); player rank 4 \u2192 prey rank 3, elites rank 4, Alpha rank 4 Clash.",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Content/ContentDatabase.cs: RollSpawn, GrazerWeight, Weight, TierIndex, Wandering, Pocket, struct SpawnEntry {def, spawn}",
+        "Assets/Scripts/Game/GameConfig.cs: Tiers, struct TierData {name, scale, limbs}, literals \"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Omega\", EvoRequirement, LevelUpRequirement",
+        "Assets/Scripts/Game/Creature.cs: tier, isBoss, Init, BuildVisuals, Evolve",
+        "Assets/Scripts/Game/EnemyAI.cs: role, contentId, ApplyContent, literals \"prey\",\"grazer\",\"elite\",\"trait_miniboss\",\"alpha\",\"apex\"",
+        "Assets/Scripts/Game/EcosystemManager.cs: FindSpawn, PocketLeakChance, OnBossSpawned, Boss.SpawnIntervalKills/ScaleMultiplier/HealthMultiplier",
+        "Assets/Scripts/Game/PlayerController.cs: level, totalKills, RegisterKill, Evolve, score",
+        "Assets/Scripts/Content/FormTable.cs: FormDef.rank (forms.json read by NOTHING)"
+      ],
+      "reasoning": "Creature ranking and spawn selection are both implemented, but on different rules than the design states. Spawn choice goes through ContentDatabase.RollSpawn with weighted rolls (GrazerWeight/Weight) over biome rosters plus Wandering/Pocket lists and EcosystemManager.FindSpawn/PocketLeakChance \u2014 a probability-driven roster draw, not a deterministic 'prey = player rank \u2212 1, elites = player rank, Alpha = player rank at Clash, Apex = rank 6 Clash' assignment. The size/power ladder that exists is GameConfig.Tiers (Alpha/Beta/Gamma/Delta/Omega with scale and limbs) driven by Creature.tier and by kill-count progression (EvoRequirement, LevelUpRequirement, PlayerController.level/totalKills, Creature.Evolve) \u2014 i.e. the player's 'rank' is an XP/kill level, and the boss is a periodic kill-interval spawn (Boss.SpawnIntervalKills) with flat multipliers rather than a same-rank Clash mirror-match. There is no symbol anywhere binding an enemy's rank to the player's current rank, no floor-at-1 clamp, and no Clash forcing for alphas: 'Clash' appears only as an intensity string inside ContentDatabase (alongside Pale/Dusk/Deep/Rage), most plausibly feeding TierIndex/ColorTypeFor for colour-type mapping. The rank field the design names lives on FormDef.rank in FormTable, and forms.json is read by nothing, so the stated rank data is not consumed at all. To satisfy the requirement, the tier/level ladder and the boss-interval spawn path would have to be reworked, not merely extended \u2014 hence CONTRADICTED rather than ABSENT.",
+      "what_exists_instead": "A weighted-roll spawn system (ContentDatabase.RollSpawn + EcosystemManager.FindSpawn/PocketLeakChance) over biome rosters, combined with a five-step legacy tier ladder (GameConfig.Tiers Alpha..Omega with scale/limbs) advanced by kill counts (EvoRequirement/LevelUpRequirement, PlayerController.level, Creature.Evolve), and a boss spawned every N kills with flat stat multipliers (GameConfig.Boss). Roles are tagged by string in EnemyAI.ApplyContent (\"prey\",\"grazer\",\"elite\",\"alpha\",\"apex\") but carry no rank arithmetic.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "Smaller than it looks in one respect: the role taxonomy already exists (EnemyAI.role with prey/grazer/elite/alpha/apex), ContentDatabase already parses creatures.json and already has TierIndex plus the Pale/Dusk/Deep/Rage/Clash intensity vocabulary, and a rank field already exists on FormDef \u2014 it is simply parsed into an unread table. The work is to expose a player rank (limb count) instead of the kill-based level, apply the per-role offset with a floor of 1 at spawn time in FindSpawn/ApplyContent, and force Clash for alpha/apex. But it also requires unwinding the GameConfig.Tiers/EvoRequirement kill-ladder and the Boss.SpawnIntervalKills path that currently own creature scaling, which touches Creature, PlayerController, EcosystemManager and GameConfig."
+    },
+    {
+      "id": "R029",
+      "name": "Trait minibosses and the four traits",
+      "gdd_section": "2.6",
+      "statement": "Four traits \u2014 Fins, Claws, Coat, Heat \u2014 exist only in the meat of four miniboss carriers (Pond-dweller in deep marsh hollows, Crag-holder on rocky outcrops, Shaggy grazer-hunter in the Mountains foothills, Vent-dweller at volcanic seams). Each is a territorial elite, several times tougher than ordinary prey, that fights back and does not flee; eating it grants its traversal permission (water, high ground, freezing peaks, lava).",
+      "observable_behaviour": "The only way past water is to find and eat the Pond-dweller; the miniboss stands its ground and takes many more pounces than normal prey, and the pocket's other occupants tend to converge during the fight. Four such fights occur per run.",
+      "data_contract": "creatures.json: which trait a creature's meat carries, role=elite/miniboss, home biome/placement",
+      "depends_on": [
+        "R026",
+        "R007"
+      ],
+      "acceptance_test": "Coat carriers live in the Mountains foothills, below the lethal cold, so Coat is obtainable without first surviving the peaks.",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/EnemyAI.cs string literals: \"prey\", \"grazer\", \"elite\", \"trait_miniboss\", \"alpha\", \"apex\"",
+        "Assets/Scripts/Game/EnemyAI.cs `enum Attack` members: contentId, role, carriesColour, healsPlayerPct, PounceLungeFactor, ApplyContent",
+        "Assets/Scripts/Game/EnemyAI.cs \u2014 DownedDuration, isLockedByPlayer, hunters, BeginHunterFrame, CountHunter, ClaimHunterSlot, GetEaten",
+        "Assets/Scripts/Game/GameConfig.cs `class Ecology` \u2014 TerritorialPreyShare, MaxHunters, SightRadius",
+        "Assets/Scripts/Content/ContentDatabase.cs \u2014 Wandering, Pocket, RollSpawn, TierIndex, \"alpha\", \"apex\", \"Clash\"",
+        "Assets/Scripts/World/BiomeTerrain.cs `struct TerrainProfile` \u2014 noiseScale, octaves, heightMultiplier, groundColor, Prairies; HeightAt, SampleHeight",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\", RegisterKill, Evolve",
+        "Assets/Scripts/Game/EcosystemManager.cs \u2014 PocketLeakChance, FindSpawn, OnBossSpawned"
+      ],
+      "reasoning": "The carrier half of the requirement is partly wired: EnemyAI recognises a role vocabulary that explicitly includes \"trait_miniboss\" alongside \"elite\"/\"alpha\"/\"apex\", and ApplyContent/role/carriesColour suggest creatures.json role and payload fields are parsed. Territorial, non-fleeing, converging-pack behaviour has plausible support (Ecology.TerritorialPreyShare, MaxHunters, hunters/ClaimHunterSlot, SightRadius), and toughness would come from content stats (hasContentStats on Creature, StatBlock). What is entirely missing is the payoff half: no symbol anywhere names Fins, Claws, Coat or Heat, there is no trait inventory or permission set on PlayerController (its only unlock strings are upgrade_damage/speed/health and gene_points), and the eat path (GetEaten -> RegisterKill) has no trait-grant hook. The gates themselves do not exist: BiomeTerrain exposes only a single Prairies TerrainProfile with height sampling and a ground colour \u2014 there is no water volume, lava field, cold/lethal-altitude zone, or climbable high-ground rule that a permission could unlock, so \"the only way past water is to eat the Pond-dweller\" cannot be true today. Nothing enforces the placement invariant either (no per-biome miniboss placement, no foothills-vs-peaks distinction, no guarantee of four fights per run; only LegacyBiomes/FindSpawn and PocketLeakChance are visible). The mechanism present is not a rival mechanism \u2014 it is the same role taxonomy with the trait payload and terrain gating unbuilt \u2014 so this is PARTIAL rather than CONTRADICTED. Note that carriesColour appears to be the Clash second-tone gift (\u00a72.4b), not a trait, so it is not a mislabelled trait field.",
+      "what_exists_instead": "A role taxonomy in EnemyAI that already includes the literal \"trait_miniboss\" (plus elite/alpha/apex), applied from content via ApplyContent, with territorial/hunter-swarm tuning in GameConfig.Ecology and pocket-vs-wandering spawning in ContentDatabase. Eating a creature routes through EnemyAI.GetEaten -> PlayerController.RegisterKill and yields colour/tier and progression rewards only. Terrain is a single procedural Prairies height field with no water, lava, cold or climb regions, and the player has no trait/permission state.",
+      "must_be_removed": false,
+      "effort": "large",
+      "effort_reason": "The recogniser for role=trait_miniboss already exists, so carrier identification is cheap. The expensive part is net-new: a player trait/permission set with a grant on GetEaten, four traversal gates that need terrain features BiomeTerrain does not generate (water bodies, lava seams, climbable high ground, a lethal-cold altitude band above a survivable foothills band \u2014 currently only TerrainProfile.Prairies with HeightAt/SampleHeight), movement enforcement against those regions, and a generator placement invariant guaranteeing one carrier per correct biome/elevation with Coat below the lethal band."
+    },
+    {
+      "id": "R030",
+      "name": "Trait permanence, face rendering and inheritance",
+      "gdd_section": "2.6a",
+      "statement": "Traits are body, not limbs: they render on the main cubic face, and once acquired nothing in the run removes them \u2014 they survive mutation, are inherited in full by every offspring, and are lost only when the line dies.",
+      "observable_behaviour": "After a mutation that rewrites every limb colour, the gill slits / hooked ridges / matted shell / glowing seam are still on the face and the player can still cross the matching terrain; every offspring in a litter shows all traits the parent held; on death all four are gone next run.",
+      "data_contract": "Run state: set of held traits, separate from limb slots",
+      "depends_on": [
+        "R029",
+        "R022"
+      ],
+      "acceptance_test": "Breeding can never remove a trait a later biome requires, so the breed-and-lose-a-trait soft-lock cannot occur.",
+      "verdict": "ABSENT",
+      "confidence": "high",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs \u2014 fields/methods: totalKills, level, score, BaseSpeed, BaseDamage, BaseHealth, ClassName, Evolve, RegisterKill, Die (no trait collection, no held-trait set)",
+        "Assets/Scripts/Game/Creature.cs \u2014 tier, colorType, bodyColor, hasBodyColor, body, limbs, BuildVisuals, Evolve (colour/limb visuals only; no face-trait rendering)",
+        "Assets/Scripts/Game/Companion.cs \u2014 only `target`, `index` (offspring carry no inherited state)",
+        "Assets/Scripts/Game/EnemyAI.cs \u2014 string literal \"trait_miniboss\" and fields contentId, role, carriesColour, healsPlayerPct in ApplyContent (a trait-guardian role name is read from content, but nothing grants or stores a trait)",
+        "Assets/Scripts/Content/FormTable.cs \u2014 FormDef has silhouette, surface, vfx, socket_layout, stats; no trait field",
+        "Assets/StreamingAssets/panels.json \u2014 read by NOTHING (the sibling power layer of \u00a72.8 is also unwired)"
+      ],
+      "reasoning": "Nothing in the inventory models a trait at all. There is no held-trait set on the player or run state, no face-slot distinct from limb slots, no code path that preserves anything across Evolve (the mutation entry point in PlayerController/Creature), and no inheritance channel \u2014 Companion carries only `target` and `index`, so an offspring cannot receive parent traits. The only trace of the trait subsystem is the enemy role string \"trait_miniboss\" in EnemyAI.ApplyContent, i.e. the creature data apparently labels trait guardians but defeating one has nowhere to deposit a trait: EnemyAI's content fields are contentId/role/carriesColour/healsPlayerPct, and PlayerController.RegisterKill has no trait argument. Traversal gating on traits (crossing matching terrain) is likewise absent \u2014 BiomeTerrain exposes Build/SampleHeight/HeightAt/SetGroundColor with no passability check. This is ABSENT rather than CONTRADICTED: no rival mechanism occupies the space, so the permanence/inheritance rules are additive work, not a rewrite. Note the requirement's implied data is run state, not an asset file, so it is not UNCONSUMED; the unread panels.json belongs to \u00a72.8.",
+      "what_exists_instead": "Only limb/body colour and tier state: Creature.colorType/bodyColor/limbs with Evolve() rebuilding visuals, PlayerController upgrades keyed on \"upgrade_damage\"/\"upgrade_speed\"/\"upgrade_health\" and \"gene_points\", and a bare Companion component for offspring. EnemyAI recognises a \"trait_miniboss\" role string but awards nothing persistent.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "Additive, but touches several files: a persistent trait set plus face-slot rendering in Creature.BuildVisuals (which currently only paints body/limbs), preservation across PlayerController.Evolve and Creature.Evolve, full copy into Companion at spawn, clearing on Die, and a grant hook in EnemyAI where the \"trait_miniboss\" role is already detected in ApplyContent \u2014 that existing role label and the content-driven fields (contentId, role, carriesColour) mean the guardian side is half-wired and cheaper than it looks. Terrain gating would need a new passability check against BiomeTerrain/biomes.json."
+    },
+    {
+      "id": "R031",
+      "name": "Alpha lair and the two-gate unlock",
+      "gdd_section": "2.5",
+      "statement": "Each biome contains one visible Alpha lair landmark that stays empty until both gates are met: a count of distinct forms taken in that biome and a count of coloured prey eaten there (Prairies 3/15, Wetlands 5/20, Mountains 7/25, Beach 9/30, Volcanic 11/35). At 90% of both gates the lair stirs.",
+      "observable_behaviour": "The lair is visible on arrival but inert; meeting only the eat-count or only the form count leaves it inert; at 90% of both it visibly stirs, and on clearing both the Alpha appears.",
+      "data_contract": "biomes.json: distinct-forms gate and prey-eaten gate per biome; run state: per-biome distinct forms and prey-eaten counters",
+      "depends_on": [
+        "R021",
+        "R007",
+        "R026"
+      ],
+      "acceptance_test": "Gate table: Prairies 3 distinct/15 prey (15 reachable forms, 5.0\u00d7 slack), Wetlands 5/20 (20, 4.0\u00d7), Mountains 7/25 (25, 3.6\u00d7), Beach 9/30 (25, 2.8\u00d7), Volcanic 11/35 (25, 2.3\u00d7).",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/GameConfig.cs \u2014 `class Boss` \u2014 SpawnIntervalKills, ScaleMultiplier, HealthMultiplier, DamageMultiplier",
+        "Assets/Scripts/Game/EcosystemManager.cs \u2014 OnBossSpawned, FindSpawn, PocketLeakChance, enemies",
+        "Assets/Scripts/Game/GameManager.cs \u2014 string literals \"!! APEX PREDATOR DETECTED !!\", \"!! {name.ToUpper()} !!\"",
+        "Assets/Scripts/Game/Creature.cs \u2014 isBoss, tier",
+        "Assets/Scripts/Game/EnemyAI.cs \u2014 \"alpha\", \"apex\", \"elite\", \"trait_miniboss\" role strings, ApplyContent",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 totalKills, level, RegisterKill, Evolve",
+        "Assets/Scripts/World/PropScatter.cs \u2014 `class PropSet` (biome, count, clusters, ...) reading art-manifest.json",
+        "Assets/StreamingAssets/forms.json \u2014 **NOTHING READS THIS FILE**"
+      ],
+      "reasoning": "The 'Alpha appears' area of the design is already implemented, but by an entirely different rule: GameConfig.Boss.SpawnIntervalKills plus EcosystemManager.OnBossSpawned/GameManager's \"!! APEX PREDATOR DETECTED !!\" notification spawn an apex/boss on a raw kill-count interval, scaled by ScaleMultiplier/HealthMultiplier/DamageMultiplier. There is no lair landmark object (PropScatter only places manifest-driven decorative props via PropSet, with no lair or per-biome landmark symbol), no per-biome distinct-form counter (PlayerController tracks only totalKills, level, score; forms.json, the source of form identities, is read by nothing), no per-biome prey-eaten counter, no 90% 'stirs' state, and no gate fields surfaced in the biome data path (ContentDatabase exposes Biomes, Wandering, Pocket, RollSpawn, GrazerWeight, TierIndex \u2014 nothing gate-like; GameConfig.BiomeData carries only name/colours). Because the kill-interval boss trigger occupies the same slot the two-gate lair unlock must occupy, it has to be replaced rather than merely extended.",
+      "what_exists_instead": "A kill-count-driven boss spawner: GameConfig.Boss.SpawnIntervalKills fires EcosystemManager.OnBossSpawned, which creates a scaled apex enemy (Creature.isBoss, EnemyAI roles \"alpha\"/\"apex\") and shows GameManager's \"!! APEX PREDATOR DETECTED !!\" banner. No lair landmark, no distinct-form or prey-eaten gates, no stirring state.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "Requires new run-state tracking (per-biome distinct forms and per-biome coloured-prey eaten \u2014 neither counter exists; only PlayerController.totalKills), plumbing forms identity from the currently unread forms.json, adding the five-row gate table to biomes.json plus parsing in ContentDatabase, a persistent lair landmark placed per biome (PropScatter has only decorative PropSet data), a 90% stirring visual state, and gating Alpha spawn on both counters while deleting the SpawnIntervalKills path. Mitigating: enemy roles \"alpha\"/\"apex\" and boss scaling multipliers already exist, so the Alpha creature itself can be reused."
+    },
+    {
+      "id": "R032",
+      "name": "Alpha identity, mirror-match and biome emptying",
+      "gdd_section": "2.5",
+      "statement": "The Alpha that wakes is the champion of the colour the player ate most in that biome, at the player's own rank, always at Clash intensity, with a speed that ignores the colour multiplier and runs flat just above the fastest player form at that rank so it cannot be outrun. When it wakes the biome empties \u2014 prey and grazers bolt \u2014 and it hunts the player across the biome with no topping up.",
+      "observable_behaviour": "Eating mostly Purple produces a Purple Clash Alpha of the player's limb count; dashing away never gains distance on it; after it wakes no prey or grazers remain to eat, so healing is impossible until the fight ends.",
+      "data_contract": "biomes.json Alpha roster; run state: per-biome per-colour eat tally",
+      "depends_on": [
+        "R031",
+        "R028",
+        "R016"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "GameConfig.Boss \u2014 SpawnIntervalKills, ScaleMultiplier, HealthMultiplier, DamageMultiplier",
+        "EcosystemManager \u2014 OnBossSpawned, OnMateSpawned, LegacyBiomes, FindSpawn, PocketLeakChance, \"Apex predator\"",
+        "EnemyAI enum Attack members \u2014 role, carriesColour, healsPlayerPct, PounceLungeFactor, ApplyContent; role literals \"alpha\", \"apex\", \"elite\", \"prey\", \"grazer\"",
+        "Creature \u2014 tier, colorType, isBoss, displayName, Evolve",
+        "PlayerController \u2014 totalKills, level, score, RegisterKill, Evolve (no per-colour or per-biome tally members)",
+        "ContentDatabase \u2014 RollSpawn, TierIndex, ColorTypeFor, Wandering, Pocket, \"alpha\", \"apex\"",
+        "GameManager string \"!! APEX PREDATOR DETECTED !!\"",
+        "forms.json (132,668 bytes) \u2014 read by: NOTHING READS THIS FILE"
+      ],
+      "reasoning": "The codebase does implement an \"alpha/boss wakes and comes for you\" area, but on entirely different rules. Spawning is a kill-count timer (GameConfig.Boss.SpawnIntervalKills) and the alpha's stats are flat multipliers off a base (ScaleMultiplier/HealthMultiplier/DamageMultiplier), with Creature.isBoss and EcosystemManager.OnBossSpawned driving the event. Nothing in the inventory tracks the run state the design requires: PlayerController exposes only totalKills/level/score \u2014 there is no per-biome per-colour eat tally, so the alpha cannot be the champion of the most-eaten colour. There is no gate-progress trigger (no 90%-of-both-gates check; progression symbols are EvoRequirement/LevelUpRequirement, i.e. XP-style thresholds). Rank mirroring is absent: EnemyAI role strings include \"alpha\" and ApplyContent applies content stats, but tier/rank comes from ContentDatabase.TierIndex / GameConfig.Tiers rather than being pinned to the player's rank, and there is no Clash-intensity forcing (intensity exists only in the unread FormDef.intensity). The uncatchable-speed rule is also absent \u2014 speeds come from Ecology.SpeedScale and ClassProfile.speedMult, i.e. multiplier-based, exactly what the design says the alpha must ignore; the \"fastest player form at that rank\" data sits in forms.json which nothing reads. Finally there is no biome-emptying: EcosystemManager still exposes MaxEnemies/SpawnInterval-style continuous top-up (Init, FindSpawn, PocketLeakChance) and no flee/despawn-on-alpha-wake symbol appears; EnemyAI's State enum members were not parsed, so a flee state cannot be ruled out, but no suppression of spawning is visible.",
+      "what_exists_instead": "A kill-count-triggered boss with flat scale/health/damage multipliers (GameConfig.Boss + Creature.isBoss + EcosystemManager.OnBossSpawned), whose colour and tier come from ContentDatabase roster rolls rather than the player's eaten-colour history or rank, alongside continuous enemy top-up spawning that is never suspended.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "GameConfig.Boss's kill-interval + multiplier model and the boss branch of EcosystemManager/Creature must be rewritten, not extended: a per-biome per-colour eat tally must be added to PlayerController/RegisterKill, ContentDatabase must expose a biomes.json Alpha roster lookup keyed by colour (biomes.json is already parsed, so the roster may only need surfacing), rank/Clash must be forced from player rank, spawning must be suspended and existing prey/grazers made to bolt (touching EcosystemManager top-up and EnemyAI states), and the flat speed rule needs the per-rank fastest-form speed from forms.json, which is currently unread."
+    },
+    {
+      "id": "R033",
+      "name": "Emblems",
+      "gdd_section": "2.5, 3.3",
+      "statement": "Knocking the Alpha down and eating it yields its emblem, which opens the way to the next biome and enables breeding while granting no power of its own; emblems persist through mutation and breeding and are recorded permanently.",
+      "observable_behaviour": "Before eating the downed Alpha the route onward is closed and breeding is unavailable; after eating it the route opens, breeding becomes available, and no stat or ability changes.",
+      "data_contract": "emblems.json: which Alpha drops each emblem and which biome it opens (no powers); persisted record of claimed emblems",
+      "depends_on": [
+        "R032",
+        "R007"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/StreamingAssets has no emblems.json (only art-manifest.json, biomes.json, creatures.json, forms.json, panels.json)",
+        "No symbol containing 'emblem' anywhere in the inventory",
+        "EnemyAI: `enum Attack` members `role`, `carriesColour`, `healsPlayerPct`, and methods `GetEaten`, `Die`; string literals \"alpha\", \"apex\"",
+        "PlayerController: `RegisterKill`, `Evolve`, `totalKills`, `level`, `OnBiomeRequest`, literals \"OFFSPRING SPAWNED!\", \"Companion\", \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\", \"LEVEL UP! RANK {level}\"",
+        "GameConfig: `EvoRequirement`, `LevelUpRequirement`, `Boss.SpawnIntervalKills`",
+        "EcosystemManager: `OnBiomeChanged`, `OnBossSpawned`, `OnMateSpawned`; GameManager literal \"ENTERING {biome.name}\"",
+        "Game/Companion.cs `class Companion` \u2014 target, index; Game/MateEnemy.cs"
+      ],
+      "reasoning": "Nothing in the inventory represents an emblem: there is no emblems.json data contract, no claimed-emblem record, and no symbol named anything like Emblem/Trophy/BiomeKey. However, the two gameplay gates the emblem is supposed to control are both already implemented on entirely different rules. Biome progression exists (PlayerController.OnBiomeRequest, EcosystemManager.OnBiomeChanged, GameManager \"ENTERING {biome.name}\") but is driven by requests/level rather than by possessing an Alpha's emblem. Breeding/offspring exists (\"OFFSPRING SPAWNED!\", Companion spawn, OnMateSpawned/MateEnemy) but is a level-up/mate-kill reward, not a capability unlocked by eating a downed Alpha. Eating a creature goes through EnemyAI.GetEaten with `healsPlayerPct` and feeds PlayerController.RegisterKill/Evolve, i.e. consuming an Alpha grants power/progress \u2014 the opposite of the design's 'trophy granting no power of its own'. Boss/Alpha spawning is itself keyed to Boss.SpawnIntervalKills rather than the 90% dual-gate lair wake. So this design area is occupied by a kill-count/level-up progression system that would have to be rewired, not merely extended. Confidence is medium because the inventory gives names, not the actual gating logic inside OnBiomeRequest or Evolve.",
+      "what_exists_instead": "A kill-count/XP progression: GameConfig.EvoRequirement/LevelUpRequirement/Boss.SpawnIntervalKills drive Evolve and boss spawns; biome changes flow through PlayerController.OnBiomeRequest \u2192 EcosystemManager.OnBiomeChanged with no possession check; offspring/companions spawn as a level or mate-kill reward (\"OFFSPRING SPAWNED!\", Companion, MateEnemy); eating enemies heals and awards kills via EnemyAI.GetEaten/healsPlayerPct.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "Requires a new data contract (emblems.json) plus a loader in ContentDatabase alongside creatures/biomes, a persisted claimed-emblem record on the player, an Alpha-downed\u2192eaten claim path in EnemyAI.GetEaten/Die that grants no stats (so healsPlayerPct/RegisterKill/Evolve behaviour on Alphas must change), and gating rewrites in PlayerController.OnBiomeRequest/EcosystemManager.OnBiomeChanged and the offspring path. Only partial luck: the Alpha role already exists as \"alpha\" in EnemyAI.ApplyContent and biome ids are already enumerated in GameConfig/WorldTables, so the target keys for emblem\u2192biome mapping are already available."
+    },
+    {
+      "id": "R034",
+      "name": "Breeding, litters and rank gain",
+      "gdd_section": "2.5",
+      "statement": "With an emblem claimed the player breeds: a litter is offered, each offspring one limb larger, and the player continues as the chosen one. Litter size = 2 + (distinct forms this biome \u2212 the biome's form gate), capped at 5. Offspring inherit rank, all traits, emblems and panels; what varies is which colours their limbs are born loaded with, always at Pale \u2014 committed (monochrome) or flexible (mixed). Limbs cap at six, and rank is gained only this way, never by eating.",
+      "observable_behaviour": "After eating an emblem the player picks from 2\u20135 offspring and resumes play one limb larger with the same traits/emblems/panels but a new starting buffer of Pale colours; eating hundreds of creatures never adds a limb; a six-limb beast is offered no further breeding.",
+      "data_contract": "Run state: rank, offspring definitions (starting buffer per litter-mate)",
+      "depends_on": [
+        "R033",
+        "R018",
+        "R015",
+        "R030"
+      ],
+      "acceptance_test": "A bare clear of the form gate gives two offspring; three distinct forms past the gate caps the litter at five.",
+      "verdict": "CONTRADICTED",
+      "confidence": "high",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs: `Evolve`, `RegisterKill`, `totalKills`, `level`, string literals \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\", \"LEVEL UP! RANK {level}\", \"OFFSPRING SPAWNED!\", \"Companion\"",
+        "Assets/Scripts/Game/GameConfig.cs: `EvoRequirement`, `LevelUpRequirement`, `Tiers`, `struct TierData` \u2014 name, scale, limbs; tier names \"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Omega\"",
+        "Assets/Scripts/Game/Creature.cs: `tier`, `limbs`, `kills`, `Evolve`, `BuildVisuals`",
+        "Assets/Scripts/Game/Companion.cs: `class Companion` \u2014 target, index",
+        "Assets/Scripts/Game/EnemyAI.cs: `GetEaten`, roles \"alpha\", \"apex\", \"trait_miniboss\" (no emblem drop symbol)",
+        "StreamingAssets/forms.json \u2014 read by NOTHING (no distinct-form-per-biome tracking possible)",
+        "StreamingAssets/panels.json \u2014 read by NOTHING"
+      ],
+      "reasoning": "The codebase does implement rank/limb growth, but by exactly the mechanism the design forbids: kills accumulate (`PlayerController.RegisterKill`, `totalKills`, `Creature.kills`) and trip `GameConfig.EvoRequirement` / `LevelUpRequirement`, which calls `PlayerController.Evolve` / `Creature.Evolve` to advance `tier` through `GameConfig.Tiers`, whose `TierData` carries `limbs` and `scale`. So limbs are gained by eating \u2014 the specific thing the requirement says must never happen \u2014 and rank is a kill-threshold level (\"LEVEL UP! RANK {level}\"). None of the designed pipeline exists: no emblem item dropped by the Alpha (EnemyAI has roles \"alpha\"/\"apex\" and `GetEaten` but no emblem symbol), no litter generation, no `litterSize = 2 + (distinctForms - formGate)` capped at 5, no six-limb cap, no per-offspring starting colour buffer (committed monochrome vs flexible mixed, all Pale), no inheritance of traits/emblems/panels, no Bestiary entry for unpicked litter-mates. The distinct-forms-this-biome counter the litter formula needs cannot exist because forms.json is unread, and panels.json is likewise unread, so 'inherit panels' has no data source in code. The one superficial match \u2014 \"OFFSPRING SPAWNED!\" plus `Companion` (target, index) \u2014 is an ally/companion spawn attached to the player, not a litter the player picks from and continues as; it would not satisfy the requirement and its trigger sits inside the same kill-driven progression.",
+      "what_exists_instead": "A kill-count evolution ladder: eating enemies increments `totalKills`/`kills`, crossing `GameConfig.EvoRequirement`/`LevelUpRequirement` fires `Evolve`, bumping `tier` through the five `TierData` entries whose `limbs` field drives `Creature.BuildVisuals` \u2014 i.e. limbs and 'rank' are granted by eating. A separate `Companion`/\"OFFSPRING SPAWNED!\" path spawns a follower rather than offering a litter to become.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "The kill-driven `Evolve`/`EvoRequirement`/`LevelUpRequirement`/`Tiers` path in PlayerController, Creature and GameConfig must be severed from limb count and rewritten as breeding-only, and the whole designed chain is new: Alpha emblem drop on `GetEaten`, per-biome distinct-form tracking (requires wiring the currently unread forms.json), litter-size formula with gate lookup, an offspring-selection UI, per-litter-mate Pale starting buffers in committed/flexible variants, trait/emblem/panel inheritance (panels.json also unread), a six-limb cap and Bestiary entries for unpicked mates. Partial credit only for `TierData.limbs` and `Creature.BuildVisuals`, which already turn a limb count into visuals and can be driven by the new rank value unchanged."
+    },
+    {
+      "id": "R035",
+      "name": "Decorated panels",
+      "gdd_section": "2.8, 3.3",
+      "statement": "Elite creatures only drop decorated meat panels that bolt onto the player's body, each granting a power (longer lock range, stronger dash, tougher guard, brief camouflage). Panels are the run's only power source; capacity grows with the body, panels attach anywhere across the cube's faces without crowding main-face traits, at capacity the player sheds one, the same power does not stack, and they survive mutation and breeding.",
+      "observable_behaviour": "Killing an elite drops a visible panel that studs onto the cube and measurably changes the named stat; a second copy of the same panel does not double the effect; a bigger beast carries more panels; panels are still attached after a mutation and after breeding.",
+      "data_contract": "panels.json: power, magnitude, which elites drop it, attachment point; run state: attached panels and capacity",
+      "depends_on": [
+        "R022",
+        "R034",
+        "R004",
+        "R008"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/StreamingAssets/panels.json (8,028 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "PlayerController: string literals \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\"",
+        "PlayerController: level, score, totalKills, RegisterKill, Evolve, BaseSpeed, BaseDamage, BaseHealth, ClassName",
+        "GameConfig: EvoRequirement, LevelUpRequirement, ClassFor, struct ClassProfile (speedMult, damageMult, healthMult, lungeMult, dashMult)",
+        "EnemyAI: role, carriesColour, healsPlayerPct, ApplyContent, \"elite\", \"trait_miniboss\"",
+        "Creature: Evolve, maxHealth, limbs, tier, colorType",
+        "No Panel/PanelDef/PanelSet/Socket/Attach type anywhere in inventory; FormTable has socket_layout but FormTable.Load is only referenced by forms.json which nothing reads"
+      ],
+      "reasoning": "There is no panel system at all: no Panel type, no panel drop on elite death (EnemyAI.Die/GetEaten exist but only role/carriesColour/healsPlayerPct are visible), no attachment/socket runtime, no capacity or shed logic, and panels.json is explicitly unread. However this is more than a plain gap: the codebase already implements the run's power-progression layer by a completely different mechanism. PlayerController carries level/score/totalKills with LevelUpRequirement and EvoRequirement thresholds and the literals \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\" and \"gene_points\", i.e. a kill-fed level-up/gene-point stat-upgrade tree, plus GameConfig.ClassProfile multipliers (speedMult, damageMult, healthMult, lungeMult, dashMult) chosen by ClassFor on Evolve. The design states panels are the run's ONLY power source and the emblem/evolution is not a power source, so this XP-and-upgrade path is a rival mechanism that must be torn out, not merely supplemented. Note also that the specific powers the design assigns to panels already exist as fields the panel layer would have to drive (PlayerController.LockConeDot / lock range, dash via ClassProfile.dashMult, guard via BaseHealth), so the hook points exist but are wired to levels rather than to carried panels. Nothing addresses no-stacking, capacity growing with the body, face placement avoiding main-face traits, or survival through mutation/breeding.",
+      "what_exists_instead": "A level/gene-point upgrade system: PlayerController tracks totalKills, level, score and emits \"upgrade_damage\"/\"upgrade_speed\"/\"upgrade_health\" and \"gene_points\", gated by GameConfig.LevelUpRequirement/EvoRequirement, with stat effects delivered by GameConfig.ClassProfile multipliers on Evolve. Elites exist as an EnemyAI role but drop nothing except healsPlayerPct healing. panels.json sits in StreamingAssets unparsed.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "Requires a new data layer (a PanelDef/PanelTable loader mirroring FormTable.Load for panels.json), a drop-on-elite-death hook in EnemyAI.Die/GetEaten, runtime attached-panel state with capacity derived from body/tier, dedup and shed-at-capacity rules, per-face attachment visuals that respect trait main-faces in Creature.BuildVisuals, persistence across Creature.Evolve and the breeding/Companion path, and rewiring of the four named powers (LockConeDot, dash, guard/health, camouflage) away from ClassProfile multipliers. It also means deleting the existing gene_points/upgrade_* progression so panels are the sole power source. Only mitigation: panels.json is already authored and the affected stat fields already exist under other owners."
+    },
+    {
+      "id": "R036",
+      "name": "Combat pacing invariant (2\u20133 pounces, no one-shots)",
+      "gdd_section": "2.5",
+      "statement": "Stat tuning must keep a knockdown at 2\u20133 pounces against appropriate targets and more when mismatched, and must never allow a one-shot: the player's Damage is lower than every prey Health bar at every rank.",
+      "observable_behaviour": "Appropriate prey always requires at least two pounces to knock down; no single pounce ever knocks a prey creature straight into the dizzy state at any rank.",
+      "data_contract": "",
+      "depends_on": [
+        "R016",
+        "R005",
+        "R028"
+      ],
+      "acceptance_test": "For every rank, player Damage < every prey Health bar; knockdown of an appropriate target takes 2\u20133 pounces.",
+      "verdict": "ABSENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs: biteDamage, BaseDamage, BaseHealth, \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", Evolve, RegisterKill",
+        "Assets/Scripts/Game/EnemyAI.cs: TakeDamage, Die, GetEaten, \"dizzy\", \"dizzy / vulnerable\", DownedDuration, WindupTime, PounceTime",
+        "Assets/Scripts/Game/Creature.cs: maxHealth, health, isDowned, TakeDamage, Evolve",
+        "Assets/Scripts/Game/GameConfig.cs: ClassProfile.damageMult/healthMult, Ecology.ContactDamageScale, Tiers/TierData",
+        "Assets/Scripts/Editor/ContentCheck.cs: RollSamples, Verify, HasSpawn (spawn-table checks only; no damage-vs-health check)",
+        "Assets/Scripts/Content/FormTable.cs: StatBlock.health/damage, FormDef.rank, FormTable.Load",
+        "StreamingAssets/forms.json \u2014 read by NOTHING"
+      ],
+      "reasoning": "The knockdown/dizzy/eat loop that the invariant is about does exist (EnemyAI with DownedDuration, \"dizzy / vulnerable\", GetEaten; Creature.isDowned/TakeDamage), so the mechanical substrate is present. But nothing in the inventory addresses the pacing *invariant* itself: there is no per-rank stat table driving player damage against prey health, no clamp or assertion that player damage stays below the smallest prey Health bar, and no validator. The one content validator, Editor/ContentCheck.cs, exposes only RollSamples/Verify/HasSpawn and prints spawn-table results (\"(grazer)\", \"rolled: \", \"RESULT: OK\"), i.e. it checks biome spawn coverage, not combat numbers. Player damage instead comes from a free-floating biteDamage/BaseDamage plus unbounded-looking \"upgrade_damage\" purchases and ClassProfile.damageMult, while enemy health comes from ContentDatabase/EnemyAI.ApplyContent and GameConfig multipliers (Boss.HealthMultiplier, Ecology.ContactDamageScale) \u2014 two independent tuning paths with no cross-check, so no code guarantees 2\u20133 pounces or forbids a one-shot. Notably the authored per-rank stat profiles that would supply both sides of the comparison already exist and are already modelled in code (FormTable/StatBlock.health, StatBlock.damage, FormDef.rank), but forms.json is read by nothing, so the tuning data is sitting unused. I treat this as ABSENT rather than UNCONSUMED because the requirement's own 'data implied' is none: what is missing is the enforcement/check, not just a file hookup. Confidence is medium because a regex index cannot show whether TakeDamage internally clamps damage below maxHealth.",
+      "what_exists_instead": "An ad-hoc damage economy: PlayerController.biteDamage/BaseDamage scaled by GameConfig.ClassProfile.damageMult and raised by \"upgrade_damage\" level-up picks, versus enemy health set from creatures.json via EnemyAI.ApplyContent and GameConfig multipliers. The dizzy/knockdown/eat loop exists (isDowned, DownedDuration, GetEaten) but no rank-indexed stat table, no damage<health assertion, and no editor verification of pounce counts; the authored StatBlock data in forms.json is never loaded.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "Mostly additive and cheaper than it looks: FormTable/StatBlock/FormDef.rank already model the authored per-rank health and damage numbers, and forms.json is already in StreamingAssets, so wiring FormTable.Load into ContentDatabase gives both sides of the comparison. The remaining work is a validator in the existing ContentCheck.Verify (walk ranks, compare player damage per rank against the minimum prey Health, assert 2\u20133 pounce range) plus routing PlayerController.BaseDamage and EnemyAI.ApplyContent health through that table and bounding the \"upgrade_damage\" pick so it cannot cross the smallest prey bar. Medium rather than small because two independent existing tuning paths (ClassProfile multipliers and level-up upgrades) must be reconciled with the table."
+    },
+    {
+      "id": "R037",
+      "name": "Conquest win condition",
+      "gdd_section": "1, 2.5",
+      "statement": "Beating all five biome Alphas and breeding to six limbs is a Conquest \u2014 the run's win \u2014 and it opens the Ascension.",
+      "observable_behaviour": "After the fifth emblem and the breed to six limbs, the run is declared a Conquest and the Ascension becomes available.",
+      "data_contract": "",
+      "depends_on": [
+        "R033",
+        "R034"
+      ],
+      "acceptance_test": "",
+      "verdict": "ABSENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs: totalKills, level, score, Evolve, RegisterKill, Die",
+        "Assets/Scripts/Game/GameManager.cs string literals: \"DeathPanel\", \"EXTINCT\", \"Score\", \"RestartButton\", \"NEW EVOLUTION\"",
+        "Assets/Scripts/Game/GameConfig.cs: Tiers, EvoRequirement, LevelUpRequirement, class Boss (SpawnIntervalKills, ScaleMultiplier, HealthMultiplier, DamageMultiplier), TierData(name, scale, limbs) with names \"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Omega\"",
+        "Assets/Scripts/Game/EcosystemManager.cs: OnBossSpawned, OnBiomeChanged, \"Apex predator\"",
+        "Assets/Scripts/Game/EnemyAI.cs enum Attack members: role, contentId, carriesColour; literals \"alpha\", \"apex\", \"trait_miniboss\""
+      ],
+      "reasoning": "Nothing in the inventory represents a win state at all. The only terminal path is loss: GameManager builds a \"DeathPanel\"/\"EXTINCT\"/\"RestartButton\" UI and PlayerController.Die exists, with no counterpart victory/conquest panel, flag, or event. There is no symbol for emblems, no per-biome Alpha-defeat record, no bestiary/persistence, and no Ascension/rank-6 domain (no ascension-related type, scene builder, or literal anywhere, including GameManager's long list of constructed UI objects). Limbs exist only as GameConfig.TierData.limbs and Creature.limbs used for visual construction, and rank advances through PlayerController.Evolve/RegisterKill against GameConfig.EvoRequirement/LevelUpRequirement \u2014 kill-count driven, capped by a five-name Tiers table (Alpha..Omega), so there is not even a six-limb state that a conquest check could test. The nearest existing machinery is a periodic boss (GameConfig.Boss.SpawnIntervalKills, EcosystemManager.OnBossSpawned, \"Apex predator\" notification) plus alpha/apex roles in EnemyAI, but those spawn a scaled enemy on a kill counter and produce no emblem, no biome gating, and no run outcome \u2014 they neither implement nor obstruct the conquest rule, they simply leave the win condition unwritten. I judge this ABSENT rather than CONTRADICTED because no code currently declares any run win by any mechanism; the kill-based rank/boss cadence is a different requirement's contradiction, not this one's.",
+      "what_exists_instead": "Only a loss path (Die + \"EXTINCT\" DeathPanel with Score and NEW EVOLUTION restart) and a kill-count progression: PlayerController.RegisterKill/Evolve against GameConfig.EvoRequirement/LevelUpRequirement, with a periodic scaled boss from GameConfig.Boss.SpawnIntervalKills announced as \"Apex predator\". No emblem, Alpha-per-biome record, six-limb state, conquest flag, or Ascension domain.",
+      "must_be_removed": false,
+      "effort": "large",
+      "effort_reason": "The conquest check itself is a few lines, but every input it needs is missing: emblem awards on Alpha kills, a per-biome defeated-Alpha set across the five biomes (EcosystemManager only exposes OnBiomeChanged/LegacyBiomes), a breeding-driven limb/rank counter to replace kill-driven Evolve, and an entire Ascension domain plus its 25 rank-6 forms \u2014 which would also require reading forms.json, listed in the inventory as read by nothing. Small mitigations: GameConfig.TierData already carries a limbs field and EnemyAI already parses role/\"alpha\"/\"apex\", so the Alpha identification hook exists under existing names."
+    },
+    {
+      "id": "R038",
+      "name": "The Ascension and the Apex",
+      "gdd_section": "2.5, The Ascension",
+      "statement": "The Ascension is rank six's arena, not a biome: always open to any six-limb bloodline, the only place the 25 rank-6 forms exist and can be hunted. The Apex \u2014 a rank-6 Clash creature, the player's final mirror \u2014 sits dormant there and wakes only when the Bestiary holds \u2265100 of 150 forms across all runs; beating it is the true ending above the Conquest. A line short of the record still Conquers, ascends and banks its top-row forms.",
+      "observable_behaviour": "A six-limb bloodline can always enter the Ascension and discover rank-6 forms there; with fewer than 100 forms recorded the Apex lies dormant and cannot be fought; at 100+ it wakes and defeating it produces the true ending.",
+      "data_contract": "forms.json rank-6 rows; persisted Bestiary count",
+      "depends_on": [
+        "R037",
+        "R040",
+        "R023"
+      ],
+      "acceptance_test": "Ranks 1\u20135 hold 125 forms, so \u2265100 is reachable before ever entering the rank-6 row.",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/GameConfig.cs: `class Boss` \u2014 SpawnIntervalKills, ScaleMultiplier, HealthMultiplier, DamageMultiplier",
+        "Assets/Scripts/Game/EcosystemManager.cs: OnBossSpawned, string \"Apex predator\", \"MateEnemy\"",
+        "Assets/Scripts/Game/GameManager.cs: \"!! APEX PREDATOR DETECTED !!\"",
+        "Assets/Scripts/Game/EnemyAI.cs: enum Attack \u2014 role, string literals \"alpha\", \"apex\", \"elite\", \"trait_miniboss\"",
+        "Assets/Scripts/Game/GameConfig.cs: ClassFor / Tiers with \"Apex\", \"Alpha\", \"Beta\", \"Gamma\", \"Delta\", \"Omega\"; Creature.tier, Creature.Evolve, PlayerController.Evolve/RegisterKill/level/totalKills",
+        "Assets/Scripts/Content/FormTable.cs: `class FormDef` \u2014 rank, family, intensity \u2026 `FormTable.Load`",
+        "StreamingAssets/forms.json (132,668 bytes) \u2014 read by: NOTHING READS THIS FILE",
+        "Assets/Scripts/Game/PlayerController.cs: PlayerPrefs-style keys \"gene_points\", \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\""
+      ],
+      "reasoning": "The design's finale is a non-biome Ascension arena, always open to a six-limb bloodline, holding the 25 rank-6 forms, with a dormant rank-6 Clash Apex that wakes only at a persisted Bestiary count of \u2265100/150 forms and yields a true ending above the Conquest. The codebase does implement an 'Apex' encounter, but on entirely different rules: GameConfig.Boss.SpawnIntervalKills drives a recurring boss spawn inside the normal ecosystem (EcosystemManager.OnBossSpawned, \"Apex predator\", GameManager's \"!! APEX PREDATOR DETECTED !!\"), and 'Apex' is also just one of several class profiles/tiers (ClassFor, Tiers: Alpha\u2026Omega) reached by kill-count evolution (PlayerController.RegisterKill/Evolve, Creature.Evolve). There is no Ascension domain or scene, no limb/rank-gated entry, no dormancy state, no true-ending path, and no persistence of a cross-run Bestiary \u2014 the only persisted values visible are upgrade/gene-point keys in PlayerController. Rank-6 form data exists in forms.json and a matching parser (FormDef.rank, FormTable.Load) is present, but nothing loads forms.json, so the rank-6 row is unconsumed. Because a same-topic Apex/boss system exists and works by kill-interval spawning rather than a record gate in a separate arena, this is contradiction rather than mere absence; the existing boss spawn path would have to be rewritten, not extended.",
+      "what_exists_instead": "A recurring 'apex predator' boss that spawns every GameConfig.Boss.SpawnIntervalKills kills within the ordinary biome ecosystem, with stat multipliers, plus 'Apex' as one of several kill-count class/tier names. No arena, no dormancy, no cross-run Bestiary count, no true ending. forms.json (which contains the rank rows) is parsed by FormTable/FormDef code but never loaded.",
+      "must_be_removed": true,
+      "effort": "large",
+      "effort_reason": "Needs a new non-biome Ascension domain and entry condition tied to limb count (no limb/rank breeding system is visible \u2014 rank is currently kill-count Evolve), a cross-run persisted Bestiary with a distinct-form counter and a \u2265100/150 gate, a dormant/awake Apex state machine and a true-ending flow, plus rewiring or deleting the kill-interval boss spawn in EcosystemManager/GameConfig.Boss. One piece is cheap: FormTable/FormDef already models rank and forms.json already holds the rank-6 rows, so wiring FormTable.Load to that file is a small step toward the 25 rank-6 forms."
+    },
+    {
+      "id": "R039",
+      "name": "The Bestiary screen",
+      "gdd_section": "2.9",
+      "statement": "A single Bestiary screen shows rows = limb count (1\u20136) and columns = family (5); each of the 30 cells opens into that family's intensity ladder (Pale \u2192 Dusk \u2192 Deep \u2192 Clash \u2192 Rage) for 150 forms total. Reached forms show in full colour with their authored name, unreached ones as dark silhouettes; the screen also lists every emblem ever taken. It opens from the pause and main menus, its header shows discovered / total and the next milestone, forms found this run are highlighted with Alpha-threshold progress, and offspring the player did not pick appear outlined as known but unachieved.",
+      "observable_behaviour": "Opening the Bestiary from either menu shows a 6\u00d75 grid; clicking a cell reveals five intensity entries; a newly eaten form flips from silhouette to named colour art; declining an offspring adds an outlined entry; the header reads e.g. discovered/150 and the next unlock.",
+      "data_contract": "Persisted Bestiary: discovered form ids, emblems claimed, per-run highlight set",
+      "depends_on": [
+        "R023",
+        "R021",
+        "R033",
+        "R034"
+      ],
+      "acceptance_test": "30 cells \u00d7 5 intensities = 150 forms displayed.",
+      "verdict": "UNCONSUMED",
+      "confidence": "high",
+      "evidence": [
+        "Assets/StreamingAssets/forms.json (132,668 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "Assets/Scripts/Content/FormTable.cs: class FormDef \u2014 id, family, intensity, intensity_pct, rank, name, flavor, base_hex, saturation, silhouette, surface, vfx, socket_layout, stats",
+        "Assets/Scripts/Content/FormTable.cs: class FormTable \u2014 generated_by, count, forms, Load",
+        "Assets/Scripts/Game/GameManager.cs UI builders: MenuPanel, DeathPanel, HudBars, Notification, Title, StartButton, RestartButton",
+        "Assets/StreamingAssets/panels.json \u2014 read by: NOTHING READS THIS FILE"
+      ],
+      "reasoning": "There is no Bestiary UI anywhere in the inventory. GameManager builds the only screens that exist (MenuPanel with Title/Tagline/StartButton, DeathPanel with EXTINCT/Score/RestartButton, plus HUD bars and notifications) \u2014 no pause menu, no grid, no cell/ladder navigation, no discovered/total header, no emblem list, no persistence of discovered form ids or per-run highlight sets. Crucially, the data the requirement needs already exists and is fully typed: forms.json (132 KB) plus FormTable/FormDef with exactly the fields the screen would render (id, family, intensity, rank, name, flavor, base_hex, silhouette). FormTable.Load exists but the inventory explicitly marks forms.json as read by nothing, so the loader is never invoked from runtime code. Nothing in Creature/EnemyAI/PlayerController records discovery: EnemyAI has contentId/role and Creature has tier/colorType, but there is no discovered-set, no emblem store, and PlayerController only persists 'gene_points' and simple upgrade keys via what look like PlayerPrefs strings. So the asset and its schema are present but unconsumed; no contradicting mechanism exists to remove.",
+      "what_exists_instead": "Only two runtime screens built procedurally in GameManager (main menu and death panel) plus HUD bars. FormTable.cs defines FormDef/FormTable with a Load method matching forms.json's schema, but no caller; ContentDatabase loads creatures.json/biomes.json for spawning only. No persistence beyond 'gene_points' and upgrade_* keys in PlayerController.",
+      "must_be_removed": false,
+      "effort": "large",
+      "effort_reason": "The 150-form data and its parse schema already exist (forms.json + FormDef with id/family/intensity/rank/name/base_hex/silhouette), so no authoring or table work is needed \u2014 wiring FormTable.Load in is small. The remainder is substantial new code: a 6x5 grid screen plus intensity-ladder drill-down built in the same hand-rolled procedural-UI style as GameManager's panels, a pause menu (none exists), a persisted discovery/emblem store, discovery hooks at kill/eat sites in EnemyAI/Creature, Alpha-threshold progress display, and outlined entries for declined offspring (breeding/litter code is also absent from the inventory)."
+    },
+    {
+      "id": "R040",
+      "name": "Bestiary persistence across runs",
+      "gdd_section": "1, 2.9",
+      "statement": "The Bestiary is the only persistence: every distinct form any bloodline has ever taken and every emblem claimed is saved across runs and survives death, while all in-run progress (traits, panels, emblems as keys, rank) is lost when Health hits zero.",
+      "observable_behaviour": "Dying returns the player to a one-limb blank cube with no traits or panels, yet the Bestiary still shows every form and emblem discovered before the death, including in the run just lost.",
+      "data_contract": "Save file holding discovered form ids and claimed emblems (no run state)",
+      "depends_on": [
+        "R039",
+        "R009"
+      ],
+      "acceptance_test": "",
+      "verdict": "ABSENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/StreamingAssets/forms.json (132,668 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "Assets/Scripts/Content/FormTable.cs: `class FormDef` (id, family, intensity, rank, name, base_hex...), `class FormTable` \u2014 generated_by, count, forms, Load",
+        "Assets/Scripts/Game/PlayerController.cs \u2014 Die, Evolve, level, score, totalKills (no save/load members)",
+        "Assets/Scripts/Game/GameManager.cs string literals \"DeathPanel\", \"EXTINCT\", \"RestartButton\", \"NEW EVOLUTION\", \"Score\"",
+        "No Bestiary/SaveData/Persistence/PlayerPrefs/JsonUtility-save type anywhere in the index"
+      ],
+      "reasoning": "Nothing in the inventory implements a Bestiary or any cross-run persistence. There is no Bestiary class, no save/load type, no discovered-form registry, and no UI screen for a 6x5 grid or intensity ladder; the only death-related code is GameManager's DeathPanel/RestartButton flow plus PlayerController.Die, which restart a run without recording anything. The form catalogue itself is closer than it looks: FormTable/FormDef already model exactly the axes the Bestiary needs (id, family, intensity, rank, name, base_hex) and forms.json (132 KB, presumably the 150 forms) exists on disk \u2014 but the inventory explicitly states nothing reads forms.json, so FormTable.Load is dead code and no form ids ever reach a persisted record. That makes the form data an unconsumed head start rather than a partial implementation; the requirement itself (save discovered ids + claimed emblems across runs, and reset run state on death) is unaddressed. Note the uncertainty around PlayerController's \"upgrade_damage\"/\"upgrade_speed\"/\"upgrade_health\"/\"gene_points\" literals: if those are keys of a persisted meta-upgrade store they would be a competing persistence mechanism (which the design forbids), but the inventory gives no save API to confirm that, so I do not treat it as contradicting.",
+      "what_exists_instead": "An in-run-only progression: PlayerController tracks level/score/totalKills and Evolve/RegisterKill with GameConfig.EvoRequirement/LevelUpRequirement; death goes to GameManager's DeathPanel/\"NEW EVOLUTION\" restart with no record kept. FormTable/FormDef and forms.json define the 150-form space but are never loaded or displayed.",
+      "must_be_removed": false,
+      "effort": "large",
+      "effort_reason": "Needs a new persisted store (discovered form ids + claimed emblems) with disk read/write, hooks at form-change and emblem-claim time, a run-reset guarantee on death, plus an entire Bestiary screen (30 cells, intensity ladders, silhouettes, discovered/total header, in-run highlighting). Partially offset because FormDef/FormTable and forms.json already encode family/intensity/rank/id/name/base_hex \u2014 the catalogue side only needs wiring, not authoring."
+    },
+    {
+      "id": "R041",
+      "name": "Record milestone unlocks",
+      "gdd_section": "2.9a",
+      "statement": "Discovery count pays out unlocks: 5 = Hatch-choice (start as any discovered Pale form instead of the blank), 15 = Inherited instinct (begin each run holding one earned trait), 35 = Hatch-choice extends to Dusk forms, 60 = Litter floor +1 (no litter smaller than three), 100 = the Apex wakes, 135 = Ancient skin, 150 = The Whole Beast (Genesis skin, save marked 100%).",
+      "observable_behaviour": "With 5 forms recorded the run-start screen offers discovered Pale forms; with 15 the new cube already carries one trait; with 60 a bare gate clear yields three offspring instead of two; at 150 the save reads 100% and the Genesis skin is selectable.",
+      "data_contract": "Persisted unlock flags keyed to discovered-form thresholds",
+      "depends_on": [
+        "R040",
+        "R017",
+        "R030",
+        "R034",
+        "R038"
+      ],
+      "acceptance_test": "The first rung is 5 forms \u2014 inside what a losing first run banks before meeting an Alpha.",
+      "verdict": "ABSENT",
+      "confidence": "high",
+      "evidence": [
+        "Assets/Scripts/Game/PlayerController.cs \u2014 RegisterKill, Evolve, level, score, totalKills, \"gene_points\" (in-run progression only)",
+        "Assets/Scripts/Game/GameManager.cs \u2014 MenuPanel, DeathPanel, StartButton \"INITIALIZE\", RestartButton \"NEW EVOLUTION\" (no bestiary/unlock screen)",
+        "Assets/StreamingAssets/forms.json \u2014 read by: NOTHING READS THIS FILE (the 150-form table the record would key against)",
+        "Assets/Scripts/Content/FormTable.cs \u2014 FormDef.id/family/intensity/rank, FormTable.Load (loader exists but nothing calls it)",
+        "No save/persistence/bestiary/unlock/discovery type anywhere in inventory (no BestiaryData, SaveGame, MetaProgress, UnlockFlags)"
+      ],
+      "reasoning": "The milestone ladder needs three things: a persisted discovered-forms count, threshold flags, and consumers of those flags (hatch-choice at run start, an inherited trait, litter floor, Apex gating, skins). None of the three appear. There is no save/meta type at all \u2014 the only cross-session-looking string is \"gene_points\" in PlayerController, which sits next to \"upgrade_damage\"/\"upgrade_speed\"/\"upgrade_health\" and is clearly the in-run upgrade currency, not a discovery record. GameManager builds a MenuPanel with a single \"INITIALIZE\" StartButton and a DeathPanel with \"NEW EVOLUTION\", so there is no run-start form-choice surface for a 5-form unlock to populate, and no Bestiary screen where discovered/total or the next milestone could be shown. Nothing gates a final boss on a cross-run count: EcosystemManager/GameConfig.Boss drive bosses off SpawnIntervalKills, an in-run kill counter, so the Apex-wakes rung has no hook either. Litter/offspring exists only as PlayerController's \"OFFSPRING SPAWNED!\" plus Companion.index \u2014 no litter-size floor concept. Critically, forms.json (132 KB, the 150 forms whose discovery the thresholds count) is parsed by nothing: FormTable/FormDef declare the shape and expose Load, but no caller appears, so even the denominator of the ladder is unwired. Nothing in this area contradicts the design \u2014 it is simply not built, so nothing must be deleted.",
+      "what_exists_instead": "Only per-run progression: PlayerController tracks totalKills, level, score, Evolve/RegisterKill and spends \"gene_points\" on upgrade_damage/speed/health; GameConfig.Boss spawns bosses every SpawnIntervalKills within a run. GameManager's menus are a bare INITIALIZE/NEW EVOLUTION pair with no bestiary or unlock UI. FormTable.Load and forms.json describe the 150-form space but are never read, and there is no persistence layer of any kind.",
+      "must_be_removed": false,
+      "effort": "large",
+      "effort_reason": "Needs a new persistence layer (discovered-form set + unlock flags surviving death), a discovery recorder wired into Creature/EnemyAI eat-and-evolve paths, and five distinct consumers spread across systems: a run-start hatch-choice screen in GameManager's procedurally built MenuPanel, starting-trait injection in PlayerController, a litter-size floor around the OFFSPRING/Companion path, an Apex gate in EcosystemManager/GameConfig.Boss, and two cosmetic skins. Partly cheaper than it looks: FormTable/FormDef already parse forms.json's id/family/intensity/rank, so the identity keys and the 150-form denominator are ready once something calls FormTable.Load."
+    },
+    {
+      "id": "R042",
+      "name": "Run restart as a one-limb blank",
+      "gdd_section": "1, 2.5",
+      "statement": "When the line ends, the next run begins with a new blank white one-limb cube in a freshly generated Prairies, subject to any unlocked hatch-choice or inherited instinct.",
+      "observable_behaviour": "After death, starting again places the player as a one-limb cube in the Prairies with no traits, panels or emblems (except those granted by unlocked milestones).",
+      "data_contract": "",
+      "depends_on": [
+        "R017",
+        "R040",
+        "R026",
+        "R041"
+      ],
+      "acceptance_test": "",
+      "verdict": "CONTRADICTED",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Game/GameManager.cs: \"DeathPanel\", \"EXTINCT\", \"RestartButton\", \"NEW EVOLUTION\", \"Score\"",
+        "Assets/Scripts/Game/PlayerController.cs: Die, gameStarted, level, score, totalKills",
+        "Assets/Scripts/Game/PlayerController.cs string literals: \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", \"gene_points\"",
+        "Assets/Scripts/Game/GameManager.cs: \"Player\", \"GREEN\", \"prairies\", \"Prairies\"",
+        "Assets/Scripts/World/BiomeTerrain.cs: TerrainProfile.Prairies, Build, BuildHeightCurve",
+        "Assets/Scripts/Game/GameConfig.cs: Tiers, TierData(name, scale, limbs) with \"Alpha\"..\"Omega\"",
+        "Assets/Scripts/Game/PlayerController.cs: Evolve, \"EVOLVED \u2014 {classProfile.name.ToUpper()}!\", \"LEVEL UP! RANK {level}\"",
+        "No Bestiary / hatch-choice / inherited-instinct / form-count symbol anywhere; forms.json is read by NOTHING"
+      ],
+      "reasoning": "A death-and-restart loop clearly exists (DeathPanel/EXTINCT/RestartButton \"NEW EVOLUTION\", PlayerController.Die, gameStarted gating, GameManager spawning \"Player\" into \"prairies\" with BiomeTerrain.TerrainProfile.Prairies), so this area is implemented \u2014 but on different rules than the design. Two divergences are structural, not additive. First, the restarting creature is not a blank white one-limb cube: GameManager spawns the player with \"GREEN\" and rank is a level/kill-driven ladder (PlayerController.level, Evolve, \"LEVEL UP! RANK {level}\", GameConfig.Tiers Alpha..Omega with TierData.limbs), so limbs come from eating/levelling rather than from a fresh one-limb blank. Second, the cross-run carry-over is a gene-point stat shop, not the Bestiary milestone ladder: PlayerController holds \"gene_points\", \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\", meaning the next run begins with purchased stat boosts rather than a blank state modified only by hatch-choice or inherited instinct. There is no Bestiary, no discovered-form count, and forms.json (the 150-form table the milestones key off) is read by nothing, so hatch-choice and inherited instinct have no substrate at all. The restart plumbing itself and the Prairies regeneration can be reused; the progression carry-over must be replaced.",
+      "what_exists_instead": "A roguelite restart that returns the player to a GREEN cube in a regenerated Prairies, with rank/limbs driven by kill-based Evolve/level-ups (GameConfig.Tiers) and cross-run persistence provided by a gene-point upgrade shop (\"gene_points\", \"upgrade_damage\", \"upgrade_speed\", \"upgrade_health\") instead of a Bestiary with hatch-choice and inherited-instinct unlocks.",
+      "must_be_removed": true,
+      "effort": "medium",
+      "effort_reason": "Restart flow, prairies generation and tier/limb data already exist and are reusable, so the fresh-run spawn only needs its start colour (white instead of \"GREEN\") and a forced one-limb rank. The real work is deleting the gene_points/upgrade_* carry-over in PlayerController and adding a persistent discovered-form record; forms.json is already in StreamingAssets and FormTable/FormDef parsing code already exists (currently unread), so the data layer for milestone thresholds is largely free."
+    },
+    {
+      "id": "R043",
+      "name": "Generator invariants and seed refusal",
+      "gdd_section": "3.3",
+      "statement": "At generation time the generator must guarantee five invariants and refuse the seed otherwise: (1) every trait gate in a biome has a reachable carrier outside the terrain that trait unlocks; (2) the rolled palette contains enough distinct families to keep the reachable pool at least ~1.5\u00d7 the form gate (min_distinct_colours = 4 in Prairies/Wetlands/Mountains, 5 in Beach and Volcanic); (3) standing population plus respawn can supply the biome's coloured-prey count with margin; (4) the plausible most-eaten colour is present in that biome's Alpha roster; (5) a trait required by a later biome remains obtainable given the expected trait set on entry.",
+      "observable_behaviour": "No generated biome can be entered in a state where a required trait carrier is behind its own gate, where the form gate is unclearable, or where prey run out; failing rolls are rejected and re-rolled rather than shipped.",
+      "data_contract": "biomes.json: min_distinct_colours, population/respawn, Alpha roster, gate thresholds",
+      "depends_on": [
+        "R026",
+        "R029",
+        "R031",
+        "R027"
+      ],
+      "acceptance_test": "A 3-family Volcanic roll would clear the 11-form gate (3 \u00d7 5 = 15) but collapse slack from 2.3\u00d7 to 1.36\u00d7, so it is refused.",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Editor/ContentCheck.cs: class ContentCheck \u2014 RollSamples, Verify, HasSpawn; menu literal \"Tools/Morphivore/Verify World Content\"; result literals \"  RESULT: OK\" / \"  RESULT: PROBLEMS FOUND (see above)\"; colour literals \"Yellow\",\"Red\",\"Blue\",\"Purple\",\"Grey\"",
+        "Assets/Scripts/Content/ContentDatabase.cs: Load, Wandering, Pocket, RollSpawn, GrazerWeight, Weight, ColorTypeFor, TierIndex; struct SpawnEntry {def, spawn}",
+        "Assets/Scripts/Game/GameManager.cs string literal \"[Run] seed {runSeed}\" (seeded run exists, no refusal path)",
+        "Assets/Scripts/Content/WorldTables.cs / GameConfig.BiomeData.enemyColors \u2014 static per-biome colour lists rather than a per-run rolled palette validated against min_distinct_colours",
+        "No symbols anywhere for traits/gates (no Fins/Claws/Coat/Heat, no gate threshold or carrier-reachability members) and no Alpha-roster validation members"
+      ],
+      "reasoning": "The only thing in the codebase resembling invariant checking is the editor-only tool ContentCheck (RollSamples / Verify / HasSpawn), which samples ContentDatabase.RollSpawn per biome and reports whether the expected colour families have spawn entries, printing \"RESULT: PROBLEMS FOUND\". That touches the spirit of invariants 2 and 3 (colour coverage / spawnability) but it is an offline, human-invoked report on the static JSON, not a generation-time guard that refuses a seed and re-rolls. None of the five stated rules are implemented as specified: there is no per-run palette roll subject to min_distinct_colours (4 in Prairies/Wetlands/Mountains, 5 in Beach/Volcanic) and no ~1.5x slack computation against a form gate; there is no trait system at all (no Fins/Claws/Coat/Heat symbols, no gate or carrier-reachability members), so invariants 1 and 5 have nothing to check; there is no population-plus-respawn margin math against a coloured-prey count; and there is no Alpha-roster membership test for the plausible most-eaten colour. The seed is only logged (\"[Run] seed {runSeed}\"), never rejected. Inventory cannot show whether biomes.json actually carries min_distinct_colours or gate thresholds, but no reader symbol for such fields appears in ContentDatabase, so any such fields are effectively unconsumed.",
+      "what_exists_instead": "An editor menu tool (ContentCheck.Verify) that samples ContentDatabase.RollSpawn per biome and prints OK / PROBLEMS FOUND for colour-family spawn coverage, plus static per-biome colour lists in WorldTables/GameConfig.BiomeData.enemyColors. Runs log a seed but never validate or reject it.",
+      "must_be_removed": false,
+      "effort": "large",
+      "effort_reason": "Four of five invariants have no substrate: traits/gates and carrier reachability do not exist as types or fields anywhere, and there is no per-run palette roll object to validate (colours are static tables). Closing the gap means introducing a run-generation step with a reject/re-roll loop, per-biome min_distinct_colours and gate thresholds read from biomes.json, respawn/population margin math, and Alpha-roster lookups. The one cheap piece is ContentCheck.Verify/HasSpawn/RollSamples: that sampling logic is already the right shape for invariants 2-3 and could be lifted out of Editor into the runtime generator instead of rewritten."
+    },
+    {
+      "id": "R044",
+      "name": "JSON content loading with schema check and fallback",
+      "gdd_section": "3.3",
+      "statement": "All content \u2014 biomes.json, creatures.json, forms.json, panels.json, emblems.json \u2014 is loaded from runtime JSON rather than hardcoded C#, schema-checked on load; a malformed or missing file logs a specific error and falls back to built-in defaults rather than starting broken.",
+      "observable_behaviour": "Editing a multiplier in a JSON file changes gameplay on next load without a recompile; deleting or corrupting one file produces a named error in the log and the game still boots on defaults.",
+      "data_contract": "biomes.json, creatures.json, forms.json, panels.json, emblems.json plus a schema per file and built-in default sets",
+      "depends_on": [
+        "R023",
+        "R024",
+        "R026",
+        "R035",
+        "R033"
+      ],
+      "acceptance_test": "",
+      "verdict": "PARTIAL",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Content/ContentDatabase.cs: `class ContentDatabase` \u2014 IsLoaded, LoadError, Load, ReadStreamingAsset, Fail, ById, RollSpawn (reads \"creatures.json\", \"biomes.json\")",
+        "ContentDatabase string literal \"biomes.json parsed but held no biomes\" (minimal validity check + named error)",
+        "Assets/Scripts/Content/FormTable.cs: `class FormTable` \u2014 generated_by, count, forms, Load; `class FormDef` \u2014 family, intensity, rank, name, socket_layout, stats; `class StatBlock` \u2014 health, damage, speed, reach, dash",
+        "Data contract: `forms.json` (132,668 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "Data contract: `panels.json` (8,028 bytes) \u2014 read by: **NOTHING READS THIS FILE**",
+        "No emblems.json in Assets/StreamingAssets listing",
+        "Assets/Scripts/Game/GameConfig.cs: Tiers, BiomeNeon, BiomeMagma, BiomeCrystal, VisualsForBiome, ClassFor, Ecology, Boss (hardcoded tables)",
+        "Assets/Scripts/Game/EcosystemManager.cs: LegacyBiomes",
+        "Assets/Scripts/Content/WorldTables.cs (70 lines, hardcoded colour strings)",
+        "Assets/Scripts/Editor/ContentCheck.cs: RollSamples, Verify, HasSpawn (editor-time verification only)"
+      ],
+      "reasoning": "The loading pipeline exists but covers only two of the five specified files. ContentDatabase.Load reads creatures.json and biomes.json from StreamingAssets, exposes IsLoaded/LoadError and a Fail path with at least one named message (\"biomes.json parsed but held no biomes\"), and hardcoded tables (GameConfig.Tiers/BiomeNeon/BiomeMagma/BiomeCrystal/VisualsForBiome, EcosystemManager.LegacyBiomes, WorldTables) plausibly serve as the built-in defaults when load fails \u2014 so the fallback intent is at least sketched for those two files. Beyond that: forms.json is present and 132 KB but the inventory states nothing reads it, even though FormTable/FormDef/StatBlock mirror its schema exactly (family, intensity, rank, name, socket_layout, stats) and expose a Load entry point \u2014 the parser is written but never fed the StreamingAssets file. panels.json is present and unread with no corresponding type at all. emblems.json does not exist in the project. Schema checking is not per-file and not real validation: what exists is a non-empty check inside ContentDatabase plus an editor-only tool (ContentCheck.Verify/HasSpawn/RollSamples) that samples spawn rolls at author time, not a load-time schema gate that names the offending file and field. Nothing in the inventory indicates a default-set object distinct from the general-purpose hardcoded config, so the 'falls back to defaults rather than starting broken' rule is unverified for anything other than the two loaded files.",
+      "what_exists_instead": "A two-file runtime loader (ContentDatabase for creatures.json + biomes.json) with an IsLoaded/LoadError/Fail path and a light non-empty sanity check, alongside hardcoded C# tables (GameConfig, WorldTables, EcosystemManager.LegacyBiomes) that double as the legacy/default content. forms.json and panels.json sit in StreamingAssets unread; FormTable exists as an unwired parser; emblems.json is absent entirely.",
+      "must_be_removed": false,
+      "effort": "medium",
+      "effort_reason": "Smaller than it looks for forms: FormTable/FormDef/StatBlock already match the forms.json schema and FormTable.Load exists, so wiring it through ContentDatabase.ReadStreamingAsset is small. Remaining work is a panels.json DTO + loader, authoring emblems.json plus its DTO, a per-file schema/validation pass that logs the named file on failure, and an explicit built-in default set per file (currently only implicit in GameConfig/WorldTables) \u2014 additive, no deletion of the existing loader required."
+    },
+    {
+      "id": "R045",
+      "name": "Unity MCP editor bridge",
+      "gdd_section": "3.3",
+      "statement": "A custom Unity Editor plugin (MCPBridge.cs / MCPBridgeWindow.cs) listens on a local socket only and exposes write_file, refresh_assets, play and get_components; agents write only to Assets/Scripts/ and docs/ (never binaries), and validation is asset refresh, then grepping ~/Library/Logs/Unity/Editor.log for 'error CS' as the source of truth, then Play mode. The bridge is unreachable during domain reload and callers must wait and re-ping.",
+      "observable_behaviour": "Issuing write_file then refresh_assets over the local socket updates the project; during domain reload pings fail for a bounded window and then succeed; compile errors are found in Editor.log rather than the bridge's own log.",
+      "data_contract": "",
+      "depends_on": [],
+      "acceptance_test": "The bridge is unreachable for 8\u201313 s during domain reload, so agents wait and re-ping.",
+      "verdict": "PRESENT",
+      "confidence": "medium",
+      "evidence": [
+        "Assets/Scripts/Editor/MCPBridge.cs \u2014 class MCPBridge: Port, Start/Stop, AcceptLoop, HandleClient, DoWebSocketHandshake, ServeWebSocket, ReadFrame/WriteFrame, FlushMainThreadQueue, Dispatch",
+        "MCPBridge command literals: \"ping\"/\"pong\", \"write_file\", \"refresh_assets\", \"play\", \"stop\", \"get_components\", \"get_logs\", \"read_file\", \"list_scripts\", \"execute_menu_item\", \"batch\"",
+        "MCPBridge members: WriteFile, RefreshAssets, SetPlayMode, GetComponents, GetLogs",
+        "Assets/Scripts/Editor/MCPBridgeWindow.cs \u2014 class MCPBridgeWindow: Open, _green/_red, literals \"MCP Bridge\", \"Start Bridge\", \"Stop Bridge\", \")}  (port {MCPBridge.Port})\"",
+        "MCPBridge log path literal \".config/unity3d/Editor.log\" and \"Editor.log not found\""
+      ],
+      "reasoning": "Both files named in the design exist and expose exactly the four required commands plus ping/pong for re-probing after domain reload. MCPBridge has a listener/accept loop with a Port constant and a main-thread queue (FlushMainThreadQueue) \u2014 the standard shape for an editor-side socket server that goes dead across domain reload; MCPBridgeWindow gives the status/start/stop UI. WriteFile, RefreshAssets, SetPlayMode and GetComponents are present as members, matching the write\u2192refresh\u2192play validation loop. GetLogs reads an Editor.log file, i.e. the log file is treated as the source of truth rather than the bridge's own buffer, as specified. Two things the inventory cannot confirm: whether the listener is bound to loopback only ('local socket only'), and whether GetLogs/agents filter for 'error CS'. One visible deviation is cosmetic-but-real: the Editor.log path literal is the Linux location \".config/unity3d/Editor.log\", not the document's \"~/Library/Logs/Unity/Editor.log\" \u2014 a platform constant, not a mechanism difference. The bridge also exposes extra commands (create_gameobject, set_transform, set_parent, add_component, destroy_gameobject, batch) beyond the four listed; these are additions, and the design's 'agents write only to Assets/Scripts/ and docs/, never binaries' is a process constraint that the inventory gives no evidence of being enforced in code (no visible path allow-list in WriteFile).",
+      "what_exists_instead": "A WebSocket-over-HTTP editor bridge on a local port with the four required commands present plus a superset of scene-manipulation commands; Editor.log is read from the Linux path rather than the macOS path named in the GDD.",
+      "must_be_removed": false,
+      "effort": "small",
+      "effort_reason": "The mechanism is already built; closing the residual gaps is a one-line platform-aware Editor.log path (the value is already parsed and used, just under the Linux location) and, if the write allow-list is genuinely absent, a short prefix check inside the existing WriteFile method."
+    }
+  ]
+}

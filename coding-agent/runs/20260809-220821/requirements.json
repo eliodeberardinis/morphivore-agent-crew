@@ -1,0 +1,587 @@
+{
+  "requirements": [
+    {
+      "id": "R001",
+      "name": "Dual input mapping (keyboard+mouse and gamepad)",
+      "gdd_section": "2.1, 4.1 (referenced)",
+      "statement": "The game must expose one action set \u2014 move, lock on, pounce, dash, poop \u2014 bound simultaneously to keyboard+mouse (WASD, right-click, left-click, Space, Q) and gamepad (left stick, left trigger, A, right trigger, B), both treated as first-class.",
+      "observable_behaviour": "A player can perform every listed action with either device without entering a settings menu, and can swap mid-run: pressing Q and pressing B both poop the oldest colour; left-click and A both pounce.",
+      "data_contract": "",
+      "depends_on": [],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R002",
+      "name": "Top-down movement and facing",
+      "gdd_section": "2.1",
+      "statement": "The player beast moves in the top-down plane under WASD / left-stick input and always faces the direction it is moving.",
+      "observable_behaviour": "Holding a direction moves the cube-beast that way and rotates its front to match; releasing input stops it facing the last travel direction.",
+      "data_contract": "",
+      "depends_on": [
+        "R001"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R003",
+      "name": "Solid bodies and obstacles",
+      "gdd_section": "2.1",
+      "statement": "Creatures and terrain obstacles are solid; neither the player nor creatures may pass through them.",
+      "observable_behaviour": "Walking into a standing creature or a rock stops the player rather than overlapping it; a pounce into a standing creature bounces the player back instead of passing through.",
+      "data_contract": "",
+      "depends_on": [
+        "R002"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R004",
+      "name": "Lock-on targeting",
+      "gdd_section": "2.1",
+      "statement": "Holding right-click / left trigger locks the nearest creature inside the player's facing cone; lock range is a stat that grows as the player evolves, and the lock breaks if the target gets far enough away.",
+      "observable_behaviour": "A red ring snaps over the nearest creature ahead while the button is held; releasing or running away removes the ring. A higher-rank/longer-reach form locks targets that a one-limb blank could not.",
+      "data_contract": "",
+      "depends_on": [
+        "R001",
+        "R002"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R005",
+      "name": "Pounce attack",
+      "gdd_section": "2.1",
+      "statement": "Left-click / A launches the player at the locked creature with no charge meter; hitting a standing creature drains that creature's Health and bounces the player back.",
+      "observable_behaviour": "Pressing pounce while locked visibly leaps the beast at the target, the target's health drops, and the player recoils away from the impact.",
+      "data_contract": "",
+      "depends_on": [
+        "R004",
+        "R003"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R006",
+      "name": "Knockdown / dizzy state",
+      "gdd_section": "2.1",
+      "statement": "At zero Health a creature does not die but collapses into a dizzy state (squashed, spinning); if left too long it rises again at half health.",
+      "observable_behaviour": "A creature reduced to zero health flattens and spins in place instead of vanishing; if the player ignores it, it stands back up with a half-full health bar.",
+      "data_contract": "",
+      "depends_on": [
+        "R005"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R007",
+      "name": "Eating a downed creature",
+      "gdd_section": "2.1, 2.3",
+      "statement": "Pouncing a creature that is already dizzy eats it, consuming the creature and applying its meat effect (colour+tier to the buffer for coloured prey, healing for grazers), with distinct visuals per meal type.",
+      "observable_behaviour": "A second pounce on a downed creature removes it from the world; prey meat visibly streams into one of the player's limbs, grazer meat dissolves into the body.",
+      "data_contract": "",
+      "depends_on": [
+        "R006"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R008",
+      "name": "Dash",
+      "gdd_section": "2.1, 2.3",
+      "statement": "Space / right trigger performs a dash whose speed is the form's Speed multiplied by its family Dash multiplier.",
+      "observable_behaviour": "Pressing dash produces a burst of movement; a Red Leaper's dash visibly covers far more ground than a Yellow Brawler's.",
+      "data_contract": "",
+      "depends_on": [
+        "R001",
+        "R002",
+        "R016"
+      ],
+      "acceptance_test": "Red family Dash multiplier 1.6 vs Yellow 0.8 \u2014 the Red form's dash is measurably twice the Yellow form's at equal rank."
+    },
+    {
+      "id": "R009",
+      "name": "Single Health meter and permadeath",
+      "gdd_section": "1, 2.3",
+      "statement": "The player has exactly one meter, Health; when it reaches zero the bloodline ends and the run is over permanently.",
+      "observable_behaviour": "One bar is shown on the HUD and no second resource exists; taking lethal damage ends the run outright with no continue.",
+      "data_contract": "",
+      "depends_on": [],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R010",
+      "name": "Grazers as the healing supply",
+      "gdd_section": "2.3",
+      "statement": "Grazers are harmless, no-colour, limbless white herbivores scattered thinly in every biome; they never fight, bolt the instant they are locked, and eating one restores a chunk of current-maximum Health without changing the player's form. Their flee speed is authored below every form's dash speed, and they never count toward an Alpha's eat-count.",
+      "observable_behaviour": "Locking a grazer makes it run immediately; the player can always catch it by dashing regardless of current form; eating it refills part of the Health bar while the body and limb colours stay unchanged, and the Alpha prey counter does not increase.",
+      "data_contract": "creatures.json: role=grazer entries with no colour family, no meat tier, grazer flee speed, home biomes",
+      "depends_on": [
+        "R007",
+        "R009",
+        "R008"
+      ],
+      "acceptance_test": "Grazer flee speed in creatures.json must be lower than Speed \u00d7 family Dash multiplier for every one of the 150 forms."
+    },
+    {
+      "id": "R011",
+      "name": "Predator AI: hunting the player",
+      "gdd_section": "2.2",
+      "statement": "Creatures of the player's size or larger hunt the player with the same lock/pounce rules: a pulsing orange halo warns the player of a lock, smaller attackers stand still to wind up while bigger ones keep closing, the pounce direction commits only at the end of the wind-up, and running far enough breaks the lock.",
+      "observable_behaviour": "When an enemy locks the player an orange halo pulses; sidestepping during a small enemy's stationary wind-up makes its pounce miss, hitting it during the wind-up cancels it, and sprinting away drops the halo. Larger enemies close distance while the halo is up.",
+      "data_contract": "",
+      "depends_on": [
+        "R004",
+        "R005"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R012",
+      "name": "Prey reactions: fleeing and floating health bars",
+      "gdd_section": "2.2",
+      "statement": "Creatures smaller than the player flee from it, and any damaged creature displays a floating health bar.",
+      "observable_behaviour": "Approaching a smaller creature makes it run away; once a creature has taken any damage a small bar floats above it showing the remainder.",
+      "data_contract": "",
+      "depends_on": [
+        "R005"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R013",
+      "name": "Five colour families and their stat multipliers",
+      "gdd_section": "2.4",
+      "statement": "Coloured creatures and player forms belong to one of five families \u2014 Yellow Brawler, Red Leaper, Blue Sniper, Purple Stalker, Grey Apex \u2014 each defined by multipliers on Health, Speed, Damage, Reach and Dash representing its full (Rage) expression.",
+      "observable_behaviour": "Switching family visibly changes how the beast plays: a Yellow form carries the longest bar and hits hardest but is slowest; a Blue form strikes from far outside a Yellow's reach.",
+      "data_contract": "forms.json / creatures.json: family field; per-family multiplier set (Health, Speed, Damage, Reach, Dash)",
+      "depends_on": [],
+      "acceptance_test": "Yellow 1.5/0.85/1.5/0.9/0.8; Red 0.8/1.3/0.7/1.0/1.6; Blue 0.9/1.0/1.0/1.7/1.0; Purple 0.9/1.15/0.95/1.2/1.2; Grey 1.3/1.2/1.3/1.15/1.3 (Health/Speed/Damage/Reach/Dash)."
+    },
+    {
+      "id": "R014",
+      "name": "Intensity scaling of family multipliers",
+      "gdd_section": "2.4, 2.4b",
+      "statement": "An intensity tier scales each family multiplier's distance from 1.0: Pale 25%, Dusk 50%, Deep 75%, Clash ~90% plus a minor second-tone gift, Rage 100%. The Clash gift is authored per form.",
+      "observable_behaviour": "A Pale Yellow form plays only slightly tougher and slower than the blank, while a Rage Yellow form expresses the full 1.5/0.85/1.5 trade; a Clash form shows near-full expression plus its authored second-tone bonus.",
+      "data_contract": "forms.json: intensity field, stat profile derived from the scaling rule (hand-tuned), per-form Clash gift",
+      "depends_on": [
+        "R013"
+      ],
+      "acceptance_test": "Pale Yellow Health multiplier = 1 + 0.25\u00d7(1.5\u22121) = 1.125; Deep Yellow = 1.375; Rage Yellow = 1.5."
+    },
+    {
+      "id": "R015",
+      "name": "Limb baseline stat table",
+      "gdd_section": "2.4",
+      "statement": "Limb count (1\u20136) sets baseline Health, Damage, Speed and Reach before family and intensity multipliers apply.",
+      "observable_behaviour": "Gaining a limb raises the raw bar most noticeably as durability, with speed creeping up only slightly.",
+      "data_contract": "Rank baseline table (limbs \u2192 Health/Damage/Speed/Reach)",
+      "depends_on": [],
+      "acceptance_test": "Health 100/150/200/250/300/350; Damage 40/55/70/85/100/115; Speed 12/13/14/15/16/17; Reach 16/19/22/25/28/31 for limbs 1\u21926."
+    },
+    {
+      "id": "R016",
+      "name": "Final stat composition (rank baseline \u00d7 family \u00d7 intensity)",
+      "gdd_section": "2.4",
+      "statement": "A form's live stats are the limb baseline multiplied by the family multiplier scaled by intensity, producing the player's current Health max, Damage, Speed, Reach and Dash.",
+      "observable_behaviour": "The HUD bar length and observable damage/speed change immediately and consistently when either rank or form changes; no colour is strictly best because Health is one of the multiplied axes.",
+      "data_contract": "forms.json stat profile per form",
+      "depends_on": [
+        "R013",
+        "R014",
+        "R015"
+      ],
+      "acceptance_test": "A 2-limb Rage Brawler and a 5-limb Pale Brawler are both Yellow and must produce clearly different stat lines from the same tables."
+    },
+    {
+      "id": "R017",
+      "name": "The blank (form zero)",
+      "gdd_section": "2.4, 2.5",
+      "statement": "The hatchling is a white cube with one bare limb and multiplier 1.0 on every axis; it is the empty state and is not one of the 150 forms.",
+      "observable_behaviour": "A new run starts as a plain white one-limb cube whose stats equal the rank-1 baseline exactly, and the Bestiary count does not include it.",
+      "data_contract": "",
+      "depends_on": [
+        "R015"
+      ],
+      "acceptance_test": "Blank stats = Health 100, Damage 40, Speed 12, Reach 16."
+    },
+    {
+      "id": "R018",
+      "name": "The colour buffer (FIFO limb slots)",
+      "gdd_section": "2.4a",
+      "statement": "Each limb holds exactly one colour unit (family + tier) or white; eating fills a white limb first, and if no limb is white the meal evicts the oldest colour, strictly FIFO.",
+      "observable_behaviour": "With a white limb free, a meal loads that limb; with all limbs coloured, the next meal replaces the colour that has been held longest, never a newer one.",
+      "data_contract": "Persisted run state: ordered list of limb slots, each {family, tier} or white, with insertion order",
+      "depends_on": [
+        "R007"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R019",
+      "name": "Poop the oldest colour",
+      "gdd_section": "2.1, 2.4a",
+      "statement": "Q / B ejects the oldest colour in the buffer, turning that limb white, so the player can clear a slot before hunting a chosen colour into it.",
+      "observable_behaviour": "Pressing poop makes the oldest-coloured limb visibly go white and no new colour is added; repeating it strips colours in eating order.",
+      "data_contract": "",
+      "depends_on": [
+        "R018",
+        "R001"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R020",
+      "name": "Next-slot-to-be-overwritten indicator",
+      "gdd_section": "2.4a",
+      "statement": "The limb that the next meal will overwrite (the oldest colour) pulses on the player's body at all times.",
+      "observable_behaviour": "One limb visibly pulses; after eating or pooping the pulse moves to the new oldest colour, so a colour is never lost unannounced.",
+      "data_contract": "",
+      "depends_on": [
+        "R018"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R021",
+      "name": "Form resolution from buffer state",
+      "gdd_section": "2.4b",
+      "statement": "Every buffer state resolves deterministically to exactly one form: family = the colour holding the most limbs with ties broken toward the most recently eaten (at birth by fixed precedence Yellow\u2192Red\u2192Blue\u2192Purple\u2192Grey); intensity = the lowest tier among the family-colour units, stepped down one rung per limb not carrying the family, floored at Pale, along the wild ladder Pale\u2192Dusk\u2192Deep\u2192Rage; Clash sits beside Rage as a parallel summit that any held Clash unit wins the tie for, and diluting Clash or Rage slides to Deep; all-white resolves to the blank.",
+      "observable_behaviour": "Any combination of limb colours names one form on screen and never an invalid state; adding a weak unit to a strong monochrome body visibly drops the displayed intensity.",
+      "data_contract": "",
+      "depends_on": [
+        "R018",
+        "R023"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R022",
+      "name": "Instant mutation with wound preserved",
+      "gdd_section": "2.3, 2.4b",
+      "statement": "The player mutates the instant the resolved form changes; the Health bar is re-cut to the new form's maximum and the player's wound fraction is preserved rather than its absolute number \u2014 mutation never heals nor costs Health.",
+      "observable_behaviour": "Eating a meal that changes the resolution immediately swaps the body and stats; if the player was at 50% Health before, they are at 50% of the new bar afterward, whether that bar grew or shrank.",
+      "data_contract": "",
+      "depends_on": [
+        "R021",
+        "R009",
+        "R016"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R023",
+      "name": "forms.json \u2014 the 150 authored forms",
+      "gdd_section": "2.4b, 3.3",
+      "statement": "Exactly 150 forms are authored as family \u00d7 intensity \u00d7 rank (5 \u00d7 5 \u00d7 6), each with an authored name, socket layout and stat profile.",
+      "observable_behaviour": "The Bestiary total reads 150, each rank opens a fresh 25-form column, and every reached form displays an authored name.",
+      "data_contract": "forms.json: family, intensity, rank, authored name, socket layout, stat profile",
+      "depends_on": [
+        "R013",
+        "R014",
+        "R015"
+      ],
+      "acceptance_test": "5 families \u00d7 5 intensities \u00d7 6 ranks = 150 entries; 150 authored, 150 reachable."
+    },
+    {
+      "id": "R024",
+      "name": "Meat tiers and their world distribution",
+      "gdd_section": "2.4b, 2.7",
+      "statement": "Each coloured creature is a tier of a colour and its meat carries that tier into the player's limb. Pale wanders in every biome; Dusk debuts in Prairies pockets and wanders from the Wetlands on; Deep debuts in Wetlands pockets and wanders from the Mountains on; Rage debuts in Mountains pockets and wanders the deep ends of Beach and Volcanic; Clash never wanders and appears only on elites, trait minibosses and Alphas.",
+      "observable_behaviour": "In the Prairies, Dusk meat is only found inside a defended pocket while Pale roams the open; by the Wetlands Dusk wanders freely; two-toned Clash creatures are only ever elites, minibosses or Alphas.",
+      "data_contract": "creatures.json: meat tier, colour family, role, rank, home biomes; biomes.json: which tiers wander vs pocket-only per biome",
+      "depends_on": [
+        "R013",
+        "R014"
+      ],
+      "acceptance_test": "Tier debut/roam schedule: Dusk pockets in Prairies \u2192 roams Wetlands+; Deep pockets in Wetlands \u2192 roams Mountains+; Rage pockets in Mountains \u2192 roams deep Beach and Volcanic."
+    },
+    {
+      "id": "R025",
+      "name": "Procedural body rendering of forms",
+      "gdd_section": "2.4b, 2.6a",
+      "statement": "One procedural system renders all 150 bodies from the cube: the authored socket layout gives the silhouette (reading family), the number of limb-segments reads rank, and saturation reads tier; traits render on the cube's main face so limbs stay free for colour.",
+      "observable_behaviour": "Two forms of the same family at different ranks share a silhouette but differ in segment count; the same form at Pale vs Rage differs in saturation; a trait appears on the cube face, never on a limb.",
+      "data_contract": "forms.json socket layout per form",
+      "depends_on": [
+        "R023",
+        "R021"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R026",
+      "name": "Biome generation, terrain gates and per-run palette roll",
+      "gdd_section": "2.7, 3.3",
+      "statement": "Five procedurally generated biomes run Prairies \u2192 Wetlands \u2192 Mountains \u2192 Beach \u2192 Volcanic with escalating traversal gates (none; Fins over roughly half the map; Claws and Coat; Fins+Claws plus Heat vents; Fins+Claws+Coat+Heat), each holding one Alpha lair, and each biome's creature palette rolled per run from weights.",
+      "observable_behaviour": "Without Fins the player is stopped at Wetlands water and can see the land beyond it; two consecutive runs of the same biome contain different colour populations; the Volcanic biome cannot be traversed until all four traits are held.",
+      "data_contract": "biomes.json: terrain, gating traits, palette weights, min distinct colours, population/respawn, pocket count, Alpha roster, both gate thresholds",
+      "depends_on": [],
+      "acceptance_test": "Trait-introduction count per biome is 0 \u2192 1 \u2192 2 \u2192 1 \u2192 0 across Prairies, Wetlands, Mountains, Beach, Volcanic."
+    },
+    {
+      "id": "R027",
+      "name": "Pockets, distance-based difficulty and lair placement",
+      "gdd_section": "2.7, 2.4b",
+      "statement": "Ordinary creatures wander everywhere so a meal is always findable, but the population mix darkens with distance from the player's entrance; top-tier meat clusters in defended pockets that bite back with swarming packs and elites; the Alpha lair sits at the strong end; and the per-run roll can place an over-tier pocket (e.g. a Rage hollow in the Prairies).",
+      "observable_behaviour": "Walking away from the entrance meets progressively stronger creatures; the strongest meat is only inside pockets guarded by packs and elites; some runs contain a pocket holding meat above the biome's normal ceiling.",
+      "data_contract": "biomes.json: pocket count, palette weights, population/respawn",
+      "depends_on": [
+        "R026",
+        "R024"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R028",
+      "name": "Ambient rank rules",
+      "gdd_section": "3.3",
+      "statement": "Spawned creature rank is stated data: prey spawn at the player's rank minus one (floored at 1), elites at the player's rank, Alphas at the player's rank always at Clash, and the Apex at rank 6 Clash.",
+      "observable_behaviour": "A three-limb player meets two-limb prey, three-limb elites and a three-limb Clash Alpha; a one-limb player still meets rank-1 prey rather than rank-0.",
+      "data_contract": "creatures.json rank field; biomes.json Alpha roster",
+      "depends_on": [
+        "R026",
+        "R024"
+      ],
+      "acceptance_test": "Player rank 1 \u2192 prey rank 1 (floored); player rank 4 \u2192 prey rank 3, elites rank 4, Alpha rank 4 Clash."
+    },
+    {
+      "id": "R029",
+      "name": "Trait minibosses and the four traits",
+      "gdd_section": "2.6",
+      "statement": "Four traits \u2014 Fins, Claws, Coat, Heat \u2014 exist only in the meat of four miniboss carriers (Pond-dweller in deep marsh hollows, Crag-holder on rocky outcrops, Shaggy grazer-hunter in the Mountains foothills, Vent-dweller at volcanic seams). Each is a territorial elite, several times tougher than ordinary prey, that fights back and does not flee; eating it grants its traversal permission (water, high ground, freezing peaks, lava).",
+      "observable_behaviour": "The only way past water is to find and eat the Pond-dweller; the miniboss stands its ground and takes many more pounces than normal prey, and the pocket's other occupants tend to converge during the fight. Four such fights occur per run.",
+      "data_contract": "creatures.json: which trait a creature's meat carries, role=elite/miniboss, home biome/placement",
+      "depends_on": [
+        "R026",
+        "R007"
+      ],
+      "acceptance_test": "Coat carriers live in the Mountains foothills, below the lethal cold, so Coat is obtainable without first surviving the peaks."
+    },
+    {
+      "id": "R030",
+      "name": "Trait permanence, face rendering and inheritance",
+      "gdd_section": "2.6a",
+      "statement": "Traits are body, not limbs: they render on the main cubic face, and once acquired nothing in the run removes them \u2014 they survive mutation, are inherited in full by every offspring, and are lost only when the line dies.",
+      "observable_behaviour": "After a mutation that rewrites every limb colour, the gill slits / hooked ridges / matted shell / glowing seam are still on the face and the player can still cross the matching terrain; every offspring in a litter shows all traits the parent held; on death all four are gone next run.",
+      "data_contract": "Run state: set of held traits, separate from limb slots",
+      "depends_on": [
+        "R029",
+        "R022"
+      ],
+      "acceptance_test": "Breeding can never remove a trait a later biome requires, so the breed-and-lose-a-trait soft-lock cannot occur."
+    },
+    {
+      "id": "R031",
+      "name": "Alpha lair and the two-gate unlock",
+      "gdd_section": "2.5",
+      "statement": "Each biome contains one visible Alpha lair landmark that stays empty until both gates are met: a count of distinct forms taken in that biome and a count of coloured prey eaten there (Prairies 3/15, Wetlands 5/20, Mountains 7/25, Beach 9/30, Volcanic 11/35). At 90% of both gates the lair stirs.",
+      "observable_behaviour": "The lair is visible on arrival but inert; meeting only the eat-count or only the form count leaves it inert; at 90% of both it visibly stirs, and on clearing both the Alpha appears.",
+      "data_contract": "biomes.json: distinct-forms gate and prey-eaten gate per biome; run state: per-biome distinct forms and prey-eaten counters",
+      "depends_on": [
+        "R021",
+        "R007",
+        "R026"
+      ],
+      "acceptance_test": "Gate table: Prairies 3 distinct/15 prey (15 reachable forms, 5.0\u00d7 slack), Wetlands 5/20 (20, 4.0\u00d7), Mountains 7/25 (25, 3.6\u00d7), Beach 9/30 (25, 2.8\u00d7), Volcanic 11/35 (25, 2.3\u00d7)."
+    },
+    {
+      "id": "R032",
+      "name": "Alpha identity, mirror-match and biome emptying",
+      "gdd_section": "2.5",
+      "statement": "The Alpha that wakes is the champion of the colour the player ate most in that biome, at the player's own rank, always at Clash intensity, with a speed that ignores the colour multiplier and runs flat just above the fastest player form at that rank so it cannot be outrun. When it wakes the biome empties \u2014 prey and grazers bolt \u2014 and it hunts the player across the biome with no topping up.",
+      "observable_behaviour": "Eating mostly Purple produces a Purple Clash Alpha of the player's limb count; dashing away never gains distance on it; after it wakes no prey or grazers remain to eat, so healing is impossible until the fight ends.",
+      "data_contract": "biomes.json Alpha roster; run state: per-biome per-colour eat tally",
+      "depends_on": [
+        "R031",
+        "R028",
+        "R016"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R033",
+      "name": "Emblems",
+      "gdd_section": "2.5, 3.3",
+      "statement": "Knocking the Alpha down and eating it yields its emblem, which opens the way to the next biome and enables breeding while granting no power of its own; emblems persist through mutation and breeding and are recorded permanently.",
+      "observable_behaviour": "Before eating the downed Alpha the route onward is closed and breeding is unavailable; after eating it the route opens, breeding becomes available, and no stat or ability changes.",
+      "data_contract": "emblems.json: which Alpha drops each emblem and which biome it opens (no powers); persisted record of claimed emblems",
+      "depends_on": [
+        "R032",
+        "R007"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R034",
+      "name": "Breeding, litters and rank gain",
+      "gdd_section": "2.5",
+      "statement": "With an emblem claimed the player breeds: a litter is offered, each offspring one limb larger, and the player continues as the chosen one. Litter size = 2 + (distinct forms this biome \u2212 the biome's form gate), capped at 5. Offspring inherit rank, all traits, emblems and panels; what varies is which colours their limbs are born loaded with, always at Pale \u2014 committed (monochrome) or flexible (mixed). Limbs cap at six, and rank is gained only this way, never by eating.",
+      "observable_behaviour": "After eating an emblem the player picks from 2\u20135 offspring and resumes play one limb larger with the same traits/emblems/panels but a new starting buffer of Pale colours; eating hundreds of creatures never adds a limb; a six-limb beast is offered no further breeding.",
+      "data_contract": "Run state: rank, offspring definitions (starting buffer per litter-mate)",
+      "depends_on": [
+        "R033",
+        "R018",
+        "R015",
+        "R030"
+      ],
+      "acceptance_test": "A bare clear of the form gate gives two offspring; three distinct forms past the gate caps the litter at five."
+    },
+    {
+      "id": "R035",
+      "name": "Decorated panels",
+      "gdd_section": "2.8, 3.3",
+      "statement": "Elite creatures only drop decorated meat panels that bolt onto the player's body, each granting a power (longer lock range, stronger dash, tougher guard, brief camouflage). Panels are the run's only power source; capacity grows with the body, panels attach anywhere across the cube's faces without crowding main-face traits, at capacity the player sheds one, the same power does not stack, and they survive mutation and breeding.",
+      "observable_behaviour": "Killing an elite drops a visible panel that studs onto the cube and measurably changes the named stat; a second copy of the same panel does not double the effect; a bigger beast carries more panels; panels are still attached after a mutation and after breeding.",
+      "data_contract": "panels.json: power, magnitude, which elites drop it, attachment point; run state: attached panels and capacity",
+      "depends_on": [
+        "R022",
+        "R034",
+        "R004",
+        "R008"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R036",
+      "name": "Combat pacing invariant (2\u20133 pounces, no one-shots)",
+      "gdd_section": "2.5",
+      "statement": "Stat tuning must keep a knockdown at 2\u20133 pounces against appropriate targets and more when mismatched, and must never allow a one-shot: the player's Damage is lower than every prey Health bar at every rank.",
+      "observable_behaviour": "Appropriate prey always requires at least two pounces to knock down; no single pounce ever knocks a prey creature straight into the dizzy state at any rank.",
+      "data_contract": "",
+      "depends_on": [
+        "R016",
+        "R005",
+        "R028"
+      ],
+      "acceptance_test": "For every rank, player Damage < every prey Health bar; knockdown of an appropriate target takes 2\u20133 pounces."
+    },
+    {
+      "id": "R037",
+      "name": "Conquest win condition",
+      "gdd_section": "1, 2.5",
+      "statement": "Beating all five biome Alphas and breeding to six limbs is a Conquest \u2014 the run's win \u2014 and it opens the Ascension.",
+      "observable_behaviour": "After the fifth emblem and the breed to six limbs, the run is declared a Conquest and the Ascension becomes available.",
+      "data_contract": "",
+      "depends_on": [
+        "R033",
+        "R034"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R038",
+      "name": "The Ascension and the Apex",
+      "gdd_section": "2.5, The Ascension",
+      "statement": "The Ascension is rank six's arena, not a biome: always open to any six-limb bloodline, the only place the 25 rank-6 forms exist and can be hunted. The Apex \u2014 a rank-6 Clash creature, the player's final mirror \u2014 sits dormant there and wakes only when the Bestiary holds \u2265100 of 150 forms across all runs; beating it is the true ending above the Conquest. A line short of the record still Conquers, ascends and banks its top-row forms.",
+      "observable_behaviour": "A six-limb bloodline can always enter the Ascension and discover rank-6 forms there; with fewer than 100 forms recorded the Apex lies dormant and cannot be fought; at 100+ it wakes and defeating it produces the true ending.",
+      "data_contract": "forms.json rank-6 rows; persisted Bestiary count",
+      "depends_on": [
+        "R037",
+        "R040",
+        "R023"
+      ],
+      "acceptance_test": "Ranks 1\u20135 hold 125 forms, so \u2265100 is reachable before ever entering the rank-6 row."
+    },
+    {
+      "id": "R039",
+      "name": "The Bestiary screen",
+      "gdd_section": "2.9",
+      "statement": "A single Bestiary screen shows rows = limb count (1\u20136) and columns = family (5); each of the 30 cells opens into that family's intensity ladder (Pale \u2192 Dusk \u2192 Deep \u2192 Clash \u2192 Rage) for 150 forms total. Reached forms show in full colour with their authored name, unreached ones as dark silhouettes; the screen also lists every emblem ever taken. It opens from the pause and main menus, its header shows discovered / total and the next milestone, forms found this run are highlighted with Alpha-threshold progress, and offspring the player did not pick appear outlined as known but unachieved.",
+      "observable_behaviour": "Opening the Bestiary from either menu shows a 6\u00d75 grid; clicking a cell reveals five intensity entries; a newly eaten form flips from silhouette to named colour art; declining an offspring adds an outlined entry; the header reads e.g. discovered/150 and the next unlock.",
+      "data_contract": "Persisted Bestiary: discovered form ids, emblems claimed, per-run highlight set",
+      "depends_on": [
+        "R023",
+        "R021",
+        "R033",
+        "R034"
+      ],
+      "acceptance_test": "30 cells \u00d7 5 intensities = 150 forms displayed."
+    },
+    {
+      "id": "R040",
+      "name": "Bestiary persistence across runs",
+      "gdd_section": "1, 2.9",
+      "statement": "The Bestiary is the only persistence: every distinct form any bloodline has ever taken and every emblem claimed is saved across runs and survives death, while all in-run progress (traits, panels, emblems as keys, rank) is lost when Health hits zero.",
+      "observable_behaviour": "Dying returns the player to a one-limb blank cube with no traits or panels, yet the Bestiary still shows every form and emblem discovered before the death, including in the run just lost.",
+      "data_contract": "Save file holding discovered form ids and claimed emblems (no run state)",
+      "depends_on": [
+        "R039",
+        "R009"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R041",
+      "name": "Record milestone unlocks",
+      "gdd_section": "2.9a",
+      "statement": "Discovery count pays out unlocks: 5 = Hatch-choice (start as any discovered Pale form instead of the blank), 15 = Inherited instinct (begin each run holding one earned trait), 35 = Hatch-choice extends to Dusk forms, 60 = Litter floor +1 (no litter smaller than three), 100 = the Apex wakes, 135 = Ancient skin, 150 = The Whole Beast (Genesis skin, save marked 100%).",
+      "observable_behaviour": "With 5 forms recorded the run-start screen offers discovered Pale forms; with 15 the new cube already carries one trait; with 60 a bare gate clear yields three offspring instead of two; at 150 the save reads 100% and the Genesis skin is selectable.",
+      "data_contract": "Persisted unlock flags keyed to discovered-form thresholds",
+      "depends_on": [
+        "R040",
+        "R017",
+        "R030",
+        "R034",
+        "R038"
+      ],
+      "acceptance_test": "The first rung is 5 forms \u2014 inside what a losing first run banks before meeting an Alpha."
+    },
+    {
+      "id": "R042",
+      "name": "Run restart as a one-limb blank",
+      "gdd_section": "1, 2.5",
+      "statement": "When the line ends, the next run begins with a new blank white one-limb cube in a freshly generated Prairies, subject to any unlocked hatch-choice or inherited instinct.",
+      "observable_behaviour": "After death, starting again places the player as a one-limb cube in the Prairies with no traits, panels or emblems (except those granted by unlocked milestones).",
+      "data_contract": "",
+      "depends_on": [
+        "R017",
+        "R040",
+        "R026",
+        "R041"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R043",
+      "name": "Generator invariants and seed refusal",
+      "gdd_section": "3.3",
+      "statement": "At generation time the generator must guarantee five invariants and refuse the seed otherwise: (1) every trait gate in a biome has a reachable carrier outside the terrain that trait unlocks; (2) the rolled palette contains enough distinct families to keep the reachable pool at least ~1.5\u00d7 the form gate (min_distinct_colours = 4 in Prairies/Wetlands/Mountains, 5 in Beach and Volcanic); (3) standing population plus respawn can supply the biome's coloured-prey count with margin; (4) the plausible most-eaten colour is present in that biome's Alpha roster; (5) a trait required by a later biome remains obtainable given the expected trait set on entry.",
+      "observable_behaviour": "No generated biome can be entered in a state where a required trait carrier is behind its own gate, where the form gate is unclearable, or where prey run out; failing rolls are rejected and re-rolled rather than shipped.",
+      "data_contract": "biomes.json: min_distinct_colours, population/respawn, Alpha roster, gate thresholds",
+      "depends_on": [
+        "R026",
+        "R029",
+        "R031",
+        "R027"
+      ],
+      "acceptance_test": "A 3-family Volcanic roll would clear the 11-form gate (3 \u00d7 5 = 15) but collapse slack from 2.3\u00d7 to 1.36\u00d7, so it is refused."
+    },
+    {
+      "id": "R044",
+      "name": "JSON content loading with schema check and fallback",
+      "gdd_section": "3.3",
+      "statement": "All content \u2014 biomes.json, creatures.json, forms.json, panels.json, emblems.json \u2014 is loaded from runtime JSON rather than hardcoded C#, schema-checked on load; a malformed or missing file logs a specific error and falls back to built-in defaults rather than starting broken.",
+      "observable_behaviour": "Editing a multiplier in a JSON file changes gameplay on next load without a recompile; deleting or corrupting one file produces a named error in the log and the game still boots on defaults.",
+      "data_contract": "biomes.json, creatures.json, forms.json, panels.json, emblems.json plus a schema per file and built-in default sets",
+      "depends_on": [
+        "R023",
+        "R024",
+        "R026",
+        "R035",
+        "R033"
+      ],
+      "acceptance_test": ""
+    },
+    {
+      "id": "R045",
+      "name": "Unity MCP editor bridge",
+      "gdd_section": "3.3",
+      "statement": "A custom Unity Editor plugin (MCPBridge.cs / MCPBridgeWindow.cs) listens on a local socket only and exposes write_file, refresh_assets, play and get_components; agents write only to Assets/Scripts/ and docs/ (never binaries), and validation is asset refresh, then grepping ~/Library/Logs/Unity/Editor.log for 'error CS' as the source of truth, then Play mode. The bridge is unreachable during domain reload and callers must wait and re-ping.",
+      "observable_behaviour": "Issuing write_file then refresh_assets over the local socket updates the project; during domain reload pings fail for a bounded window and then succeed; compile errors are found in Editor.log rather than the bridge's own log.",
+      "data_contract": "",
+      "depends_on": [],
+      "acceptance_test": "The bridge is unreachable for 8\u201313 s during domain reload, so agents wait and re-ping."
+    }
+  ]
+}

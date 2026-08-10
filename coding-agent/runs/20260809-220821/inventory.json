@@ -1,0 +1,924 @@
+{
+  "files": [
+    {
+      "path": "Assets/Scripts/Content/ContentDatabase.cs",
+      "lines": 186,
+      "types": [
+        {
+          "kind": "class",
+          "name": "ContentDatabase",
+          "members": [
+            "IsLoaded",
+            "LoadError",
+            "Creatures",
+            "Biomes",
+            "Reset",
+            "Load",
+            "ReadStreamingAsset",
+            "Fail",
+            "Wandering",
+            "Pocket",
+            "ById",
+            "RollSpawn",
+            "GrazerWeight",
+            "Weight",
+            "TierIndex",
+            "ColorTypeFor",
+            "HexToColor"
+          ]
+        },
+        {
+          "kind": "struct",
+          "name": "SpawnEntry",
+          "members": [
+            "def",
+            "spawn"
+          ]
+        }
+      ],
+      "string_literals": [
+        "creatures.json",
+        "biomes.json",
+        "biomes.json parsed but held no biomes",
+        "alpha",
+        "apex",
+        "Pale",
+        "Dusk",
+        "Deep",
+        "Rage",
+        "Clash",
+        "Yellow",
+        "YELLOW",
+        "Red",
+        "RED",
+        "Blue",
+        "BLUE",
+        "Purple",
+        "PURPLE",
+        "Grey",
+        "WHITE",
+        "GREEN"
+      ],
+      "json_refs": [
+        "biomes.json",
+        "creatures.json"
+      ]
+    },
+    {
+      "path": "Assets/Scripts/Content/FormTable.cs",
+      "lines": 48,
+      "types": [
+        {
+          "kind": "class",
+          "name": "StatBlock",
+          "members": [
+            "health",
+            "damage",
+            "speed",
+            "reach",
+            "dash"
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "FormDef",
+          "members": [
+            "id",
+            "family",
+            "intensity",
+            "intensity_pct",
+            "rank",
+            "name",
+            "flavor",
+            "base_hex",
+            "saturation",
+            "silhouette",
+            "surface",
+            "vfx",
+            "socket_layout",
+            "stats"
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "FormTable",
+          "members": [
+            "generated_by",
+            "count",
+            "forms",
+            "Load"
+          ]
+        }
+      ],
+      "string_literals": [
+        "class",
+        "forms"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Content/WorldTables.cs",
+      "lines": 70,
+      "types": [],
+      "string_literals": [
+        "Yellow",
+        "Red",
+        "Blue",
+        "Purple",
+        "Grey"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Editor/ContentCheck.cs",
+      "lines": 99,
+      "types": [
+        {
+          "kind": "class",
+          "name": "ContentCheck",
+          "members": [
+            "RollSamples",
+            "Verify",
+            "HasSpawn"
+          ]
+        }
+      ],
+      "string_literals": [
+        "Tools/Morphivore/Verify World Content",
+        "(grazer)",
+        "    rolled: ",
+        "Yellow",
+        "Red",
+        "Blue",
+        "Purple",
+        "Grey",
+        "  RESULT: OK",
+        "  RESULT: PROBLEMS FOUND (see above)"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Editor/MCPBridge.cs",
+      "lines": 592,
+      "types": [
+        {
+          "kind": "class",
+          "name": "MCPBridge",
+          "members": [
+            "Port",
+            "Stop",
+            "_pendingStateChanged",
+            "NotifyStateChanged",
+            "AcceptLoop",
+            "HandleClient",
+            "DoWebSocketHandshake",
+            "ServeWebSocket",
+            "ReadFrame",
+            "WriteFrame",
+            "ReadExact",
+            "FlushMainThreadQueue",
+            "Dispatch",
+            "GetSceneInfo",
+            "ListGameObjects",
+            "AppendGameObject",
+            "GetComponents",
+            "ExecuteMenuItem",
+            "SetPlayMode",
+            "GetLogs",
+            "ReadFile",
+            "WriteFile",
+            "ListScripts",
+            "RefreshAssets",
+            "DestroyGameObject",
+            "CreateGameObject",
+            "SetTransform",
+            "SetParent",
+            "AddComponent",
+            "Batch",
+            "ParseBatchRequests",
+            "TryParseVec3",
+            "InterlockedDecrementClamp",
+            "GetPath",
+            "JsonString",
+            "Ok",
+            "Error"
+          ]
+        },
+        {
+          "kind": "enum",
+          "name": "Status",
+          "members": [
+            "CurrentStatus",
+            "ConnectedClients",
+            "_listener",
+            "_cts",
+            "_clientCount",
+            "_queueLock",
+            "Start"
+          ]
+        }
+      ],
+      "string_literals": [
+        "[MCPBridge] Stopped.",
+        "Sec-WebSocket-Key:",
+        "258EAFA5-E914-47DA-95CA-C5AB0DC85B11",
+        "ping",
+        "pong",
+        "get_scene_info",
+        "list_gameobjects",
+        "get_components",
+        "execute_menu_item",
+        "play",
+        "stop",
+        "get_logs",
+        "read_file",
+        "write_file",
+        "list_scripts",
+        "refresh_assets",
+        "destroy_gameobject",
+        "create_gameobject",
+        "set_transform",
+        "set_parent",
+        "batch",
+        "add_component",
+        "Unknown command: {req.command}",
+        ":{go.transform.childCount}}}",
+        "GameObject not found: {goPath}",
+        ":{JsonString(c?.GetType().FullName ?? ",
+        ")}}}",
+        "Executed: {menuPath}",
+        "MenuItem not found: {menuPath}",
+        "Entering play mode",
+        "Exiting play mode",
+        ".config/unity3d/Editor.log",
+        "Editor.log not found",
+        "File not found: {projectRelativePath}",
+        "Written: {projectRelativePath}",
+        "Folder not found: {folder}",
+        "*.cs",
+        "Assets",
+        ", ",
+        "Asset database refreshed",
+        "Destroyed: {goPath}",
+        "Cube",
+        "Sphere",
+        "Empty",
+        "Create GameObject",
+        "px,py,pz|sx,sy,sz|rx,ry,rz",
+        "Set Transform",
+        "Transform set: {goPath}",
+        "Child not found: {childPath}",
+        "Parent not found: {parentPath}",
+        "Set Parent",
+        "Parented {childPath} -> {parentPath}",
+        "Type not found: {typeName}",
+        "Added {typeName} to {goPath}",
+        "command",
+        "arg",
+        "content",
+        ":{results}}}",
+        " + (s ?? ",
+        ").Replace("
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Editor/MCPBridgeWindow.cs",
+      "lines": 45,
+      "types": [
+        {
+          "kind": "class",
+          "name": "MCPBridgeWindow",
+          "members": [
+            "_green",
+            "_red",
+            "Open"
+          ]
+        }
+      ],
+      "string_literals": [
+        "MCP/Bridge Window",
+        "MCP Bridge",
+        " : ",
+        ")}  (port {MCPBridge.Port})",
+        "\u25cf Stopped",
+        "Stop Bridge",
+        "Start Bridge"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Editor/UrpMaterialConverter.cs",
+      "lines": 102,
+      "types": [
+        {
+          "kind": "class",
+          "name": "UrpMaterialConverter",
+          "members": [
+            "SearchFolders",
+            "UrpLit",
+            "Convert",
+            "NeedsConversion"
+          ]
+        }
+      ],
+      "string_literals": [
+        "Universal Render Pipeline/Lit",
+        "[URP] no art folders found.",
+        "t:Material",
+        "_MainTex",
+        "_BumpMap",
+        "_Color",
+        "_Metallic",
+        "_Glossiness",
+        "_BaseMap",
+        "_NORMALMAP",
+        "_BaseColor",
+        "_Smoothness",
+        " + string.Join(",
+        ", names) : ",
+        "Universal Render Pipeline/",
+        "Shader Graphs/",
+        "Standard",
+        "Standard (Specular setup)",
+        "Legacy Shaders/",
+        "Mobile/",
+        "Hidden/InternalErrorShader"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/Companion.cs",
+      "lines": 28,
+      "types": [
+        {
+          "kind": "class",
+          "name": "Companion",
+          "members": [
+            "target",
+            "index"
+          ]
+        }
+      ],
+      "string_literals": [],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/Creature.cs",
+      "lines": 209,
+      "types": [
+        {
+          "kind": "class",
+          "name": "Creature",
+          "members": [
+            "tier",
+            "colorType",
+            "isBoss",
+            "displayName",
+            "hasBodyColor",
+            "hasContentStats",
+            "bodyColor",
+            "BodyColor",
+            "GroundFollow",
+            "GroundY",
+            "StickY",
+            "maxHealth",
+            "health",
+            "kills",
+            "isDead",
+            "isDowned",
+            "damageCooldownTimer",
+            "body",
+            "limbs",
+            "Awake",
+            "Init",
+            "BuildVisuals",
+            "Update",
+            "TakeDamage",
+            "Die",
+            "Evolve"
+          ]
+        }
+      ],
+      "string_literals": [
+        "GREEN",
+        "dizzy",
+        "RED",
+        "BLUE",
+        "CYAN",
+        "_EMISSION",
+        "_EmissionColor"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/EcosystemManager.cs",
+      "lines": 276,
+      "types": [
+        {
+          "kind": "class",
+          "name": "EcosystemManager",
+          "members": [
+            "player",
+            "OnBiomeChanged",
+            "OnBossSpawned",
+            "OnMateSpawned",
+            "enemies",
+            "LegacyBiomes",
+            "gameStarted",
+            "Init",
+            "PocketLeakChance",
+            "FindSpawn"
+          ]
+        }
+      ],
+      "string_literals": [
+        "Enemy",
+        "enemy",
+        "Apex predator",
+        "MateEnemy",
+        "PINK"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/EnemyAI.cs",
+      "lines": 536,
+      "types": [
+        {
+          "kind": "class",
+          "name": "EnemyAI",
+          "members": [
+            "DownedDuration",
+            "isLockedByPlayer",
+            "WindupTime",
+            "PounceTime",
+            "Awake",
+            "hunters",
+            "BeginHunterFrame",
+            "CountHunter",
+            "ClaimHunterSlot",
+            "TakeDamage",
+            "Die",
+            "GetEaten",
+            "Update",
+            "BarWidth"
+          ]
+        },
+        {
+          "kind": "enum",
+          "name": "State",
+          "members": []
+        },
+        {
+          "kind": "enum",
+          "name": "Attack",
+          "members": [
+            "contentId",
+            "role",
+            "carriesColour",
+            "healsPlayerPct",
+            "PounceLungeFactor",
+            "ApplyContent"
+          ]
+        }
+      ],
+      "string_literals": [
+        "prey",
+        "grazer",
+        "elite",
+        "trait_miniboss",
+        "alpha",
+        "apex",
+        "dizzy",
+        "dizzy / vulnerable",
+        "Player",
+        "targeted",
+        "EnemyHealthBar",
+        "BG",
+        "Fill"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/GameConfig.cs",
+      "lines": 190,
+      "types": [
+        {
+          "kind": "class",
+          "name": "GameConfig",
+          "members": [
+            "ClassFor",
+            "Tiers",
+            "WorldSize",
+            "InitialEnemies",
+            "MaxEnemies",
+            "EvoRequirement",
+            "LevelUpRequirement",
+            "SpawnInterval",
+            "DamageCooldown",
+            "RegenRate",
+            "BiomeNeon",
+            "BiomeMagma",
+            "BiomeCrystal",
+            "VisualsForBiome"
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "Colors",
+          "members": [
+            "Red",
+            "Blue",
+            "Green",
+            "Yellow",
+            "Purple",
+            "Orange",
+            "Cyan",
+            "White",
+            "Pink",
+            "FromName"
+          ]
+        },
+        {
+          "kind": "struct",
+          "name": "ClassProfile",
+          "members": [
+            "name",
+            "speedMult",
+            "damageMult",
+            "healthMult",
+            "lungeMult",
+            "dashMult"
+          ]
+        },
+        {
+          "kind": "struct",
+          "name": "TierData",
+          "members": [
+            "name",
+            "scale",
+            "limbs"
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "Ecology",
+          "members": [
+            "ContactDamageScale",
+            "SpeedScale",
+            "ReachScale",
+            "WanderPace",
+            "SightRadius",
+            "SightJitter",
+            "TerritorialPreyShare",
+            "MaxHunters"
+          ]
+        },
+        {
+          "kind": "struct",
+          "name": "BiomeData",
+          "members": [
+            "name",
+            "groundColor",
+            "accentColor",
+            "fogColor",
+            "enemyColors"
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "Boss",
+          "members": [
+            "SpawnIntervalKills",
+            "ScaleMultiplier",
+            "HealthMultiplier",
+            "DamageMultiplier"
+          ]
+        }
+      ],
+      "string_literals": [
+        "RED",
+        "BLUE",
+        "GREEN",
+        "YELLOW",
+        "PURPLE",
+        "ORANGE",
+        "CYAN",
+        "WHITE",
+        "PINK",
+        "Brawler",
+        "Bruiser",
+        "Leaper",
+        "Sniper",
+        "Skirmisher",
+        "Stalker",
+        "Apex",
+        "Forager",
+        "Alpha",
+        "Beta",
+        "Gamma",
+        "Delta",
+        "Omega",
+        "Neon Grid",
+        "Magma Wastes",
+        "Crystal Forest",
+        "prairies",
+        "wetlands",
+        "mountains",
+        "beach",
+        "volcanic"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/GameManager.cs",
+      "lines": 609,
+      "types": [
+        {
+          "kind": "class",
+          "name": "GameManager",
+          "members": [
+            "EnsureDesktopPointer",
+            "S",
+            "_hudBarSprite",
+            "GetHudBarSprite",
+            "barW",
+            "barH",
+            "rightMargin",
+            "labelH",
+            "AccentGreen"
+          ]
+        }
+      ],
+      "string_literals": [
+        "You are targeted",
+        "[Run] seed {runSeed}",
+        "Main Camera",
+        "MainCamera",
+        "Ambient Light",
+        "Sun",
+        "prairies",
+        "Prairies",
+        "Player",
+        "GREEN",
+        "Ecosystem",
+        "!! APEX PREDATOR DETECTED !!",
+        "!! {name.ToUpper()} !!",
+        "!! MATE DETECTED !!",
+        "Canvas",
+        "EventSystem",
+        "Props",
+        "_EMISSION",
+        "_EmissionColor",
+        "ENTERING {biome.name}",
+        "LockReticleWorld",
+        "LockReticle",
+        "ThreatHaloWorld",
+        "ThreatHalo",
+        "HudBars",
+        "HealthBar",
+        "HEALTH",
+        "EvolutionBar",
+        "EVOLUTION",
+        "GenTierLabel",
+        "Notification",
+        "_Label",
+        "LegacyRuntime.ttf",
+        "_BG",
+        "_Fill",
+        "MenuPanel",
+        "Title",
+        "CUBIC EVOLUTION",
+        "Tagline",
+        "Evolve. Adapt. Dominate.",
+        "StartButton",
+        "INITIALIZE",
+        "DeathPanel",
+        "EXTINCT",
+        "Score",
+        "RestartButton",
+        "NEW EVOLUTION",
+        "Label"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/HumanWalk.cs",
+      "lines": 91,
+      "types": [
+        {
+          "kind": "class",
+          "name": "HumanWalk",
+          "members": [
+            "speed",
+            "distance",
+            "legSwingAngle",
+            "legFrequency",
+            "armSwingAngle",
+            "bobAmount"
+          ]
+        }
+      ],
+      "string_literals": [
+        "Movement",
+        "Leg swing",
+        "Arm swing",
+        "Body bob",
+        "Hips/UpperLeg_L",
+        "Hips/UpperLeg_R",
+        "Hips/UpperLeg_L/LowerLeg_L",
+        "Hips/UpperLeg_R/LowerLeg_R",
+        "Torso/UpperArm_L",
+        "Torso/UpperArm_R",
+        "Torso/UpperArm_L/LowerArm_L",
+        "Torso/UpperArm_R/LowerArm_R",
+        "Torso"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/MateEnemy.cs",
+      "lines": 4,
+      "types": [
+        {
+          "kind": "class",
+          "name": "MateEnemy",
+          "members": []
+        }
+      ],
+      "string_literals": [],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/Obstacle.cs",
+      "lines": 6,
+      "types": [
+        {
+          "kind": "class",
+          "name": "Obstacle",
+          "members": []
+        }
+      ],
+      "string_literals": [],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/Game/PlayerController.cs",
+      "lines": 521,
+      "types": [
+        {
+          "kind": "class",
+          "name": "PlayerController",
+          "members": [
+            "gameStarted",
+            "moveSpeed",
+            "biteDamage",
+            "totalKills",
+            "level",
+            "score",
+            "LockConeDot",
+            "BaseSpeed",
+            "BaseDamage",
+            "BaseHealth",
+            "ClassName",
+            "OnLockTargetChanged",
+            "IsThreatened",
+            "FlagThreat",
+            "OnNotification",
+            "OnBiomeRequest",
+            "Awake",
+            "Update",
+            "RegisterKill",
+            "Evolve",
+            "Die"
+          ]
+        }
+      ],
+      "string_literals": [
+        "target then launch",
+        "Forager",
+        "upgrade_damage",
+        "upgrade_speed",
+        "upgrade_health",
+        "I'm targeted",
+        "OFFSPRING SPAWNED!",
+        "EVOLVED \u2014 {classProfile.name.ToUpper()}!",
+        "LEVEL UP! RANK {level}",
+        "Companion",
+        "gene_points"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/World/BiomeTerrain.cs",
+      "lines": 225,
+      "types": [
+        {
+          "kind": "class",
+          "name": "BiomeTerrain",
+          "members": [
+            "Active",
+            "IsReady",
+            "Build",
+            "BuildHeightCurve",
+            "Radius",
+            "SampleHeight",
+            "HeightAt",
+            "SetGroundColor"
+          ]
+        },
+        {
+          "kind": "struct",
+          "name": "TerrainProfile",
+          "members": [
+            "noiseScale",
+            "octaves",
+            "persistance",
+            "lacunarity",
+            "heightMultiplier",
+            "groundColor",
+            "Prairies"
+          ]
+        }
+      ],
+      "string_literals": [
+        "BiomeTerrain",
+        "Universal Render Pipeline/Lit",
+        "centre {SampleHeight(Vector3.zero):0.0}"
+      ],
+      "json_refs": []
+    },
+    {
+      "path": "Assets/Scripts/World/PropScatter.cs",
+      "lines": 143,
+      "types": [
+        {
+          "kind": "class",
+          "name": "PropScatter",
+          "members": [
+            "manifest",
+            "manifestLoaded",
+            "SetFor",
+            "Scatter",
+            "MeasureHeight"
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "PropSet",
+          "members": [
+            "biome",
+            "count",
+            "clusters",
+            "cluster_radius",
+            "min_height",
+            "max_height",
+            "props"
+          ]
+        }
+      ],
+      "string_literals": [
+        "art-manifest.json",
+        "[Art] no prop set for biome '{biomeId}'.",
+        ", "
+      ],
+      "json_refs": [
+        "art-manifest.json"
+      ]
+    }
+  ],
+  "content_files": [
+    {
+      "name": "art-manifest.json",
+      "size_bytes": 1453,
+      "read_by": [
+        "Assets/Scripts/World/PropScatter.cs"
+      ]
+    },
+    {
+      "name": "biomes.json",
+      "size_bytes": 10919,
+      "read_by": [
+        "Assets/Scripts/Content/ContentDatabase.cs"
+      ]
+    },
+    {
+      "name": "creatures.json",
+      "size_bytes": 93959,
+      "read_by": [
+        "Assets/Scripts/Content/ContentDatabase.cs"
+      ]
+    },
+    {
+      "name": "forms.json",
+      "size_bytes": 132668,
+      "read_by": []
+    },
+    {
+      "name": "panels.json",
+      "size_bytes": 8028,
+      "read_by": []
+    }
+  ]
+}

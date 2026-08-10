@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 output/.cache/
 output/retrieval-log.jsonl
+coding-agent/kb-scoped/

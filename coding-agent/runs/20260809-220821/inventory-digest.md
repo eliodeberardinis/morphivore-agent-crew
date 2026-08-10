@@ -1,0 +1,97 @@
+# Codebase inventory
+
+Regex-derived index of Assets/Scripts. Declarations only -- it recovers names, not semantics, and members are attributed to the most recent enclosing type. Treat absence as weak evidence and presence as strong evidence.
+
+## Assets/Scripts/Content/ContentDatabase.cs  (186 lines)
+- `class ContentDatabase` — IsLoaded, LoadError, Creatures, Biomes, Reset, Load, ReadStreamingAsset, Fail, Wandering, Pocket, ById, RollSpawn, GrazerWeight, Weight, TierIndex, ColorTypeFor, HexToColor
+- `struct SpawnEntry` — def, spawn
+- string literals: "creatures.json", "biomes.json", "biomes.json parsed but held no biomes", "alpha", "apex", "Pale", "Dusk", "Deep", "Rage", "Clash", "Yellow", "YELLOW", "Red", "RED", "Blue", "BLUE", "Purple", "PURPLE", "Grey", "WHITE", "GREEN"
+
+## Assets/Scripts/Content/FormTable.cs  (48 lines)
+- `class StatBlock` — health, damage, speed, reach, dash
+- `class FormDef` — id, family, intensity, intensity_pct, rank, name, flavor, base_hex, saturation, silhouette, surface, vfx, socket_layout, stats
+- `class FormTable` — generated_by, count, forms, Load
+- string literals: "class", "forms"
+
+## Assets/Scripts/Content/WorldTables.cs  (70 lines)
+- string literals: "Yellow", "Red", "Blue", "Purple", "Grey"
+
+## Assets/Scripts/Editor/ContentCheck.cs  (99 lines)
+- `class ContentCheck` — RollSamples, Verify, HasSpawn
+- string literals: "Tools/Morphivore/Verify World Content", "(grazer)", "    rolled: ", "Yellow", "Red", "Blue", "Purple", "Grey", "  RESULT: OK", "  RESULT: PROBLEMS FOUND (see above)"
+
+## Assets/Scripts/Editor/MCPBridge.cs  (592 lines)
+- `class MCPBridge` — Port, Stop, _pendingStateChanged, NotifyStateChanged, AcceptLoop, HandleClient, DoWebSocketHandshake, ServeWebSocket, ReadFrame, WriteFrame, ReadExact, FlushMainThreadQueue, Dispatch, GetSceneInfo, ListGameObjects, AppendGameObject, GetComponents, ExecuteMenuItem, SetPlayMode, GetLogs, ReadFile, WriteFile, ListScripts, RefreshAssets, DestroyGameObject, CreateGameObject, SetTransform, SetParent, AddComponent, Batch, ParseBatchRequests, TryParseVec3, InterlockedDecrementClamp, GetPath, JsonString, Ok, Error
+- `enum Status` — CurrentStatus, ConnectedClients, _listener, _cts, _clientCount, _queueLock, Start
+- string literals: "[MCPBridge] Stopped.", "Sec-WebSocket-Key:", "258EAFA5-E914-47DA-95CA-C5AB0DC85B11", "ping", "pong", "get_scene_info", "list_gameobjects", "get_components", "execute_menu_item", "play", "stop", "get_logs", "read_file", "write_file", "list_scripts", "refresh_assets", "destroy_gameobject", "create_gameobject", "set_transform", "set_parent", "batch", "add_component", "Unknown command: {req.command}", ":{go.transform.childCount}}}", "GameObject not found: {goPath}", ":{JsonString(c?.GetType().FullName ?? ", ")}}}", "Executed: {menuPath}", "MenuItem not found: {menuPath}", "Entering play mode", "Exiting play mode", ".config/unity3d/Editor.log", "Editor.log not found", "File not found: {projectRelativePath}", "Written: {projectRelativePath}", "Folder not found: {folder}", "*.cs", "Assets", ", ", "Asset database refreshed", "Destroyed: {goPath}", "Cube", "Sphere", "Empty", "Create GameObject", "px,py,pz|sx,sy,sz|rx,ry,rz", "Set Transform", "Transform set: {goPath}", "Child not found: {childPath}", "Parent not found: {parentPath}", "Set Parent", "Parented {childPath} -> {parentPath}", "Type not found: {typeName}", "Added {typeName} to {goPath}", "command", "arg", "content", ":{results}}}", " + (s ?? ", ").Replace("
+
+## Assets/Scripts/Editor/MCPBridgeWindow.cs  (45 lines)
+- `class MCPBridgeWindow` — _green, _red, Open
+- string literals: "MCP/Bridge Window", "MCP Bridge", " : ", ")}  (port {MCPBridge.Port})", "● Stopped", "Stop Bridge", "Start Bridge"
+
+## Assets/Scripts/Editor/UrpMaterialConverter.cs  (102 lines)
+- `class UrpMaterialConverter` — SearchFolders, UrpLit, Convert, NeedsConversion
+- string literals: "Universal Render Pipeline/Lit", "[URP] no art folders found.", "t:Material", "_MainTex", "_BumpMap", "_Color", "_Metallic", "_Glossiness", "_BaseMap", "_NORMALMAP", "_BaseColor", "_Smoothness", " + string.Join(", ", names) : ", "Universal Render Pipeline/", "Shader Graphs/", "Standard", "Standard (Specular setup)", "Legacy Shaders/", "Mobile/", "Hidden/InternalErrorShader"
+
+## Assets/Scripts/Game/Companion.cs  (28 lines)
+- `class Companion` — target, index
+
+## Assets/Scripts/Game/Creature.cs  (209 lines)
+- `class Creature` — tier, colorType, isBoss, displayName, hasBodyColor, hasContentStats, bodyColor, BodyColor, GroundFollow, GroundY, StickY, maxHealth, health, kills, isDead, isDowned, damageCooldownTimer, body, limbs, Awake, Init, BuildVisuals, Update, TakeDamage, Die, Evolve
+- string literals: "GREEN", "dizzy", "RED", "BLUE", "CYAN", "_EMISSION", "_EmissionColor"
+
+## Assets/Scripts/Game/EcosystemManager.cs  (276 lines)
+- `class EcosystemManager` — player, OnBiomeChanged, OnBossSpawned, OnMateSpawned, enemies, LegacyBiomes, gameStarted, Init, PocketLeakChance, FindSpawn
+- string literals: "Enemy", "enemy", "Apex predator", "MateEnemy", "PINK"
+
+## Assets/Scripts/Game/EnemyAI.cs  (536 lines)
+- `class EnemyAI` — DownedDuration, isLockedByPlayer, WindupTime, PounceTime, Awake, hunters, BeginHunterFrame, CountHunter, ClaimHunterSlot, TakeDamage, Die, GetEaten, Update, BarWidth
+- `enum State` — (none parsed)
+- `enum Attack` — contentId, role, carriesColour, healsPlayerPct, PounceLungeFactor, ApplyContent
+- string literals: "prey", "grazer", "elite", "trait_miniboss", "alpha", "apex", "dizzy", "dizzy / vulnerable", "Player", "targeted", "EnemyHealthBar", "BG", "Fill"
+
+## Assets/Scripts/Game/GameConfig.cs  (190 lines)
+- `class GameConfig` — ClassFor, Tiers, WorldSize, InitialEnemies, MaxEnemies, EvoRequirement, LevelUpRequirement, SpawnInterval, DamageCooldown, RegenRate, BiomeNeon, BiomeMagma, BiomeCrystal, VisualsForBiome
+- `class Colors` — Red, Blue, Green, Yellow, Purple, Orange, Cyan, White, Pink, FromName
+- `struct ClassProfile` — name, speedMult, damageMult, healthMult, lungeMult, dashMult
+- `struct TierData` — name, scale, limbs
+- `class Ecology` — ContactDamageScale, SpeedScale, ReachScale, WanderPace, SightRadius, SightJitter, TerritorialPreyShare, MaxHunters
+- `struct BiomeData` — name, groundColor, accentColor, fogColor, enemyColors
+- `class Boss` — SpawnIntervalKills, ScaleMultiplier, HealthMultiplier, DamageMultiplier
+- string literals: "RED", "BLUE", "GREEN", "YELLOW", "PURPLE", "ORANGE", "CYAN", "WHITE", "PINK", "Brawler", "Bruiser", "Leaper", "Sniper", "Skirmisher", "Stalker", "Apex", "Forager", "Alpha", "Beta", "Gamma", "Delta", "Omega", "Neon Grid", "Magma Wastes", "Crystal Forest", "prairies", "wetlands", "mountains", "beach", "volcanic"
+
+## Assets/Scripts/Game/GameManager.cs  (609 lines)
+- `class GameManager` — EnsureDesktopPointer, S, _hudBarSprite, GetHudBarSprite, barW, barH, rightMargin, labelH, AccentGreen
+- string literals: "You are targeted", "[Run] seed {runSeed}", "Main Camera", "MainCamera", "Ambient Light", "Sun", "prairies", "Prairies", "Player", "GREEN", "Ecosystem", "!! APEX PREDATOR DETECTED !!", "!! {name.ToUpper()} !!", "!! MATE DETECTED !!", "Canvas", "EventSystem", "Props", "_EMISSION", "_EmissionColor", "ENTERING {biome.name}", "LockReticleWorld", "LockReticle", "ThreatHaloWorld", "ThreatHalo", "HudBars", "HealthBar", "HEALTH", "EvolutionBar", "EVOLUTION", "GenTierLabel", "Notification", "_Label", "LegacyRuntime.ttf", "_BG", "_Fill", "MenuPanel", "Title", "CUBIC EVOLUTION", "Tagline", "Evolve. Adapt. Dominate.", "StartButton", "INITIALIZE", "DeathPanel", "EXTINCT", "Score", "RestartButton", "NEW EVOLUTION", "Label"
+
+## Assets/Scripts/Game/HumanWalk.cs  (91 lines)
+- `class HumanWalk` — speed, distance, legSwingAngle, legFrequency, armSwingAngle, bobAmount
+- string literals: "Movement", "Leg swing", "Arm swing", "Body bob", "Hips/UpperLeg_L", "Hips/UpperLeg_R", "Hips/UpperLeg_L/LowerLeg_L", "Hips/UpperLeg_R/LowerLeg_R", "Torso/UpperArm_L", "Torso/UpperArm_R", "Torso/UpperArm_L/LowerArm_L", "Torso/UpperArm_R/LowerArm_R", "Torso"
+
+## Assets/Scripts/Game/MateEnemy.cs  (4 lines)
+- `class MateEnemy` — (none parsed)
+
+## Assets/Scripts/Game/Obstacle.cs  (6 lines)
+- `class Obstacle` — (none parsed)
+
+## Assets/Scripts/Game/PlayerController.cs  (521 lines)
+- `class PlayerController` — gameStarted, moveSpeed, biteDamage, totalKills, level, score, LockConeDot, BaseSpeed, BaseDamage, BaseHealth, ClassName, OnLockTargetChanged, IsThreatened, FlagThreat, OnNotification, OnBiomeRequest, Awake, Update, RegisterKill, Evolve, Die
+- string literals: "target then launch", "Forager", "upgrade_damage", "upgrade_speed", "upgrade_health", "I'm targeted", "OFFSPRING SPAWNED!", "EVOLVED — {classProfile.name.ToUpper()}!", "LEVEL UP! RANK {level}", "Companion", "gene_points"
+
+## Assets/Scripts/World/BiomeTerrain.cs  (225 lines)
+- `class BiomeTerrain` — Active, IsReady, Build, BuildHeightCurve, Radius, SampleHeight, HeightAt, SetGroundColor
+- `struct TerrainProfile` — noiseScale, octaves, persistance, lacunarity, heightMultiplier, groundColor, Prairies
+- string literals: "BiomeTerrain", "Universal Render Pipeline/Lit", "centre {SampleHeight(Vector3.zero):0.0}"
+
+## Assets/Scripts/World/PropScatter.cs  (143 lines)
+- `class PropScatter` — manifest, manifestLoaded, SetFor, Scatter, MeasureHeight
+- `class PropSet` — biome, count, clusters, cluster_radius, min_height, max_height, props
+- string literals: "art-manifest.json", "[Art] no prop set for biome '{biomeId}'.", ", "
+
+## Data contract files (Assets/StreamingAssets)
+
+- `art-manifest.json` (1,453 bytes) — read by: Assets/Scripts/World/PropScatter.cs
+- `biomes.json` (10,919 bytes) — read by: Assets/Scripts/Content/ContentDatabase.cs
+- `creatures.json` (93,959 bytes) — read by: Assets/Scripts/Content/ContentDatabase.cs
+- `forms.json` (132,668 bytes) — read by: **NOTHING READS THIS FILE**
+- `panels.json` (8,028 bytes) — read by: **NOTHING READS THIS FILE**

@@ -1,0 +1,6 @@
+# Generated per run. One sample run is committed by force-add as evidence;
+# everything else is local.
+runs/
+kb-scoped/
+__pycache__/
+*.pyc

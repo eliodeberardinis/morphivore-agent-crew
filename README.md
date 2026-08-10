@@ -31,9 +31,15 @@ the `forms.json` #3 authored.
 
 An agent that reads Morphivore's design document, scans Morphivore's codebase,
 finds where the code has drifted from the design, decides what to build first,
-and builds it. Source in [`coding-agent/`](coding-agent/); the game's C# — both
-what it scanned and what it wrote — is mirrored under
-[`Assets/Scripts/`](Assets/Scripts/) at its real project path.
+and builds it.
+
+| | |
+|---|---|
+| **Agent source** | [`coding-agent/`](coding-agent/) — entry point [`goal_agent.py`](coding-agent/goal_agent.py) |
+| **The blackboard** | [discovery run](coding-agent/runs/20260809-220054/blackboard.md) · [build run](coding-agent/runs/20260809-220821/blackboard.md) |
+| **Prompts as issued** | [46 discovery](coding-agent/runs/20260809-220054/prompts) · [2 build](coding-agent/runs/20260809-220821/prompts) |
+| **Code as generated** | [`generated/`](coding-agent/runs/20260809-220821/generated) — pre-review snapshot |
+| **Game C#** | [`Assets/Scripts/`](Assets/Scripts/) — what it scanned and what it wrote, at the real project path |
 
 ```bash
 cd coding-agent
@@ -58,13 +64,23 @@ sequencing rule unprompted:
 > three lower-ranked items plus an unread asset. Ship them as one merge or not
 > at all.
 
-**It shipped a working feature.** Eight files, one 19-turn run, compiled clean
-on the first attempt and entered Play mode with no exceptions:
+**It shipped a working feature, and the feature has been played.** Eight files,
+one 19-turn run, compiled clean on the first attempt and entered Play mode with
+no exceptions:
 
 ```
 CompileScripts: 20.921ms
 [Content] loaded 60 creatures, 5 biomes, 150 forms from StreamingAssets.
 ```
+
+Then verified by hand, which is the gate no agent signs off:
+
+> Played it and verified it works. The transformation system is visibly at
+> play — I transform into the creature I eat, and their names show in the UI.
+
+Eat a creature and the buffer takes its family and intensity, resolution picks
+the form, stats recompute, the body recolours, and the HUD names what you have
+become — using the name the Assignment #3 crew authored for it.
 
 That second line is the point. `forms.json` — 150 forms authored by the
 Assignment #3 crew — had been shipped and read by nothing. A twenty-line

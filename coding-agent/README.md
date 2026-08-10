@@ -39,13 +39,20 @@ flowchart TD
     S5 --> MEM[["AGENT_STATE.md<br/>BUILT · DECISIONS<br/>NEXT · FAILED"]]
 ```
 
+### The code
+
 | Stage | Module | Model? | Output |
 |---|---|---|---|
-| 1 | `gdd_reader.py` | yes | `requirements.json` — 45 checkable requirements |
-| 2 | `code_scanner.py` | **no** | `inventory.json` — types, members, literals, reference graph |
-| 3 | `gap_detector.py` | yes, 1/requirement | `gap-report.json` — a verdict with cited evidence |
-| 4 | `prioritizer.py` | arithmetic + 1 call | `priorities.json` — ranked, with the reasoning |
-| 5 | `builder.py` | tool loop | C# written into `Assets/Scripts/` |
+| 1 | **[`gdd_reader.py`](gdd_reader.py)** | yes | [`requirements.json`](runs/20260809-220054/requirements.json) — 45 checkable requirements |
+| 2 | **[`code_scanner.py`](code_scanner.py)** | **no** | [`inventory.json`](runs/20260809-220054/inventory.json) — types, members, literals, reference graph |
+| 3 | **[`gap_detector.py`](gap_detector.py)** | yes, 1/requirement | [`gap-report.json`](runs/20260809-220054/gap-report.json) — a verdict with cited evidence |
+| 4 | **[`prioritizer.py`](prioritizer.py)** | arithmetic + 1 call | [`priorities.json`](runs/20260809-220054/priorities.json) — ranked, with the reasoning |
+| 5 | **[`builder.py`](builder.py)** | tool loop | C# written into `Assets/Scripts/` |
+
+Supporting: **[`goal_agent.py`](goal_agent.py)** is the CLI that runs the five in order —
+start here. **[`blackboard.py`](blackboard.py)** is the live decision record,
+**[`gdd_rag.py`](gdd_rag.py)** the scoped retrieval layer, **[`common.py`](common.py)**
+paths, the model client and cost accounting.
 
 ---
 
@@ -66,10 +73,28 @@ asked.
 snapshot in `runs/<timestamp>/generated/`. That snapshot is what makes the "what I
 changed before accepting it" section below a diff rather than a memory.
 
-Alongside it, `AGENT_STATE.md` is memory across sessions — BUILT / DECISIONS / NEXT /
-FAILED, plain markdown, no database. It is *appended*, never rewritten, because edits you
-make to it are instructions to the next run and an agent that silently overwrites its
-operator's notes has stopped being controllable.
+Alongside it, **[`AGENT_STATE.md`](AGENT_STATE.md)** is memory across sessions — BUILT /
+DECISIONS / NEXT / FAILED, plain markdown, no database. It is *appended*, never
+rewritten, because edits you make to it are instructions to the next run and an agent
+that silently overwrites its operator's notes has stopped being controllable.
+
+### Both runs are committed — read them
+
+| | Discovery run | Build run |
+|---|---|---|
+| **Blackboard** | **[blackboard.md](runs/20260809-220054/blackboard.md)** | **[blackboard.md](runs/20260809-220821/blackboard.md)** |
+| Prompts as issued | [prompts/](runs/20260809-220054/prompts) (46) | [prompts/](runs/20260809-220821/prompts) (2) |
+| Requirements from the GDD | [requirements.json](runs/20260809-220054/requirements.json) | — |
+| Codebase index | [inventory-digest.md](runs/20260809-220054/inventory-digest.md) | — |
+| Verdicts + evidence | [gap-report.json](runs/20260809-220054/gap-report.json) | — |
+| Scores + chosen chunk | [priorities.json](runs/20260809-220054/priorities.json) | [priorities.json](runs/20260809-220821/priorities.json) |
+| The scoped GDD it read | [scoped-gdd.md](runs/20260809-220054/scoped-gdd.md) | — |
+| Brief handed to the builder | — | [build-brief.md](runs/20260809-220821/build-brief.md) |
+| **Code as generated, pre-review** | — | **[generated/](runs/20260809-220821/generated)** (8 files) |
+
+Start with the discovery blackboard for the reasoning, and
+[`generated/`](runs/20260809-220821/generated) for the raw output — that folder is the
+"before" side of the what-I-changed diff, snapshotted before any human touched it.
 
 ---
 
@@ -236,7 +261,20 @@ in the blackboard.
 
 ### Did it run in the game?
 
-**Yes.** Both engineering gates pass, verified through the Unity MCP bridge:
+**Yes — and it has been played.** This project's testing strategy (§4.10) sets three
+gates: it compiles, it enters Play mode without exceptions, and *the developer plays it*.
+The third is never delegated to an agent, and it has now been cleared by hand:
+
+> Played it and verified it works. The transformation system is visibly at play — I
+> transform into the creature I eat, and their names show in the UI.
+
+That is the design's core verb — "you are what you eat" — working end to end: eat a
+creature, the buffer takes its family and intensity, resolution picks the form, stats
+recompute, the body recolours, and the HUD names what you have become using the name the
+Assignment #3 crew authored for it. Balance was not assessed and is known to need a pass
+(see limitations).
+
+The two engineering gates were verified through the Unity MCP bridge:
 
 ```
 CompileScripts: 20.921ms          ← zero errors, first attempt
@@ -296,4 +334,5 @@ concedes. The rename is right, the diagnosis was overstated.
   truncation, the failure long generations actually hit — but the real gate is a Unity
   domain reload, which happened in the editor afterwards with me watching.
 - **Play-testing is not delegated.** Gate 3 in this project's own testing strategy is that
-  the developer plays it. No agent signs that off.
+  the developer plays it. No agent signs that off — the confirmation above is the
+  developer's, not the agent's.

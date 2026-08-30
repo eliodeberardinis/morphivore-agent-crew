@@ -9,6 +9,7 @@ take over an ecosystem.
 | **Assignment #3** | Bestiary Form-Authoring Crew — 4 agents, sequential | `forms.json` (the 150 player forms) + `FormTable.cs` |
 | **Assignment #4** | Dynamic Content Pipeline — RAG + parallel fan-out + a two-stage critic | `creatures.json`, `panels.json`, `biomes.json` + `WorldTables.cs` |
 | **Assignment #5** | Goal-Oriented Coding Agent — reads the GDD, scans the codebase, ranks the gaps, writes C# | the game's identity system (`ColourBuffer.cs` + 7 rewritten files) |
+| **Assignment #6** | Emblem GER Pipeline — Generate → Evaluate → Refine, with a circuit breaker | `emblems.json` (25) — the last unwritten file in the §3.3 content contract |
 
 **Each builds on the last.** `crew.py` and `tools.py` are untouched by #4;
 `rag.py`, `world_contract.py`, `tools_world.py` and `crew_world.py` are
@@ -22,6 +23,46 @@ the `forms.json` #3 authored.
 > `deploy_to_unity.py` writes into `Assets/StreamingAssets/` and
 > `Assets/Scripts/Content/` one directory up. Cloned on its own, point
 > `MORPHIVORE_UNITY_ROOT` at a checkout of the game.
+
+---
+
+# Assignment #6 — Emblem GER Pipeline
+
+**→ Full write-up: [`ger-emblems/README.md`](ger-emblems/README.md)** · Pre-Build
+Declaration: [`ger-emblems/PRE-BUILD-DECLARATION.txt`](ger-emblems/PRE-BUILD-DECLARATION.txt)
+
+A Generate → Evaluate → Refine loop with a circuit breaker, writing **`emblems.json`** —
+the one file in Morphivore's §3.3 content contract that had never been written, by hand
+or by the #3 and #4 crews.
+
+| | |
+|---|---|
+| **Generator** | [`generator.py`](ger-emblems/generator.py) — 25 emblems, one per Alpha |
+| **Evaluator** | [`evaluator.py`](ger-emblems/evaluator.py) — deterministic checks, then a verifier agent |
+| **Refiner** | [`refiner.py`](ger-emblems/refiner.py) — patches the named field, 3 passes |
+| **Circuit Breaker** | [`circuit_breaker.py`](ger-emblems/circuit_breaker.py) — escalates with a problem statement |
+| **Run evidence** | [clean run](ger-emblems/runs/20260830-180754/ger-log.md) · [adversarial](ger-emblems/runs/20260830-181449/ger-log.md) · [shipping run](ger-emblems/runs/20260830-181721/ger-log.md) |
+
+**The rule is retrieved, not hardcoded.** `contract.py` reuses #4's `rag.py` to pull it
+from the GDD at run time — GDD §2.5: *"a trophy off a defeated rival, granting no power
+of its own (powers come from panels)"* — and every run logs the passages it enforced.
+
+**Two layers, because one cannot do it.** Code owns structure: forbidden fields, stat
+notation, the Alpha roster, the biome chain. The verifier owns meaning — *"Wearing it,
+you feel faster"* passes every deterministic check and still breaks the rule.
+
+**What it caught was not what I expected.** The first run was clean, 25 of 25: told the
+rule, the generator never once tried to grant a power. What it surfaced instead was a
+defect in my own Evaluator — ids came back as the Alpha's *name* where the brief
+specifies its *family*, and my format check was a loose regex that accepted both. A check
+that documents a convention it does not enforce is worse than no check. Tightened, it
+caught all 25 on the re-run and the Refiner repaired them.
+
+The adversarial probes prove the loop: every check fired, `rule.implies_power` three
+times (verifier-only), and the breaker escalated a **regression at pass 1** rather than
+burning all three passes on an unwinnable record.
+
+It runs in the game — `[Content] loaded 60 creatures, 5 biomes, 150 forms, 25 emblems`.
 
 ---
 

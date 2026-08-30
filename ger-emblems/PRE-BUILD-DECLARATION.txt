@@ -1,0 +1,22 @@
+PRE-BUILD DECLARATION — Assignment #6
+Morphivore · Elio De Berardinis
+
+1. Generated manually, inconsistently, or not at all?
+
+Emblems. emblems.json is the one file in my GDD's §3.3 content contract never
+written — not by hand, not by my #3/#4 crews. Twenty-five: one per Alpha, five
+biomes × five family champions.
+
+2. The rule every piece must satisfy?
+
+§2.5: an emblem is "a trophy off a defeated rival, granting no power of its own
+(powers come from panels)." The §3.3 contract row ends "(no powers)." An emblem may
+only open the next biome and enable breeding.
+
+3. What failure looks like?
+
+An emblem granting an ability or stat — "+15% dash", "aura of dread." It breaks
+§2.8 — panels are the run's only power source — and compounds: emblems are permanent
+and bred true, while panels are shed at capacity. My revision log records removing
+exactly this. A generator reaches for it anyway, because everywhere else "emblem"
+means relic.

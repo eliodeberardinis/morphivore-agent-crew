@@ -18,12 +18,15 @@ namespace Morphivore.Content
         public static CreatureTable Creatures { get; private set; }
         public static BiomeTable    Biomes    { get; private set; }
         public static FormTable     Forms     { get; private set; }
+        public static EmblemTable   Emblems   { get; private set; }
 
         // biome id → creatures that spawn there, split by where they live.
         static readonly Dictionary<string, List<SpawnEntry>> wandering = new();
         static readonly Dictionary<string, List<SpawnEntry>> pocket    = new();
         static readonly Dictionary<string, CreatureDef>      byId      = new();
         static readonly Dictionary<string, FormDef>          byFormId  = new();
+        // alpha id → the emblem that Alpha drops (§2.5, one each).
+        static readonly Dictionary<string, EmblemDef>        byAlphaId = new();
 
         // One creature as it appears in one biome: the definition plus the
         // biome-specific stat block, so callers never re-search the spawn list.
@@ -51,6 +54,7 @@ namespace Morphivore.Content
             // resolves against them (§2.4b), so a broken creatures.json must not
             // cost the player its name and stat line as well.
             LoadForms();
+            LoadEmblems();
 
             try
             {
@@ -94,7 +98,8 @@ namespace Morphivore.Content
             IsLoaded  = true;
             LoadError = null;
             Debug.Log($"[Content] loaded {Creatures.creatures.Length} creatures, " +
-                      $"{Biomes.biomes.Length} biomes, {byFormId.Count} forms from StreamingAssets.");
+                      $"{Biomes.biomes.Length} biomes, {byFormId.Count} forms, " +
+                      $"{byAlphaId.Count} emblems from StreamingAssets.");
             return true;
         }
 
@@ -122,6 +127,36 @@ namespace Morphivore.Content
             foreach (var f in Forms.forms)
                 if (!string.IsNullOrEmpty(f.id)) byFormId[f.id] = f;
         }
+
+        // The emblems (§2.5): one per Alpha, a trophy that opens the next biome
+        // and enables breeding, granting no power. Non-fatal like forms — an
+        // Alpha with no emblem record still fights; the player just gets no
+        // trophy line for it.
+        static void LoadEmblems()
+        {
+            byAlphaId.Clear();
+
+            try
+            {
+                Emblems = EmblemTable.Load(ReadStreamingAsset("emblems.json"));
+            }
+            catch (System.Exception e)
+            {
+                Emblems = null;
+                Debug.LogWarning($"[Content] could not read emblems.json: {e.Message} — " +
+                                 "Alphas will drop no named trophy.");
+                return;
+            }
+
+            if (Emblems?.emblems == null) return;
+            foreach (var em in Emblems.emblems)
+                if (!string.IsNullOrEmpty(em.alpha_id)) byAlphaId[em.alpha_id] = em;
+        }
+
+        /// <summary>The emblem a given Alpha drops, or null if none is authored.</summary>
+        public static EmblemDef EmblemFor(string alphaId) =>
+            !string.IsNullOrEmpty(alphaId) && byAlphaId.TryGetValue(alphaId, out var e)
+                ? e : null;
 
         static string ReadStreamingAsset(string file) =>
             File.ReadAllText(Path.Combine(Application.streamingAssetsPath, file));

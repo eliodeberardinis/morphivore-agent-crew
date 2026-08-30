@@ -1,0 +1,53 @@
+{
+  "emblems": [
+    {
+      "id": "emblem_prairies_yellow",
+      "alpha_id": "alpha_prairies_yellow",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "Bonelord's Knuckle",
+      "flavor": "Still warm when you pried it off.",
+      "grants": "+10 health"
+    },
+    {
+      "id": "emblem_prairies_red",
+      "alpha_id": "alpha_prairies_red",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "Quickfang's Spur",
+      "flavor": "Snapped clean off. Worth +15% dash to anyone who straps it on."
+    },
+    {
+      "id": "emblem_prairies_blue",
+      "alpha_id": "alpha_prairies_blue",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "Deadeye's Lens",
+      "flavor": "Pop it out and your lock range doubles."
+    },
+    {
+      "id": "emblem_prairies_purple",
+      "alpha_id": "alpha_prairies_purple",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "Nightthroat's Collar",
+      "flavor": "Wear it and you will never tire again."
+    },
+    {
+      "id": "emblem_prairies_grey",
+      "alpha_id": "alpha_prairies_grey",
+      "biome": "prairies",
+      "opens_biome": "volcanic",
+      "name": "Greytyrant's Crown",
+      "flavor": "Took three of your limbs to get."
+    },
+    {
+      "id": "emblem_prairies_green",
+      "alpha_id": "alpha_prairies_green",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "The Green One's Tooth",
+      "flavor": "From an animal that does not exist."
+    }
+  ]
+}

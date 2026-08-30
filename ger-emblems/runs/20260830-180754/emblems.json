@@ -1,0 +1,207 @@
+{
+  "generated_by": "Morphivore emblem GER pipeline (Assignment #6)",
+  "rule_enforced": "a trophy off a defeated rival, granting no power of its own (powers come from panels)",
+  "count": 25,
+  "emblems": [
+    {
+      "id": "emblem_beach_bonelord",
+      "alpha_id": "alpha_beach_yellow",
+      "biome": "beach",
+      "opens_biome": "volcanic",
+      "name": "Salt-Crusted Fist",
+      "flavor": "One huge knuckle gone white with dried spray, sand still jammed under the nails."
+    },
+    {
+      "id": "emblem_beach_deadeye",
+      "alpha_id": "alpha_beach_blue",
+      "biome": "beach",
+      "opens_biome": "volcanic",
+      "name": "Sand-Scoured Eye Ring",
+      "flavor": "The bony ring out of its face, rubbed smooth by shore wind long before you ate the middle."
+    },
+    {
+      "id": "emblem_beach_greytyrant",
+      "alpha_id": "alpha_beach_grey",
+      "biome": "beach",
+      "opens_biome": "volcanic",
+      "name": "Barnacled Spine Plate",
+      "flavor": "Pried off its back with the shellfish still alive and gripping the underside."
+    },
+    {
+      "id": "emblem_beach_nightthroat",
+      "alpha_id": "alpha_beach_purple",
+      "biome": "beach",
+      "opens_biome": "volcanic",
+      "name": "Gullet Pouch",
+      "flavor": "Cut from under the jaw and smells of nothing at all, which is exactly how it hunted you."
+    },
+    {
+      "id": "emblem_beach_quickfang",
+      "alpha_id": "alpha_beach_red",
+      "biome": "beach",
+      "opens_biome": "volcanic",
+      "name": "Sprint Tendon",
+      "flavor": "Pulled out of the leg; it snapped like wet rope and left tracks nobody bothered following."
+    },
+    {
+      "id": "emblem_mountains_bonelord",
+      "alpha_id": "alpha_mountains_yellow",
+      "biome": "mountains",
+      "opens_biome": "beach",
+      "name": "Crag-Chipped Knuckle",
+      "flavor": "Its biggest fist bone, chipped all over from punching rock it could actually beat."
+    },
+    {
+      "id": "emblem_mountains_deadeye",
+      "alpha_id": "alpha_mountains_blue",
+      "biome": "mountains",
+      "opens_biome": "beach",
+      "name": "Frost-Clouded Eye",
+      "flavor": "Froze solid before you finished chewing the rest, and it is still pointed downhill."
+    },
+    {
+      "id": "emblem_mountains_greytyrant",
+      "alpha_id": "alpha_mountains_grey",
+      "biome": "mountains",
+      "opens_biome": "beach",
+      "name": "Brow Ridge, Sawn Flat",
+      "flavor": "Took three tries to get off the skull because it argued the whole way through."
+    },
+    {
+      "id": "emblem_mountains_nightthroat",
+      "alpha_id": "alpha_mountains_purple",
+      "biome": "mountains",
+      "opens_biome": "beach",
+      "name": "Peeled Throat Skin",
+      "flavor": "A strip off the neck, thin as breath and just as quiet, dried stiff by the wind."
+    },
+    {
+      "id": "emblem_mountains_quickfang",
+      "alpha_id": "alpha_mountains_red",
+      "biome": "mountains",
+      "opens_biome": "beach",
+      "name": "Ledge-Gripping Claw",
+      "flavor": "Snapped off the stone it died holding, with a curl of grit still under the hook."
+    },
+    {
+      "id": "emblem_prairies_bonelord",
+      "alpha_id": "alpha_prairies_yellow",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "Grass-Stuffed Knuckle",
+      "flavor": "Popped off its fist joint with a twist, still packed with dirt from the last thing it punched."
+    },
+    {
+      "id": "emblem_prairies_deadeye",
+      "alpha_id": "alpha_prairies_blue",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "The Good Eye",
+      "flavor": "Pried out whole, wide open, crusted with pollen and aimed at absolutely nothing."
+    },
+    {
+      "id": "emblem_prairies_greytyrant",
+      "alpha_id": "alpha_prairies_grey",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "Both Shoulder Plates",
+      "flavor": "You took one off each side so nobody could argue about which one was weaker."
+    },
+    {
+      "id": "emblem_prairies_nightthroat",
+      "alpha_id": "alpha_prairies_purple",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "Voicebox on a Reed",
+      "flavor": "Bitten out of its neck; it made no noise going in and none coming out."
+    },
+    {
+      "id": "emblem_prairies_quickfang",
+      "alpha_id": "alpha_prairies_red",
+      "biome": "prairies",
+      "opens_biome": "wetlands",
+      "name": "Twitching Hock",
+      "flavor": "A hind leg joint that kept kicking in your hand a full minute after the rest of it stopped."
+    },
+    {
+      "id": "emblem_volcanic_bonelord",
+      "alpha_id": "alpha_volcanic_yellow",
+      "biome": "volcanic",
+      "opens_biome": null,
+      "name": "Scorched Knucklebone",
+      "flavor": "Cracked black outside, greasy white inside, and still warm when you pocket it."
+    },
+    {
+      "id": "emblem_volcanic_deadeye",
+      "alpha_id": "alpha_volcanic_blue",
+      "biome": "volcanic",
+      "opens_biome": null,
+      "name": "Glassed Eye",
+      "flavor": "The ash melted hard around it, and the eye keeps staring out through the glass."
+    },
+    {
+      "id": "emblem_volcanic_greytyrant",
+      "alpha_id": "alpha_volcanic_grey",
+      "biome": "volcanic",
+      "opens_biome": null,
+      "name": "Ring of Slag Scutes",
+      "flavor": "A hacked-off collar of back plates, heavy and identical on every single side."
+    },
+    {
+      "id": "emblem_volcanic_nightthroat",
+      "alpha_id": "alpha_volcanic_purple",
+      "biome": "volcanic",
+      "opens_biome": null,
+      "name": "Smoke-Cured Fang",
+      "flavor": "One tooth out of a mouth that never once made a sound, tastes of soot and old meat."
+    },
+    {
+      "id": "emblem_volcanic_quickfang",
+      "alpha_id": "alpha_volcanic_red",
+      "biome": "volcanic",
+      "opens_biome": null,
+      "name": "Cinder-Burnt Footpad",
+      "flavor": "You took the whole pad; the soles were cooked through before you ever caught up to it."
+    },
+    {
+      "id": "emblem_wetlands_bonelord",
+      "alpha_id": "alpha_wetlands_yellow",
+      "biome": "wetlands",
+      "opens_biome": "mountains",
+      "name": "Leech-Bitten Fistbone",
+      "flavor": "A knuckle bone the marsh leeches had already claimed before you got your teeth in."
+    },
+    {
+      "id": "emblem_wetlands_deadeye",
+      "alpha_id": "alpha_wetlands_blue",
+      "biome": "wetlands",
+      "opens_biome": "mountains",
+      "name": "Pickled Sighting Eye",
+      "flavor": "Plucked from the socket and dropped in swamp water, where it looks no worse than it did alive."
+    },
+    {
+      "id": "emblem_wetlands_greytyrant",
+      "alpha_id": "alpha_wetlands_grey",
+      "biome": "wetlands",
+      "opens_biome": "mountains",
+      "name": "Flank-to-Flank Hide Strip",
+      "flavor": "Sawn straight across its back, so the strip has no weak side either."
+    },
+    {
+      "id": "emblem_wetlands_nightthroat",
+      "alpha_id": "alpha_wetlands_purple",
+      "biome": "wetlands",
+      "opens_biome": "mountains",
+      "name": "Hollow Fang Sleeve",
+      "flavor": "One drained tooth; the venom sac went down your throat before you thought to keep it."
+    },
+    {
+      "id": "emblem_wetlands_quickfang",
+      "alpha_id": "alpha_wetlands_red",
+      "biome": "wetlands",
+      "opens_biome": "mountains",
+      "name": "Splayed Marsh Foot",
+      "flavor": "Cut off at the ankle with mud still packed between the toes it used to skim on."
+    }
+  ]
+}

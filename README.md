@@ -10,6 +10,7 @@ take over an ecosystem.
 | **Assignment #4** | Dynamic Content Pipeline — RAG + parallel fan-out + a two-stage critic | `creatures.json`, `panels.json`, `biomes.json` + `WorldTables.cs` |
 | **Assignment #5** | Goal-Oriented Coding Agent — reads the GDD, scans the codebase, ranks the gaps, writes C# | the game's identity system (`ColourBuffer.cs` + 7 rewritten files) |
 | **Assignment #6** | Emblem GER Pipeline — Generate → Evaluate → Refine, with a circuit breaker | `emblems.json` (25) — the last unwritten file in the §3.3 content contract |
+| **Assignment #7** | Style Guide Agent — scores content 1–10 against the game's own voice and repairs it | four constraints, and two live defects fixed in the shipped game text |
 
 **Each builds on the last.** `crew.py` and `tools.py` are untouched by #4;
 `rag.py`, `world_contract.py`, `tools_world.py` and `crew_world.py` are
@@ -23,6 +24,49 @@ the `forms.json` #3 authored.
 > `deploy_to_unity.py` writes into `Assets/StreamingAssets/` and
 > `Assets/Scripts/Content/` one directory up. Cloned on its own, point
 > `MORPHIVORE_UNITY_ROOT` at a checkout of the game.
+
+---
+
+# Assignment #7 — Style Guide Agent
+
+**→ Full write-up: [`style-guide/README.md`](style-guide/README.md)**
+
+Generator → Evaluator → Refiner, enforcing Morphivore's own voice. The Evaluator returns a
+**SCORE (1–10) and a REASON**, never a pass/fail — because "fail" gives the Refiner nothing
+to aim at, so it would re-roll the whole line and lose what already worked.
+
+**Where it runs:** immediately after the Generator in the [Assignment #6 emblem
+pipeline](ger-emblems/), scoring every generated name and flavour line before the rule
+Evaluator checks it for power grants.
+
+**Four constraints, none invented.** Two quoted from the GDD and verified present at run
+time — §3.1's *"primal, crude, comedic … form names are the entire authorial voice"* and
+§2.8's *"panels are the run's only power source"*. Two **measured** from the 235 flavour
+lines already shipped: at most 24 words and 2 sentences, and **zero exclamation marks in
+the whole corpus**.
+
+**The fourth constraint exists because the agent argued me into it.** Gating
+`creatures.json`, it flagged all 25 Alpha names as high-fantasy title cards and wanted
+`Bonelord of the Shattered Crags` renamed `Gristle Knuckle`. It was right about the rule
+and wrong about the scope — Alpha names follow a convention my guide never mentioned. After
+adding C4, all 8 Alpha names passed **and both real vocabulary catches survived**: noise
+gone, signal kept.
+
+**Run over all three shipped corpora**, and the trend is the finding:
+
+| Corpus | Author | Mean score |
+|---|---|---|
+| `emblems.json` (25) | #6, with a voice brief | **8.70** |
+| `creatures.json` (60) | #4 crew, August | **7.63** |
+| `forms.json` (150) | #3 crew, July | **6.64** |
+
+The further content sits from the guide, the worse it scores — the agent detecting
+authorial drift across the project's own history. It caught `"Twin-Horn **Boss**"` in a game
+whose champions are Alphas, and `"a better **trigger**"` in nine records of a game with no
+firearms.
+
+Two emblem repairs were deployed. Nothing else: the forms run wanted 121 rewrites of the
+game's largest text corpus on its reading of one adjective, and that is a designer's call.
 
 ---
 

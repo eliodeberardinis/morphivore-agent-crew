@@ -1,0 +1,672 @@
+{
+  "demos": [
+    {
+      "demo": "demo1-tone",
+      "targets": "C1_tone",
+      "title": "Tone \u2014 reverent high fantasy where the game is crude and physical",
+      "subject": {
+        "id": "alpha_prairies_yellow",
+        "name": "Bonelord of the Trampled Fields",
+        "family": "Yellow",
+        "role": "alpha",
+        "tier": "Clash"
+      },
+      "off_brand_brief": "Write it as reverent high fantasy. This is an ancient artifact of untold power, wreathed in destiny. Be awed and ceremonial, in the register of an epic quest.",
+      "before": {
+        "name": "The Aureate Horn of the Bonelord",
+        "flavor": "Hewn from the last king of the herd, whose hooves wrote thunder across the grasslands and whose bones the prairie still bows toward. Lift it, and the trampled fields remember their sovereign; the yellow of high summer rises in you like a war-hymn, and the earth itself consents to your passage."
+      },
+      "first_verdict": {
+        "score": 1,
+        "reason": "Every constraint is breached at once, and the piece reads as a high-fantasy relic blurb rather than a Morphivore emblem line. Tone: 'whose bones the prairie still bows toward', 'the trampled fields remember their sovereign' and 'like a war-hymn' are reverence, royalty and hymn-register; this game's emblems are body parts you pried off a corpse ('One rib off a cage where every rib was the same, pried out with your knee on its chest'), so the horn should be described as horn \u2014 cracked, yellow, still smelling of the animal \u2014 not as a king's regalia. Vocabulary: 'The Aureate Horn' uses artefact-catalogue diction the corpus never uses ('Aureate' for Yellow, when the family word is simply Yellow), and 'the last king of the herd' / 'their sovereign' import a monarchy the food chain does not have \u2014 the beaten creature is an Alpha, a grazer-eater, not a monarch. Lore: 'Lift it, and ... the yellow of high summer rises in you ... and the earth itself consents to your passage' makes the emblem a power source, which \u00a72.8 forbids outright: panels are the run's only power source and an emblem grants nothing. Formatting: 51 words against a 24-word cap, and 'Lift it' is exactly the second-person instruction the guide bans \u2014 describe the horn, not what the player does with it. Fix by cutting to one flat, physical sentence under 24 words about a horn off a dead Clash Yellow Alpha, with no promise attached.",
+        "constraints": {
+          "C1_tone": {
+            "score": 1,
+            "note": "Pure epic-reverent register: 'whose hooves wrote thunder', 'the prairie still bows toward', 'like a war-hymn', 'the earth itself consents to your passage'. Mysticism, ceremony and destiny where the house voice gives meat, mud and squeal. No physical detail about the horn at all \u2014 no crack, no grit, no smell."
+          },
+          "C2_vocabulary": {
+            "score": 2,
+            "note": "'Aureate' substitutes for the family word Yellow; 'king of the herd' and 'sovereign' invent a monarchy this ecosystem does not have (the word is Alpha). Worse, the line hard-breaks \u00a72.8 by having the emblem confer something \u2014 'the yellow of high summer rises in you' \u2014 when an emblem is a trophy and grants nothing. 'Clash Yellow' and 'alpha' from the brief never appear in the text."
+          },
+          "C3_formatting": {
+            "score": 1,
+            "note": "51 words against a 24-word cap, more than double the longest shipped line (23). Two sentences is within limit and there are no exclamation marks, but 'Lift it, and...' is a banned second-person instruction."
+          }
+        },
+        "violations": [
+          {
+            "constraint": "C1_tone",
+            "phrase": "whose bones the prairie still bows toward",
+            "why": "Mystical reverence toward a corpse; the game treats bodies as meat and material, not objects of homage."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "whose hooves wrote thunder across the grasslands",
+            "why": "Epic-poetic abstraction. Shipped lines stay concrete and unflattering \u2014 'Rolls downhill faster than it ever runs uphill'."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "the trampled fields remember their sovereign",
+            "why": "Sentimental memorial register plus implied kingdom; there is no kingdom and nothing mourns the eaten."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "like a war-hymn",
+            "why": "Ceremonial/hymnal simile. The tone brief is primal, crude, comedic \u2014 faintly disgusting, not liturgical."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "the earth itself consents to your passage",
+            "why": "Destiny/anointment language. You are not chosen and nothing consents; you are trying to sit on top of the food chain."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "The Aureate Horn",
+            "why": "'Aureate' is artefact-catalogue diction standing in for the family name Yellow, which is the only word this game has for that colour."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "the last king of the herd",
+            "why": "Monarchy imported from another genre; the top creature of a biome is an Alpha, and rank is limb count from breeding, not a throne."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "their sovereign",
+            "why": "Same invented royalty, repeated; no shipped line grants any creature a title beyond Alpha."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "Lift it, and ... the yellow of high summer rises in you ... and the earth itself consents to your passage",
+            "why": "Breaks \u00a72.8: panels are the run's only power source and an emblem grants nothing. This makes the trophy a buff item."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "Hewn from the last king of the herd, ... the earth itself consents to your passage.",
+            "why": "51 words against a 24-word maximum; the longest authored line in the corpus is 23 and the mean is 10.6."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "Lift it, and",
+            "why": "Second-person instruction telling the player what to do with the object, explicitly banned; describe the thing instead."
+          }
+        ],
+        "worst_constraint": "C1_tone",
+        "objective_findings": [
+          "C3 formatting (measured): 51 words; the corpus tops out at 23 (limit 24)"
+        ]
+      },
+      "after": {
+        "name": "The Cracked Yellow Horn",
+        "flavor": "Twisted off the herd's Alpha while it was still warm, yellow gone brown at the base, and it still stinks of the animal."
+      },
+      "final_score": 9,
+      "passes": 1,
+      "accepted": true,
+      "history": [
+        {
+          "pass": 0,
+          "name": "The Aureate Horn of the Bonelord",
+          "flavor": "Hewn from the last king of the herd, whose hooves wrote thunder across the grasslands and whose bones the prairie still bows toward. Lift it, and the trampled fields remember their sovereign; the yellow of high summer rises in you like a war-hymn, and the earth itself consents to your passage.",
+          "score": 1,
+          "verdict": {
+            "score": 1,
+            "reason": "Every constraint is breached at once, and the piece reads as a high-fantasy relic blurb rather than a Morphivore emblem line. Tone: 'whose bones the prairie still bows toward', 'the trampled fields remember their sovereign' and 'like a war-hymn' are reverence, royalty and hymn-register; this game's emblems are body parts you pried off a corpse ('One rib off a cage where every rib was the same, pried out with your knee on its chest'), so the horn should be described as horn \u2014 cracked, yellow, still smelling of the animal \u2014 not as a king's regalia. Vocabulary: 'The Aureate Horn' uses artefact-catalogue diction the corpus never uses ('Aureate' for Yellow, when the family word is simply Yellow), and 'the last king of the herd' / 'their sovereign' import a monarchy the food chain does not have \u2014 the beaten creature is an Alpha, a grazer-eater, not a monarch. Lore: 'Lift it, and ... the yellow of high summer rises in you ... and the earth itself consents to your passage' makes the emblem a power source, which \u00a72.8 forbids outright: panels are the run's only power source and an emblem grants nothing. Formatting: 51 words against a 24-word cap, and 'Lift it' is exactly the second-person instruction the guide bans \u2014 describe the horn, not what the player does with it. Fix by cutting to one flat, physical sentence under 24 words about a horn off a dead Clash Yellow Alpha, with no promise attached.",
+            "constraints": {
+              "C1_tone": {
+                "score": 1,
+                "note": "Pure epic-reverent register: 'whose hooves wrote thunder', 'the prairie still bows toward', 'like a war-hymn', 'the earth itself consents to your passage'. Mysticism, ceremony and destiny where the house voice gives meat, mud and squeal. No physical detail about the horn at all \u2014 no crack, no grit, no smell."
+              },
+              "C2_vocabulary": {
+                "score": 2,
+                "note": "'Aureate' substitutes for the family word Yellow; 'king of the herd' and 'sovereign' invent a monarchy this ecosystem does not have (the word is Alpha). Worse, the line hard-breaks \u00a72.8 by having the emblem confer something \u2014 'the yellow of high summer rises in you' \u2014 when an emblem is a trophy and grants nothing. 'Clash Yellow' and 'alpha' from the brief never appear in the text."
+              },
+              "C3_formatting": {
+                "score": 1,
+                "note": "51 words against a 24-word cap, more than double the longest shipped line (23). Two sentences is within limit and there are no exclamation marks, but 'Lift it, and...' is a banned second-person instruction."
+              }
+            },
+            "violations": [
+              {
+                "constraint": "C1_tone",
+                "phrase": "whose bones the prairie still bows toward",
+                "why": "Mystical reverence toward a corpse; the game treats bodies as meat and material, not objects of homage."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "whose hooves wrote thunder across the grasslands",
+                "why": "Epic-poetic abstraction. Shipped lines stay concrete and unflattering \u2014 'Rolls downhill faster than it ever runs uphill'."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "the trampled fields remember their sovereign",
+                "why": "Sentimental memorial register plus implied kingdom; there is no kingdom and nothing mourns the eaten."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "like a war-hymn",
+                "why": "Ceremonial/hymnal simile. The tone brief is primal, crude, comedic \u2014 faintly disgusting, not liturgical."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "the earth itself consents to your passage",
+                "why": "Destiny/anointment language. You are not chosen and nothing consents; you are trying to sit on top of the food chain."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "The Aureate Horn",
+                "why": "'Aureate' is artefact-catalogue diction standing in for the family name Yellow, which is the only word this game has for that colour."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "the last king of the herd",
+                "why": "Monarchy imported from another genre; the top creature of a biome is an Alpha, and rank is limb count from breeding, not a throne."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "their sovereign",
+                "why": "Same invented royalty, repeated; no shipped line grants any creature a title beyond Alpha."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "Lift it, and ... the yellow of high summer rises in you ... and the earth itself consents to your passage",
+                "why": "Breaks \u00a72.8: panels are the run's only power source and an emblem grants nothing. This makes the trophy a buff item."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "Hewn from the last king of the herd, ... the earth itself consents to your passage.",
+                "why": "51 words against a 24-word maximum; the longest authored line in the corpus is 23 and the mean is 10.6."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "Lift it, and",
+                "why": "Second-person instruction telling the player what to do with the object, explicitly banned; describe the thing instead."
+              }
+            ],
+            "worst_constraint": "C1_tone",
+            "objective_findings": [
+              "C3 formatting (measured): 51 words; the corpus tops out at 23 (limit 24)"
+            ]
+          },
+          "refiner_note": "Cut the 51-word royal-relic hymn to one flat 23-word sentence about a horn wrenched off a warm Alpha, dropped the monarchy, the reverence and the emblem-grants-power promise, removed the \"Lift it\" instruction, and renamed it from 'Aureate'/'Bonelord' diction to plain Yellow."
+        },
+        {
+          "pass": 1,
+          "name": "The Cracked Yellow Horn",
+          "flavor": "Twisted off the herd's Alpha while it was still warm, yellow gone brown at the base, and it still stinks of the animal.",
+          "score": 9,
+          "verdict": {
+            "score": 9,
+            "reason": "Near-shipped quality. 'Twisted off the herd's Alpha while it was still warm' is exactly the register of 'One rib off a cage where every rib was the same, pried out with your knee on its chest' \u2014 theft, body part, no reverence, and the emblem claims no power. Vocabulary is clean: Alpha and the Yellow family are used correctly and nothing from another genre creeps in. The only wobble is rhythm and length: at 23 words it sits on the absolute ceiling (mean is 10.6), and 'still warm' / 'it still stinks' repeats 'still' inside one sentence, which no shipped line does. Cutting to 'Twisted off the herd's Alpha while it was warm, yellow gone brown at the base, and it stinks of the animal' fixes both without losing anything.",
+            "constraints": {
+              "C1_tone": {
+                "score": 10,
+                "note": "Primal, crude, concrete: warm meat, brown staining, animal stink. No destiny, no ceremony, no world to save \u2014 just a part pried off something that lost."
+              },
+              "C2_vocabulary": {
+                "score": 10,
+                "note": "'Alpha', 'Yellow' and the horn-as-trophy framing are all native. No boss/loot/artifact language; the emblem is described as a smelly object and is granted no power, honouring \u00a72.8."
+              },
+              "C3_formatting": {
+                "score": 8,
+                "note": "One sentence, zero exclamation marks, no second-person or 'This is a...' opener. But 23 words hits the hard ceiling exactly, and 'still warm' followed by 'it still stinks' is a repetition the shipped lines avoid."
+              }
+            },
+            "violations": [
+              {
+                "constraint": "C3_formatting",
+                "phrase": "while it was still warm ... and it still stinks of the animal",
+                "why": "'still' used twice in one 23-word line; length is at the absolute maximum against a 10.6-word mean, so the padding is conspicuous."
+              }
+            ],
+            "worst_constraint": "C3_formatting",
+            "objective_findings": []
+          }
+        }
+      ]
+    },
+    {
+      "demo": "demo2-vocabulary",
+      "targets": "C2_vocabulary",
+      "title": "Vocabulary and lore \u2014 generic RPG nouns this game does not have",
+      "subject": {
+        "id": "elite_yellow",
+        "name": "The Knucklebreaker",
+        "family": "Yellow",
+        "role": "elite",
+        "tier": "Clash"
+      },
+      "off_brand_brief": "Write it like a classic RPG item description. Mention the mana it restores, the XP the player earns, that it is rare loot from a dungeon boss, and that it helps you level up.",
+      "before": {
+        "name": "Knucklebreaker's Gilded Fist",
+        "flavor": "Rare loot from the dungeon boss himself: restores 40 mana, grants 500 XP, and clenches you one punch closer to the next level."
+      },
+      "first_verdict": {
+        "score": 1,
+        "reason": "This is a loot-drop stat block from a different genre, not a Morphivore line. Every noun is foreign: 'Rare loot from the dungeon boss himself' imports inventory, dungeons and bosses into a game whose world is five biomes and whose champion is an Alpha; 'restores 40 mana' invents a magic system that does not exist; 'grants 500 XP' and 'one punch closer to the next level' replace rank-from-breeding with points and levelling, when eating changes what you ARE, not how big you are. It also breaks \u00a72.8 twice: panels are the run's only power source and an emblem grants nothing, yet this trophy hands out restoration and progression. Register is treasure-hoard reverence ('Gilded', 'himself') where the house voice is meat, bone and knees on chests \\u2014 compare 'One rib off a cage where every rib was the same, pried out with your knee on its chest.' Rewrite as a body part taken off a Clash Yellow elite: physical, unsentimental, granting nothing. Drop the effect list entirely and stop addressing the player.",
+        "constraints": {
+          "C1_tone": {
+            "score": 2,
+            "note": "Reads as a shop/reward tooltip. 'Rare loot ... Gilded Fist ... boss himself' is acquisitive fantasy-treasure register, not primal or crude; there is no meat, bone, dirt or appetite anywhere in it. 'Clenches you one punch closer to the next level' is progression-fiction, i.e. a plot to resolve, which the game explicitly refuses. The only faint on-brand beat is the physical image of a fist."
+          },
+          "C2_vocabulary": {
+            "score": 1,
+            "note": "Five confirmed out-of-lexicon words (loot, dungeon, boss, mana, XP) plus 'level' as a progression noun, in a single line \\u2014 with no dialogue or lore in the game, there is nothing to absorb even one wrong noun. Also contradicts two fixed lore points: panels are the run's only power source, and an emblem is a trophy that grants nothing. No family, intensity, limb, rank, panel or Alpha vocabulary is used, so a Clash Yellow elite trophy is unidentifiable as such."
+          },
+          "C3_formatting": {
+            "score": 4,
+            "note": "Passes the countable limits \\u2014 23 words, one sentence, zero exclamation marks \\u2014 but breaks the second-person prohibition with 'grants ... clenches you one punch closer', which tells the player what the thing does for them instead of describing the thing. The colon-plus-effect-list structure appears nowhere in the 235 shipped lines."
+          }
+        },
+        "violations": [
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "Rare loot",
+            "why": "'Loot' is not in the lexicon; there is no inventory. Body parts and panels attach to the creature, they are not picked up as drops."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "from the dungeon boss himself",
+            "why": "'Dungeon' and 'boss' are both foreign. The world is five biomes (Prairies to Volcanic) and the biome champion is an Alpha."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "restores 40 mana",
+            "why": "Invents a magic system the game does not have. Panels are the run's only power source (\\u00a72.8)."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "grants 500 XP",
+            "why": "'XP' is not in the lexicon and an emblem grants nothing. Rank is limb count 1-6, earned only by beating an Alpha and breeding."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "one punch closer to the next level",
+            "why": "Levelling does not exist; eating changes what you ARE (family and intensity in the buffer), not how big or strong you are."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "Knucklebreaker's Gilded Fist",
+            "why": "'Gilded' is treasure-hoard reverence. This game's trophies are unglamorous parts pried off a carcass, described as meat and bone."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "the dungeon boss himself",
+            "why": "'Himself' confers epic stature on a defeated creature; the house voice is unsentimental and faintly contemptuous of what it eats."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "grants 500 XP, and clenches you one punch closer",
+            "why": "Second-person effect text \\u2014 the guide requires describing the thing, not what the player gets from it."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "Rare loot from the dungeon boss himself: restores 40 mana, grants 500 XP",
+            "why": "Colon-led numeric effect list is stat-block formatting; no shipped flavour line carries numbers or mechanical values."
+          }
+        ],
+        "worst_constraint": "C2_vocabulary",
+        "objective_findings": [
+          "C2 vocabulary: the word 'mana' is not in this game's lexicon \u2014 no magic system exists",
+          "C2 vocabulary: the word 'xp' is not in this game's lexicon \u2014 rank comes from breeding, not points",
+          "C2 vocabulary: the word 'loot' is not in this game's lexicon \u2014 there is no inventory; panels attach to the body",
+          "C2 vocabulary: the word 'dungeon' is not in this game's lexicon \u2014 the world is five biomes, not dungeons",
+          "C2 vocabulary: the word 'boss' is not in this game's lexicon \u2014 the biome champion is an Alpha"
+        ]
+      },
+      "after": {
+        "name": "Knucklebreaker's Fist",
+        "flavor": "Four knuckles fused hard as gravel, still cocked to swing. The arm behind them is meat in your gut and buys you nothing."
+      },
+      "final_score": 9,
+      "passes": 1,
+      "accepted": true,
+      "history": [
+        {
+          "pass": 0,
+          "name": "Knucklebreaker's Gilded Fist",
+          "flavor": "Rare loot from the dungeon boss himself: restores 40 mana, grants 500 XP, and clenches you one punch closer to the next level.",
+          "score": 1,
+          "verdict": {
+            "score": 1,
+            "reason": "This is a loot-drop stat block from a different genre, not a Morphivore line. Every noun is foreign: 'Rare loot from the dungeon boss himself' imports inventory, dungeons and bosses into a game whose world is five biomes and whose champion is an Alpha; 'restores 40 mana' invents a magic system that does not exist; 'grants 500 XP' and 'one punch closer to the next level' replace rank-from-breeding with points and levelling, when eating changes what you ARE, not how big you are. It also breaks \u00a72.8 twice: panels are the run's only power source and an emblem grants nothing, yet this trophy hands out restoration and progression. Register is treasure-hoard reverence ('Gilded', 'himself') where the house voice is meat, bone and knees on chests \\u2014 compare 'One rib off a cage where every rib was the same, pried out with your knee on its chest.' Rewrite as a body part taken off a Clash Yellow elite: physical, unsentimental, granting nothing. Drop the effect list entirely and stop addressing the player.",
+            "constraints": {
+              "C1_tone": {
+                "score": 2,
+                "note": "Reads as a shop/reward tooltip. 'Rare loot ... Gilded Fist ... boss himself' is acquisitive fantasy-treasure register, not primal or crude; there is no meat, bone, dirt or appetite anywhere in it. 'Clenches you one punch closer to the next level' is progression-fiction, i.e. a plot to resolve, which the game explicitly refuses. The only faint on-brand beat is the physical image of a fist."
+              },
+              "C2_vocabulary": {
+                "score": 1,
+                "note": "Five confirmed out-of-lexicon words (loot, dungeon, boss, mana, XP) plus 'level' as a progression noun, in a single line \\u2014 with no dialogue or lore in the game, there is nothing to absorb even one wrong noun. Also contradicts two fixed lore points: panels are the run's only power source, and an emblem is a trophy that grants nothing. No family, intensity, limb, rank, panel or Alpha vocabulary is used, so a Clash Yellow elite trophy is unidentifiable as such."
+              },
+              "C3_formatting": {
+                "score": 4,
+                "note": "Passes the countable limits \\u2014 23 words, one sentence, zero exclamation marks \\u2014 but breaks the second-person prohibition with 'grants ... clenches you one punch closer', which tells the player what the thing does for them instead of describing the thing. The colon-plus-effect-list structure appears nowhere in the 235 shipped lines."
+              }
+            },
+            "violations": [
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "Rare loot",
+                "why": "'Loot' is not in the lexicon; there is no inventory. Body parts and panels attach to the creature, they are not picked up as drops."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "from the dungeon boss himself",
+                "why": "'Dungeon' and 'boss' are both foreign. The world is five biomes (Prairies to Volcanic) and the biome champion is an Alpha."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "restores 40 mana",
+                "why": "Invents a magic system the game does not have. Panels are the run's only power source (\\u00a72.8)."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "grants 500 XP",
+                "why": "'XP' is not in the lexicon and an emblem grants nothing. Rank is limb count 1-6, earned only by beating an Alpha and breeding."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "one punch closer to the next level",
+                "why": "Levelling does not exist; eating changes what you ARE (family and intensity in the buffer), not how big or strong you are."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "Knucklebreaker's Gilded Fist",
+                "why": "'Gilded' is treasure-hoard reverence. This game's trophies are unglamorous parts pried off a carcass, described as meat and bone."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "the dungeon boss himself",
+                "why": "'Himself' confers epic stature on a defeated creature; the house voice is unsentimental and faintly contemptuous of what it eats."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "grants 500 XP, and clenches you one punch closer",
+                "why": "Second-person effect text \\u2014 the guide requires describing the thing, not what the player gets from it."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "Rare loot from the dungeon boss himself: restores 40 mana, grants 500 XP",
+                "why": "Colon-led numeric effect list is stat-block formatting; no shipped flavour line carries numbers or mechanical values."
+              }
+            ],
+            "worst_constraint": "C2_vocabulary",
+            "objective_findings": [
+              "C2 vocabulary: the word 'mana' is not in this game's lexicon \u2014 no magic system exists",
+              "C2 vocabulary: the word 'xp' is not in this game's lexicon \u2014 rank comes from breeding, not points",
+              "C2 vocabulary: the word 'loot' is not in this game's lexicon \u2014 there is no inventory; panels attach to the body",
+              "C2 vocabulary: the word 'dungeon' is not in this game's lexicon \u2014 the world is five biomes, not dungeons",
+              "C2 vocabulary: the word 'boss' is not in this game's lexicon \u2014 the biome champion is an Alpha"
+            ]
+          },
+          "refiner_note": "Dropped 'Gilded' from the name and replaced the loot/mana/XP/levelling stat block with an unsentimental description of the pried-off fist that explicitly grants nothing."
+        },
+        {
+          "pass": 1,
+          "name": "Knucklebreaker's Fist",
+          "flavor": "Four knuckles fused hard as gravel, still cocked to swing. The arm behind them is meat in your gut and buys you nothing.",
+          "score": 9,
+          "verdict": {
+            "score": 9,
+            "reason": "This reads like shipped text: 'Four knuckles fused hard as gravel, still cocked to swing' is concrete, bony and unsentimental, and 'buys you nothing' encodes the \u00a72.8 rule that an emblem is a trophy and grants nothing without ever stating a rule. No foreign nouns, no reverence, no plot. The only wobble is length \u2014 at 23 words it exactly ties the longest of 235 shipped lines while the mean is 10.6, so it sits at the far edge of the house rhythm; trimming 'still cocked to swing' to 'still cocked' or cutting 'The arm behind them is' to 'The arm's' would pull it toward the register of 'Half mud, half meat, all squeal.'",
+            "constraints": {
+              "C1_tone": {
+                "score": 10,
+                "note": "Knuckles, gravel, meat, gut \u2014 physical, crude, faintly disgusting, and the dismissive 'buys you nothing' is the game's flat comedic shrug. No awe, destiny or ceremony anywhere."
+              },
+              "C2_vocabulary": {
+                "score": 10,
+                "note": "Uses 'meat' correctly and avoids all banned generic RPG nouns. The emblem-grants-nothing claim from \u00a72.8 is honoured rather than contradicted; nothing about rank, levels or points."
+              },
+              "C3_formatting": {
+                "score": 8,
+                "note": "2 sentences, 0 exclamation marks, no second-person instruction, no 'This is a' opener. But 23 words matches the single longest shipped line against a mean of 10.6, so it's the outer boundary rather than the centre of the distribution."
+              }
+            },
+            "violations": [
+              {
+                "constraint": "C3_formatting",
+                "phrase": "Four knuckles fused hard as gravel, still cocked to swing. The arm behind them is meat in your gut and buys you nothing.",
+                "why": "23 words \u2014 legal, but ties the longest of 235 authored lines and runs more than double the 10.6-word mean; the padding sits in 'The arm behind them is', which could be compressed without losing the joke."
+              }
+            ],
+            "worst_constraint": "C3_formatting",
+            "objective_findings": []
+          }
+        }
+      ]
+    },
+    {
+      "demo": "demo3-formatting",
+      "targets": "C3_formatting",
+      "title": "Formatting and length \u2014 long, exclamatory, instructional",
+      "subject": {
+        "id": "prey_yellow_pale",
+        "name": "Scrawny Thumper",
+        "family": "Yellow",
+        "role": "prey",
+        "tier": "Pale"
+      },
+      "off_brand_brief": "Write an enthusiastic, detailed description of at least four sentences. Use exclamation marks. Tell the player directly what they should do with it and why they will love it.",
+      "before": {
+        "name": "Scrawny Thumper",
+        "flavor": "A jittery little scrap of pale yellow, all knees and nerves, thumping out a panic-drum you can feel through the soil! Don't let the ribs fool you \u2014 that faded straw hide is the purest Pale Yellow you'll find this early, and it comes off clean! Chase it into a dead end, take it in one bite, and wear that soft custard glow like you were born in it! You'll love how the Thumper's colour makes every brighter yellow ahead look absolutely gorgeous by comparison \u2014 go get it, and go get seconds!"
+      },
+      "first_verdict": {
+        "score": 2,
+        "reason": "C3 is broken on every measurable axis at once: 93 words against a 24-word ceiling, 4 sentences against 2, and 4 exclamation marks where the 235 shipped lines contain zero. On top of that the whole back half is second-person instruction \u2014 \"Chase it into a dead end, take it in one bite\" and \"go get it, and go get seconds\" \u2014 which the guide forbids outright; shipped lines describe the animal ('Half mud, half meat, all squeal.'), they never coach the player. The register is also wrong in a way that isn't epic but is just as off: \"wear that soft custard glow like you were born in it\" and \"look absolutely gorgeous by comparison\" are cosmetics-shop sales copy, sentimental and flattering, where this game is unsentimental about meat \u2014 the correct move on a Pale Yellow prey is the ribs, the knees, the dirt, and how little it's worth, not how pretty its colour will look on you. Vocabulary is the one clean part: family/intensity terms (Pale Yellow), 'prey', and no imported RPG nouns. Fix: cut to one sentence of at most 24 words, drop every exclamation mark and every imperative, keep 'all knees and nerves' and the panic-drum in the soil, and lose the glow, the custard and the 'gorgeous'.",
+        "constraints": {
+          "C1_tone": {
+            "score": 3,
+            "note": "Some genuinely on-brand physical detail \u2014 'all knees and nerves', 'Don't let the ribs fool you', 'faded straw hide' \u2014 but it is buried in promotional gush. 'wear that soft custard glow like you were born in it', 'absolutely gorgeous', 'go get seconds' is an advertisement addressed to the player, not a crude, concrete description of an animal. 'like you were born in it' is sentimental in a game where eating changes what you are with no warmth attached."
+          },
+          "C2_vocabulary": {
+            "score": 8,
+            "note": "No foreign genre nouns: no loot, levels, magic or boss. Uses 'prey' and the family/intensity pair 'Pale Yellow' correctly, and 'purest Pale Yellow you'll find this early' respects that intensity is a rung, not a stat. Minor wobble: 'every brighter yellow ahead' substitutes vague brightness for the named ladder (Dusk, Deep, Clash, Rage), and framing colour as a look rather than as what you become drifts from the buffer's logic."
+          },
+          "C3_formatting": {
+            "score": 1,
+            "note": "93 words (limit 24), 4 sentences (limit 2), 4 exclamation marks (corpus has 0), plus a run of second-person instructions. Every measured formatting rule is violated simultaneously."
+          }
+        },
+        "violations": [
+          {
+            "constraint": "C3_formatting",
+            "phrase": "entire line, 93 words",
+            "why": "Limit is 24 words; the longest shipped line is 23 and the mean is 10.6. This is four times the ceiling."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "4 sentences",
+            "why": "Corpus never exceeds 2 sentences."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "you can feel through the soil!",
+            "why": "Exclamation mark; there are zero in all 235 authored lines."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "and it comes off clean!",
+            "why": "Second exclamation mark."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "like you were born in it!",
+            "why": "Third exclamation mark."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "go get it, and go get seconds!",
+            "why": "Fourth exclamation mark, and a direct second-person call to action."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "Chase it into a dead end, take it in one bite",
+            "why": "Second-person instruction telling the player what to do with the creature; flavour describes the thing, not the tactic."
+          },
+          {
+            "constraint": "C3_formatting",
+            "phrase": "Don't let the ribs fool you",
+            "why": "Second-person address to the player rather than description of the creature."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "wear that soft custard glow like you were born in it",
+            "why": "Sentimental and cosmetic; eating changes what you ARE, and the house voice treats colour as meat taken off a body, not a glow you put on."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "You'll love how the Thumper's colour makes every brighter yellow ahead look absolutely gorgeous by comparison",
+            "why": "Marketing register \u2014 'you'll love', 'absolutely gorgeous' \u2014 where the tone is primal, crude and unsentimental about appetite."
+          },
+          {
+            "constraint": "C1_tone",
+            "phrase": "go get it, and go get seconds",
+            "why": "Hype/cheerleading voice; the fiction is the food chain observed flatly, not a pitch."
+          },
+          {
+            "constraint": "C2_vocabulary",
+            "phrase": "every brighter yellow ahead",
+            "why": "Vague brightness in place of the game's named intensity ladder (Pale, Dusk, Deep, Clash, Rage)."
+          }
+        ],
+        "worst_constraint": "C3_formatting",
+        "objective_findings": [
+          "C3 formatting (measured): 93 words; the corpus tops out at 23 (limit 24)",
+          "C3 formatting (measured): 4 sentences; the corpus never exceeds 2",
+          "C3 formatting (measured): 4 exclamation mark(s); there are zero in all 235 authored lines"
+        ]
+      },
+      "after": {
+        "name": "Scrawny Thumper",
+        "flavor": "All knees and nerves, thumping a panic-drum through the soil, ribs showing through a Pale Yellow hide worth exactly one bite."
+      },
+      "final_score": 9,
+      "passes": 1,
+      "accepted": true,
+      "history": [
+        {
+          "pass": 0,
+          "name": "Scrawny Thumper",
+          "flavor": "A jittery little scrap of pale yellow, all knees and nerves, thumping out a panic-drum you can feel through the soil! Don't let the ribs fool you \u2014 that faded straw hide is the purest Pale Yellow you'll find this early, and it comes off clean! Chase it into a dead end, take it in one bite, and wear that soft custard glow like you were born in it! You'll love how the Thumper's colour makes every brighter yellow ahead look absolutely gorgeous by comparison \u2014 go get it, and go get seconds!",
+          "score": 2,
+          "verdict": {
+            "score": 2,
+            "reason": "C3 is broken on every measurable axis at once: 93 words against a 24-word ceiling, 4 sentences against 2, and 4 exclamation marks where the 235 shipped lines contain zero. On top of that the whole back half is second-person instruction \u2014 \"Chase it into a dead end, take it in one bite\" and \"go get it, and go get seconds\" \u2014 which the guide forbids outright; shipped lines describe the animal ('Half mud, half meat, all squeal.'), they never coach the player. The register is also wrong in a way that isn't epic but is just as off: \"wear that soft custard glow like you were born in it\" and \"look absolutely gorgeous by comparison\" are cosmetics-shop sales copy, sentimental and flattering, where this game is unsentimental about meat \u2014 the correct move on a Pale Yellow prey is the ribs, the knees, the dirt, and how little it's worth, not how pretty its colour will look on you. Vocabulary is the one clean part: family/intensity terms (Pale Yellow), 'prey', and no imported RPG nouns. Fix: cut to one sentence of at most 24 words, drop every exclamation mark and every imperative, keep 'all knees and nerves' and the panic-drum in the soil, and lose the glow, the custard and the 'gorgeous'.",
+            "constraints": {
+              "C1_tone": {
+                "score": 3,
+                "note": "Some genuinely on-brand physical detail \u2014 'all knees and nerves', 'Don't let the ribs fool you', 'faded straw hide' \u2014 but it is buried in promotional gush. 'wear that soft custard glow like you were born in it', 'absolutely gorgeous', 'go get seconds' is an advertisement addressed to the player, not a crude, concrete description of an animal. 'like you were born in it' is sentimental in a game where eating changes what you are with no warmth attached."
+              },
+              "C2_vocabulary": {
+                "score": 8,
+                "note": "No foreign genre nouns: no loot, levels, magic or boss. Uses 'prey' and the family/intensity pair 'Pale Yellow' correctly, and 'purest Pale Yellow you'll find this early' respects that intensity is a rung, not a stat. Minor wobble: 'every brighter yellow ahead' substitutes vague brightness for the named ladder (Dusk, Deep, Clash, Rage), and framing colour as a look rather than as what you become drifts from the buffer's logic."
+              },
+              "C3_formatting": {
+                "score": 1,
+                "note": "93 words (limit 24), 4 sentences (limit 2), 4 exclamation marks (corpus has 0), plus a run of second-person instructions. Every measured formatting rule is violated simultaneously."
+              }
+            },
+            "violations": [
+              {
+                "constraint": "C3_formatting",
+                "phrase": "entire line, 93 words",
+                "why": "Limit is 24 words; the longest shipped line is 23 and the mean is 10.6. This is four times the ceiling."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "4 sentences",
+                "why": "Corpus never exceeds 2 sentences."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "you can feel through the soil!",
+                "why": "Exclamation mark; there are zero in all 235 authored lines."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "and it comes off clean!",
+                "why": "Second exclamation mark."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "like you were born in it!",
+                "why": "Third exclamation mark."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "go get it, and go get seconds!",
+                "why": "Fourth exclamation mark, and a direct second-person call to action."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "Chase it into a dead end, take it in one bite",
+                "why": "Second-person instruction telling the player what to do with the creature; flavour describes the thing, not the tactic."
+              },
+              {
+                "constraint": "C3_formatting",
+                "phrase": "Don't let the ribs fool you",
+                "why": "Second-person address to the player rather than description of the creature."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "wear that soft custard glow like you were born in it",
+                "why": "Sentimental and cosmetic; eating changes what you ARE, and the house voice treats colour as meat taken off a body, not a glow you put on."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "You'll love how the Thumper's colour makes every brighter yellow ahead look absolutely gorgeous by comparison",
+                "why": "Marketing register \u2014 'you'll love', 'absolutely gorgeous' \u2014 where the tone is primal, crude and unsentimental about appetite."
+              },
+              {
+                "constraint": "C1_tone",
+                "phrase": "go get it, and go get seconds",
+                "why": "Hype/cheerleading voice; the fiction is the food chain observed flatly, not a pitch."
+              },
+              {
+                "constraint": "C2_vocabulary",
+                "phrase": "every brighter yellow ahead",
+                "why": "Vague brightness in place of the game's named intensity ladder (Pale, Dusk, Deep, Clash, Rage)."
+              }
+            ],
+            "worst_constraint": "C3_formatting",
+            "objective_findings": [
+              "C3 formatting (measured): 93 words; the corpus tops out at 23 (limit 24)",
+              "C3 formatting (measured): 4 sentences; the corpus never exceeds 2",
+              "C3 formatting (measured): 4 exclamation mark(s); there are zero in all 235 authored lines"
+            ]
+          },
+          "refiner_note": "Cut 93 words to one 21-word sentence, removed all four exclamation marks and every second-person instruction, dropped the custard/glow/gorgeous sales copy, and kept 'all knees and nerves', the panic-drum in the soil, the ribs and the named Pale Yellow."
+        },
+        {
+          "pass": 1,
+          "name": "Scrawny Thumper",
+          "flavor": "All knees and nerves, thumping a panic-drum through the soil, ribs showing through a Pale Yellow hide worth exactly one bite.",
+          "score": 9,
+          "verdict": {
+            "score": 9,
+            "reason": "Strong, on-voice line: 'ribs showing through a ... hide worth exactly one bite' is exactly the game's appetite-first, meat-accounting register, and 'All knees and nerves' matches the shipped 'Half mud, half meat, all squeal.' cadence. Family and intensity are named correctly as 'Pale Yellow', no foreign RPG nouns, one sentence, 21 words, no exclamation marks, no second-person or 'This is a' opener. Only wobbles are rhythmic: 'through a panic-drum through the soil' repeats 'through' twice in fifteen words, and 'panic-drum' is one notch more figurative than the house habit of naming the concrete thing (the shipped lines say 'squeal', 'milky at the edges', 'knee on its chest'). Consider 'thumping panic into the soil' to kill the echo and the metaphor in one pass. Nothing here breaches a constraint.",
+            "constraints": {
+              "C1_tone": {
+                "score": 9,
+                "note": "Primal, crude, unsentimental \u2014 knees, nerves, ribs, one bite. 'panic-drum' is a mild figurative reach where the house voice usually names the physical noise plainly ('all squeal'), but it is comic and bodily, not reverent or mystical. No destiny, no kingdom, only the food chain."
+              },
+              "C2_vocabulary": {
+                "score": 10,
+                "note": "'Pale Yellow' is a correct intensity+family pairing; 'hide', 'ribs', 'bite' are all in-world flesh nouns. No level-up, loot, boss, magic or artifact vocabulary. No claims made about panels or emblems, so \u00a72.8 is untouched."
+              },
+              "C3_formatting": {
+                "score": 9,
+                "note": "21 words (cap 24), 1 sentence (cap 2), zero exclamation marks, no second-person instruction, no 'This is a' opener. Sits well above the 10.6-word mean and leans on a three-clause comma chain, and the duplicated 'through' costs it a point of polish, but no rule is broken."
+              }
+            },
+            "violations": [],
+            "worst_constraint": "C1_tone",
+            "objective_findings": []
+          }
+        }
+      ]
+    }
+  ]
+}

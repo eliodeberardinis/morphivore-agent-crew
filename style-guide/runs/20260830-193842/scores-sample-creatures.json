@@ -1,0 +1,124 @@
+{
+  "scored": [
+    {
+      "id": "prey_blue_pale",
+      "first_score": 8,
+      "final_score": 9,
+      "passes": 1,
+      "reason": "Strong, on-brand prey line: 14 words, one sentence, no exclamation, concrete body-and-violence imagery, and 'Scrawny Needler' is a clean 2-word prey name matching 'Scrawny Thumper'. The one real wobble is 'a better trigger' \u2014 a trigger is firearm hardware, and nothing in this ecosystem shoots; the game's register is meat, bone, dirt and appetite, so the same beat lands with a body part ('One good eye and a better aim' / 'a better spine of needles'). Secondary nit: 'inside its arms' drifts off the game's noun 'limb', and 'One good eye' sits very close to the already-shipped 'The good eye gone milky at the edges' \u2014 pick a different opening image so the two lines don't read as a pair.",
+      "worst": "C2_vocabulary",
+      "was_name": "Scrawny Needler",
+      "was_flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
+      "name": "Scrawny Needler",
+      "flavor": "All spine and needles at a distance; useless the second you're inside its limbs."
+    },
+    {
+      "id": "prey_blue_dusk",
+      "first_score": 8,
+      "final_score": 9,
+      "passes": 2,
+      "reason": "The name is textbook prey ('Mangy' is already shipped, two words) and the flavour has the house rhythm \u2014 'One good eye' echoes 'The good eye gone milky at the edges', and 'useless the second you're inside its arms' is the right kind of plain, practical cruelty: a ranged thing that folds in a grapple. One wobble: 'a better trigger' imports a firearm metaphor into a world made of meat, bone, dirt and appetite \u2014 needlers fire spines, not rounds, so 'a better aim', 'a better spine' or 'a better throw' keeps the image inside the food chain. Second minor slip: this game counts limbs, not arms; 'inside its limbs' would use the game's own noun and land the rank/limb vocabulary for free.",
+      "worst": "C2_vocabulary",
+      "was_name": "Mangy Needler",
+      "was_flavor": "One good eye and a better trigger; useless the second you're inside its arms.",
+      "name": "Mangy Needler",
+      "flavor": "Sheds fur in patches but never spines; throws them wide, then squeals once you're past and it's only warm meat."
+    },
+    {
+      "id": "alpha_prairies_yellow",
+      "first_score": 9,
+      "final_score": 9,
+      "passes": 0,
+      "reason": "Near-shipped quality. The name is the canonical alpha shape ('<Epithet> of the <Place>', 5 words) and is verbatim-correct for the class. The flavour is 13 words, one sentence, no exclamation, no second-person or 'This is a...' opener, and carries no foreign vocabulary \u2014 no points, levels, loot or magic anywhere near it. Tone is physical and comic in the house register: 'All knuckles and no neck' is pure body-and-bone description in the mould of 'Half mud, half meat, all squeal', and 'complains right up until it doesn't' gets the killing done as an unsentimental joke rather than a eulogy. The only wobble is that 'complains' is the one abstracted, faintly anthropomorphic verb in a line otherwise built from knuckles and necks \u2014 a noise noun (squeal, bellow, wheeze) would sit closer to the shipped lines, which prefer the sound the meat makes to the attitude behind it. Not a breach, just the difference between a 9 and a 10.",
+      "worst": "C1_tone",
+      "was_name": "Bonelord of the Trampled Fields",
+      "was_flavor": "All knuckles and no neck, it complains right up until it doesn't.",
+      "name": "Bonelord of the Trampled Fields",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't."
+    },
+    {
+      "id": "alpha_prairies_grey",
+      "first_score": 9,
+      "final_score": 9,
+      "passes": 0,
+      "reason": "On-brand and close to shipped quality. 'Greytyrant of the Trampled Fields' is exactly 5 words in the '<Epithet> of the <Place>' alpha convention, and it even carries the Grey family into the epithet. The flavour line is 13 words, one sentence, no exclamation mark, no 'This is a...' opener, and its 'you' is the same accusatory narrative address as shipped lines like 'pried out with your knee on its chest' rather than an instruction. 'Doesn't have a weak side' is a genuinely good cube gag \u2014 a literal statement about a six-sided body that reads as a boast. The only wobble is C1: 'hates that you keep looking for one' is interior, a report on the creature's feelings rather than on its body or its appetite. The house voice stays outside the animal ('Half mud, half meat, all squeal'; 'The good eye gone milky at the edges'), so swapping the emotional beat for something physical \u2014 a scar it doesn't have, a rib that won't give \u2014 would land it fully.",
+      "worst": "C1_tone",
+      "was_name": "Greytyrant of the Trampled Fields",
+      "was_flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
+      "name": "Greytyrant of the Trampled Fields",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one."
+    },
+    {
+      "id": "alpha_wetlands_yellow",
+      "first_score": 9,
+      "final_score": 9,
+      "passes": 0,
+      "reason": "Near-shipped quality. The name is exactly the alpha convention \u2014 five words, '<Epithet> of the <Place>', with a place that fits the Wetlands rot \u2014 and reusing the 'Bonelord' epithet is consistent with shipped reuse like 'Quickfang of the Trampled Fields'. The flavour is 12 words, one sentence, no exclamation, no second person, no 'This is a...' opener, and no foreign nouns: it never reaches for boss, loot or magic, and it makes no claim about panels or emblems. Tone is the house voice \u2014 'All knuckles and no neck' is the same body-parts-as-inventory move as 'Half mud, half meat, all squeal', and 'right up until it doesn't' is the unsentimental death joke the guide asks for. Only wobble: 'complains' is one degree more abstract than the shipped register, which prefers a concrete noise or fluid \u2014 'squeals', 'gurgles', 'makes noise' \u2014 so a pass to 'it squeals right up until it doesn't' would land it flush on the shipped lines. Nothing to fix beyond that.",
+      "worst": "C1_tone",
+      "was_name": "Bonelord of the Rotting Marsh",
+      "was_flavor": "All knuckles and no neck, it complains right up until it doesn't.",
+      "name": "Bonelord of the Rotting Marsh",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't."
+    },
+    {
+      "id": "alpha_wetlands_purple",
+      "first_score": 9,
+      "final_score": 9,
+      "passes": 0,
+      "reason": "Strong, shipped-quality line. Name 'Nightthroat of the Rotting Marsh' is 5 words in the established '<Epithet> of the <Place>' alpha shape, so C4 is clean. Flavour is 8 words, one sentence, no exclamation, no second-person opener, and the vocabulary is all this game's own \u2014 no foreign RPG nouns, no panel/emblem claims to breach. Only wobble: 'Slinks in' leans a half-step atmospheric/moody rather than plainly physical, and 'forgets to leave a body' is dry wit rather than the guide's meat-and-dirt concreteness \u2014 closer to a punchline than 'Half mud, half meat, all squeal.' Something like 'bites once and swallows the evidence' would land the same joke while keeping the appetite in frame. Not a breach, just a shade less crude than the house average.",
+      "worst": "C1_tone",
+      "was_name": "Nightthroat of the Rotting Marsh",
+      "was_flavor": "Slinks in, bites once, forgets to leave a body.",
+      "name": "Nightthroat of the Rotting Marsh",
+      "flavor": "Slinks in, bites once, forgets to leave a body."
+    },
+    {
+      "id": "alpha_mountains_yellow",
+      "first_score": 9,
+      "final_score": 9,
+      "passes": 0,
+      "reason": "On-brand and close to shipped voice. 'All knuckles and no neck' is exactly the house move \u2014 concrete body parts stacked into a comic silhouette, in the same rhythm as 'Half mud, half meat, all squeal.' 'It complains right up until it doesn't' does the flat, unsentimental violence the guide asks for without narrating the kill. One word of wobble: 'complains' is a shade more anthropomorphic-abstract than the shipped lines, which prefer a physical noise ('squeal') to a verb of attitude, and for an Alpha \u2014 the only rank-granting fight in the game \u2014 the line leans more toward a nuisance grazer than something that costs you a limb. 'All knuckles and no neck, it squeals right up until it doesn't' would tighten it. Name is 5 words in '<Epithet> of the <Place>' form, matching all 25 shipped Alphas. No foreign vocabulary, 12 words, one sentence, no exclamation mark, no second-person or 'This is a' opener.",
+      "worst": "C1_tone",
+      "was_name": "Bonelord of the Shattered Crags",
+      "was_flavor": "All knuckles and no neck, it complains right up until it doesn't.",
+      "name": "Bonelord of the Shattered Crags",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't."
+    },
+    {
+      "id": "alpha_mountains_purple",
+      "first_score": 9,
+      "final_score": 9,
+      "passes": 0,
+      "reason": "Strong, on-brand line. Name 'Nightthroat of the Shattered Crags' is 5 words in the shipped '<Epithet> of the <Place>' alpha pattern \u2014 correct by convention. The flavour is 9 words, one sentence, no exclamation, no second-person, no foreign nouns, and the punchline 'forgets to leave a body' is the right kind of unsentimental joke about appetite. The only wobble is register: 'Slinks in, bites once' reads slightly noir-assassin \u2014 cool and clean rather than crude and messy \u2014 and 'body' is the least visceral noun available where the house voice reaches for meat, rib, mud, squeal. A swap toward the wet specifics ('forgets to leave the meat', or naming the bone it cracks) would close the gap to shipped lines like 'Half mud, half meat, all squeal.' Nothing here needs fixing to ship; this is a polish note only.",
+      "worst": "C1_tone",
+      "was_name": "Nightthroat of the Shattered Crags",
+      "was_flavor": "Slinks in, bites once, forgets to leave a body.",
+      "name": "Nightthroat of the Shattered Crags",
+      "flavor": "Slinks in, bites once, forgets to leave a body."
+    },
+    {
+      "id": "alpha_mountains_grey",
+      "first_score": 9,
+      "final_score": 9,
+      "passes": 0,
+      "reason": "Name is textbook: 'Greytyrant of the Shattered Crags' is exactly 5 words in '<Epithet> of the <Place>' shape, and 'Greytyrant' encodes the Grey family without spelling out the intensity \u2014 correct for the alpha class. Flavour is 13 words, one sentence, no exclamation, no 'This is a...' or instruction opener, and no foreign genre nouns. The only wobble is tonal: 'hates that you keep looking for one' is interior \u2014 it reports the alpha's feeling rather than its body. The house voice does mind-state only through physical evidence ('The good eye gone milky at the edges'), and this line has no meat, bone or dirt in it at all; it's a taunt about hitboxes rather than a description of a thing that eats. A version that lands the same joke through anatomy \u2014 sides all armoured the same, no soft seam to knee open \u2014 would be indistinguishable from shipped. As written it's on-brand with a small register slip toward psychology.",
+      "worst": "C1_tone",
+      "was_name": "Greytyrant of the Shattered Crags",
+      "was_flavor": "Doesn't have a weak side, and hates that you keep looking for one.",
+      "name": "Greytyrant of the Shattered Crags",
+      "flavor": "Doesn't have a weak side, and hates that you keep looking for one."
+    },
+    {
+      "id": "alpha_beach_yellow",
+      "first_score": 9,
+      "final_score": 9,
+      "passes": 0,
+      "reason": "Strong, shippable line. 'All knuckles and no neck' is exactly the house's two-beat anatomical shorthand ('Half mud, half meat, all squeal'), and 'it complains right up until it doesn't' lands the death without ceremony \u2014 crude, comedic, no epic register. Name is a textbook alpha: 5 words, '<Epithet> of the <Place>', place-name matches a Volcanic/Beach-adjacent locale for a Clash Yellow. Only wobble: 'complains' is a shade abstract and human-mannered where the shipped lines pick a concrete noise or organ \u2014 'squeals right up until it doesn't' or 'bellows right up until it doesn't' would put the sound in the throat instead of in the attitude. Nothing else to fix.",
+      "worst": "C1_tone",
+      "was_name": "Bonelord of the Scalded Shore",
+      "was_flavor": "All knuckles and no neck, it complains right up until it doesn't.",
+      "name": "Bonelord of the Scalded Shore",
+      "flavor": "All knuckles and no neck, it complains right up until it doesn't."
+    }
+  ]
+}

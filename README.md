@@ -4,6 +4,11 @@ Multi-agent pipelines that build **Morphivore**, my capstone game — a
 cube-creature action roguelite where you eat creatures to mutate, evolve, and
 take over an ecosystem.
 
+> **▶ Play it:** https://eliodeb87.itch.io/morphivore
+> **· Want to play rather than read?** [**HOW-TO-PLAY.md**](HOW-TO-PLAY.md) is the
+> player's guide — controls, the loop, how to win. *This* README is about how the
+> game was built.
+
 | | Pipeline | Produces |
 |---|---|---|
 | **Assignment #3** | Bestiary Form-Authoring Crew — 4 agents, sequential | `forms.json` (the 150 player forms) + `FormTable.cs` |

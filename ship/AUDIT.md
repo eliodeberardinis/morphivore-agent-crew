@@ -52,11 +52,25 @@ $19.03. The error was structural, not arithmetic: the estimate priced one evalua
 record and ignored that a failing record triggers a rewrite *and* a re-score, so cost scales
 with the failure rate — which is exactly the thing a style audit cannot know in advance.
 
-**Two runtime bugs shipped into content-driven code and survived until playtesting**, both
-found only by playing: an Alpha that could not be damaged, and a terrain mesh that silently
-dropped a third of itself past Unity's 65,535-vertex index limit. Neither was an agent error
-— both were integration assumptions no pipeline was asked to check. A generated-content
-pipeline validates its *data*; nothing validated the *engine's behaviour* on that data.
+**Four runtime bugs survived every pipeline and were caught only by running the thing.**
+None was an agent error. All four were integration assumptions no pipeline was asked to
+check — a generated-content pipeline validates its *data*, and nothing was validating the
+*engine's behaviour* on that data.
+
+| Defect | Why nothing caught it |
+|---|---|
+| The Alpha could not be damaged | A tier rule in the combat code contradicted the GDD the content was authored from. The data was right; the code disagreed with it. |
+| A third of the terrain never drew | Flat shading emitted 83,544 vertices past Unity's 65,535 16-bit index ceiling. Fails **silently** — no exception, no console error. |
+| Terrain generation used OS threads | WebGL has none. The editor has them, so the editor could never show it. |
+| Every creature rendered magenta | `CreatePrimitive` inherits a Built-in-pipeline material the editor tolerates and a URP **build** strips. |
+
+**The last three share a property worth naming: the editor cannot show them.** They are
+visible only in a player build, which is the actual deliverable and the last artefact anyone
+looks at. Two of the three fail with no error at all — the terrain simply stops being drawn
+and the ground stays solid underfoot, which reads as a level-design mistake rather than a
+renderer one. This is the strongest argument in this audit for build-time smoke tests: the
+gap is not between "content is correct" and "content is wrong", it is between "runs in the
+editor" and "runs where the player is".
 
 ## What I would change architecturally
 
@@ -66,10 +80,12 @@ pipeline validates its *data*; nothing validated the *engine's behaviour* on tha
    for #5 and adopted by #6 and #7; #3 and #4 never got it. Accounting should have been a
    property of the client, so every pipeline gets it by existing.
 3. **Add a smoke-test stage to `ship.py`.** It verifies the content in the build is the
-   content the agents produced, by hash. It does not verify the build *runs*. Both bugs
-   above would have been caught by launching the build and asserting a few invariants —
-   terrain vertex count under the index limit, the Alpha's health reachable by the player's
-   damage — which is cheap and deterministic.
+   content the agents produced, by hash. It does not verify the build *runs*. Every defect
+   in the table above is cheaply assertable — terrain vertex count under 65,535, no material
+   left on the default shader, the Alpha's health reachable by the player's damage at that
+   rank, `System.Threading` absent from shipping assemblies — and three of the four are
+   static checks that need no runtime at all. This is the single change that would have
+   saved the most time on this assignment, by a wide margin.
 4. **Keep the deterministic last mile deterministic.** `ship.py` uses no model, and that is
    deliberate: reproducibility is worth more than flexibility at the point where content
    becomes a build. Nothing in the shipped game calls a model at runtime — creature AI is a

@@ -30,7 +30,7 @@ the `forms.json` #3 authored.
 
 # Assignment #10 — The Complete Pipeline
 
-**▶ Play it: _(link added on publish)_**
+**▶ Play it in your browser: https://eliodeb87.itch.io/morphivore**
 
 **→ The pipeline: [`ship/ship.py`](ship/ship.py)** — the whole last mile, one file
 
@@ -85,10 +85,16 @@ Unity project so the integration is reviewable without the project's licensed ar
 `ContentDatabase` loads all five files at boot; a malformed file logs a warning and falls
 back rather than crashing.
 
-Two engine bugs surfaced only in playtesting, and both are in [`ship/AUDIT.md`](ship/AUDIT.md):
-an Alpha that could not be damaged, and a terrain mesh silently dropping a third of itself
-past Unity's 65,535-vertex index limit. Neither was an agent error — both were integration
-assumptions no pipeline was asked to check, which is the audit's main finding.
+**Four engine bugs survived every pipeline and were caught only by running the thing** — an
+Alpha that could not be damaged, a terrain mesh silently dropping a third of itself past
+Unity's 65,535-vertex index limit, terrain generation depending on threads WebGL does not
+have, and every creature rendering magenta because a build strips the material a primitive
+is born with. None was an agent error. Three of the four were invisible in the Unity editor
+and appeared only in the player build — which is the actual deliverable.
+
+That is the audit's main finding: a content pipeline validates its *data*, and nothing was
+validating the *engine's behaviour* on that data. Full account, with the fix for each, in
+[`ship/AUDIT.md`](ship/AUDIT.md).
 
 ---
 

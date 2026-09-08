@@ -45,6 +45,7 @@ public class EnemyAI : Creature
         hasBodyColor = true;
 
         alwaysFlees = role == "grazer";
+        isGrazer    = role == "grazer";   // built smaller, and wears the heart
         alwaysHunts = role == "elite" || role == "trait_miniboss"
                    || role == "alpha" || role == "apex";
 
@@ -55,8 +56,32 @@ public class EnemyAI : Creature
         var st = spawn.stats;
         if (st != null)
         {
-            if (st.health > 0f) { maxHealth = st.health; health = maxHealth; }
-            if (st.speed  > 0f) moveSpeed   = st.speed  * GameConfig.Ecology.SpeedScale;
+            if (st.health > 0f)
+            {
+                // The Alpha is the fight the biome is built around; its authored
+                // health is on the same scale as the prey it rules over.
+                maxHealth = isBoss
+                    ? st.health * GameConfig.Boss.ContentHealthMultiplier
+                    : st.health;
+                health = maxHealth;
+            }
+
+            // "You cannot outrun it" (§2.5) is authored data, not a feeling: every
+            // Alpha carries can_be_outrun = false, and its speed is already the
+            // GDD's formula — the fastest player form at that rank plus 5%
+            // (rank 1: 12 baseline x 1.3 Red x 1.05 = 16.38, exactly the file).
+            // Passing that through SpeedScale flattened it to 9.83 against a
+            // player who moves 11.1-13.8, so the one creature that must catch you
+            // was the one thing you could stroll away from. Take it raw.
+            //
+            // Note the role test. `can_be_outrun` is absent from every prey record
+            // and JsonUtility cannot tell absent from false, so reading the flag
+            // alone would hand the whole biome unscaled speed. Only the roles that
+            // actually author it are allowed to claim it.
+            bool pinnedSpeed = !def.can_be_outrun && (role == "alpha" || role == "apex");
+            if (st.speed  > 0f) moveSpeed   = pinnedSpeed
+                                            ? st.speed
+                                            : st.speed * GameConfig.Ecology.SpeedScale;
             if (st.reach  > 0f) lockRange   = st.reach  * GameConfig.Ecology.ReachScale;
             if (st.dash   > 0f) pounceSpeed = st.dash   * GameConfig.Ecology.SpeedScale * PounceLungeFactor;
             contactDamage = st.damage * GameConfig.Ecology.ContactDamageScale;
@@ -170,6 +195,7 @@ public class EnemyAI : Creature
             staggerTimer   = 0.35f;
             attackPhase    = Attack.None;                     // getting hit cancels our attack
             attackCooldown = Mathf.Max(attackCooldown, 0.5f);
+            SetBodyPose(Vector3.one);                         // and drops the gather/stretch
         }
     }
 
@@ -184,6 +210,7 @@ public class EnemyAI : Creature
         isDowned    = true;
         attackPhase = Attack.None;
         downedTimer = DownedDuration;
+        SetBodyPose(Vector3.one);   // the squash below is the pose now
 
         // Squash flat + dim so it clearly reads as "dizzy / vulnerable".
         preDownedScale = transform.localScale;
@@ -212,6 +239,10 @@ public class EnemyAI : Creature
 
         if (myCol == null) myCol = GetComponent<Collider>();
         if (myCol != null) myCol.enabled = false; // don't collide while being absorbed
+
+        // Update() early-outs once dead, so the followers cannot hide themselves.
+        if (grazerMarkGO != null) grazerMarkGO.SetActive(false);
+        if (healthBarGO  != null) healthBarGO.SetActive(false);
 
         StopAllCoroutines(); // cancel any in-flight bite
         StartCoroutine(EatSequence(eater));
@@ -243,6 +274,7 @@ public class EnemyAI : Creature
     protected override void Update()
     {
         UpdateHealthBar();
+        UpdateGrazerMark();
 
         if (isDowned) { UpdateDowned(); return; }
 
@@ -375,12 +407,13 @@ public class EnemyAI : Creature
         {
             case Attack.None:
                 // Close in; when in range and off cooldown, begin the wind-up.
-                transform.position += toPlayerDir * moveSpeed * dt;
+                transform.position += toPlayerDir * ClosingSpeed * dt;
                 FaceDir(toPlayerDir);
                 if (dist < startRange && attackCooldown <= 0f)
                 {
                     attackPhase = Attack.Windup;
                     windupTimer = WindupTime;
+                    SetBodyPose(WindupPose);        // crouch: the tell (§2.2)
                 }
                 break;
 
@@ -388,7 +421,7 @@ public class EnemyAI : Creature
                 playerCtrl.FlagThreat();          // player sees the "targeted" halo
                 FaceDir(toPlayerDir);
                 if (canMoveWhileLocked)
-                    transform.position += toPlayerDir * moveSpeed * 0.6f * dt; // big keeps closing
+                    transform.position += toPlayerDir * ClosingSpeed * 0.6f * dt; // big keeps closing
                 // small enemies stand still to wind up
 
                 windupTimer -= dt;
@@ -397,6 +430,7 @@ public class EnemyAI : Creature
                 {
                     pounceDir   = toPlayerDir;      // commit — moving now dodges it
                     attackPhase = Attack.Pounce;
+                    SetBodyPose(LungePose);         // the same stretch the player wears
                     // A pounce should carry roughly as far as the creature can
                     // lock, so a long-reach Sniper actually crosses its own range.
                     pounceTimer = lockRange > 0f
@@ -412,16 +446,76 @@ public class EnemyAI : Creature
                 pounceTimer -= dt;
 
                 float contact = (transform.localScale.x + playerCtrl.transform.localScale.x) * 0.5f + 0.4f;
-                if (dist < contact)        { HitPlayer(); EndAttack(1.6f); }
-                else if (pounceTimer <= 0f) EndAttack(1.2f);
+                if (dist < contact)
+                {
+                    HitPlayer();
+                    // Land it like the player lands one: shove the target off the
+                    // impact and recoil off it. A hit used to be a silent
+                    // subtraction from the health bar, indistinguishable from
+                    // walking into something.
+                    playerCtrl.transform.position += pounceDir * 0.6f * transform.localScale.x;
+                    StartCoroutine(Recoil(-pounceDir, 0.12f, lunge * 0.5f));
+                    EndAttack(1.6f);
+                }
+                else if (pounceTimer <= 0f)
+                {
+                    // Whiffed. Hold the overshoot a beat so a dodge visibly leaves
+                    // it committed and open — otherwise ducking a pounce looks
+                    // exactly like nothing happening, and there is no reason to.
+                    StartCoroutine(WhiffRecovery());
+                    EndAttack(1.2f);
+                }
                 break;
         }
+    }
+
+    // ── The body during an attack ─────────────────────────────────────────────
+    // A creature's whole read is its cube, so the attack has to be visible in the
+    // cube: gather, then throw. Without these the symmetric attack existed only in
+    // the state machine — the player saw a creature slide into them and lose HP.
+
+    static readonly Vector3 WindupPose = new Vector3(1.15f, 0.80f, 0.90f); // gather
+    static readonly Vector3 LungePose  = new Vector3(1.00f, 1.00f, 1.50f); // throw
+    const float WhiffHold = 0.18f;
+
+    /// <summary>Closing speed. SpeedScale governs the ambient world; a creature
+    /// actually committing to a hunt needs to arrive.</summary>
+    float ClosingSpeed => hasContentStats
+        ? moveSpeed * GameConfig.Ecology.ChasePace
+        : moveSpeed;
+
+    void SetBodyPose(Vector3 pose)
+    {
+        // BuildVisuals() destroys and rebuilds children, so `body` can be a stale
+        // reference across a mutation; never assume it survived.
+        if (body != null) body.transform.localScale = pose;
+    }
+
+    System.Collections.IEnumerator Recoil(Vector3 dir, float duration, float speed)
+    {
+        float t = 0f;
+        while (t < duration && !isDead && !isDowned)
+        {
+            transform.position += dir * speed * Time.deltaTime;
+            t += Time.deltaTime;
+            yield return null;
+        }
+        SetBodyPose(Vector3.one);
+    }
+
+    System.Collections.IEnumerator WhiffRecovery()
+    {
+        yield return new WaitForSeconds(WhiffHold);
+        SetBodyPose(Vector3.one);
     }
 
     void EndAttack(float cooldown)
     {
         attackPhase    = Attack.None;
         attackCooldown = cooldown;
+        // Only reset here if no coroutine is going to do it — a landed or whiffed
+        // pounce clears its own pose on a delay so the impact reads.
+        if (!isDead && !isDowned && attackCooldown < 1.2f) SetBodyPose(Vector3.one);
     }
 
     void HitPlayer()
@@ -447,8 +541,11 @@ public class EnemyAI : Creature
 
     void UpdateHealthBar()
     {
-        // Only show it once the enemy has been hit (and isn't down/dead).
-        bool show = !isDead && !isDowned && health < maxHealth - 0.01f;
+        // Only show it once the enemy has been hit (and isn't down/dead) — except
+        // for the Alpha, whose bar is up from the moment it arrives. It is the one
+        // fight long enough for "am I even hurting this thing?" to be a real
+        // question, and an undamaged Alpha with no bar reads as invulnerable.
+        bool show = !isDead && !isDowned && (isBoss || health < maxHealth - 0.01f);
 
         if (!show)
         {
@@ -496,9 +593,78 @@ public class EnemyAI : Creature
         healthFillRend.material.color = new Color(0.3f, 0.9f, 0.35f);
     }
 
+    // ── Grazer mark ───────────────────────────────────────────────────────────
+    // A heart floating over the one creature that heals you. Size alone says
+    // "different"; the heart says *how*. Built from cubes like everything else in
+    // the world — two lobes and a rotated square — rather than a sprite, so it
+    // belongs to the same object language as the creatures and needs no texture.
+    //
+    // It is a separate object, not a child: BuildVisuals() destroys all children
+    // on every rebuild, so anything following a creature has to live outside it.
+
+    GameObject grazerMarkGO;
+
+    void UpdateGrazerMark()
+    {
+        if (!isGrazer) return;
+
+        // Gone once eaten; still shown while downed, because a downed grazer is
+        // exactly the one you want to walk back to.
+        if (isDead)
+        {
+            if (grazerMarkGO != null) grazerMarkGO.SetActive(false);
+            return;
+        }
+
+        if (grazerMarkGO == null) CreateGrazerMark();
+        if (barCam == null) barCam = Camera.main;
+        grazerMarkGO.SetActive(true);
+
+        // Hover above, billboarded, with a slow beat so the eye catches it across
+        // a field of wandering meat.
+        float top   = transform.localScale.y * 0.5f + 1.1f;
+        float beat  = 1f + Mathf.Sin(Time.time * 3f) * 0.12f;
+        grazerMarkGO.transform.position   = transform.position + Vector3.up * top;
+        grazerMarkGO.transform.localScale = Vector3.one * beat;
+        if (barCam != null) grazerMarkGO.transform.rotation = barCam.transform.rotation;
+    }
+
+    void CreateGrazerMark()
+    {
+        grazerMarkGO = new GameObject("GrazerHeart");
+
+        var heart = new Color(1f, 0.30f, 0.42f);
+
+        // Two lobes on top...
+        for (int i = 0; i < 2; i++)
+            AddHeartPiece(new Vector3(i == 0 ? -0.16f : 0.16f, 0.16f, 0f),
+                          Quaternion.identity, new Vector3(0.32f, 0.32f, 0.08f), heart);
+
+        // ...over a square stood on its corner, which reads as the point.
+        AddHeartPiece(Vector3.zero, Quaternion.Euler(0f, 0f, 45f),
+                      new Vector3(0.34f, 0.34f, 0.08f), heart);
+    }
+
+    void AddHeartPiece(Vector3 pos, Quaternion rot, Vector3 scale, Color color)
+    {
+        var piece = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        Destroy(piece.GetComponent<Collider>());
+        piece.transform.SetParent(grazerMarkGO.transform, false);
+        piece.transform.localPosition = pos;
+        piece.transform.localRotation = rot;
+        piece.transform.localScale    = scale;
+
+        var mat = piece.GetComponent<Renderer>().material;
+        mat.color = color;
+        // Unlit-bright so it stays legible against dark ground and in fog.
+        mat.EnableKeyword("_EMISSION");
+        mat.SetColor("_EmissionColor", color * 0.9f);
+    }
+
     void OnDestroy()
     {
-        if (healthBarGO != null) Destroy(healthBarGO);
+        if (healthBarGO  != null) Destroy(healthBarGO);
+        if (grazerMarkGO != null) Destroy(grazerMarkGO);
     }
 
     void UpdateDowned()

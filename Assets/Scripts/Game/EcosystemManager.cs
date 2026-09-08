@@ -17,6 +17,56 @@ public class EcosystemManager : MonoBehaviour
     float spawnTimer        = 0f;
     bool  bossSpawned       = false;
 
+    // ── The Alpha's two gates (§2.5, thresholds from §4.10) ───────────────────
+    // The Alpha does not arrive on a timer: it wakes once you have eaten enough
+    // of this biome to be worth its attention. Two counters, both reset when the
+    // biome changes. Grazers are food, not meat — they carry no colour and never
+    // count toward either gate.
+    //
+    // This is the cheap half of build-plan chunk B1. The lair landmark, the 90%
+    // stir warning and the biome emptying on wake are the expensive half and are
+    // deliberately not here yet.
+    readonly HashSet<string> formsThisBiome = new HashSet<string>();
+    int  colouredPreyThisBiome = 0;
+    bool alphaDefeated         = false;
+
+    public int  FormsSeen    => formsThisBiome.Count;
+    public int  FormGate     => 3 + 2 * currentBiomeIndex;   // 3, 5, 7, 9, 11
+    public int  PreyEaten    => colouredPreyThisBiome;
+    public int  PreyGate     => 15 + 5 * currentBiomeIndex;  // 15, 20, 25, 30, 35
+    public bool AlphaAwake   => bossSpawned && !alphaDefeated;
+    public bool AlphaDefeated => alphaDefeated;
+    public bool GatesMet     => FormsSeen >= FormGate && PreyEaten >= PreyGate;
+
+    // Which colour this biome has lost the most of. §2.5: the Alpha that comes is
+    // "the champion of the colour you ate most" — so the fight you get is the one
+    // your own diet chose, and it mirrors the family you are strongest in.
+    readonly Dictionary<string, int> eatenByFamily = new Dictionary<string, int>();
+
+    /// <summary>Called when the player eats something that carries colour.
+    /// `formId` is the form the player resolved to after the meal, so the first
+    /// gate counts what you have *become* here, not what you have chewed.</summary>
+    public void RecordColouredPrey(string formId, string family)
+    {
+        colouredPreyThisBiome++;
+        if (!string.IsNullOrEmpty(formId)) formsThisBiome.Add(formId);
+
+        if (!string.IsNullOrEmpty(family))
+            eatenByFamily[family] = eatenByFamily.TryGetValue(family, out int n) ? n + 1 : 1;
+    }
+
+    /// <summary>The colour eaten most in this biome, or null before the first
+    /// meal. Ties break toward nothing in particular — the roster pick falls back
+    /// to a roll, which is what the old behaviour was for every fight.</summary>
+    string MostEatenFamily()
+    {
+        string best = null;
+        int    top  = 0;
+        foreach (var pair in eatenByFamily)
+            if (pair.Value > top) { top = pair.Value; best = pair.Key; }
+        return best;
+    }
+
     // Mating is dormant (see the commented block in Update), so its timer is
     // parked here with the code that uses it rather than sitting in the live
     // fields unread. Note that GDD §2.5 supersedes this entirely — breeding is
@@ -40,9 +90,19 @@ public class EcosystemManager : MonoBehaviour
 
     BiomeDef ContentBiome => ContentDatabase.Biomes.biomes[currentBiomeIndex];
 
-    GameConfig.BiomeData CurrentBiome => useContent
-        ? GameConfig.VisualsForBiome(ContentBiome.id, ContentBiome.name)
-        : LegacyBiomes[currentBiomeIndex];
+    GameConfig.BiomeData CurrentBiome
+    {
+        get
+        {
+            var d = useContent
+                ? GameConfig.VisualsForBiome(ContentBiome.id, ContentBiome.name)
+                : LegacyBiomes[currentBiomeIndex];
+            // The scene builder needs to know *which* biome, not just its palette:
+            // the id picks a terrain shape and a prop set, the index seeds it.
+            d.index = currentBiomeIndex;
+            return d;
+        }
+    }
 
     // Population and respawn pacing come from the biome when content is loaded.
     int StandingPopulation => useContent
@@ -50,10 +110,11 @@ public class EcosystemManager : MonoBehaviour
         : GameConfig.MaxEnemies;
 
     float SpawnInterval => useContent && ContentBiome.respawn_per_min > 0f
-        ? 60f / ContentBiome.respawn_per_min
+        ? 60f / (ContentBiome.respawn_per_min * GameConfig.Ecology.RespawnPace)
         : GameConfig.SpawnInterval;
 
     bool initialized  = false;
+    bool openingPopulationPlaced = false;
     public bool gameStarted = false;
 
     // Called explicitly by GameManager after scene is built
@@ -68,6 +129,9 @@ public class EcosystemManager : MonoBehaviour
 
         for (int i = 0; i < initial; i++)
             SpawnEnemy();
+
+        // From here on, respawns ring the player rather than scattering.
+        openingPopulationPlaced = true;
 
         // The content's first biome may not look like the prototype's, so push
         // its palette to the scene straight away.
@@ -94,17 +158,17 @@ public class EcosystemManager : MonoBehaviour
         //     mateTimer = 0f;
         // }
 
-        // Boss trigger
-        if (!bossSpawned && player.totalKills > 0 && player.totalKills % GameConfig.Boss.SpawnIntervalKills == 0)
+        // The Alpha wakes when both gates are met, not on a kill count.
+        if (!bossSpawned && GatesMet)
         {
             SpawnBoss();
         }
 
         // Biome progression. On the content path each biome declares the
-        // player_rank it expects (1..6), which is the player's limb count.
-        // The real §2.6 gates (distinct forms + coloured prey eaten) land with
-        // the Alpha work; until then rank alone opens the next biome — and rank
-        // itself only moves through breeding (§2.5), so this holds at biome one.
+        // player_rank it expects (1..6), which is the player's limb count. Rank
+        // moves only through breeding (§2.5, unbuilt), so this holds at biome one
+        // in play — the Alpha's gates above are what the player actually works
+        // toward, and the biome door opens behind them once breeding exists.
         if (useContent)
         {
             int next = currentBiomeIndex + 1;
@@ -132,7 +196,10 @@ public class EcosystemManager : MonoBehaviour
             if (!enemy.isDead) { }
             else if (enemy == null || !enemy.gameObject.activeSelf)
             {
-                if (enemy != null && enemy.isBoss) bossSpawned = false;
+                // A killed Alpha stays killed. It used to clear the flag and let
+                // the next kill-count tick spawn another; now that the gates stay
+                // satisfied once met, that would respawn it on the same frame.
+                if (enemy != null && enemy.isBoss) alphaDefeated = true;
                 enemies.RemoveAt(i);
             }
         }
@@ -144,6 +211,15 @@ public class EcosystemManager : MonoBehaviour
     void SetBiome(int index)
     {
         currentBiomeIndex = index;
+
+        // A new biome is a new Alpha with its own, higher gates. What you ate in
+        // the Prairies does not count toward the Wetlands' attention.
+        formsThisBiome.Clear();
+        eatenByFamily.Clear();
+        colouredPreyThisBiome = 0;
+        bossSpawned           = false;
+        alphaDefeated         = false;
+
         OnBiomeChanged?.Invoke(CurrentBiome);
     }
 
@@ -174,11 +250,7 @@ public class EcosystemManager : MonoBehaviour
         }
 
         enemy.Init();
-
-        // Spawn on the island, standing on whatever ground is under the roll.
-        float limit = BiomeTerrain.Radius * 0.9f;
-        float sx = Random.Range(-limit, limit), sz = Random.Range(-limit, limit);
-        go.transform.position = new Vector3(sx, BiomeTerrain.HeightAt(sx, sz) + 1f, sz);
+        go.transform.position = SpawnPoint();
 
         // Non-trigger collider so the bite hitbox OnTriggerEnter fires against it
         var col = go.AddComponent<SphereCollider>();
@@ -192,6 +264,35 @@ public class EcosystemManager : MonoBehaviour
 
         enemies.Add(enemy);
         return enemy;
+    }
+
+    /// <summary>Where a creature appears, standing on whatever ground is under it.
+    /// The opening population is scattered across the whole island so the world
+    /// looks inhabited; every later respawn rings the player, because a creature
+    /// that spawns 40 units away is a walk, not an encounter.</summary>
+    Vector3 SpawnPoint()
+    {
+        float limit = BiomeTerrain.Radius * 0.9f;
+        float sx, sz;
+
+        if (openingPopulationPlaced && player != null)
+        {
+            Vector2 dir = Random.insideUnitCircle.normalized;
+            if (dir == Vector2.zero) dir = Vector2.right;
+            float dist = Random.Range(GameConfig.Ecology.RespawnRingMin,
+                                      GameConfig.Ecology.RespawnRingMax);
+
+            Vector3 p = player.transform.position;
+            sx = Mathf.Clamp(p.x + dir.x * dist, -limit, limit);
+            sz = Mathf.Clamp(p.z + dir.y * dist, -limit, limit);
+        }
+        else
+        {
+            sx = Random.Range(-limit, limit);
+            sz = Random.Range(-limit, limit);
+        }
+
+        return new Vector3(sx, BiomeTerrain.HeightAt(sx, sz) + 1f, sz);
     }
 
     // The world has no defended pockets yet (GDD §2.7), so pocket-only creatures
@@ -212,11 +313,12 @@ public class EcosystemManager : MonoBehaviour
 
         if (boss)
         {
-            // "Apex predator" = this biome's alpha. One of the five colour alphas
-            // that hold its lair, picked uniformly — the roster is the roster.
+            // This biome's Alpha: the champion of the colour the player ate most
+            // (§2.5's mirror-match), falling back to a roll before the first meal
+            // or when that colour holds no lair here.
             if (biome.alpha_roster == null || biome.alpha_roster.Length == 0) return false;
 
-            var def = ContentDatabase.ById(biome.alpha_roster[Random.Range(0, biome.alpha_roster.Length)]);
+            var def = AlphaFor(biome, MostEatenFamily());
             var spawn = FindSpawn(def, biome.id);
             if (spawn == null) return false;
 
@@ -235,6 +337,21 @@ public class EcosystemManager : MonoBehaviour
         enemy.ApplyContent(picked.def, picked.spawn);
         enemy.name = picked.def.name;
         return true;
+    }
+
+    /// <summary>The roster member whose family is <paramref name="family"/>, or a
+    /// uniform roll when there is no such champion (or no diet yet).</summary>
+    static CreatureDef AlphaFor(BiomeDef biome, string family)
+    {
+        if (!string.IsNullOrEmpty(family))
+            foreach (string id in biome.alpha_roster)
+            {
+                var candidate = ContentDatabase.ById(id);
+                if (candidate != null && candidate.family == family) return candidate;
+            }
+
+        return ContentDatabase.ById(
+            biome.alpha_roster[Random.Range(0, biome.alpha_roster.Length)]);
     }
 
     static SpawnDef FindSpawn(CreatureDef def, string biomeId)

@@ -12,6 +12,10 @@ public class Creature : MonoBehaviour
     public int    intensity = GameConfig.Pale;
     public int    rank      = 1;
     public bool   isBoss    = false;
+    // Food, not meat: the herbivore that heals and cannot be inherited from
+    // (§2.3). It is built smaller than everything else so the difference is
+    // readable at a glance, before any icon is involved.
+    public bool   isGrazer  = false;
 
     // Set from creatures.json when the creature comes from the content tables:
     // the authored name, and the authored base_hex, which overrides the palette
@@ -107,7 +111,8 @@ public class Creature : MonoBehaviour
 
         // Scale
         float finalScale = rankData.scale;
-        if (isBoss) finalScale *= GameConfig.Boss.ScaleMultiplier;
+        if (isBoss)   finalScale *= GameConfig.Boss.ScaleMultiplier;
+        if (isGrazer) finalScale *= GameConfig.Ecology.GrazerScale;
         transform.localScale = Vector3.one * finalScale;
         // Re-seat on the ground: the body just changed size, and a rebuild fires
         // on every mutation and every recovery from a knockdown.

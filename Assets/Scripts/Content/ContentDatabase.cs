@@ -4,9 +4,11 @@
 // GDD §3.3 requires the game to keep running if the content is missing or
 // malformed, so every load failure is non-fatal: IsLoaded stays false and the
 // callers fall back to the hardcoded prototype tables in GameConfig.
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Morphivore.Content
 {
@@ -36,9 +38,54 @@ namespace Morphivore.Content
             public SpawnDef    spawn;
         }
 
+        // ── Reading StreamingAssets on every platform ────────────────────────
+        // On desktop and in the editor, StreamingAssets is a directory and
+        // File.ReadAllText works. On WebGL there is no filesystem: the folder is
+        // served over HTTP and can only be fetched asynchronously. So the boot
+        // sequence prefetches every content file into this cache first, and the
+        // rest of the loader stays synchronous and unchanged.
+        static readonly Dictionary<string, string> rawFiles = new();
+
+        /// <summary>The content files the game reads at boot.</summary>
+        public static readonly string[] ContentFiles =
+        {
+            "creatures.json", "biomes.json", "forms.json", "emblems.json",
+            "art-manifest.json",
+        };
+
+        /// <summary>Fetch every content file into memory. Must be awaited before
+        /// Load() on WebGL; harmless everywhere else. Failures are non-fatal —
+        /// a missing file simply stays out of the cache and its own loader
+        /// reports the gap (GDD §3.3).</summary>
+        public static IEnumerator Prefetch()
+        {
+            foreach (string file in ContentFiles)
+            {
+                if (rawFiles.ContainsKey(file)) continue;
+
+                string url = Path.Combine(Application.streamingAssetsPath, file);
+                // A bare path is not a URL; every platform except WebGL and
+                // Android needs the scheme spelled out.
+                if (!url.Contains("://")) url = "file://" + url;
+
+                using UnityWebRequest req = UnityWebRequest.Get(url);
+                yield return req.SendWebRequest();
+
+                if (req.result == UnityWebRequest.Result.Success)
+                    rawFiles[file] = req.downloadHandler.text;
+                else
+                    Debug.LogWarning($"[Content] could not fetch {file}: {req.error}");
+            }
+        }
+
         /// <summary>Drops the cached tables so the next Load() re-reads disk.
         /// Used by the editor content check; the game loads once at boot.</summary>
-        public static void Reset() { IsLoaded = false; LoadError = null; }
+        public static void Reset()
+        {
+            IsLoaded = false;
+            LoadError = null;
+            rawFiles.Clear();
+        }
 
         /// <summary>Loads forms.json + creatures.json + biomes.json. Safe to call
         /// repeatedly; only the first successful load does work.</summary>
@@ -158,8 +205,21 @@ namespace Morphivore.Content
             !string.IsNullOrEmpty(alphaId) && byAlphaId.TryGetValue(alphaId, out var e)
                 ? e : null;
 
-        static string ReadStreamingAsset(string file) =>
-            File.ReadAllText(Path.Combine(Application.streamingAssetsPath, file));
+        /// <summary>The text of one content file: from the prefetch cache when the
+        /// boot sequence filled it, otherwise straight off disk. The disk path is
+        /// what keeps the editor tooling (ContentCheck) working without a
+        /// coroutine, and it is unreachable on WebGL — hence Prefetch().</summary>
+        public static string ReadStreamingAsset(string file)
+        {
+            if (rawFiles.TryGetValue(file, out string cached)) return cached;
+#if UNITY_WEBGL && !UNITY_EDITOR
+            throw new IOException(
+                $"{file} was not prefetched; WebGL cannot read StreamingAssets " +
+                $"synchronously. Yield on ContentDatabase.Prefetch() before Load().");
+#else
+            return File.ReadAllText(Path.Combine(Application.streamingAssetsPath, file));
+#endif
+        }
 
         static bool Fail(string why)
         {
@@ -219,11 +279,11 @@ namespace Morphivore.Content
             return true;
         }
 
-        const float GrazerWeight = 0.2f; // grazers have no family to weight by
-
         static float Weight(BiomeDef biome, SpawnEntry e)
         {
-            if (string.IsNullOrEmpty(e.def.family)) return GrazerWeight;
+            // Grazers have no family to weight by; their share is a difficulty
+            // dial and lives with the rest of them (GameConfig.Ecology).
+            if (string.IsNullOrEmpty(e.def.family)) return GameConfig.Ecology.GrazerWeight;
             if (biome?.palette_weights == null)     return 1f;
             return biome.palette_weights.For(e.def.family);
         }

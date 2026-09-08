@@ -11,6 +11,7 @@ take over an ecosystem.
 | **Assignment #5** | Goal-Oriented Coding Agent — reads the GDD, scans the codebase, ranks the gaps, writes C# | the game's identity system (`ColourBuffer.cs` + 7 rewritten files) |
 | **Assignment #6** | Emblem GER Pipeline — Generate → Evaluate → Refine, with a circuit breaker | `emblems.json` (25) — the last unwritten file in the §3.3 content contract |
 | **Assignment #7** | Style Guide Agent — scores content 1–10 against the game's own voice and repairs it | four constraints, and two live defects fixed in the shipped game text |
+| **Assignment #10** | The Last Mile — `ship.py`, deterministic, no model | agent output → deployed content → headless WebGL build → **a link someone can play** |
 
 **Each builds on the last.** `crew.py` and `tools.py` are untouched by #4;
 `rag.py`, `world_contract.py`, `tools_world.py` and `crew_world.py` are
@@ -24,6 +25,66 @@ the `forms.json` #3 authored.
 > `deploy_to_unity.py` writes into `Assets/StreamingAssets/` and
 > `Assets/Scripts/Content/` one directory up. Cloned on its own, point
 > `MORPHIVORE_UNITY_ROOT` at a checkout of the game.
+
+---
+
+# Assignment #10 — The Complete Pipeline
+
+**▶ Play it: _(link added on publish)_**
+
+**→ Cost analysis and audit: [`ship/AUDIT.md`](ship/AUDIT.md)**
+
+Four pipelines produced content and code. None of it was playable by a stranger.
+Assignment #10 is the last mile: **one command from agent output to a build someone can
+open in a browser.**
+
+```bash
+python ship.py                # deploy content, then build WebGL
+python ship.py --check        # report what would happen, write nothing
+python ship.py --deploy-only  # stop after deployment
+```
+
+### What it removes
+
+Before this, "the agents produced content" and "someone can play it" were separated by four
+manual acts: copy five JSON files into the Unity project by hand, open the editor, click
+through the build dialog, upload the folder. `ship.py` is three of those four. The fourth —
+publishing — is documented at the end of a run, and is the one step a human still does.
+
+### What it guarantees
+
+Something narrower and more useful than "it automates the build": **the content in the build
+is the content the agents produced.** Every deployed file is hashed into
+`build-provenance.json`, which records the pipeline that authored it, ships *inside* the
+build, and makes the claim checkable by a stranger rather than asserted by me.
+
+```
+forms.json        150 records   Assignment #3 — Bestiary form crew (CrewAI, 4 agents)
+creatures.json     60 records   Assignment #4 — RAG content pipeline (8 parallel crews)
+biomes.json         5 records   Assignment #4 — RAG content pipeline
+panels.json        15 records   Assignment #4 — RAG content pipeline
+emblems.json       25 records   Assignment #6 — emblem GER pipeline, style-checked by #7
+```
+
+### No model runs here, on purpose
+
+`ship.py` calls no LLM, and neither does the shipped game: creature AI is a hand-written
+state machine, biomes come from a seeded procedural generator, and the Alpha's challenge is
+a threshold check. **Runtime token cost is zero**, the game is offline and latency-free, and
+the same seed reproduces the same world. At the point where content becomes a build,
+reproducibility is worth more than flexibility.
+
+### Engine integration
+
+`Assets/Scripts/` in this repo is the game code that consumes all of it — mirrored from the
+Unity project so the integration is reviewable without the project's licensed art packages.
+`ContentDatabase` loads all five files at boot; a malformed file logs a warning and falls
+back rather than crashing.
+
+Two engine bugs surfaced only in playtesting, and both are in [`ship/AUDIT.md`](ship/AUDIT.md):
+an Alpha that could not be damaged, and a terrain mesh silently dropping a third of itself
+past Unity's 65,535-vertex index limit. Neither was an agent error — both were integration
+assumptions no pipeline was asked to check, which is the audit's main finding.
 
 ---
 

@@ -78,6 +78,73 @@ namespace Morphivore.World
                 heightMultiplier = 14f,
                 groundColor      = ground
             };
+
+            /// <summary>The shape of a biome by id. biomes.json describes its
+            /// terrain in prose, not parameters (§2.7), so the prose is read here
+            /// and the numbers live in code — the ids are the contract, and an
+            /// unknown one falls back to the Prairies rather than a flat plane.
+            ///
+            /// None of these gate traversal yet: Fins, Claws, Coat and Heat are
+            /// unbuilt, so a shape a player cannot cross would strand them. Relief
+            /// reads as character here, not as a wall.</summary>
+            public static TerrainProfile For(string biomeId, Color ground) => biomeId switch
+            {
+                // Marsh: low, wide and soft, with sunken hollows where the ponds
+                // and reed channels will sit once water exists.
+                "wetlands" => new TerrainProfile
+                {
+                    noiseScale = 55f, octaves = 3, persistance = 0.40f,
+                    lacunarity = 1.8f, heightMultiplier = 7f, groundColor = ground
+                },
+
+                // Foothills into peaks: the tallest, roughest ground in the run.
+                "mountains" => new TerrainProfile
+                {
+                    noiseScale = 30f, octaves = 5, persistance = 0.55f,
+                    lacunarity = 2.3f, heightMultiplier = 30f, groundColor = ground
+                },
+
+                // Tidal flats and channels: flattest of all, cut by long troughs.
+                "beach" => new TerrainProfile
+                {
+                    noiseScale = 65f, octaves = 3, persistance = 0.35f,
+                    lacunarity = 2.0f, heightMultiplier = 6f, groundColor = ground
+                },
+
+                // Lava fields and sheer rock: high-frequency, jagged, broken.
+                "volcanic" => new TerrainProfile
+                {
+                    noiseScale = 24f, octaves = 5, persistance = 0.62f,
+                    lacunarity = 2.6f, heightMultiplier = 22f, groundColor = ground
+                },
+
+                _ => Prairies(ground)
+            };
+        }
+
+        /// <summary>One run seed reproduces the whole world (§4.10), so a biome's
+        /// seed is derived from the run's rather than rolled fresh — otherwise the
+        /// first biome would be reproducible and the next four would not.</summary>
+        public static int SeedForBiome(int runSeed, int biomeIndex)
+            => runSeed * 31 + biomeIndex * 7919;
+
+        /// <summary>Rebuild this terrain as a different biome: a new seed and a new
+        /// shape, on the same object. Entering a biome used to change only the
+        /// palette, so all five territories were one island wearing five coats of
+        /// paint. <paramref name="onReady"/> fires when the new mesh exists —
+        /// anything *placed* on the ground (props, the player) must wait for it,
+        /// exactly as at boot; creatures self-correct, since they read the ground
+        /// every frame.</summary>
+        public void Regenerate(int seed, TerrainProfile profile, System.Action onReady = null)
+        {
+            IsReady       = false;
+            heightMap     = null;      // nothing may sample the old shape meanwhile
+            readyCallback = onReady;
+
+            // The generator caches nothing between runs, but it does read its
+            // tuning at call time, so re-stamping the fields is enough.
+            ApplyProfile(seed, profile);
+            StartCoroutine(BuildMesh());
         }
 
         void Generate(int seed, TerrainProfile profile)
@@ -86,16 +153,26 @@ namespace Morphivore.World
             meshRenderer = GetComponent<MeshRenderer>();
             meshCollider = GetComponent<MeshCollider>();
 
-            // Flat-shaded low-poly sits well beside procedurally-built cube
-            // creatures, and is what the package is built for.
-            var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            mat.color = profile.groundColor;
-            meshRenderer.sharedMaterial = mat;
-
             // AddComponent runs MapGenerator.Awake, which builds the falloff maps
             // that turn the noise into an island. Tuning fields are set after,
             // because GenerateMapData reads them at call time.
             gen = gameObject.AddComponent<MapGenerator>();
+
+            ApplyProfile(seed, profile);
+            StartCoroutine(BuildMesh());
+        }
+
+        /// <summary>Stamp a seed and a shape onto the generator. Shared by the
+        /// first build and every biome change after it, so the two can never drift
+        /// apart — a setting added for one is a setting the other gets.</summary>
+        void ApplyProfile(int seed, TerrainProfile profile)
+        {
+            // Low-poly ground sits well beside procedurally-built cube creatures.
+            // Rebuilt per biome rather than recoloured: each gets its own material.
+            var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            mat.color = profile.groundColor;
+            meshRenderer.sharedMaterial = mat;
+
             gen.seed          = seed;
             gen.GameSeed      = "";           // numeric seed wins; ours comes from the run
             gen.noiseScale    = profile.noiseScale;
@@ -104,9 +181,27 @@ namespace Morphivore.World
             gen.lacunarity    = profile.lacunarity;
             gen.offset        = Vector2.zero;
             gen.normalizeMode = Noise.NormalizeMode.Local; // one bounded island, not a chunk of many
-            gen.useFallofMap  = true;                      // island shape: land in the middle, edges fall away
+            // The island shape is ours, not the package's (see ShapeIsland).
+            gen.useFallofMap  = false;
             gen.useFallofMap2 = false;
-            gen.useFlatShading = true;
+            // MUST stay false, and it is not an aesthetic choice.
+            //
+            // MeshGenerator's flat-shading path emits three unique vertices per
+            // triangle: 119 x 119 x 2 x 3 = ~84,000 for this map. CreateMesh()
+            // builds `new Mesh { vertices, triangles }` and never sets
+            // indexFormat, so the mesh keeps Unity's default 16-bit index buffer
+            // — a hard ceiling of 65,535 vertices. Everything past that ceiling
+            // cannot be indexed and is never drawn: a whole region of the island
+            // renders as nothing while the ground stays solid under the player,
+            // because bodies read their height from the height-map array (§C1b)
+            // and never from the mesh. Seen from inside, the hills look hollow.
+            //
+            // Shared vertices with baked normals put the same 119x119 grid at
+            // ~14,600 vertices, comfortably under the ceiling, at full terrain
+            // resolution — so SampleHeight still agrees exactly with what is
+            // drawn. If the faceted look is wanted back, it needs the package's
+            // CreateMesh to set IndexFormat.UInt32, not this flag.
+            gen.useFlatShading = false;
             gen.meshHeightMultiplier = profile.heightMultiplier;
 
             // GenerateTerrainMesh evaluates this curve per vertex, and an empty
@@ -117,8 +212,6 @@ namespace Morphivore.World
 
             worldScale = GameConfig.WorldSize / MapGenerator.mapChunkSize;
             transform.localScale = new Vector3(worldScale, worldScale, worldScale);
-
-            StartCoroutine(BuildMesh());
         }
 
         // Flat near the bottom so low ground reads as a level plain rather than a
@@ -130,17 +223,42 @@ namespace Morphivore.World
 
         IEnumerator BuildMesh()
         {
-            // The package generates on a worker thread and dispatches the result
-            // from its own Update, so both steps are awaited rather than called.
-            MapData? map = null;
-            gen.RequestMapData(Vector2.zero, d => map = d);
-            while (map == null) yield return null;
+            // Generated on this thread, deliberately.
+            //
+            // MapGenerator.RequestMapData / RequestMeshData each spawn a real OS
+            // thread (`new Thread(...)`) and hand the result back through a locked
+            // queue drained in the generator's own Update. **WebGL has no
+            // threads.** There, the work would never run, the queue would never
+            // fill, and the `while (map == null) yield return null` this used to
+            // wait on would spin for ever: the game boots, the player exists, and
+            // there is no ground — with no exception to say why. The editor would
+            // never show it, because the editor has threads.
+            //
+            // The two functions the package runs on those threads are public,
+            // static and pure, so calling them directly costs nothing and removes
+            // the platform difference entirely — desktop and web now run the same
+            // path. The yield between them splits the frame cost rather than
+            // stalling on noise and mesh in one go.
+            //
+            // This is also why ShapeIsland lives here: with the generator's own
+            // falloff disabled, GenerateMapData had nothing left to do for us.
+            var clock = System.Diagnostics.Stopwatch.StartNew();
 
-            MeshData mesh = null;
-            gen.RequestMeshData(map.Value, 0, m => mesh = m);
-            while (mesh == null) yield return null;
+            int size = MapGenerator.mapChunkSize + 2;
+            float[,] map = Noise.GenerateNoiseMap(
+                size, size, gen.seed, gen.noiseScale, gen.octaves,
+                gen.persistance, gen.lacunarity, gen.offset, gen.normalizeMode);
 
-            heightMap = map.Value.heightMap;
+            ShapeIsland(map);
+            double noiseMs = clock.Elapsed.TotalMilliseconds;
+            yield return null;
+
+            clock.Restart();
+            MeshData mesh = MeshGenerator.GenerateTerrainMesh(
+                map, gen.meshHeightMultiplier, gen.meshHeightCurve, 0, gen.useFlatShading);
+            double meshMs = clock.Elapsed.TotalMilliseconds;
+
+            heightMap = map;
 
             var built = mesh.CreateMesh();
             meshFilter.sharedMesh   = built;
@@ -159,12 +277,69 @@ namespace Morphivore.World
                 if (h < lo) lo = h;
                 if (h > hi) hi = h;
             }
+            // The two timings are why generation runs on this thread rather than
+            // the package's: they are the whole cost the threading was hiding, and
+            // they are spread over two frames already.
             Debug.Log($"[Terrain] seed {gen.seed}: {built.vertexCount} verts, " +
                       $"{GameConfig.WorldSize:0}u across, height {lo:0.0}–{hi:0.0}, " +
-                      $"centre {SampleHeight(Vector3.zero):0.0}");
+                      $"centre {SampleHeight(Vector3.zero):0.0} " +
+                      $"(noise {noiseMs:0.0}ms + mesh {meshMs:0.0}ms)");
 
             readyCallback?.Invoke();
             readyCallback = null;
+        }
+
+        // Where the island stops being land, as a fraction of the map's half-width.
+        // Ground is untouched inside `IslandShoreStart` and has fallen to sea level
+        // by `IslandShoreEnd`. Tuned against the probe, not by eye: the aim is land
+        // across the whole walkable disc (Radius = 48 of a 49.6 half-extent) with
+        // the drop confined to the strip the player cannot reach.
+        const float IslandShoreStart = 0.86f;
+        const float IslandShoreEnd   = 1.00f;
+
+        /// <summary>Cut the island out of the raw noise.
+        ///
+        /// This replaces MapGenerator's own falloff, which could not be used:
+        ///
+        /// 1. It is built in the generator's <c>Awake()</c>, which runs the instant
+        ///    <c>AddComponent</c> is called — before this class can set
+        ///    <c>fallofIntensity</c>. Any tuning here arrived too late to matter.
+        /// 2. Its curve reaches full strength at ~69% of the half-width, so land
+        ///    stopped near 30 units while the player could walk to 48. A probe
+        ///    measured land reaching 31/32/30 units on three axes and 11 on the
+        ///    fourth. The rest was real mesh lying flat at height zero — which in
+        ///    play reads as the world simply not being there.
+        /// 3. It is applied in a loop bounded by <c>mapChunkSize</c> over a map of
+        ///    <c>mapChunkSize + 2</c>, so the last two rows and columns never get
+        ///    it at all.
+        ///
+        /// Doing it here fixes all three, keeps the package untouched (this class
+        /// is the only one that may touch it), and puts the shore where the code
+        /// says it is.</summary>
+        void ShapeIsland(float[,] heightMap)
+        {
+            if (heightMap == null) return;
+
+            int n = heightMap.GetLength(0);
+            if (n < 2) return;
+
+            for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+            {
+                // Normalised to [-1, 1] across the whole map, including the border
+                // ring — so the edge is the edge, with nothing left over.
+                float x = i / (float)(n - 1) * 2f - 1f;
+                float y = j / (float)(n - 1) * 2f - 1f;
+
+                // Square envelope (max, not distance): the mesh is square, and a
+                // radial falloff would cut the corners off a world the player is
+                // bounded to as a square.
+                float v = Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
+
+                float t = Mathf.InverseLerp(IslandShoreStart, IslandShoreEnd, v);
+                float shore = t * t * (3f - 2f * t);            // smoothstep
+                heightMap[i, j] = Mathf.Clamp01(heightMap[i, j] * (1f - shore));
+            }
         }
 
         /// <summary>Half-width of the island. Bodies are kept inside this so

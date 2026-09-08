@@ -47,6 +47,14 @@ public class PlayerController : Creature
     // Events consumed by GameManager
     public System.Action<string>               OnNotification;
     public System.Action<GameConfig.BiomeData> OnBiomeRequest;
+    // Fires on eating coloured prey: the form the meal resolved to, and the
+    // family of the meat. The ecosystem listens for it to advance the Alpha's
+    // gates and to decide which champion answers.
+    public System.Action<string, string>       OnAtePrey;
+    // Fires on eating an Alpha: its emblem (null if the content has none) and its
+    // name. An emblem whose `opens_biome` is empty was taken from the last Alpha
+    // in the world — that one ends the run in victory rather than opening a door.
+    public System.Action<EmblemDef, string>    OnAlphaEaten;
 
     // Body collider used for solid collision resolution (radius scales with rank).
     SphereCollider bodyCollider;
@@ -112,6 +120,21 @@ public class PlayerController : Creature
         biteDamage = s.damage;
         reach      = s.reach;
         dashGear   = s.speed > 0f ? s.dash / s.speed : 1f;
+    }
+
+    /// <summary>Add a limb (§2.5). The buffer grows with the body, keeping the
+    /// colours already held in the limbs they occupy, so the new slot comes up
+    /// white and the next meal fills it rather than evicting anything. This is
+    /// what finally exercises FIFO eviction and the dilution rule — at rank 1 the
+    /// buffer holds one colour and every meal simply replaces it.</summary>
+    public void Grow()
+    {
+        if (rank >= GameConfig.Ranks.Length) return;
+
+        rank++;
+        buffer.Resize(rank);
+        ApplyForm();
+        BuildVisuals();
     }
 
     // Any change to the buffer redraws the body (limb colours are buffer state)
@@ -423,7 +446,13 @@ public class PlayerController : Creature
         {
             transform.position += lungeDir * lungeSpeed * Time.deltaTime;
 
-            float limit = GameConfig.WorldSize;
+            // The island's own edge, the same bound walking uses. This read
+            // GameConfig.WorldSize, which is the world's *width* (100 units
+            // across, mesh spanning ±50) — used here as a half-extent it let a
+            // pounce carry the player to ±100, well past the mesh, where
+            // SampleHeight has nothing to sample and the ground goes flat and
+            // wrongly coloured. Radius is the one source of truth for the edge.
+            float limit = Morphivore.World.BiomeTerrain.Radius;
             Vector3 pos = transform.position;
             pos.x = Mathf.Clamp(pos.x, -limit, limit);
             pos.z = Mathf.Clamp(pos.z, -limit, limit);
@@ -447,7 +476,7 @@ public class PlayerController : Creature
                     OnKill(enemy);
                     enemy.GetEaten(transform);
                 }
-                else if (intensity >= enemy.intensity)
+                else if (rank >= enemy.rank)
                 {
                     // Damage (may knock it down) + shove it, and bounce ourselves back.
                     enemy.TakeDamage(biteDamage * damageMult);
@@ -456,7 +485,21 @@ public class PlayerController : Creature
                 }
                 else
                 {
-                    // Darker meat than ours: it hurts us and we bounce off.
+                    // Bigger animal than us: it hurts us and we bounce off.
+                    //
+                    // This used to compare *intensity*, and that was a rule the GDD
+                    // never had. Meat tier is what you are made of, not what you can
+                    // bite: Clash never wanders (§2.4), and the Alpha is "always at
+                    // Clash intensity" at your own rank (§2.5) — so a Prairies player,
+                    // capped at Dusk by the only meat that spawns there, could not
+                    // scratch the Alpha the game had just sent to hunt them. It is
+                    // also why PocketLeakChance is pinned at 0: Clash elites were
+                    // unkillable escorts for the same reason.
+                    //
+                    // Rank is the GDD's size axis (§2.5), and §3.3 pins ambient rank
+                    // at prey = player-1, elites = player, Alphas = player. So this
+                    // guard is the one the design actually asks for — and until
+                    // breeding moves rank off 1, it never fires.
                     TakeDamage(10f);
                     impact = true;
                 }
@@ -475,7 +518,7 @@ public class PlayerController : Creature
             {
                 transform.position -= lungeDir * recoilSpeed * Time.deltaTime;
 
-                float limit = GameConfig.WorldSize;
+                float limit = Morphivore.World.BiomeTerrain.Radius;
                 Vector3 p = transform.position;
                 p.x = Mathf.Clamp(p.x, -limit, limit);
                 p.z = Mathf.Clamp(p.z, -limit, limit);
@@ -508,6 +551,21 @@ public class PlayerController : Creature
         totalKills++;
         score += (enemy.intensity + 1) * 100;
 
+        // Eating the biome's champion is the only thing that grows a body (§2.5).
+        // The GDD spends that through a litter — beat the Alpha, take its emblem,
+        // continue as one offspring a limb larger. The litter screen is B2 and is
+        // not built, so the limb is granted directly: the same rank movement, minus
+        // the choice. Everything downstream is already wired for it — biomes.json
+        // gates each biome on player_rank 1..5, and EcosystemManager advances on
+        // its own once rank reaches the next one.
+        if (enemy.isBoss)
+        {
+            score += 2500;
+            var emblem = ContentDatabase.EmblemFor(enemy.contentId);
+            Grow();
+            OnAlphaEaten?.Invoke(emblem, enemy.displayName);
+        }
+
         // Grazers are food, not meat: they heal an authored share of max health
         // (heals_player_pct) and never touch the buffer, because they carry no
         // colour — there is nothing in them to take.
@@ -520,6 +578,14 @@ public class PlayerController : Creature
         {
             buffer.Eat(enemy.family, enemy.intensity);
             OnBufferChanged();
+
+            // Both of the Alpha's gates are fed from here, and only from here:
+            // it counts meat, so a grazer never moves either one. The form
+            // reported is the one this meal *left* the player in, so the
+            // distinct-forms gate counts what you became, not what you chewed —
+            // while the family is the prey's own, which is what decides who comes
+            // for you (§2.5: the champion of the colour you ate most).
+            OnAtePrey?.Invoke(FormName, enemy.family);
         }
     }
 

@@ -6,7 +6,6 @@
 // enters Play mode, and spawns nothing. Every failed lookup is named in the log,
 // and if a set resolves to nothing at all the caller's fallback runs instead.
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 namespace Morphivore.World
@@ -37,8 +36,12 @@ namespace Morphivore.World
                 manifestLoaded = true;
                 try
                 {
-                    string path = Path.Combine(Application.streamingAssetsPath, "art-manifest.json");
-                    manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(path));
+                    // Goes through ContentDatabase so it reads the same prefetch
+                    // cache the rest of the content uses — WebGL has no
+                    // filesystem to read this from directly.
+                    manifest = JsonUtility.FromJson<Manifest>(
+                        Morphivore.Content.ContentDatabase.ReadStreamingAsset(
+                            "art-manifest.json"));
                 }
                 catch (System.Exception e)
                 {

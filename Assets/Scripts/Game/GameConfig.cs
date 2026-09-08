@@ -165,6 +165,11 @@ public static class GameConfig
             ? BlankFormName
             : $"{Intensities[Mathf.Clamp(intensity, 0, Intensities.Length - 1)].name} {FamilyFor(family).className}";
 
+    /// <summary>How many world units the island measures <em>across</em>, edge to
+    /// edge — not a half-extent. The mesh therefore spans ±<c>WorldSize / 2</c>,
+    /// and anything bounding a body to the ground wants
+    /// <c>BiomeTerrain.Radius</c> (that half, less a 2-unit margin), never this.
+    /// Clamping to ±WorldSize puts you on a void four times the island's area.</summary>
     public const float WorldSize       = 100f;
     public const int   InitialEnemies  = 20;
     public const int   MaxEnemies      = 40;
@@ -188,6 +193,30 @@ public static class GameConfig
         public const float ReachScale         = 0.45f; // authored reach is a design range, not a pounce
         public const float WanderPace         = 0.5f;  // authored speed is a sprint; wandering is an amble
 
+        // Closing on the player is the one thing SpeedScale must not slow down.
+        // Chase is the only state with no pace of its own — Flee gets 1.3-1.6x,
+        // Wander gets WanderPace — so a hunter closed at authored x 0.6, which is
+        // 6.7-8.3 against a rank-1 player's 11.1-13.8. It could never reach its own
+        // ~7-unit lock range, so it never wound up and never pounced: the whole
+        // symmetric attack (§2.2) was unreachable, and the biome looked like it was
+        // milling about. Prey stay outrunnable — you are the predator — but they
+        // arrive when you stand and fight.
+        public const float ChasePace = 1.5f;
+
+        // The biomes author a respawn rate for a standing population that grazes,
+        // not one being eaten through toward a gate. The Prairies' 4/min is one
+        // creature every 15 seconds — and only three in four is meat — against a
+        // gate that wants fifteen. The tail of the grind became waiting.
+        public const float RespawnPace = 3f;
+
+        // Where a replacement appears. Rolling it uniformly across the island put
+        // each new creature an average of ~40 units away on a 96-unit map, so the
+        // scarcity the player felt was mostly distance. Respawns now ring the
+        // player: far enough out to stay beyond awareness (~8-15 units) so nothing
+        // pops into view, near enough that the world comes to them.
+        public const float RespawnRingMin = 25f;
+        public const float RespawnRingMax = 40f;
+
         // Perception is not reach. Awareness used to be forced up to the authored
         // reach, turning a 15.6-unit pounce range into an 18.7-unit sight radius —
         // three times the prototype's field of view, so most of the biome noticed
@@ -203,10 +232,33 @@ public static class GameConfig
         // against the budget but are never blocked by it: an elite that noticed you
         // is the fight the design wants, and the field behind it should keep grazing.
         public const int MaxHunters = 3;
+
+        // Grazers have no family, so the biome's palette_weights cannot weight
+        // them; this is the weight they roll at instead. Grazers are the whole
+        // health system (§2.3: no potions, no regen), so this is a difficulty
+        // dial, not flavour.
+        //
+        // Measured in the Prairies, whose wandering pool holds fifteen meat
+        // species and exactly one grazer: at 0.2 that was 6.2% of spawns, about
+        // one alive across a 100-unit island, so healing meant searching the map.
+        // At 1.0 it is 25%, roughly four or five alive — near enough that one is
+        // usually somewhere in sight, without the field becoming a lawn.
+        public const float GrazerWeight = 1.0f;
+
+        // Grazers are "harmless, no-colour, limbless white herbivores" (§2.3) and
+        // the only way to heal — but on screen they were the same size and shape
+        // as the meat around them, so the one creature you must recognise on sight
+        // read as just another cube. Smaller, plus the heart mark in EnemyAI.
+        public const float GrazerScale = 0.62f;
     }
 
     public struct BiomeData
     {
+        // The content id ("prairies", "wetlands", ...) as opposed to the display
+        // name. It is what selects a terrain shape and a prop set, so it has to
+        // survive the trip from the ecosystem to the scene builder.
+        public string   id;
+        public int      index;      // position in the run, 0-based
         public string   name;
         public Color    groundColor;
         public Color    accentColor;
@@ -267,6 +319,7 @@ public static class GameConfig
                                            accentColor = BiomeNeon.accentColor,
                                            fogColor    = BiomeNeon.fogColor },
         };
+        d.id          = biomeId;
         d.name        = string.IsNullOrEmpty(displayName) ? biomeId : displayName;
         d.enemyColors = System.Array.Empty<string>(); // content path rolls its own palette
         return d;
@@ -274,9 +327,21 @@ public static class GameConfig
 
     public static class Boss
     {
+        // Unused: the Alpha now wakes on EcosystemManager's two gates (distinct
+        // forms worn + coloured prey eaten), not on a kill count. Kept only as
+        // the prototype's number, for reference against the new pacing.
         public const int   SpawnIntervalKills = 20;
         public const float ScaleMultiplier    = 2.5f;
         public const float HealthMultiplier   = 5f;
         public const float DamageMultiplier   = 2f;
+
+        // Content Alphas author their health on the same scale as ordinary prey
+        // (82-145 at rank 1), and ApplyContent stamps it raw — so the biome's
+        // champion died in two or three pounces, the same as the meat around it.
+        // This is the multiplier that makes it a fight. 4.5 lands a same-family
+        // mirror-match (§2.5) at 10-13 pounces across all five colours; the spread
+        // stays tight only because the matchup is a mirror, so change this and the
+        // roster rule in EcosystemManager together.
+        public const float ContentHealthMultiplier = 4.5f;
     }
 }

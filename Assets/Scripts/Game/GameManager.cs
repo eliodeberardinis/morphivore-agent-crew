@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
+using Morphivore.Content;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,14 +24,20 @@ public class GameManager : MonoBehaviour
     Image      healthFillImage;
     Text       formText;
     Text       notifLabel;
+    Text       objectiveText;   // what the Alpha is waiting for
+    Image      alarmFlash;      // full-screen red pulse when the Alpha wakes
 
     // ── Menu / death screens (Canvas) ─────────────────────────────────────────
     GameObject menuPanelGO;
     GameObject deathPanelGO;
     Text       deathScoreText;
+    GameObject victoryPanelGO;
+    Text       victoryScoreText;
 
     // ── Notification (Canvas, fades out) ──────────────────────────────────────
     float _notifTimer = 0f;
+    float _notifLife  = 2f;   // how long this notification was given
+    float _alarmTimer = 0f;   // red screen pulse, counts down alongside it
 
     // ── Scene references ──────────────────────────────────────────────────────
     PlayerController player;
@@ -47,11 +54,18 @@ public class GameManager : MonoBehaviour
 
     // ─────────────────────────────────────────────────────────────────────────
 
-    void Start()
+    void Start() => StartCoroutine(Boot());
+
+    /// <summary>Boot is a coroutine because WebGL cannot read StreamingAssets
+    /// synchronously — the content has to be fetched over HTTP before anything
+    /// that depends on it is built. On desktop the prefetch completes in a frame
+    /// or two and the order is otherwise identical.</summary>
+    IEnumerator Boot()
     {
-        // Load the generated world content up front so a missing or malformed
+        // Fetch the generated world content up front so a missing or malformed
         // file reports itself at boot rather than on the first spawn. Failure is
         // non-fatal — the ecosystem falls back to the prototype tables.
+        yield return Morphivore.Content.ContentDatabase.Prefetch();
         Morphivore.Content.ContentDatabase.Load();
 
         // One seed per run. Logged so a bad world can be reproduced exactly
@@ -100,9 +114,10 @@ public class GameManager : MonoBehaviour
         // plane survives only as the fallback if generation fails, so a terrain
         // problem costs a flat world rather than a world with no floor.
         var biomeVisuals = GameConfig.VisualsForBiome("prairies", "Prairies");
+        currentBiomeId   = "prairies";
         terrain = Morphivore.World.BiomeTerrain.Build(
-            runSeed,
-            Morphivore.World.BiomeTerrain.TerrainProfile.Prairies(biomeVisuals.groundColor),
+            Morphivore.World.BiomeTerrain.SeedForBiome(runSeed, 0),
+            Morphivore.World.BiomeTerrain.TerrainProfile.For("prairies", biomeVisuals.groundColor),
             // Props are placed, not walked, so they can only be positioned once
             // the mesh exists. Creatures need no callback — they sample the ground
             // every frame and settle onto it as soon as there is one.
@@ -120,9 +135,13 @@ public class GameManager : MonoBehaviour
         ecosystem                = ecoGO.AddComponent<EcosystemManager>();
         ecosystem.player         = player;
         ecosystem.OnBiomeChanged = ApplyBiome;
-        ecosystem.OnBossSpawned  = name => ShowNotification(string.IsNullOrEmpty(name)
-            ? "!! APEX PREDATOR DETECTED !!"
-            : $"!! {name.ToUpper()} !!");
+        ecosystem.OnBossSpawned  = name => ShowNotification(
+            string.IsNullOrEmpty(name)
+                ? "THE ALPHA HAS WOKEN"
+                : $"THE ALPHA HAS WOKEN\n{name.ToUpper()}",
+            5f, new Color(1f, 0.30f, 0.26f), alarm: true);
+        player.OnAtePrey         = (form, family) => ecosystem.RecordColouredPrey(form, family);
+        player.OnAlphaEaten      = OnAlphaEaten;
         ecosystem.OnMateSpawned  = () => ShowNotification("!! MATE DETECTED !!");
     }
 
@@ -173,6 +192,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // How far the camera stays clear of the ground beneath it. Enough that a
+    // slope's near face never crosses the near clip plane, which is its own way of
+    // punching a hole in the world.
+    const float CameraGroundClearance = 3f;
+
     // ── Per-frame ─────────────────────────────────────────────────────────────
 
     void Update()
@@ -207,12 +231,50 @@ public class GameManager : MonoBehaviour
                   $"{GameConfig.Intensities[player.intensity].name.ToUpper()} {player.family.ToUpper()}   |   " +
                   $"{player.FormName.ToUpper()}";
 
+        // What the Alpha is waiting for. Two counters, both fed by eating meat:
+        // how many forms you have worn here, and how much of it you have eaten.
+        // Before this line existed the Alpha's arrival was unexplained — you were
+        // working toward something the game never named (§2.5).
+        if (objectiveText != null && ecosystem != null)
+        {
+            if (ecosystem.AlphaDefeated)
+            {
+                objectiveText.text  = "ALPHA DOWN  —  THIS BIOME IS YOURS";
+                objectiveText.color = new Color(0.18f, 0.84f, 0.45f, 0.95f);
+            }
+            else if (ecosystem.AlphaAwake)
+            {
+                objectiveText.text  = "THE ALPHA IS AWAKE  —  HUNT IT";
+                objectiveText.color = new Color(1f, 0.35f, 0.30f, 0.95f);
+            }
+            else
+            {
+                objectiveText.text  = $"WAKE THE ALPHA:  FORMS {ecosystem.FormsSeen}/{ecosystem.FormGate}" +
+                                      $"   ·   PREY EATEN {ecosystem.PreyEaten}/{ecosystem.PreyGate}";
+                objectiveText.color = new Color(1f, 1f, 1f, 0.62f);
+            }
+        }
+
         // Fade the notification out over its remaining lifetime.
         if (notifLabel != null)
         {
             var c = notifLabel.color;
-            c.a = Mathf.Clamp01(_notifTimer);
+            c.a = Mathf.Clamp01(_notifTimer / Mathf.Min(_notifLife, 1f));
             notifLabel.color = c;
+        }
+
+        // The alarm: a red wash over the whole screen, pulsing, decaying out.
+        if (alarmFlash != null)
+        {
+            if (_alarmTimer > 0f)
+            {
+                _alarmTimer -= Time.deltaTime;
+                float decay = Mathf.Clamp01(_alarmTimer / 3f);
+                float pulse = 0.5f + 0.5f * Mathf.Sin(Time.time * 12f);
+                alarmFlash.enabled = true;
+                alarmFlash.color   = new Color(0.85f, 0.05f, 0.08f, 0.34f * decay * pulse);
+            }
+            else if (alarmFlash.enabled) alarmFlash.enabled = false;
         }
     }
 
@@ -223,6 +285,27 @@ public class GameManager : MonoBehaviour
 
         Vector3 target = player.transform.position + new Vector3(0f, 6f, -10f);
         cam.transform.position = Vector3.Lerp(cam.transform.position, target, 8f * Time.deltaTime);
+
+        // Keep the camera above the ground it is standing over.
+        //
+        // The follow offset is fixed and sits 10 units behind the player on -z, so
+        // any ground rising behind them puts the camera *inside* the hill. From in
+        // there you are behind the terrain's front faces, and backface culling
+        // draws nothing: hills read as hollow shells and the ground appears to stop
+        // having a texture. It looks like missing terrain, and it isn't — it is the
+        // camera looking at the world from underneath its own skin. Always on the
+        // -z side, because that is the only side the camera is ever on.
+        //
+        // The world was flat when this follow was written; it has been an island
+        // with 11 units of relief since C1b, and more of it now reaches the shore.
+        Vector3 eye    = cam.transform.position;
+        float   ground = Morphivore.World.BiomeTerrain.HeightAt(eye.x, eye.z);
+        if (eye.y < ground + CameraGroundClearance)
+        {
+            eye.y = ground + CameraGroundClearance;
+            cam.transform.position = eye;
+        }
+
         cam.transform.LookAt(player.transform.position + Vector3.up);
 
         // Lock-on reticle hovers above the currently locked target, billboarded.
@@ -252,12 +335,38 @@ public class GameManager : MonoBehaviour
     // Solid props, placed on the ground. Called once the terrain mesh exists.
     // Imported art first; the old primitives remain as the fallback so a missing
     // or renamed asset costs a plainer world, never an empty one.
+    // The live prop root, kept so a biome change can clear the last one's trees
+    // rather than stacking a marsh on top of a meadow.
+    GameObject propRootGO;
+    string     currentBiomeId;
+
     void ScatterProps()
     {
-        var propRoot = new GameObject("Props").transform;
-        if (Morphivore.World.PropScatter.Scatter("prairies", propRoot)) return;
+        if (propRootGO != null) Destroy(propRootGO);
+        propRootGO = new GameObject("Props");
 
-        ScatterPrimitiveProps(propRoot);
+        var propRoot = propRootGO.transform;
+        string biomeId = string.IsNullOrEmpty(currentBiomeId) ? "prairies" : currentBiomeId;
+
+        if (!Morphivore.World.PropScatter.Scatter(biomeId, propRoot))
+            ScatterPrimitiveProps(propRoot);
+
+        // The ground moved under everything. Creatures re-seat themselves (they
+        // read GroundY every frame), but the player is placed, not walked, so a
+        // new island could leave them buried in a hill or hanging over a hollow.
+        ReseatPlayer();
+    }
+
+    void ReseatPlayer()
+    {
+        if (player == null) return;
+
+        Vector3 p = player.transform.position;
+        float limit = Morphivore.World.BiomeTerrain.Radius;
+        p.x = Mathf.Clamp(p.x, -limit, limit);
+        p.z = Mathf.Clamp(p.z, -limit, limit);
+        p.y = Morphivore.World.BiomeTerrain.HeightAt(p.x, p.z) + 1f;
+        player.transform.position = p;
     }
 
     void ScatterPrimitiveProps(Transform parent)
@@ -309,25 +418,101 @@ public class GameManager : MonoBehaviour
         if (deathPanelGO != null) deathPanelGO.SetActive(true);
     }
 
+    // ── The Alpha's payout ────────────────────────────────────────────────────
+
+    /// <summary>Beating the biome's champion. The emblem is a trophy, not a power
+    /// (§2.5) — what it does is open the way on, and the last one in the world
+    /// opens nothing, because there is nowhere further to go.</summary>
+    void OnAlphaEaten(EmblemDef emblem, string alphaName)
+    {
+        string trophy = emblem != null ? emblem.name : "the Alpha's emblem";
+        bool   last   = emblem != null && string.IsNullOrEmpty(emblem.opens_biome);
+
+        if (last)
+        {
+            StartCoroutine(ShowVictoryScreen());
+            return;
+        }
+
+        ShowNotification($"{trophy.ToUpper()} TAKEN\nYOU GROW A LIMB — RANK {player.rank}",
+                         5f, AccentGreen);
+    }
+
+    IEnumerator ShowVictoryScreen()
+    {
+        ShowNotification("THE LAST ALPHA FALLS", 3f, AccentGreen);
+        yield return new WaitForSeconds(3f);
+
+        if (victoryScoreText != null)
+            victoryScoreText.text =
+                $"Five territories. Five emblems. Six limbs.\nScore: {player.score}";
+        if (hudBarsGO != null)    hudBarsGO.SetActive(false);
+        if (victoryPanelGO != null) victoryPanelGO.SetActive(true);
+    }
+
     // ── Biome ─────────────────────────────────────────────────────────────────
 
     void ApplyBiome(GameConfig.BiomeData biome)
     {
-        if (cam)    cam.backgroundColor = biome.groundColor;
-        if (terrain) terrain.SetGroundColor(biome.groundColor);
-        RenderSettings.fogColor         = biome.fogColor;
-        RenderSettings.fog              = true;
-        RenderSettings.fogStartDistance = 40f;
-        RenderSettings.fogEndDistance   = 150f;
+        if (cam) cam.backgroundColor = biome.groundColor;
+
+        // A new territory is a new island, not the same one repainted. Entering a
+        // biome used to change only the palette and the spawn table, so all five
+        // read as one map in five colours — the thing the run is *about* (pushing
+        // through five territories, §2.7) was the least visible part of it.
+        if (terrain != null && !string.IsNullOrEmpty(biome.id) && biome.id != currentBiomeId)
+        {
+            currentBiomeId = biome.id;
+            terrain.Regenerate(
+                Morphivore.World.BiomeTerrain.SeedForBiome(runSeed, biome.index),
+                Morphivore.World.BiomeTerrain.TerrainProfile.For(biome.id, biome.groundColor),
+                ScatterProps);
+        }
+        else if (terrain != null)
+        {
+            terrain.SetGroundColor(biome.groundColor);
+        }
+        RenderSettings.fogColor = biome.fogColor;
+        RenderSettings.fog      = true;
+
+        // fogStartDistance / fogEndDistance apply to LINEAR fog only. Without
+        // this line Unity stayed on its default exponential-squared fog at
+        // density 0.01, quietly ignoring both numbers below: ground 100 units out
+        // came through about 63% fog colour and the far corner ~86%, so relief and
+        // texture dissolved into a flat wash partway across the island — the
+        // "textures cut off" edge, which moved with the camera because fog is
+        // measured from the camera, not the world.
+        RenderSettings.fogMode = FogMode.Linear;
+
+        // Sized for THIS world: the island is 100 units across and the camera sits
+        // 10 units behind the player, so the far corner is ~140 away. Fog starting
+        // at 40 fogged more of the world than it left clear. Start it past the
+        // island's own width so it only softens the horizon.
+        RenderSettings.fogStartDistance = 110f;
+        RenderSettings.fogEndDistance   = 260f;
+
         ShowNotification($"ENTERING {biome.name}");
     }
 
     // ── Notification ──────────────────────────────────────────────────────────
 
-    void ShowNotification(string text)
+    void ShowNotification(string text) => ShowNotification(text, 2f, AccentGreen);
+
+    /// <summary>A notification that can be louder than the default: longer on
+    /// screen, and in its own colour. The Alpha's arrival uses both, because a
+    /// two-second green line was being missed entirely — the first the player
+    /// knew of the Alpha was being hit by it.</summary>
+    void ShowNotification(string text, float seconds, Color color, bool alarm = false)
     {
-        _notifTimer = 2f;
-        if (notifLabel != null) notifLabel.text = text;
+        _notifTimer = seconds;
+        _notifLife  = Mathf.Max(0.01f, seconds);
+        if (notifLabel != null)
+        {
+            notifLabel.text     = text;
+            notifLabel.color    = color;
+            notifLabel.fontSize = alarm ? 62 : 44;
+        }
+        if (alarm) _alarmTimer = seconds;
     }
 
     // ── Lock-on reticle (world-space red ring drawn over the locked target) ───
@@ -467,10 +652,52 @@ public class GameManager : MonoBehaviour
         formText.horizontalOverflow = HorizontalWrapMode.Overflow;
         formText.verticalOverflow   = VerticalWrapMode.Overflow;
 
-        // Center-screen notification (mutation / boss / biome messages)
+        // Objective readout — directly under the form line, same corner.
+        objectiveText = CreateUIText(hudBarsGO.transform, "Objective", "", 24, FontStyle.Bold,
+                                     new Color(1f, 1f, 1f, 0.62f), Vector2.zero, new Vector2(700f, 34f));
+        var obRect = objectiveText.GetComponent<RectTransform>();
+        obRect.anchorMin        = new Vector2(0f, 1f);
+        obRect.anchorMax        = new Vector2(0f, 1f);
+        obRect.pivot            = new Vector2(0f, 1f);
+        obRect.anchoredPosition = new Vector2(30f, -74f);
+        objectiveText.alignment          = TextAnchor.MiddleLeft;
+        objectiveText.horizontalOverflow = HorizontalWrapMode.Overflow;
+
+        // Controls, permanently on screen. The game is a browser build with no
+        // manual and no tutorial: a stranger has to be able to play it inside two
+        // minutes, and nothing else in the world tells them which button eats.
+        var controls = CreateUIText(hudBarsGO.transform, "Controls",
+            "WASD / ARROWS  move      LEFT-CLICK  pounce      HOLD RIGHT-CLICK  lock on      SPACE  dash      Q  spit out oldest colour\n" +
+            "Pounce prey until it falls, then pounce again to eat it — its colour becomes yours. White grazers heal you.",
+            22, FontStyle.Normal, new Color(1f, 1f, 1f, 0.55f), Vector2.zero, new Vector2(1500f, 62f));
+        var cRect = controls.GetComponent<RectTransform>();
+        cRect.anchorMin        = new Vector2(0f, 0f);
+        cRect.anchorMax        = new Vector2(0f, 0f);
+        cRect.pivot            = new Vector2(0f, 0f);
+        cRect.anchoredPosition = new Vector2(30f, 24f);
+        controls.alignment          = TextAnchor.LowerLeft;
+        controls.horizontalOverflow = HorizontalWrapMode.Overflow;
+
+        // Full-screen red wash for the Alpha's arrival. Behind the text, in front
+        // of nothing it needs to click through, so raycasts pass straight past it.
+        var flashGO = new GameObject("AlarmFlash", typeof(RectTransform));
+        flashGO.transform.SetParent(hudBarsGO.transform, false);
+        alarmFlash = flashGO.AddComponent<Image>();
+        alarmFlash.color         = new Color(0.85f, 0.05f, 0.08f, 0f);
+        alarmFlash.raycastTarget = false;
+        alarmFlash.enabled       = false;
+        var flRect = flashGO.GetComponent<RectTransform>();
+        flRect.anchorMin = Vector2.zero;
+        flRect.anchorMax = Vector2.one;
+        flRect.offsetMin = Vector2.zero;
+        flRect.offsetMax = Vector2.zero;
+
+        // Center-screen notification (mutation / boss / biome messages). Created
+        // last so it draws over the alarm wash rather than under it.
         notifLabel = CreateUIText(hudBarsGO.transform, "Notification", "", 44, FontStyle.Bold,
-                                  AccentGreen, new Vector2(0f, 200f), new Vector2(1200f, 90f));
+                                  AccentGreen, new Vector2(0f, 200f), new Vector2(1400f, 110f));
         var nc = notifLabel.color; nc.a = 0f; notifLabel.color = nc;
+        notifLabel.horizontalOverflow = HorizontalWrapMode.Overflow;
 
         hudBarsGO.SetActive(false);
     }
@@ -543,6 +770,20 @@ public class GameManager : MonoBehaviour
         CreateUIButton(menuPanelGO.transform, "StartButton", "INITIALIZE",
                        new Vector2(0f, -40f), new Vector2(340f, 84f), OnStartClicked);
 
+        // The whole game, on the title screen. This is a browser build: whoever
+        // opens the link gets no manual, and the controls are not guessable —
+        // "pounce a downed creature to eat it" is a rule, not an affordance.
+        CreateUIText(menuPanelGO.transform, "HowTo",
+            "Eat to become. Every creature you swallow puts its colour in a limb,\n" +
+            "and the colours you carry decide what you are.\n\n" +
+            "WASD / ARROWS  move          LEFT-CLICK  pounce          HOLD RIGHT-CLICK  lock on\n" +
+            "SPACE  dash          Q  spit out your oldest colour\n\n" +
+            "Pounce prey until it falls, then pounce the fallen body to eat it.\n" +
+            "White grazers carry no colour — they are food, and they heal you.\n" +
+            "Eat enough of a biome, in enough different forms, and its Alpha wakes up.",
+            24, FontStyle.Normal, new Color(0.72f, 0.72f, 0.72f),
+            new Vector2(0f, -260f), new Vector2(1200f, 300f));
+
         // Death screen — hidden until the player dies
         deathPanelGO = CreateOverlayPanel(parent, "DeathPanel");
         CreateUIText(deathPanelGO.transform, "Title", "EXTINCT", 84, FontStyle.Bold,
@@ -553,6 +794,17 @@ public class GameManager : MonoBehaviour
                        new Vector2(0f, -90f), new Vector2(380f, 84f),
                        () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
         deathPanelGO.SetActive(false);
+
+        // Victory — the run has an end now. Five Alphas, five emblems, six limbs.
+        victoryPanelGO = CreateOverlayPanel(parent, "VictoryPanel");
+        CreateUIText(victoryPanelGO.transform, "Title", "CONQUEST", 84, FontStyle.Bold,
+                     AccentGreen, new Vector2(0f, 150f), new Vector2(900f, 110f));
+        victoryScoreText = CreateUIText(victoryPanelGO.transform, "Score", "", 30, FontStyle.Normal,
+                                        new Color(0.8f, 0.8f, 0.8f), new Vector2(0f, 40f), new Vector2(900f, 90f));
+        CreateUIButton(victoryPanelGO.transform, "AgainButton", "NEW BLOODLINE",
+                       new Vector2(0f, -90f), new Vector2(380f, 84f),
+                       () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        victoryPanelGO.SetActive(false);
     }
 
     GameObject CreateOverlayPanel(GameObject parent, string name)

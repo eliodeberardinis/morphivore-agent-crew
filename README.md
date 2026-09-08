@@ -11,7 +11,7 @@ take over an ecosystem.
 | **Assignment #5** | Goal-Oriented Coding Agent — reads the GDD, scans the codebase, ranks the gaps, writes C# | the game's identity system (`ColourBuffer.cs` + 7 rewritten files) |
 | **Assignment #6** | Emblem GER Pipeline — Generate → Evaluate → Refine, with a circuit breaker | `emblems.json` (25) — the last unwritten file in the §3.3 content contract |
 | **Assignment #7** | Style Guide Agent — scores content 1–10 against the game's own voice and repairs it | four constraints, and two live defects fixed in the shipped game text |
-| **Assignment #10** | The Last Mile — `ship.py`, deterministic, no model | agent output → deployed content → headless WebGL build → **a link someone can play** |
+| **Assignment #10** | The Last Mile — [`ship/ship.py`](ship/ship.py), deterministic, no model | agent output → deployed content → headless WebGL build → **a link someone can play** |
 
 **Each builds on the last.** `crew.py` and `tools.py` are untouched by #4;
 `rag.py`, `world_contract.py`, `tools_world.py` and `crew_world.py` are
@@ -32,7 +32,11 @@ the `forms.json` #3 authored.
 
 **▶ Play it: _(link added on publish)_**
 
+**→ The pipeline: [`ship/ship.py`](ship/ship.py)** — the whole last mile, one file
+
 **→ Cost analysis and audit: [`ship/AUDIT.md`](ship/AUDIT.md)**
+
+**→ The build entry point it drives: [`Assets/Scripts/Editor/BuildScript.cs`](Assets/Scripts/Editor/BuildScript.cs)** — headless WebGL, exits non-zero on failure
 
 Four pipelines produced content and code. None of it was playable by a stranger.
 Assignment #10 is the last mile: **one command from agent output to a build someone can

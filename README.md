@@ -25,6 +25,12 @@ the `forms.json` #3 authored.
 > `deploy_to_unity.py` writes into `Assets/StreamingAssets/` and
 > `Assets/Scripts/Content/` one directory up. Cloned on its own, point
 > `MORPHIVORE_UNITY_ROOT` at a checkout of the game.
+>
+> **The full Unity project is private** — it contains a licensed Asset Store
+> terrain package that cannot be redistributed. Everything needed to review the
+> pipelines is here, including the game code that consumes their output
+> (`Assets/Scripts/`). **If you want full access to the game repository, ask and
+> I will add your GitHub user:** https://github.com/sticky-mango/ProjectMillionaires
 
 ---
 

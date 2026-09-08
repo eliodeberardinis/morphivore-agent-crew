@@ -30,8 +30,7 @@ the `forms.json` #3 authored.
 > developing this prototype and would rather the complete codebase not be
 > public. Everything needed to review the pipelines is here, including the game
 > code that consumes their output (`Assets/Scripts/`). **If you want full access
-> to the game repository, ask and I will add your GitHub user:**
-> https://github.com/sticky-mango/ProjectMillionaires
+> to the game repository, ask and I will add your GitHub user to it.**
 
 ---
 

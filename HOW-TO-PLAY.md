@@ -51,11 +51,13 @@ locked.
 
 ## Healing
 
-**Only white grazers heal you.** They are smaller than everything else and carry a floating
-red heart, so you can spot one across a field. They carry no colour, so eating one heals but
-never changes you.
+**White grazers are how you stay alive.** They are smaller than everything else and carry a
+floating red heart, so you can spot one across a field. Eating one restores a quarter of
+your maximum health — and because they carry no colour, a grazer heals you without changing
+what you are.
 
-**Hunting does not heal.** That is the trade — meat changes you, grazers keep you alive.
+Killing ordinary prey tops you up a little as well, but nowhere near as much. When you are
+hurt, go and find a heart.
 
 ## Winning
 

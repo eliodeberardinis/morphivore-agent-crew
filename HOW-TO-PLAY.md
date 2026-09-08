@@ -51,13 +51,13 @@ locked.
 
 ## Healing
 
-**White grazers are how you stay alive.** They are smaller than everything else and carry a
-floating red heart, so you can spot one across a field. Eating one restores a quarter of
-your maximum health — and because they carry no colour, a grazer heals you without changing
-what you are.
+**Only white grazers heal you.** They are smaller than everything else and carry a floating
+red heart, so you can spot one across a field. Eating one restores a quarter of your maximum
+health — and because they carry no colour, a grazer heals you without changing what you are.
 
-Killing ordinary prey tops you up a little as well, but nowhere near as much. When you are
-hurt, go and find a heart.
+**Hunting does not heal.** Coloured meat changes what you are and moves you toward the
+Alpha; it does nothing for your wounds. That is the trade, and it is why you should top up
+*before* you pick a fight rather than during one.
 
 ## Winning
 

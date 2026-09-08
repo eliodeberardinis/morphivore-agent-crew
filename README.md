@@ -26,11 +26,12 @@ the `forms.json` #3 authored.
 > `Assets/Scripts/Content/` one directory up. Cloned on its own, point
 > `MORPHIVORE_UNITY_ROOT` at a checkout of the game.
 >
-> **The full Unity project is private** — it contains a licensed Asset Store
-> terrain package that cannot be redistributed. Everything needed to review the
-> pipelines is here, including the game code that consumes their output
-> (`Assets/Scripts/`). **If you want full access to the game repository, ask and
-> I will add your GitHub user:** https://github.com/sticky-mango/ProjectMillionaires
+> **The full Unity project is private**, simply because I intend to keep
+> developing this prototype and would rather the complete codebase not be
+> public. Everything needed to review the pipelines is here, including the game
+> code that consumes their output (`Assets/Scripts/`). **If you want full access
+> to the game repository, ask and I will add your GitHub user:**
+> https://github.com/sticky-mango/ProjectMillionaires
 
 ---
 
